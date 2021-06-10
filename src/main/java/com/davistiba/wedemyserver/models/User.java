@@ -37,7 +37,7 @@ public class User {
     @Size(min = 8)
     private String password;
     @CreationTimestamp
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Instant datejoined;
 
 }
