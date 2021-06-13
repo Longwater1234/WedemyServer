@@ -15,13 +15,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
-@Getter
-@Setter
 @Table(name = "users")
+@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,5 +37,7 @@ public class User {
     @CreationTimestamp
     @Column(nullable = false)
     private Instant datejoined;
+
+
 
 }
