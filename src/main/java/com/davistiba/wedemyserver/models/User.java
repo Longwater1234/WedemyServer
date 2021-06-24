@@ -1,7 +1,9 @@
 package com.davistiba.wedemyserver.models;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,12 +19,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.intellij.lang.annotations.Pattern;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
+@Data
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +51,7 @@ public class User implements UserDetails {
     @JsonProperty(access = Access.READ_ONLY)
     private Instant datejoined;
 
-    public Integer getUserID() {
+   /* public Integer getUserID() {
         return userID;
     }
 
@@ -76,11 +82,12 @@ public class User implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
-
+*/
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("USER_ROLE");
+        return Collections.singletonList(authority);
     }
 
     @Override
