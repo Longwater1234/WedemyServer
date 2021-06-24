@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,14 +29,16 @@ public class User implements UserDetails {
     @Column(name = "userID", nullable = false)
     private Integer userID;
     @Column(nullable = false)
+    @NotBlank(message = "Cannot be empty")
     private String fullname;
     @Column(nullable = false, unique = true)
     @Email
-    @Pattern(regexp = "(^[0-9A-Za-z][\\w\\.\\-]+@[\\w]+\\.[\\w]\\S+)$")
+    @NotBlank(message = "Cannot be empty")
     private String email;
     @Column(nullable = false)
     @JsonProperty(access = Access.WRITE_ONLY)
     @Size(min = 8)
+    @NotBlank(message = "Cannot be empty")
     private String password;
     @CreationTimestamp
     @Column(nullable = false)
