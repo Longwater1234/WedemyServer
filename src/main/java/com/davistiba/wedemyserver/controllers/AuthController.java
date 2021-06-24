@@ -31,14 +31,13 @@ public class AuthController {
     @PostMapping(path = "/register")
     @ResponseStatus(HttpStatus.CREATED)
     public MyCustomResponse addNewUser(@RequestBody @Valid User user) {
-        // TODO: Add bcrypt
         // TODO: ADD Session
         try {
             if (user.getPassword().isBlank() || user.getFullname().isBlank() || user.getFullname().isBlank())
                 throw new Exception("Must fill all fields");
 
             if (!user.getUsername().matches("(^[0-9A-Za-z][\\w\\.\\-]+@[\\w]+\\.[\\w]\\S+)$")) {
-                throw new Exception("Email is invalid");
+                throw new Exception("Email is invalid!");
             }
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
@@ -53,7 +52,6 @@ public class AuthController {
 
     @PostMapping(path = "/login")
     public ResponseEntity<MyCustomResponse> loginUser(@RequestBody User user) {
-        // TODO: Add bcrypt
         // TODO: ADD Session + Cookies
         try {
             // if found, fetch his password.
@@ -61,8 +59,8 @@ public class AuthController {
             // if true, set cookies. else throw
             var myUser = userRepository.findByEmail(user.getUsername())
                     .orElseThrow(() -> new Exception("User not found"));
-            if (bCryptPasswordEncoder.matches(user.getPassword(), myUser.getPassword())) {
-               
+
+            if (bCryptPasswordEncoder.matches(user.getPassword(), myUser.getPassword())) {     
                 return new ResponseEntity<>(new MyCustomResponse("logged in", true), HttpStatus.OK);
             } else
                 throw new Exception("Wrong email or password");
