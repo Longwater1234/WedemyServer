@@ -29,12 +29,6 @@ public class AuthController {
     public ResponseEntity<MyCustomResponse> addNewUser(@RequestBody @Validated User user) {
         // TODO: ADD Session
         try {
-           /* if (user.getPassword().isBlank() || user.getEmail().isBlank() || user.getFullname().isBlank())
-                throw new Exception("Must fill all fields");*/
-
-//            if (!user.getEmail().matches("(^[0-9A-Za-z][\\w.-]+@[\\w]+\\.[\\w]\\S+\\w)$")) {
-//                throw new Exception("Email is invalid!");
-//            }
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             return new ResponseEntity<>(new MyCustomResponse("Registered :)", true),

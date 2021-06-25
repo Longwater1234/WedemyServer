@@ -13,7 +13,6 @@ import java.security.SecureRandom;
 
 @Configuration
 @EnableWebSecurity
-//@Order(SecurityProperties.BASIC_AUTH_ORDER - 10)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
