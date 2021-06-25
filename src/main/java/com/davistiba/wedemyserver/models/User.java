@@ -11,9 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.intellij.lang.annotations.Pattern;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,18 +31,23 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userID", nullable = false)
     private Integer userID;
-    @Column(nullable = false)
-    @NotBlank(message = "Cannot be empty")
+
+    @Column(nullable = false, length = 50)
+    @NotNull(message = "Name cannot be null")
     private String fullname;
-    @Column(nullable = false, unique = true)
-    @Email
-    @NotBlank(message = "Cannot be empty")
+
+    @Column(nullable = false, unique = true, length = 50)
+    @Email(message = "Must be a valid email")
+    @Pattern(regexp = "(^[0-9A-Za-z][\\w.-]+@[\\w]+\\.[\\w]\\S+\\w)$")
+    @NotNull
     private String email;
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 80)
     @JsonProperty(access = Access.WRITE_ONLY)
     @Size(min = 8)
-    @NotBlank(message = "Cannot be empty")
+    @NotNull
     private String password;
+
     @CreationTimestamp
     @Column(nullable = false)
     @JsonProperty(access = Access.READ_ONLY)
@@ -83,6 +85,7 @@ public class User implements UserDetails {
         this.email = email;
     }
 */
+
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {

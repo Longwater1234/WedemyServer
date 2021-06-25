@@ -25,13 +25,14 @@ public class AuthController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping(path = "/register")
-    public ResponseEntity<MyCustomResponse> addNewUser(@RequestBody @Valid User user) {
+    @Validated
+    public ResponseEntity<MyCustomResponse> addNewUser(@RequestBody User user) {
         // TODO: ADD Session
         try {
-            if (user.getPassword().isBlank() || user.getUsername().isBlank() || user.getFullname().isBlank())
+            if (user.getPassword().isBlank() || user.getEmail().isBlank() || user.getFullname().isBlank())
                 throw new Exception("Must fill all fields");
 
-            if (!user.getUsername().matches("(^[0-9A-Za-z][\\w.-]+@[\\w]+\\.[\\w]\\S+)$")) {
+            if (!user.getEmail().matches("(^[0-9A-Za-z][\\w.-]+@[\\w]+\\.[\\w]\\S+\\w)$")) {
                 throw new Exception("Email is invalid!");
             }
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -53,7 +54,7 @@ public class AuthController {
             // if found, fetch his password.
             // then check if password matches with Bcrypt.
             // if true, set cookies. else throw
-            var UserDB = userRepository.findByEmail(user.getUsername())
+            var UserDB = userRepository.findByEmail(user.getEmail())
                     .orElseThrow(() -> new Exception("User not found"));
 
             if (bCryptPasswordEncoder.matches(user.getPassword(), UserDB.getPassword())) {

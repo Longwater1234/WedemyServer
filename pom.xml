@@ -16,9 +16,12 @@
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
-
 		<dependency>
-			<groupId>org.hibernate</groupId>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>7.0.1.Final</version>
 		</dependency>
