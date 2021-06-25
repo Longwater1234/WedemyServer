@@ -1,27 +1,22 @@
 package com.davistiba.wedemyserver.models;
 
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "users")
@@ -33,19 +28,20 @@ public class User implements UserDetails {
     private Integer userID;
 
     @Column(nullable = false, length = 50)
-    @NotNull(message = "Name cannot be null")
+    @NotBlank(message = "Name cannot be empty!")
+    @Pattern(regexp = "[^<>&/#]+?", message = "Invalid characters in name")
     private String fullname;
 
     @Column(nullable = false, unique = true, length = 50)
-    @Email(message = "Must be a valid email")
+    @Email(message = "Must provide a valid email!")
     @Pattern(regexp = "(^[0-9A-Za-z][\\w.-]+@[\\w]+\\.[\\w]\\S+\\w)$")
-    @NotNull
+    @NotBlank
     private String email;
 
     @Column(nullable = false, length = 80)
     @JsonProperty(access = Access.WRITE_ONLY)
     @Size(min = 8)
-    @NotNull
+    @NotBlank(message = "Cannot be empty!")
     private String password;
 
     @CreationTimestamp
@@ -53,43 +49,11 @@ public class User implements UserDetails {
     @JsonProperty(access = Access.READ_ONLY)
     private Instant datejoined;
 
-   /* public Integer getUserID() {
-        return userID;
-    }
-
-    public void setUserID(Integer userID) {
-        this.userID = userID;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public Instant getDatejoined() {
-        return datejoined;
-    }
-
-    public void setDatejoined(Instant datejoined) {
-        this.datejoined = datejoined;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-*/
 
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("USER_ROLE");
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
         return Collections.singletonList(authority);
     }
 

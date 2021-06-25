@@ -9,10 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -25,16 +26,15 @@ public class AuthController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping(path = "/register")
-    @Validated
-    public ResponseEntity<MyCustomResponse> addNewUser(@RequestBody User user) {
+    public ResponseEntity<MyCustomResponse> addNewUser(@RequestBody @Validated User user) {
         // TODO: ADD Session
         try {
-            if (user.getPassword().isBlank() || user.getEmail().isBlank() || user.getFullname().isBlank())
-                throw new Exception("Must fill all fields");
+           /* if (user.getPassword().isBlank() || user.getEmail().isBlank() || user.getFullname().isBlank())
+                throw new Exception("Must fill all fields");*/
 
-            if (!user.getEmail().matches("(^[0-9A-Za-z][\\w.-]+@[\\w]+\\.[\\w]\\S+\\w)$")) {
-                throw new Exception("Email is invalid!");
-            }
+//            if (!user.getEmail().matches("(^[0-9A-Za-z][\\w.-]+@[\\w]+\\.[\\w]\\S+\\w)$")) {
+//                throw new Exception("Email is invalid!");
+//            }
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             return new ResponseEntity<>(new MyCustomResponse("Registered :)", true),
