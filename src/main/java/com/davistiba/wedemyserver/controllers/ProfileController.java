@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class ProfileController {
         }
     }
 
-    @GetMapping(path = "/find")
-    public List<User> getUserbyName(@RequestParam(value = "name", defaultValue = "") String name) {
+    @GetMapping(path = "/search")
+    public List<User> getUserbyName(@RequestParam(value = "name", defaultValue = "") @NotNull String name) {
         try {
             var userList = userRepository.findByFullname(name);
             if (userList.isEmpty())
@@ -37,5 +38,13 @@ public class ProfileController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
-    
+
+    @GetMapping(path = "/mine")
+    public String getMyProfile(HttpSession session) {
+        //  System.out.println(principal);
+        System.out.println(session.getId());
+        return session.getId();
+    }
+
+
 }

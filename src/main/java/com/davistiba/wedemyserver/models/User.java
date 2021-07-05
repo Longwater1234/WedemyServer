@@ -28,20 +28,20 @@ public class User implements UserDetails {
     private Integer userID;
 
     @Column(nullable = false, length = 50)
-    @NotBlank(message = "Name cannot be empty!")
+    @NotBlank
     @Pattern(regexp = "[^<>&/#]+?", message = "Invalid characters in name")
     private String fullname;
 
     @Column(nullable = false, unique = true, length = 50)
-    @Email(message = "Must provide a valid email!")
-    @Pattern(regexp = "(^[0-9A-Za-z][\\w.-]+@[\\w]+\\.[\\w]\\S+\\w)$")
+    @Email
+    @Pattern(regexp = "(^[0-9A-Za-z][\\w.-]+@[\\w]+\\.[\\w]\\S+\\w)$", message = "Invalid email!")
     @NotBlank
     private String email;
 
-    @Column(nullable = false, length = 80)
+    @Column(nullable = false, length = 100)
     @JsonProperty(access = Access.WRITE_ONLY)
-    @Size(min = 8)
-    @NotBlank(message = "Cannot be empty!")
+    @Size(min = 8, max = 80)
+    @NotBlank
     private String password;
 
     @CreationTimestamp

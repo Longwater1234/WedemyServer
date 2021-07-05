@@ -30,7 +30,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().httpBasic().and().authorizeRequests()
                 .antMatchers("/index.html", "/", "/auth/**", "/login").permitAll()
                 .antMatchers("/profile/**", "/courses/**").hasAuthority("ROLE_USER")
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and().logout().invalidateHttpSession(true).deleteCookies("WEDEMY");
     }
 
     @Override
