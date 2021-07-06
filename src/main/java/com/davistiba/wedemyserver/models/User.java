@@ -1,6 +1,7 @@
 package com.davistiba.wedemyserver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.Data;
@@ -17,6 +18,7 @@ import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -24,8 +26,8 @@ import java.util.Collections;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userID", nullable = false)
-    private Integer userID;
+    @Column(name = "userId", nullable = false)
+    private Integer userId;
 
     @Column(nullable = false, length = 50)
     @NotBlank
@@ -49,6 +51,10 @@ public class User implements UserDetails {
     @JsonProperty(access = Access.READ_ONLY)
     private Instant datejoined;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    private List<Enrollment> enrollmentList;
+
 
     @Override
     @JsonIgnore
@@ -63,6 +69,7 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return email;
     }

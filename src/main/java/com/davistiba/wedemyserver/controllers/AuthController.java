@@ -8,16 +8,15 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/auth")
+@CrossOrigin
 public class AuthController {
 
     @Autowired
@@ -40,6 +39,12 @@ public class AuthController {
             }
             throw new ResponseStatusException(HttpStatus.valueOf(400), ex.getMessage());
         }
+    }
+
+    @GetMapping(path = "/hello")
+    public ResponseEntity<MyCustomResponse> sayHello(HttpServletRequest request) {
+        System.out.println(request.getUserPrincipal());
+        return new ResponseEntity<>(new MyCustomResponse("Hello Vue", true), HttpStatus.OK);
     }
 
     @PostMapping(path = "/login")

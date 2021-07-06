@@ -10,17 +10,30 @@ import java.util.List;
 @Entity
 @Table(name = "courses")
 @Data
-public class Courses {
+public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "courseID")
     private Integer courseId;
 
-    @Column(length = 50, unique = true)
+    @Column(unique = true, nullable = false)
     @NotBlank
     private String title;
 
+    @Column(length = 50, nullable = false)
+    @NotBlank
+    private String category;
+
+    @Column(scale = 2)
+    private double rating = 0.00;
+
+    @NotBlank
+    @Column(length = 500, nullable = false)
+    private String description;
+
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     @JsonManagedReference
-    private List<Lessons> lessonList;
+    private List<Lesson> lessonList;
+
+
 }

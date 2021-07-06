@@ -2,31 +2,31 @@ package com.davistiba.wedemyserver.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
-import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "lessons")
 @Data
-public class Lessons {
+public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer lessonId;
 
-    @Column(name = "lessonName")
+    @Column(name = "lessonName", nullable = false)
     @NotBlank
     private String lessonName;
 
-    @URL
     @NotBlank
-    @Column(nullable = false, unique = true)
-    private String videolink;
+    @Column(nullable = false, unique = true, length = 20)
+    @Size(max = 20)
+    private String videokey;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", referencedColumnName = "courseId")
     @JsonBackReference
-    private Courses course;
+    private Course course;
 
 }

@@ -7,12 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/profile")
+@CrossOrigin
 public class ProfileController {
 
     @Autowired
@@ -37,13 +37,6 @@ public class ProfileController {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-    }
-
-    @GetMapping(path = "/mine")
-    public String getMyProfile(HttpSession session) {
-        //  System.out.println(principal);
-        System.out.println(session.getId());
-        return session.getId();
     }
 
 
