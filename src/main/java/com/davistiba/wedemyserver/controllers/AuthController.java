@@ -6,6 +6,7 @@ import com.davistiba.wedemyserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -31,8 +34,8 @@ public class AuthController {
         try {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
-            return new ResponseEntity<>(new MyCustomResponse("Registered :)", true),
-                    HttpStatus.CREATED);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(new MyCustomResponse("Registered", true));
         } catch (Exception ex) {
             if (ex instanceof DataIntegrityViolationException) {
                 throw new ResponseStatusException(HttpStatus.valueOf(409), "User already exists");
@@ -42,12 +45,16 @@ public class AuthController {
     }
 
     @GetMapping(path = "/hello")
-    public ResponseEntity<MyCustomResponse> sayHello(HttpServletRequest request) {
-        System.out.println(request.getUserPrincipal());
-        return new ResponseEntity<>(new MyCustomResponse("Hello Vue", true), HttpStatus.OK);
+    @ResponseStatus(value = HttpStatus.OK)
+    public Map<String, Object> sayHello(HttpServletRequest request) {
+        Map<String, Object> mama = new HashMap<>();
+        mama.put("message", "hi");
+        mama.put("success", true);
+        mama.put("your IP", request.getRemoteHost());
+        return mama;
     }
 
-    @PostMapping(path = "/login")
+    @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MyCustomResponse> loginUser(@RequestBody User user) {
         // TODO: ADD Session + Cookies
         try {
@@ -58,7 +65,7 @@ public class AuthController {
                     .orElseThrow(() -> new Exception("User not found"));
 
             if (bCryptPasswordEncoder.matches(user.getPassword(), UserDB.getPassword())) {
-                return new ResponseEntity<>(new MyCustomResponse("logged in", true), HttpStatus.OK);
+                return ResponseEntity.status(200).body(new MyCustomResponse("Logged in", true));
             } else
                 throw new Exception("Wrong email or password");
 

@@ -53,6 +53,7 @@ public class User implements UserDetails {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Enrollment> enrollmentList;
 
 

@@ -25,7 +25,11 @@ public class Course {
     private String category;
 
     @Column(scale = 2)
-    private double rating = 0.00;
+    private double rating = 0.0;
+
+    @NotBlank
+    @Column(nullable = false)
+    private String thumbUrl;
 
     @NotBlank
     @Column(length = 500, nullable = false)

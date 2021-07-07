@@ -1,13 +1,17 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.constraints.NotNull;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -25,6 +29,12 @@ public class ProfileController {
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id " + id + " not found");
         }
+    }
+
+    @GetMapping(path = "/me")
+    public ResponseEntity<MyCustomResponse> sayHello(@AuthenticationPrincipal Principal principal) {
+        System.out.println(principal.getName());
+        return new ResponseEntity<>(new MyCustomResponse("Hello Vue", true), HttpStatus.OK);
     }
 
     @GetMapping(path = "/search")
