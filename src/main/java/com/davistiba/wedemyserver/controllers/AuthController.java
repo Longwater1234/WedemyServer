@@ -73,4 +73,5 @@ public class AuthController {
             throw new ResponseStatusException(HttpStatus.valueOf(401), e.getMessage());
         }
     }
+
 }
