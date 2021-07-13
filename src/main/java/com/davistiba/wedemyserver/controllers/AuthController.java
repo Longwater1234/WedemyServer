@@ -56,7 +56,7 @@ public class AuthController {
 
     @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MyCustomResponse> loginUser(@RequestBody User user) {
-        // TODO: ADD Session + Cookies
+        // TODO: ADD Session
         try {
             // if found, fetch his password.
             // then check if password matches with Bcrypt.
