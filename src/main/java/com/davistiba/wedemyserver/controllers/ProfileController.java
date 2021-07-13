@@ -6,12 +6,11 @@ import com.davistiba.wedemyserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -32,8 +31,14 @@ public class ProfileController {
     }
 
     @GetMapping(path = "/me")
-    public ResponseEntity<MyCustomResponse> sayHello(@AuthenticationPrincipal Principal principal) {
-        System.out.println(principal.getName());
+    public ResponseEntity<MyCustomResponse> sayHello(HttpServletRequest request) {
+
+        var mama = request.getSession().getAttributeNames().asIterator();
+        while (mama.hasNext()) {
+            System.out.println(mama.next());
+        }
+
+        // System.out.println(session.getId());
         return new ResponseEntity<>(new MyCustomResponse("Hello Vue", true), HttpStatus.OK);
     }
 
