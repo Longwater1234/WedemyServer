@@ -2,6 +2,7 @@ package com.davistiba.wedemyserver.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -28,6 +29,7 @@ public class Course {
     private double rating = 0.0;
 
     @NotBlank
+    @URL
     @Column(nullable = false)
     private String thumbUrl;
 
