@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,10 +47,12 @@ public class AuthController {
 
     @GetMapping(path = "/hello")
     @ResponseStatus(value = HttpStatus.OK)
-    public Map<String, Object> sayHello(HttpServletRequest request) {
+    public Map<String, Object> sayHello(HttpServletRequest request, HttpSession session) {
+
         Map<String, Object> mama = new HashMap<>();
         mama.put("message", "hi");
         mama.put("success", true);
+        mama.put("sessionValues", String.format("%d id: %s", session.getCreationTime(), session.getId()));
         mama.put("your IP", request.getRemoteHost());
         return mama;
     }
