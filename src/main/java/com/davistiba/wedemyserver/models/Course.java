@@ -21,6 +21,12 @@ public class Course {
     @NotBlank
     private String title;
 
+
+    @Column(unique = true, nullable = false)
+    @NotBlank
+    private String author;
+
+
     @Column(length = 50, nullable = false)
     @NotBlank
     private String category;

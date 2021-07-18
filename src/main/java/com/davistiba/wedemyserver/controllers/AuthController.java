@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -47,12 +48,13 @@ public class AuthController {
 
     @GetMapping(path = "/hello")
     @ResponseStatus(value = HttpStatus.OK)
-    public Map<String, Object> sayHello(HttpServletRequest request, HttpSession session) {
+    public Map<String, Object> sayHello(HttpServletRequest request, @Nullable HttpSession session) {
 
         Map<String, Object> mama = new HashMap<>();
         mama.put("message", "hi");
         mama.put("success", true);
-        mama.put("sessionValues", String.format("%d id: %s", session.getCreationTime(), session.getId()));
+        assert session != null;
+        mama.put("sessionValues", session.getCreationTime());
         mama.put("your IP", request.getRemoteHost());
         return mama;
     }

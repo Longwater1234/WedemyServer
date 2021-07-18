@@ -1,7 +1,6 @@
 package com.davistiba.wedemyserver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.Data;
@@ -18,7 +17,6 @@ import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -49,11 +47,6 @@ public class User implements UserDetails {
     @Column(nullable = false)
     @JsonProperty(access = Access.READ_ONLY)
     private Instant datejoined;
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Enrollment> enrollmentList;
 
 
     @Override

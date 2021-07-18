@@ -7,14 +7,13 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.SecureRandom;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -32,15 +31,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .httpBasic().and().authorizeRequests()
-                .antMatchers("/index.html", "/", "/auth/**", "/login").permitAll()
-                .antMatchers("/profile/**", "/courses/**").hasAuthority("ROLE_USER")
+                .antMatchers("/index.html", "/", "/auth/**", "/courses/**", "/login").permitAll()
+                .antMatchers("/profile/**", "/user/**").hasAuthority("ROLE_USER")
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
-                .and().logout().invalidateHttpSession(true).and();
+                .and().logout().invalidateHttpSession(true);
 
-        http.sessionManagement().sessionFixation().migrateSession()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .maximumSessions(1);
     }
 
     @Override
