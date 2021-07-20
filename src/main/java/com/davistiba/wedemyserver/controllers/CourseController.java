@@ -31,7 +31,6 @@ public class CourseController {
     }
 
     @GetMapping(path = "/search")
-    @ResponseStatus(value = HttpStatus.OK)
     public List<Course> searchForCourse(@RequestParam(value = "title", defaultValue = "")
                                         @NotBlank String title) {
         try {

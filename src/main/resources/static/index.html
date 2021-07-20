@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style> body {
+        font-family: sans-serif;
+    }</style>
     <title>Wedemy Backend</title>
 </head>
 
@@ -12,6 +15,50 @@
 <h1 style="font-family: sans-serif">Welcome to Wedemy Backend</h1>
 <button onclick="alert(document.cookie)">Click me!</button>
 
+<h2>Login</h2>
+
+<form id="registerForm" onsubmit="submitForm()">
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password">
+    </div>
+    <div>
+        <input type="submit" value="Submit">
+    </div>
+</form>
+<script>
+    const registerForm = document.forms[0];
+    registerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formaa = new FormData(registerForm);
+
+        const myData = {
+            email: formaa.get("email"),
+            password: formaa.get("password")
+        };
+
+        await getfromHttp(myData);
+    })
+
+
+    async function getfromHttp(mydata) {
+        fetch("http://localhost:8081/auth/login", {
+            method: "POST",
+            body: JSON.stringify(mydata),
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then((response) => response.json())
+            .then(data => console.log(data))
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+</script>
 </body>
 </html>
 

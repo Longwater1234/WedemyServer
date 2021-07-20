@@ -11,6 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
 import java.util.List;
@@ -33,7 +34,8 @@ public class ProfileController {
     }
 
     @GetMapping(path = "/me")
-    public ResponseEntity<MyCustomResponse> sayHello(@AuthenticationPrincipal Principal principal) {
+    public ResponseEntity<MyCustomResponse> sayHello(@AuthenticationPrincipal Principal principal,
+                                                     HttpServletRequest request) {
 
         if (principal != null) {
             System.out.println("principal " + principal.getName());
