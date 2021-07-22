@@ -34,10 +34,11 @@ public class CourseController {
     public List<Course> searchForCourse(@RequestParam(value = "title", defaultValue = "")
                                         @NotBlank String title) {
         try {
-            return courseRepository.getCoursesByTitleIsLike(title).orElseThrow();
+            var searchResults = courseRepository.getCoursesByTitleIsLike(title);
+            if (searchResults.isEmpty()) throw new Exception("No results for " + title);
+            return searchResults;
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    String.format("No result for course %s", title));
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 

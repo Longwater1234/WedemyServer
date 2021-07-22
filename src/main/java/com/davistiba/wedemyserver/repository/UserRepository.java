@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
-  @Query(value = "SELECT * FROM USERS WHERE fullname = ?1", nativeQuery = true)
-  List<User> findByFullname(String firstName);
+    @Query(value = "SELECT * FROM USERS WHERE fullname = ?1", nativeQuery = true)
+    List<User> findByFullname(String firstName);
 
-  Optional<User> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
 
 }
