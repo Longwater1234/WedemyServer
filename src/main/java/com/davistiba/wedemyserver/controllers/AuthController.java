@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,9 @@ public class AuthController {
     @PostMapping(path = "/register")
     public ResponseEntity<MyCustomResponse> addNewUser(@RequestBody @Valid User user) {
         // TODO: ADD Session
+        if (!user.getPassword().equals(user.getConfirmPass()))
+            throw new ResponseStatusException(HttpStatus.valueOf(422), "Passwords dont match");
+
         try {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
@@ -55,7 +59,7 @@ public class AuthController {
     }
 
     @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MyCustomResponse> loginUser(@RequestBody User user) {
+    public ResponseEntity<MyCustomResponse> loginUser(@RequestBody User user, HttpSession session) {
         // TODO: ADD Session
         try {
             // if found, fetch his password.
@@ -65,6 +69,7 @@ public class AuthController {
                     .orElseThrow(() -> new Exception("User not found"));
 
             if (bCryptPasswordEncoder.matches(user.getPassword(), UserDB.getPassword())) {
+                session.setAttribute("USER_ID", UserDB.getUserId());
                 return ResponseEntity.status(200).body(new MyCustomResponse("Logged in", true));
             } else
                 throw new Exception("Wrong email or password");

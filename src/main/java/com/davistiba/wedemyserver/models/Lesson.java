@@ -6,16 +6,16 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.UUID;
 
 @Entity
 @Table(name = "lessons")
 @Data
 public class Lesson {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer lessonId;
+    private UUID lessonId;
 
-    @Column(name = "lessonName", nullable = false)
+    @Column(nullable = false)
     @NotBlank
     private String lessonName;
 

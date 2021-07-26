@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -45,7 +46,7 @@ public class Enrollment {
     @Column(name = "updatedAt")
     private Instant updatedAt;
 
-    public Integer getCurrentLessonId() {
+    public UUID getCurrentLessonId() {
         return currentLesson.getLessonId();
     }
 

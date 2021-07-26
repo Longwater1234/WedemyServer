@@ -2,6 +2,7 @@ package com.davistiba.wedemyserver.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,11 +30,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .httpBasic().and().authorizeRequests()
-                .antMatchers("/index.html", "/", "/auth/**", "/courses/**", "/login").permitAll()
+                .antMatchers("/index.html", "/", "/auth/**", "/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/courses/**").permitAll()
                 .antMatchers("/profile/**", "/user/**").hasAuthority("ROLE_USER")
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
-                .and().logout().logoutUrl("/logout")
+                .and().logout()
                 .invalidateHttpSession(true).deleteCookies("WEDEMY");
 
     }
@@ -42,6 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService())
                 .passwordEncoder(passwordEncoder());
+
+
     }
 
 

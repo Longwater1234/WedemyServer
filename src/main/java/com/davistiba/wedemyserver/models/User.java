@@ -43,6 +43,10 @@ public class User implements UserDetails {
     @NotBlank
     private String password;
 
+    @Transient
+    @NotBlank
+    private String confirmPass;
+
     @CreationTimestamp
     @Column(nullable = false)
     @JsonProperty(access = Access.READ_ONLY)

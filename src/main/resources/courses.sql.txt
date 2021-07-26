@@ -1,0 +1,65 @@
+-- phpMyAdmin SQL Dump
+-- version 4.9.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Jul 26, 2021 at 03:36 PM
+-- Server version: 8.0.17
+-- PHP Version: 7.3.10
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `wedemy`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `courses`
+--
+USE wedemy;
+--
+-- Dumping data for table `courses`
+--
+
+INSERT INTO `courses` (`course_id`, `author`, `category`, `price`, `rating`, `thumb_url`, `title`) VALUES
+(1, 'Corey Schafer', 'Development', 17.99, 3.5, 'https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg', 'Python Tutorial for Beginners'),
+(2, 'Dani Krossing', 'Development', 18.99, 3.5, 'https://i3.ytimg.com/vi/jS4aFq5-91M/maxresdefault.jpg', 'Learn JavaScript Programming'),
+(3, 'Caleb Curry', 'Development', 19.99, 3.5, 'https://i3.ytimg.com/vi/GoXwIVyNvX0/maxresdefault.jpg', 'Java Programming All-in-One Tutorial Series'),
+(4, 'Gareth David Studio', 'PhotoVideo', 21.5, 3.5, 'https://i3.ytimg.com/vi/9EGI-FSr0Ig/maxresdefault.jpg', 'Beginners Guide To Adobe Illustrator'),
+(5, 'chinfat', 'PhotoVideo', 22.5, 3.5, 'https://i3.ytimg.com/vi/u99i1SmDgIc/maxresdefault.jpg', 'Learn Adobe Premiere Pro CC');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `courses`
+--
+ALTER TABLE `courses`
+  ADD PRIMARY KEY (`course_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `courses`
+--
+ALTER TABLE `courses`
+  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

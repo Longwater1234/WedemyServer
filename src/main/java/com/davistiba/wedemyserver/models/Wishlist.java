@@ -9,9 +9,9 @@ import javax.persistence.*;
 import java.time.Instant;
 
 @Entity
-@Table(name = "favorites")
+@Table(name = "wishlist")
 @Data
-public class Favorites {
+public class Wishlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
