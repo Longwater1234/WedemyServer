@@ -14,7 +14,6 @@ import java.util.List;
 @Table(name = "courses",
         indexes = {@Index(name = "IDX_CATEGORY", columnList = "category")})
 @Data
-
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +44,7 @@ public class Course {
     @Column(nullable = false, scale = 2)
     private double price;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Lesson> lessonList;
 

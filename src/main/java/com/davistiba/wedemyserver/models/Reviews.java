@@ -24,7 +24,7 @@ public class Reviews {
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name = "user_id", referencedColumnName = "userID")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User userId;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)

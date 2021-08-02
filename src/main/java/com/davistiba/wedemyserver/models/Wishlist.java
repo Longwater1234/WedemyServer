@@ -4,19 +4,25 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
-@Table(name = "wishlist")
+@Table(name = "wishlist",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
 @Data
 public class Wishlist {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @JoinColumn(referencedColumnName = "userId", name = "byUserId")
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID wishlistId;
+
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private User user;

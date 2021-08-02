@@ -8,12 +8,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Data
 @Table(name = "enrollments",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "lesson_id"}))
 public class Enrollment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer enrollId;
@@ -45,7 +47,7 @@ public class Enrollment {
     @Column(name = "updatedAt")
     private Instant updatedAt;
 
-    public Integer getCurrentLessonId() {
+    public UUID getCurrentLessonId() {
         return currentLesson.getLessonId();
     }
 

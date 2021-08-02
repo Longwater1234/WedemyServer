@@ -22,6 +22,7 @@ import java.util.Collections;
 @Table(name = "users")
 @Data
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
@@ -44,6 +45,7 @@ public class User implements UserDetails {
     private String password;
 
     @Transient
+    @JsonProperty(access = Access.WRITE_ONLY)
     @NotBlank
     private String confirmPass;
 
