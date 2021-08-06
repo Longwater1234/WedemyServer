@@ -13,9 +13,9 @@ import java.time.Instant;
 @Table(name = "transactions",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
 @Data
-public class Transaction {
+public class Transactions {
     @Id
-    @Column(length = 30, updatable = false)
+    @Column(length = 20, updatable = false)
     private String transactionId;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -30,7 +30,7 @@ public class Transaction {
 
     @Column(name = "totalprice", scale = 2, nullable = false)
     @NotBlank
-    private float totalPrice;
+    private double totalPrice;
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

@@ -6,13 +6,12 @@ import com.davistiba.wedemyserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,15 +48,17 @@ public class AuthController {
 
     @GetMapping(path = "/hello")
     @ResponseStatus(value = HttpStatus.OK)
-    public Map<String, Object> sayHello() {
+    public Map<String, Object> sayHello(HttpServletRequest request) {
 
         Map<String, Object> mama = new HashMap<>();
         mama.put("message", "hi");
         mama.put("success", true);
+        mama.put("your ip", request.getRemoteHost());
 
         return mama;
     }
 
+    /*
     @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MyCustomResponse> loginUser(@RequestBody User user, HttpSession session) {
         // TODO: ADD Session
@@ -78,5 +79,7 @@ public class AuthController {
             throw new ResponseStatusException(HttpStatus.valueOf(401), e.getMessage());
         }
     }
+
+     */
 
 }
