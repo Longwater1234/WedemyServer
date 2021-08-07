@@ -1,2 +1,9 @@
 # WedemyServer
-This is the backend repo for Wedemy. A Springboot clone of Udemy
+
+This is the backend repo for Wedemy. A Springboot + Vue clone of Udemy
+
+## Requirements
+
+- Java 11+
+- MySQL 8
+- Lombok-enabled IDE.
