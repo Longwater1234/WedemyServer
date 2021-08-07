@@ -16,7 +16,7 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "BINARY(16)")
-    private UUID lessonId = UUID.randomUUID();
+    private UUID lessonId;
 
     @Column(nullable = false)
     @NotBlank
