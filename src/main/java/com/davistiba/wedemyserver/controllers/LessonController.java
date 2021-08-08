@@ -13,8 +13,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -46,20 +46,21 @@ public class LessonController {
     @PostMapping(path = "/create")
     @ResponseStatus(HttpStatus.CREATED)
     @Async
-    public CompletableFuture<MyCustomResponse> addNewLesson(@RequestBody List<Lesson> newLessons, HttpServletRequest request) {
+    public CompletableFuture<MyCustomResponse> addNewLesson(@RequestBody @NotEmpty List<Lesson> newLessons) {
         try {
             logger.info("Start " + System.currentTimeMillis());
-            List<Lesson> mamas = new ArrayList<>();
-            for (Lesson lesson : newLessons) {
+            final List<Lesson> mamas = new ArrayList<>();
+            newLessons.forEach(lesson -> {
                 Integer courseId = lesson.getCourse().getCourseId();
                 Course course = courseRepository.findById(courseId).orElseThrow();
                 lesson.setCourse(course);
                 mamas.add(lesson);
-            }
+            });
             logger.info("End " + System.currentTimeMillis());
             lessonRepository.saveAll(mamas);
-            return CompletableFuture.completedFuture(new MyCustomResponse("Successful", true));
+            return CompletableFuture.completedFuture(new MyCustomResponse("All saved!", true));
         } catch (Exception e) {
+            logger.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
 
