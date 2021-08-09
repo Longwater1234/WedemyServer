@@ -34,19 +34,19 @@ public class LessonController {
     @GetMapping(path = "/course/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<Lesson> getLessonsbyCourseId(@PathVariable(name = "id") @NotBlank Integer id) {
-        try {
-            var LessonList = lessonRepository.getLessonsByCourse_CourseId(id);
-            if (LessonList.isEmpty()) throw new Exception("Lesson of Course Id " + id + "not found");
-            return LessonList;
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+
+        var LessonList = lessonRepository.getLessonsByCourse_CourseId(id);
+        if (LessonList.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("Course of id %d not found", id));
         }
+        return LessonList;
     }
 
     @PostMapping(path = "/create")
     @ResponseStatus(HttpStatus.CREATED)
     @Async
-    public CompletableFuture<MyCustomResponse> addNewLesson(@RequestBody @NotEmpty List<Lesson> newLessons) {
+    public CompletableFuture<MyCustomResponse> addNewLessons(@RequestBody @NotEmpty List<Lesson> newLessons) {
         try {
             logger.info("Start " + System.currentTimeMillis());
             final List<Lesson> mamas = new ArrayList<>();
@@ -60,7 +60,6 @@ public class LessonController {
             lessonRepository.saveAll(mamas);
             return CompletableFuture.completedFuture(new MyCustomResponse("All saved!", true));
         } catch (Exception e) {
-            logger.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
 

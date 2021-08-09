@@ -1,6 +1,5 @@
 package com.davistiba.wedemyserver.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.URL;
@@ -8,7 +7,6 @@ import org.hibernate.validator.constraints.URL;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Entity
 @Table(name = "courses",
@@ -43,10 +41,6 @@ public class Course {
     @Min(value = 10)
     @Column(nullable = false, scale = 2)
     private double price;
-
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<Lesson> lessonList;
 
 
 }

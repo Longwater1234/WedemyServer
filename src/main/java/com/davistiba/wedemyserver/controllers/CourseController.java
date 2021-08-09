@@ -21,7 +21,9 @@ public class CourseController {
     @ResponseStatus(value = HttpStatus.OK)
     public List<Course> getCoursesByCategory(@PathVariable(value = "category")
                                              @NotBlank String category) {
-        return courseRepository.getCoursesByCategoryEquals(category);
+        var courseList = courseRepository.getCoursesByCategoryEquals(category);
+        if (courseList.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results");
+        return courseList;
     }
 
     @GetMapping(path = "/top")
@@ -33,13 +35,12 @@ public class CourseController {
     @GetMapping(path = "/search")
     public List<Course> searchForCourse(@RequestParam(value = "title", defaultValue = "")
                                         @NotBlank String title) {
-        try {
-            var searchResults = courseRepository.getCoursesByTitleIsLike(title);
-            if (searchResults.isEmpty()) throw new Exception("No results for " + title);
-            return searchResults;
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
-    }
 
+        if (title.length() < 4) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Query too short");
+        var searchResults = courseRepository.getCoursesByTitleIsLike(title);
+        if (searchResults.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results for " + title);
+        }
+        return searchResults;
+    }
 }
