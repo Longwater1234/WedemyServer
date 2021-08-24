@@ -8,14 +8,4 @@
 - office ( word, excel)
 
 
-INSERT INTO lessons(lesson_id,lesson_name,videokey,course_id) VALUES
-(UUID_TO_BIN(UUID()),'1. Getting Started','j-ZAVHk5SaU',10019),
-(UUID_TO_BIN(UUID()),'2. Creating and Opening Documents','PafCMUVH_OA',10019),
-(UUID_TO_BIN(UUID()),'3. Saving and Sharing Documents','iHuFzz7Wvt4',10019),
-(UUID_TO_BIN(UUID()),'4. Text Basics','vmEzxQfVj5c',10019),
-(UUID_TO_BIN(UUID()),'5. Formatting Text','ViGf0RKbCyA',10019),
-(UUID_TO_BIN(UUID()),'6. Using Find and Replace','p3Ql9y3eEyo',10019),
-(UUID_TO_BIN(UUID()),'7. Indents and Tabs','vJGYWVe52T4',10019),
-(UUID_TO_BIN(UUID()),'8. Line and Paragraph Spacing','mXWvKHWe2Co',10019),
-(UUID_TO_BIN(UUID()),'9. Lists','tyXahko-tX8',10019),
-(UUID_TO_BIN(UUID()),'10. Links','fqLQ1adyrjA',10019);
+
