@@ -6,4 +6,6 @@ This is the backend repo for Wedemy. A Springboot + Vue clone of Udemy
 
 - Java 11+
 - MySQL 8
-- Lombok-enabled IDE.
+- Hibernate
+- Redis Server (local or Cloud)
+- Lombok.
