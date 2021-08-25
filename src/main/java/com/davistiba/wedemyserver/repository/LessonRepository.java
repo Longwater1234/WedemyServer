@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 
-    List<Lesson> getLessonsByCourse_CourseId(Integer course_courseId);
+    List<Lesson> getLessonsByCourse_CourseId(Integer courseId);
+
 
 }

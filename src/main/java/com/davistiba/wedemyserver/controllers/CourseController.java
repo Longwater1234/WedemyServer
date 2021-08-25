@@ -22,7 +22,8 @@ public class CourseController {
     public List<Course> getCoursesByCategory(@PathVariable(value = "category")
                                              @NotBlank String category) {
         var courseList = courseRepository.getCoursesByCategoryEquals(category);
-        if (courseList.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results");
+        if (courseList.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results for category " + category);
         return courseList;
     }
 
