@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -16,6 +17,15 @@ public class CourseController {
 
     @Autowired
     CourseRepository courseRepository;
+
+    @GetMapping(path = "id/{id}")
+    public Course getCoursebyId(@PathVariable(value = "id") @NotNull Integer id) {
+        try {
+            return courseRepository.findById(id).orElseThrow();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No course of id " + id);
+        }
+    }
 
     @GetMapping(path = "category/{category}")
     @ResponseStatus(value = HttpStatus.OK)
@@ -27,10 +37,10 @@ public class CourseController {
         return courseList;
     }
 
-    @GetMapping(path = "/top")
+    @GetMapping(path = "/all")
     @ResponseStatus(value = HttpStatus.OK)
-    public List<Course> getTopCourses() {
-        return courseRepository.getTopByRatingGreaterThanEqual(4.5);
+    public Iterable<Course> getAllCourses() {
+        return courseRepository.findAll();
     }
 
     @GetMapping(path = "/search")
