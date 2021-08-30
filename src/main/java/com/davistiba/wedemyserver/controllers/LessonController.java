@@ -30,7 +30,7 @@ public class LessonController {
     @Autowired
     CourseRepository courseRepository;
 
-    final Logger logger = LoggerFactory.getLogger(String.valueOf(this));
+    private static final Logger logger = LoggerFactory.getLogger(String.valueOf(this));
 
     @GetMapping(path = "/course/{id}")
     @ResponseStatus(HttpStatus.OK)
