@@ -30,7 +30,7 @@ public class LessonController {
     @Autowired
     CourseRepository courseRepository;
 
-    final Logger logger = LoggerFactory.getLogger(String.valueOf(this));
+    private static final Logger logger = LoggerFactory.getLogger(String.valueOf(this));
 
     @GetMapping(path = "/course/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -39,7 +39,7 @@ public class LessonController {
         var LessonList = lessonRepository.getLessonsByCourse_CourseId(id);
         if (LessonList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    String.format("Course of id %d not found", id));
+                    String.format("Sorry, no lessons for course id %d", id));
         }
         return LessonList;
     }
