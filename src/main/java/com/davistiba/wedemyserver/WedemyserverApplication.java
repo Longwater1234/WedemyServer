@@ -25,7 +25,7 @@ public class WedemyserverApplication {
                 registry.addMapping("/**")
                         .allowCredentials(true)
                         .exposedHeaders("*")
-                        .allowedOrigins("http://localhost")
+                        .allowedOrigins("http://localhost:8080")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };

@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface CourseRepository extends CrudRepository<Course, Integer> {
 
-    List<Course> getTopByRatingGreaterThanEqual(double rating);
-
     List<Course> getCoursesByCategoryEquals(@NotBlank String category);
 
     List<Course> getCoursesByTitleIsLike(@NotBlank String title);
