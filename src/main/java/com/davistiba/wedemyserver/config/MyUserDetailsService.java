@@ -17,10 +17,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try {
-            return userRepository.findByEmail(username).get();
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.valueOf(401), "Wrong email or password");
-        }
+        return userRepository.findByEmail(username).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.valueOf(401), "Wrong email or password"));
     }
 }

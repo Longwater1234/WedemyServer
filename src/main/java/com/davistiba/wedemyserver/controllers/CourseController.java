@@ -27,7 +27,7 @@ public class CourseController {
         }
     }
 
-    @GetMapping(path = "category/{category}")
+    @GetMapping(path = "/cat/{category}")
     @ResponseStatus(value = HttpStatus.OK)
     public List<Course> getCoursesByCategory(@PathVariable(value = "category")
                                              @NotBlank String category) {
