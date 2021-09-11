@@ -11,10 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -26,6 +23,7 @@ public class AuthController {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @PostMapping(path = "/register")
     public ResponseEntity<MyCustomResponse> addNewUser(@RequestBody @Valid User user) {
@@ -46,17 +44,7 @@ public class AuthController {
         }
     }
 
-    @GetMapping(path = "/hello")
-    @ResponseStatus(value = HttpStatus.OK)
-    public Map<String, Object> sayHello(HttpServletRequest request) {
 
-        Map<String, Object> mama = new HashMap<>();
-        mama.put("message", "hi");
-        mama.put("success", true);
-        mama.put("your ip", request.getRemoteHost());
-
-        return mama;
-    }
 
     /*
     @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)

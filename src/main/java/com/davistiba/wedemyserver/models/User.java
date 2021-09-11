@@ -17,6 +17,7 @@ import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -62,6 +63,10 @@ public class User implements UserDetails {
         return Collections.singletonList(authority);
     }
 
+    public String getDatejoined() {
+        return datejoined.toString();
+    }
+
     @Override
     public String getPassword() {
         return password;
@@ -97,4 +102,26 @@ public class User implements UserDetails {
         return true;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (!userId.equals(user.userId)) return false;
+        if (!fullname.equals(user.fullname)) return false;
+        if (!email.equals(user.email)) return false;
+        if (!password.equals(user.password)) return false;
+        if (!Objects.equals(confirmPass, user.confirmPass)) return false;
+        return Objects.equals(datejoined, user.datejoined);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = fullname.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
+    }
 }

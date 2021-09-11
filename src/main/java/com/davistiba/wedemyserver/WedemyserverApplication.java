@@ -17,4 +17,6 @@ public class WedemyserverApplication {
     public ModelMapper mapper() {
         return new ModelMapper();
     }
+
+
 }
