@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,8 +48,8 @@ public class AuthController {
     }
 
 
-    @GetMapping(path = "/login")
-    public ResponseEntity<Object> checkLoginStatus(HttpSession session, Authentication auth) {
+    @GetMapping(path = "/statuslogin")
+    public ResponseEntity<Object> checkLoginStatus(Authentication auth) {
         Map<String, Object> response = new HashMap<>();
 
         if (auth == null) {
@@ -60,7 +59,7 @@ public class AuthController {
 
         } else {
             response.put("success", auth.isAuthenticated());
-            response.put("sessID", session.getId());
+            response.put("user", auth.getPrincipal());
             return ResponseEntity.ok().body(response);
         }
 

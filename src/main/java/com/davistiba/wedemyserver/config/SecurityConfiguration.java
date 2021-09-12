@@ -32,9 +32,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .formLogin().usernameParameter("email")
-                .loginPage("/auth/login")
+                .loginPage("/auth/statuslogin")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/auth/login?ok", true)
+                .defaultSuccessUrl("/auth/statuslogin?ok", true)
                 .failureHandler(authenticationFailureHandler())
                 .and().authorizeRequests()
                 .antMatchers("/index.html", "/", "/auth/**", "/login").permitAll()

@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +28,7 @@ public class CustomAuthFailureHandler implements AuthenticationFailureHandler {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         Map<String, Object> data = new HashMap<>();
-        data.put("timestamp", SimpleDateFormat.getInstance().format(new Date()));
+        data.put("timestamp", Instant.now().toString());
         data.put("success", false);
         data.put("message", exception.getMessage());
 
