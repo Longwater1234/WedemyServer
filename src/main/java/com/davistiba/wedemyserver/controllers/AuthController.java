@@ -7,11 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -45,29 +49,22 @@ public class AuthController {
     }
 
 
+    @GetMapping(path = "/login")
+    public ResponseEntity<Object> checkLoginStatus(HttpSession session, Authentication auth) {
+        Map<String, Object> response = new HashMap<>();
 
-    /*
-    @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MyCustomResponse> loginUser(@RequestBody User user, HttpSession session) {
-        // TODO: ADD Session
-        try {
-            // if found, fetch his password.
-            // then check if password matches with Bcrypt.
-            // if true, set cookies. else throw
-            var UserDB = userRepository.findByEmail(user.getEmail())
-                    .orElseThrow(() -> new Exception("User not found"));
+        if (auth == null) {
+            response.put("message", "Please sign in FIRST");
+            response.put("success", false);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
 
-            if (bCryptPasswordEncoder.matches(user.getPassword(), UserDB.getPassword())) {
-                session.setAttribute("USER_ID", UserDB.getUserId());
-                return ResponseEntity.status(200).body(new MyCustomResponse("Logged in", true));
-            } else
-                throw new Exception("Wrong email or password");
-
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.valueOf(401), e.getMessage());
+        } else {
+            response.put("success", auth.isAuthenticated());
+            response.put("sessID", session.getId());
+            return ResponseEntity.ok().body(response);
         }
+
     }
 
-     */
 
 }
