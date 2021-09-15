@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
@@ -31,11 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
-                .formLogin().usernameParameter("email")
-                .loginPage("/auth/statuslogin")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/auth/statuslogin?ok", true)
-                .failureHandler(authenticationFailureHandler())
+                .httpBasic()
                 .and().authorizeRequests()
                 .antMatchers("/index.html", "/", "/auth/**", "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/courses/**", "/lessons/**").permitAll()
@@ -44,9 +39,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().logout();
 
+
         http.csrf().csrfTokenRepository(new CookieCsrfTokenRepository())
                 .ignoringAntMatchers("/login", "/auth/**")
                 .and().sessionManagement().maximumSessions(1);
+
 
     }
 
@@ -55,11 +52,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService())
                 .passwordEncoder(passwordEncoder());
 
-    }
-
-    @Bean
-    public AuthenticationFailureHandler authenticationFailureHandler() {
-        return new CustomAuthFailureHandler();
     }
 
 }
