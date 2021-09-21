@@ -48,7 +48,7 @@ public class AuthController {
     }
 
 
-    @GetMapping(path = "/statuslogin")
+    @PostMapping(path = "/statuslogin")
     public ResponseEntity<Object> checkLoginStatus(Authentication auth) {
         Map<String, Object> response = new HashMap<>();
 
