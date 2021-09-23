@@ -39,8 +39,8 @@ public class CourseController {
 
     @GetMapping(path = "/all")
     @ResponseStatus(value = HttpStatus.OK)
-    public Iterable<Course> getAllCourses() {
-        return courseRepository.findAll();
+    public List<Course> getAllTopCourses() {
+        return courseRepository.getTop5ByRatingGreaterThanEqual(4.5);
     }
 
     @GetMapping(path = "/search")
