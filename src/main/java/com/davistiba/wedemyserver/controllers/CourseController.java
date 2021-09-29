@@ -40,7 +40,7 @@ public class CourseController {
     @GetMapping(path = "/all")
     @ResponseStatus(value = HttpStatus.OK)
     public List<Course> getAllTopCourses() {
-        return courseRepository.getTop5ByRatingGreaterThanEqual(4.5);
+        return courseRepository.getTop6ByRatingGreaterThanEqual(4.5);
     }
 
     @GetMapping(path = "/search")
@@ -48,7 +48,7 @@ public class CourseController {
                                         @NotBlank String title) {
 
         if (title.length() < 4) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Query too short");
-        var searchResults = courseRepository.getCoursesByTitleIsLike(title);
+        var searchResults = courseRepository.getCoursesByTitleContaining(title);
         if (searchResults.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results for " + title);
         }

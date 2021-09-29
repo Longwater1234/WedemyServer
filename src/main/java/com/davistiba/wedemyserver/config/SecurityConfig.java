@@ -37,13 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/profile/**", "/user/**").hasAuthority("ROLE_USER")
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
-                .and().logout();
-
+                .and().logout().invalidateHttpSession(true);
 
         http.csrf().csrfTokenRepository(new CookieCsrfTokenRepository())
                 .ignoringAntMatchers("/login", "/auth/**")
                 .and().sessionManagement().maximumSessions(1);
-
 
     }
 
@@ -53,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
 
     }
+
 
 }
 

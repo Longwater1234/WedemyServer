@@ -25,17 +25,17 @@ public class AuthController {
     private UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
 
     @PostMapping(path = "/register")
     public ResponseEntity<MyCustomResponse> addNewUser(@RequestBody @Valid User user) {
-        // TODO: ADD Session
+        // TODO: CREATE Session
         if (!user.getPassword().equals(user.getConfirmPass()))
             throw new ResponseStatusException(HttpStatus.valueOf(422), "Passwords dont match");
 
         try {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new MyCustomResponse("Registered", true));
@@ -55,15 +55,13 @@ public class AuthController {
         if (auth == null) {
             response.put("message", "Please sign in FIRST");
             response.put("success", false);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
 
         } else {
             response.put("success", auth.isAuthenticated());
             response.put("user", auth.getPrincipal());
-            return ResponseEntity.ok().body(response);
         }
+        return ResponseEntity.ok().body(response);
 
     }
-
 
 }

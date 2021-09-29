@@ -3,6 +3,8 @@ package com.davistiba.wedemyserver;
 
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +21,11 @@ public class WedemyserverApplication {
     @Bean
     public ModelMapper mapper() {
         return new ModelMapper();
+    }
+
+    @Bean
+    public Logger logger() {
+        return LoggerFactory.getLogger(String.valueOf(this));
     }
 
     @Bean

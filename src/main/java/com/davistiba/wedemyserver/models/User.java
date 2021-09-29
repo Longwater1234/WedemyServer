@@ -36,7 +36,6 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true, length = 50)
     @Email
     @Pattern(regexp = "(^[0-9A-Za-z][\\w.-]+@[\\w]+\\.[\\w]\\S+\\w)$", message = "Invalid email!")
-    @JsonProperty(access = Access.WRITE_ONLY)
     @NotBlank
     private String email;
 
@@ -69,6 +68,7 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

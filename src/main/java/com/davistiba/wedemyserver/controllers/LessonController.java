@@ -6,7 +6,6 @@ import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.LessonRepository;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
@@ -30,7 +29,8 @@ public class LessonController {
     @Autowired
     CourseRepository courseRepository;
 
-    private final Logger logger = LoggerFactory.getLogger(String.valueOf(this));
+    @Autowired
+    Logger logger;
 
     @GetMapping(path = "/course/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -51,7 +51,7 @@ public class LessonController {
     @Async
     public CompletableFuture<MyCustomResponse> addNewLessons(@RequestBody @NotEmpty List<Lesson> newLessons) {
         try {
-            logger.info("Start " + System.currentTimeMillis());
+            long startClock = System.currentTimeMillis();
             final List<Lesson> mamas = new ArrayList<>();
             newLessons.forEach(lesson -> {
                 Integer courseId = lesson.getCourse().getCourseId();
@@ -59,7 +59,7 @@ public class LessonController {
                 lesson.setCourse(course);
                 mamas.add(lesson);
             });
-            logger.info("End " + System.currentTimeMillis());
+            logger.info("totalTime: " + (System.currentTimeMillis() - startClock));
             lessonRepository.saveAll(mamas);
             return CompletableFuture.completedFuture(new MyCustomResponse("All saved!", true));
         } catch (Exception e) {
