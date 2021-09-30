@@ -53,7 +53,7 @@ public class AuthController {
         Map<String, Object> response = new HashMap<>();
 
         if (auth == null) {
-            response.put("message", "Please sign in FIRST");
+            response.put("user", null);
             response.put("success", false);
 
         } else {

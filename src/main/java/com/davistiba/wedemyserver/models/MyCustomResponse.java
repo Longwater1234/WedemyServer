@@ -11,6 +11,7 @@ public class MyCustomResponse {
 
     public MyCustomResponse(String message) {
         this.message = message;
+        this.success = true;
     }
 
     public String getMessage() {

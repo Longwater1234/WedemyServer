@@ -32,4 +32,11 @@ public class Wishlist {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant createdAt;
 
+    public Wishlist(User user, Course course) {
+        this.user = user;
+        this.course = course;
+    }
+
+    public Wishlist() {
+    }
 }
