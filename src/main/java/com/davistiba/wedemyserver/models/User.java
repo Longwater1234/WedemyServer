@@ -26,7 +26,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private Integer id;
 
     @Column(nullable = false, length = 50)
     @NotBlank
@@ -110,7 +110,7 @@ public class User implements UserDetails {
 
         User user = (User) o;
 
-        if (!userId.equals(user.userId)) return false;
+        if (!id.equals(user.id)) return false;
         if (!fullname.equals(user.fullname)) return false;
         if (!email.equals(user.email)) return false;
         if (!password.equals(user.password)) return false;

@@ -15,7 +15,7 @@ public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
     List<Wishlist> getWishlistsByUser_Email(@Email @NotBlank String user_email);
 
-    @Query(value = "SELECT * FROM wishlist WHERE course_id = ?1 AND user_id = ?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM wishlist WHERE course_id = ?1 AND user_id = ?2 LIMIT 1", nativeQuery = true)
     Optional<Wishlist> checkIfWishlistExists(Integer courseId, Integer userId);
 
     @Modifying

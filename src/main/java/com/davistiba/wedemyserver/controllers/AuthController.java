@@ -53,7 +53,7 @@ public class AuthController {
         Map<String, Object> response = new HashMap<>();
 
         if (auth == null) {
-            response.put("user", null);
+            response.put("user", "");
             response.put("success", false);
 
         } else {

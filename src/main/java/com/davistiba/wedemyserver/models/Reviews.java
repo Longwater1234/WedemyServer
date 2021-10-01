@@ -13,9 +13,9 @@ import javax.validation.constraints.Size;
 public class Reviews {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reviewid;
+    private Integer id;
 
-    @Column(nullable = false)
+    @Column(scale = 2, nullable = false)
     private double rating;
 
     @Column(nullable = false)
@@ -24,12 +24,12 @@ public class Reviews {
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User userId;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
 

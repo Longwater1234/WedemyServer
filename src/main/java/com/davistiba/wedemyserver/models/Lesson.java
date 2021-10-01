@@ -16,7 +16,7 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "BINARY(16)")
-    private UUID lessonId;
+    private UUID id;
 
     @Column(nullable = false)
     @NotBlank
@@ -28,7 +28,7 @@ public class Lesson {
     private String videokey;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
     @JsonBackReference
     private Course course;
 

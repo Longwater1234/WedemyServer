@@ -53,7 +53,7 @@ public class WishlistController {
             Course myCourse = courseRepository.findById(courseId).orElseThrow();
             wishlistRepository.save(new Wishlist(myUser, myCourse));
 
-            return new MyCustomResponse("Added to Wishlist: courseId " + myCourse.getCourseId());
+            return new MyCustomResponse("Added to Wishlist: courseId " + myCourse.getId());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
@@ -68,7 +68,7 @@ public class WishlistController {
             User myUser = userRepository.findByEmail(principal.getName()).orElseThrow();
             logger.info("STATUS CHECK");
 
-            var wishlist = wishlistRepository.checkIfWishlistExists(courseId, myUser.getUserId());
+            var wishlist = wishlistRepository.checkIfWishlistExists(courseId, myUser.getId());
             Map<String, Boolean> response = new HashMap<>();
             response.put("isWishlist", wishlist.isPresent());
             return response;
@@ -98,7 +98,7 @@ public class WishlistController {
         try {
             logger.info("i am running below");
             User myUser = userRepository.findByEmail(principal.getName()).orElseThrow();
-            wishlistRepository.deleteWishlistByCourseIdAndUserId(courseId, myUser.getUserId());
+            wishlistRepository.deleteWishlistByCourseIdAndUserId(courseId, myUser.getId());
             return new MyCustomResponse("Removed from Wishlist course: " + courseId);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

@@ -18,18 +18,19 @@ public class Wishlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer wishlistId;
 
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private User user;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
     @JsonBackReference
     private Course course;
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Column(nullable = false, columnDefinition = "DEFAULT CURRENT_TIMESTAMP")
     private Instant createdAt;
 
     public Wishlist(User user, Course course) {

@@ -18,19 +18,16 @@ public class Enrollment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer enrollId;
+    private Integer id;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User userId;
 
-    @Column(name = "coursetitle")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String courseTitle;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "lesson_id", referencedColumnName = "lessonId")
+    @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     @JsonBackReference
     private Lesson currentLesson;
 
@@ -39,19 +36,15 @@ public class Enrollment {
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @Column(name = "createdAt")
     private Instant createdAt;
 
     @UpdateTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @Column(name = "updatedAt")
     private Instant updatedAt;
 
     public UUID getCurrentLessonId() {
-        return currentLesson.getLessonId();
+        return currentLesson.getId();
     }
 
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = currentLesson.getCourse().getTitle();
-    }
+
 }

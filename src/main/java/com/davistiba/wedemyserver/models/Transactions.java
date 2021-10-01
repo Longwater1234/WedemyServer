@@ -19,13 +19,13 @@ public class Transactions {
     private String transactionId;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
     private User userId;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
     @Column(name = "totalprice", scale = 2, nullable = false)
@@ -34,7 +34,6 @@ public class Transactions {
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @Column(name = "createdAt")
     private Instant createdAt;
 
 

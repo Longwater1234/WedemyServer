@@ -36,7 +36,7 @@ public class LessonController {
     @ResponseStatus(HttpStatus.OK)
     public List<Lesson> getLessonsbyCourseId(@PathVariable(name = "id") @NotNull Integer id) {
 
-        var LessonList = lessonRepository.getLessonsByCourse_CourseId(id);
+        var LessonList = lessonRepository.getLessonsByCourse_Id(id);
         if (LessonList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("Sorry, no lessons for course id %d", id));
@@ -54,7 +54,7 @@ public class LessonController {
             long startClock = System.currentTimeMillis();
             final List<Lesson> mamas = new ArrayList<>();
             newLessons.forEach(lesson -> {
-                Integer courseId = lesson.getCourse().getCourseId();
+                Integer courseId = lesson.getCourse().getId();
                 Course course = courseRepository.findById(courseId).orElseThrow();
                 lesson.setCourse(course);
                 mamas.add(lesson);
