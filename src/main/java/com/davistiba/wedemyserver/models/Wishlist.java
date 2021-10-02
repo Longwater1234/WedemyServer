@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Objects;
 
 @Entity
 @Table(name = "wishlist",
@@ -23,9 +24,8 @@ public class Wishlist {
     @JsonBackReference
     private User user;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
-    @JsonBackReference
     private Course course;
 
     @CreationTimestamp
@@ -39,5 +39,27 @@ public class Wishlist {
     }
 
     public Wishlist() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Wishlist wishlist = (Wishlist) o;
+
+        if (!wishlistId.equals(wishlist.wishlistId)) return false;
+        if (!user.equals(wishlist.user)) return false;
+        if (!course.equals(wishlist.course)) return false;
+        return Objects.equals(createdAt, wishlist.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = wishlistId.hashCode();
+        result = 31 * result + user.hashCode();
+        result = 31 * result + course.hashCode();
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        return result;
     }
 }

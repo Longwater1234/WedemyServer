@@ -6,6 +6,7 @@ import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.LessonRepository;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
@@ -29,13 +30,15 @@ public class LessonController {
     @Autowired
     CourseRepository courseRepository;
 
-    @Autowired
-    Logger logger;
+
+    private final Logger logger = LoggerFactory.getLogger(String.valueOf(this));
+
 
     @GetMapping(path = "/course/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<Lesson> getLessonsbyCourseId(@PathVariable(name = "id") @NotNull Integer id) {
 
+        logger.info("lesson id " + id);
         var LessonList = lessonRepository.getLessonsByCourse_Id(id);
         if (LessonList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,

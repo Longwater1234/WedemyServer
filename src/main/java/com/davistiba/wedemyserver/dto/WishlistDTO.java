@@ -1,6 +1,5 @@
 package com.davistiba.wedemyserver.dto;
 
-import com.davistiba.wedemyserver.models.Course;
 import lombok.Data;
 
 import java.time.Instant;
@@ -9,7 +8,9 @@ import java.time.Instant;
 public class WishlistDTO {
     Integer wishlistId;
     Instant createdAt;
-    Course course;
+    String thumbUrl;
+    String author;
+    double price;
 
     public String getCreatedAt() {
         return createdAt.toString();

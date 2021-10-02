@@ -1,6 +1,5 @@
 package com.davistiba.wedemyserver.controllers;
 
-import com.davistiba.wedemyserver.dto.WishlistDTO;
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
@@ -9,7 +8,6 @@ import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.repository.WishlistRepository;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -21,7 +19,6 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @Secured("ROLE_USER")
@@ -39,9 +36,6 @@ public class WishlistController {
 
     @Autowired
     ModelMapper mapper;
-
-    @Autowired
-    Logger logger;
 
     @PostMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.CREATED)
@@ -66,13 +60,10 @@ public class WishlistController {
 
         try {
             User myUser = userRepository.findByEmail(principal.getName()).orElseThrow();
-            logger.info("STATUS CHECK");
-
             var wishlist = wishlistRepository.checkIfWishlistExists(courseId, myUser.getId());
             Map<String, Boolean> response = new HashMap<>();
             response.put("isWishlist", wishlist.isPresent());
             return response;
-
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
@@ -80,14 +71,17 @@ public class WishlistController {
 
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)
-    public List<WishlistDTO> getAllMyWishlistCourses(Principal principal) {
-        var WishlistItems = wishlistRepository.getWishlistsByUser_Email(principal.getName());
+    public List<Wishlist> getAllMyWishlistCourses(Principal principal) {
 
-        if (WishlistItems.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Your wishlist is empty!");
+        try {
+            User user = userRepository.findByEmail(principal.getName()).orElseThrow();
+            var wishlistItems = wishlistRepository.getWishlistsByUserId(user.getId());
+            if (wishlistItems.isEmpty()) throw new Exception("Your wishlist is empty");
+            return wishlistItems;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-        return WishlistItems.stream().map(item -> mapper.map(item, WishlistDTO.class))
-                .collect(Collectors.toList());
+
     }
 
     @DeleteMapping(path = "/course/{courseId}")
@@ -96,7 +90,6 @@ public class WishlistController {
                                            Principal principal) {
 
         try {
-            logger.info("i am running below");
             User myUser = userRepository.findByEmail(principal.getName()).orElseThrow();
             wishlistRepository.deleteWishlistByCourseIdAndUserId(courseId, myUser.getId());
             return new MyCustomResponse("Removed from Wishlist course: " + courseId);
