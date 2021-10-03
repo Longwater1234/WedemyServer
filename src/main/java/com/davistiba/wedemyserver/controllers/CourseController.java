@@ -18,7 +18,7 @@ public class CourseController {
     @Autowired
     CourseRepository courseRepository;
 
-    @GetMapping(path = "id/{id}")
+    @GetMapping(path = "/id/{id}")
     public Course getCoursebyId(@PathVariable(value = "id") @NotNull Integer id) {
         try {
             return courseRepository.findById(id).orElseThrow();

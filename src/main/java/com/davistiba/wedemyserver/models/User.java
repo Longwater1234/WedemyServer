@@ -30,12 +30,13 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 50)
-    @NotBlank
+    @Column(nullable = false, length = 100)
+    @Size(max = 100)
     @Pattern(regexp = "^[^<>&/#]+?", message = "Invalid characters in name")
+    @NotBlank
     private String fullname;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(nullable = false, unique = true)
     @Email
     @Pattern(regexp = "(^[0-9A-Za-z][\\w.-]+@[\\w]+\\.[\\w]\\S+\\w)$", message = "Invalid email!")
     @NotBlank
@@ -65,9 +66,6 @@ public class User implements UserDetails {
         return Collections.singletonList(authority);
     }
 
-    public String getDatejoined() {
-        return datejoined.toString();
-    }
 
     @Override
     @JsonIgnore

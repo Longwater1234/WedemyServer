@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.URL;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "courses",
@@ -23,10 +24,12 @@ public class Course {
 
     @Column(nullable = false, length = 50)
     @NotBlank
+    @Size(max = 50)
     private String author;
 
     @Column(length = 50, nullable = false)
     @NotBlank
+    @Size(max = 50)
     private String category;
 
     @Column(scale = 2, nullable = false)
@@ -41,6 +44,5 @@ public class Course {
     @Min(value = 10)
     @Column(nullable = false, scale = 2)
     private double price;
-
 
 }

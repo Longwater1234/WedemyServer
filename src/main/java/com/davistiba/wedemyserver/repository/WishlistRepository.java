@@ -7,16 +7,15 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
+    // TODO ADD PAGING LATER here
     @Query(value = "SELECT * FROM wishlist w WHERE w.user_id = ?1 LIMIT 10", nativeQuery = true)
     List<Wishlist> getWishlistsByUserId(Integer user_id);
 
-
-    @Query(value = "SELECT * FROM wishlist WHERE course_id = ?1 AND user_id = ?2 LIMIT 1", nativeQuery = true)
-    Optional<Wishlist> checkIfWishlistExists(Integer courseId, Integer userId);
+    @Query(value = "SELECT EXISTS(SELECT 1 FROM wishlist WHERE course_id = ?1 AND user_id = ?2)", nativeQuery = true)
+    Integer checkIfWishlistExists(Integer courseId, Integer userId);
 
     @Modifying
     @Transactional

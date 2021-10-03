@@ -27,7 +27,7 @@ public class Lesson {
     @Size(max = 20)
     private String videokey;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     @JsonBackReference
     private Course course;

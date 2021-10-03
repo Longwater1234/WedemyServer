@@ -1,7 +1,9 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.dto.UserDTO;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -21,13 +23,17 @@ public class ProfileController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    ModelMapper mapper;
+
     @GetMapping(path = "/id/{id}")
-    public User getUserbyId(@PathVariable(value = "id") @NotNull Integer id) {
+    public UserDTO getUserbyId(@PathVariable(value = "id") @NotNull Integer id) {
         try {
             // TODO: use DTO here
-            return userRepository.findById(id).orElseThrow();
+            User user = userRepository.findById(id).orElseThrow();
+            return mapper.map(user, UserDTO.class);
         } catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id " + id + " not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
         }
     }
 

@@ -34,6 +34,7 @@ public class Transactions {
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Column(nullable = false)
     private Instant createdAt;
 
 

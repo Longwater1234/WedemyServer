@@ -36,10 +36,12 @@ public class Enrollment {
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Column(nullable = false)
     private Instant createdAt;
 
     @UpdateTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Column(nullable = false)
     private Instant updatedAt;
 
     public UUID getCurrentLessonId() {
