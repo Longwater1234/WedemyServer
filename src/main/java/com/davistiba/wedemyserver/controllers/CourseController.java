@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.yaml.snakeyaml.util.UriEncoder;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -40,7 +41,8 @@ public class CourseController {
 	public List<Course> getCoursesByCategory(@PathVariable(value = "category") @NotBlank String category) {
 		var courseList = courseRepository.getCoursesByCategoryEquals(category);
 		if (courseList.isEmpty())
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results for category " + category);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+					"No results for category " + UriEncoder.encode(category));
 		return courseList;
 	}
 
@@ -69,7 +71,7 @@ public class CourseController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Query too short");
 		var searchResults = courseRepository.getCoursesByTitleContaining(title);
 		if (searchResults.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results for " + title);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results for " +title);
 		}
 		return searchResults;
 	}
