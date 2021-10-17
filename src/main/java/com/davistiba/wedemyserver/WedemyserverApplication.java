@@ -3,6 +3,7 @@ package com.davistiba.wedemyserver;
 
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class WedemyserverApplication {
+
+    @Value(value = "${frontend.server.url}")
+    private String FRONTEND_URL;
 
     public static void main(String[] args) {
         SpringApplication.run(WedemyserverApplication.class, args);

@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and().httpBasic()
+                .and().oauth2Login().loginPage("/login/oauth2/code/google")
                 .and().authorizeRequests()
                 .antMatchers("/index.html", "/", "/auth/**", "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/courses/**", "/lessons/**").permitAll()
