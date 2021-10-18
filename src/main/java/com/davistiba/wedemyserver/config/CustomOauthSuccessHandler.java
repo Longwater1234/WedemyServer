@@ -12,15 +12,14 @@ import java.io.IOException;
 
 @Component
 public class CustomOauthSuccessHandler implements AuthenticationSuccessHandler {
-    final
-    MyUserDetailsService myUserDetailsService;
-
-    @Value(value = "${frontend.server.url}")
-    private String FRONTEND_URL;
+    final MyUserDetailsService myUserDetailsService;
 
     public CustomOauthSuccessHandler(MyUserDetailsService myUserDetailsService) {
         this.myUserDetailsService = myUserDetailsService;
     }
+
+    @Value(value = "${frontend.server.url}")
+    private String FRONTEND_URL;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,

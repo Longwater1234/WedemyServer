@@ -26,6 +26,12 @@ public class MyUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Not found"));
     }
 
+    /**
+     * Checks if OAuth User exists in dB. If not, register new user.
+     * else do nothing. Redirect to Home.
+     *
+     * @param oAuth2User authenticated User
+     */
     public void processOAuthPostLogin(OAuth2User oAuth2User) {
         CustomOAuthUser m = new CustomOAuthUser(oAuth2User);
         Optional<User> existUser = userRepository.findByEmail(m.getEmail());
