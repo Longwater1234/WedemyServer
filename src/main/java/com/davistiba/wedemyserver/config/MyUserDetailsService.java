@@ -1,11 +1,18 @@
 package com.davistiba.wedemyserver.config;
 
+import com.davistiba.wedemyserver.models.AuthProvider;
+import com.davistiba.wedemyserver.models.CustomOAuthUser;
+import com.davistiba.wedemyserver.models.User;
+import com.davistiba.wedemyserver.models.UserRole;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
@@ -18,4 +25,20 @@ public class MyUserDetailsService implements UserDetailsService {
         return userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Not found"));
     }
+
+    public void processOAuthPostLogin(OAuth2User oAuth2User) {
+        CustomOAuthUser m = new CustomOAuthUser(oAuth2User);
+        Optional<User> existUser = userRepository.findByEmail(m.getEmail());
+
+        if (existUser.isEmpty()) {
+            User newUser = new User();
+            newUser.setFullname(m.getAttribute("name"));
+            newUser.setEmail(m.getEmail());
+            newUser.setAuthProvider(AuthProvider.GOOGLE);
+            newUser.setUserRole(UserRole.ROLE_USER);
+
+            userRepository.save(newUser);
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,14 +28,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+    @Autowired
+    private CustomOAuthUserService oAuthUserService;
+
+    @Autowired
+    CustomOauthSuccessHandler successHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and().httpBasic()
-                .and().oauth2Login().loginPage("/login/oauth2/code/google")
+                .and().oauth2Login().userInfoEndpoint().userService(oAuthUserService)
+                .and().successHandler(successHandler)
                 .and().authorizeRequests()
-                .antMatchers("/index.html", "/", "/auth/**", "/login").permitAll()
+                .antMatchers("/index.html", "/", "/auth/**", "/login/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/courses/**", "/lessons/**").permitAll()
                 .antMatchers("/profile/**", "/user/**").hasAuthority("ROLE_USER")
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
@@ -48,7 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService())
                 .passwordEncoder(passwordEncoder());
-
     }
 
 

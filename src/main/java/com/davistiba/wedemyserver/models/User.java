@@ -42,16 +42,22 @@ public class User implements UserDetails {
     @NotBlank
     private String email;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     @JsonProperty(access = Access.WRITE_ONLY)
-    @Size(min = 8, max = 80)
-    @NotBlank
     private String password;
 
     @Transient
     @JsonProperty(access = Access.WRITE_ONLY)
     @NotBlank
     private String confirmPass;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum('LOCAL', 'GOOGLE')", nullable = false)
+    private AuthProvider authProvider = AuthProvider.LOCAL;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum('ROLE_USER', 'ROLE_ADMIN')", nullable = false)
+    private UserRole userRole = UserRole.ROLE_USER;
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -62,7 +68,7 @@ public class User implements UserDetails {
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(this.getUserRole());
         return Collections.singletonList(authority);
     }
 
@@ -101,6 +107,10 @@ public class User implements UserDetails {
     @JsonIgnore
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getUserRole() {
+        return userRole.toString();
     }
 
     @Override

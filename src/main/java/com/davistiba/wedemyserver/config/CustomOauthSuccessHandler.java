@@ -1,0 +1,34 @@
+package com.davistiba.wedemyserver.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Component
+public class CustomOauthSuccessHandler implements AuthenticationSuccessHandler {
+    final
+    MyUserDetailsService myUserDetailsService;
+
+    @Value(value = "${frontend.server.url}")
+    private String FRONTEND_URL;
+
+    public CustomOauthSuccessHandler(MyUserDetailsService myUserDetailsService) {
+        this.myUserDetailsService = myUserDetailsService;
+    }
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        Authentication authentication) throws IOException {
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        myUserDetailsService.processOAuthPostLogin(oAuth2User);
+        response.sendRedirect(FRONTEND_URL);
+
+    }
+}

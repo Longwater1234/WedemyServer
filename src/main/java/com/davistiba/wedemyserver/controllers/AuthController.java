@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -53,16 +55,20 @@ public class AuthController {
 
 
     @GetMapping(path = "/statuslogin")
-    public ResponseEntity<Object> checkLoginStatus(Authentication auth) {
+    public ResponseEntity<Object> checkLoginStatus(Authentication auth,
+                                                   @AuthenticationPrincipal OAuth2User oAuth2User) {
         Map<String, Object> response = new HashMap<>();
 
-        if (auth == null) {
-            response.put("user", "");
-            response.put("loggedIn", false);
+        if (oAuth2User != null) {
+            response.put("user", oAuth2User.getAttribute("name"));
+            response.put("loggedIn", true);
+        } else if (auth != null) {
+            response.put("user", auth.getPrincipal());
+            response.put("loggedIn", true);
 
         } else {
-            response.put("loggedIn", auth.isAuthenticated());
-            response.put("user", auth.getPrincipal());
+            response.put("user", "");
+            response.put("loggedIn", false);
         }
         return ResponseEntity.ok().body(response);
     }
