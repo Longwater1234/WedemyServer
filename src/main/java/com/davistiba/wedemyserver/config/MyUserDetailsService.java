@@ -32,8 +32,9 @@ public class MyUserDetailsService implements UserDetailsService {
 
         if (existUser.isEmpty()) {
             User newUser = new User();
-            newUser.setFullname(m.getAttribute("name"));
+            newUser.setFullname(m.getName());
             newUser.setEmail(m.getEmail());
+            newUser.setConfirmPass("haha");
             newUser.setAuthProvider(AuthProvider.GOOGLE);
             newUser.setUserRole(UserRole.ROLE_USER);
 
