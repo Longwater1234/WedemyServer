@@ -3,11 +3,11 @@
 Backend repo. A Springboot + Vue.js 3 clone of Udemy. Uses HttpSession (stored in Redis) + Cookies, for authentication.
 Also contains CSRF protection.
 
+
 ## Requirements
 
 - JDK 11+
 - MySQL 8
-- Hibernate
 - Redis Server (local or Cloud)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign In With Google_)
 - Lombok-enabled IDE.
@@ -41,3 +41,4 @@ This app uses Redis to store user sessions. I prefer managing sessions server-si
 you know Redis.com offers FREE lifetime trial for 1 Redis cloud instance? Check it out: https://redis.com/try-free/.
 (**NOT SPONSORED**). Make sure you change the values inside `application.properties` to match your Redis local or cloud
 deployment.
+
