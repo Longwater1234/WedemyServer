@@ -26,7 +26,7 @@ public class CustomOauthSuccessHandler implements AuthenticationSuccessHandler {
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        myUserDetailsService.processOAuthPostLogin(oAuth2User);
+        myUserDetailsService.processOAuthPostLogin(oAuth2User, request.getSession());
         response.sendRedirect(FRONTEND_URL);
 
     }

@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 public class CourseController {
 
     @Autowired
-    CourseRepository courseRepository;
+    private CourseRepository courseRepository;
 
     @Autowired
-    ModelMapper mapper;
+    private ModelMapper mapper;
 
     @GetMapping(path = "/id/{id}")
     public Course getCoursebyId(@PathVariable(value = "id") @NotNull Integer id) {
@@ -49,16 +49,12 @@ public class CourseController {
         return courseRepository.getTop6ByRatingGreaterThanEqual(4.5);
     }
 
+
     @GetMapping(path = "/categories")
     @ResponseStatus(value = HttpStatus.OK)
     public List<CategoryDTO> getCategoryListDistinct() {
-        try {
-            var courseList = courseRepository.getAllDistinctCategories();
-            return courseList.stream().map(item -> mapper.map(item, CategoryDTO.class))
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+        var courseList = courseRepository.getAllDistinctCategories();
+        return courseList.stream().map(item -> mapper.map(item, CategoryDTO.class)).collect(Collectors.toList());
 
     }
 
@@ -68,9 +64,9 @@ public class CourseController {
         if (title.length() < 4)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Query too short");
         var searchResults = courseRepository.getCoursesByTitleContaining(title);
-        if (searchResults.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results for " + title);
-        }
+        if (searchResults.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results for your query.");
+
         return searchResults;
     }
 }

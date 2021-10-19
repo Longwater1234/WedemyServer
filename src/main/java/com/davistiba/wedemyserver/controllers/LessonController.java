@@ -25,11 +25,10 @@ import java.util.concurrent.CompletableFuture;
 public class LessonController {
 
     @Autowired
-    LessonRepository lessonRepository;
+    private LessonRepository lessonRepository;
 
     @Autowired
-    CourseRepository courseRepository;
-
+    private CourseRepository courseRepository;
 
     private final Logger logger = LoggerFactory.getLogger(String.valueOf(this));
 
