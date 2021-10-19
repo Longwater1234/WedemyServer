@@ -24,7 +24,7 @@ public class ProfileController {
     private UserRepository userRepository;
 
     @Autowired
-    ModelMapper mapper;
+    private ModelMapper mapper;
 
     @GetMapping(path = "/id/{id}")
     public UserDTO getUserbyId(@PathVariable(value = "id") @NotNull Integer id) {

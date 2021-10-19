@@ -7,10 +7,9 @@ import com.davistiba.wedemyserver.models.Wishlist;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.repository.WishlistRepository;
-import org.modelmapper.ModelMapper;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -26,19 +25,14 @@ import java.util.Map;
 @RestController
 @Secured("ROLE_USER")
 @RequestMapping(path = "/wishlist")
+@AllArgsConstructor
 public class WishlistController {
 
-    @Autowired
-    WishlistRepository wishlistRepository;
+    private final WishlistRepository wishlistRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    CourseRepository courseRepository;
-
-    @Autowired
-    ModelMapper mapper;
+    private final CourseRepository courseRepository;
 
     private final Logger logger = LoggerFactory.getLogger(String.valueOf(this));
 

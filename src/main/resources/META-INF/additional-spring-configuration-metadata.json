@@ -3,7 +3,7 @@
     {
       "name": "frontend.server.url",
       "type": "java.lang.String",
-      "description": "Frontend server."
+      "description": "Root address for frontend server."
     }
   ]
 }

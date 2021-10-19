@@ -76,7 +76,7 @@ public class AuthController {
 
     @PostMapping(path = "/login")
     @Secured(value = "ROLE_USER")
-    public ResponseEntity<Object> realAuthEntry(HttpSession session, Authentication auth) {
+    public ResponseEntity<Object> realBasicAuthEntry(HttpSession session, Authentication auth) {
         Map<String, Object> response = new HashMap<>();
         try {
             User loggedInUser = userRepository.findByEmail(auth.getName()).orElseThrow();
