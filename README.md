@@ -18,7 +18,7 @@ Please see the file `application.properties` inside `src/main/resources/` folder
 application values there.🚫 But for _super-secret_
 info (like Passwords or API keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I recommend store them
 as [Environmental Variables](https://www.baeldung.com/properties-with-spring)
-then simply pass them by reference as `property.value = ${ENV_KEY_NAME}`.
+then simply pass them by reference as `property.name = ${ENV_KEY_NAME}`.
 
 ## Databases Used
 

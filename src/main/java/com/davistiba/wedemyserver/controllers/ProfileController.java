@@ -20,16 +20,19 @@ import javax.validation.constraints.NotNull;
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
 public class ProfileController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final ModelMapper mapper;
 
     @Autowired
-    private ModelMapper mapper;
+    public ProfileController(UserRepository userRepository, ModelMapper mapper) {
+        this.userRepository = userRepository;
+        this.mapper = mapper;
+    }
 
     @GetMapping(path = "/id/{id}")
     public UserDTO getUserbyId(@PathVariable(value = "id") @NotNull Integer id) {
         try {
-            // TODO: use DTO here
             User user = userRepository.findById(id).orElseThrow();
             return mapper.map(user, UserDTO.class);
         } catch (Exception ex) {

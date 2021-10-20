@@ -18,19 +18,22 @@ public class Transactions {
     @Column(length = 20, updatable = false)
     private String transactionId;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
     private User userId;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @ManyToOne(optional = false)
     @JsonBackReference
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
+
     @Column(name = "totalprice", scale = 2, nullable = false)
     @NotBlank
     private double totalPrice;
+
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
