@@ -14,19 +14,19 @@ Also contains CSRF protection.
 
 ## Important ⚠
 
-Please see the file `application.properties` inside `src/main/resources/` folder. Place all the necessary Spring
-application values there.🚫 But for _super-secret_
-info (like Passwords or API keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I recommend store them
-as [Environmental Variables](https://www.baeldung.com/properties-with-spring)
-then simply pass them by reference as `property.name = ${ENV_KEY_NAME}`.
+Please see the file [application.properties](src/main/resources/application.properties) inside `src/main/resources/`
+folder. Place all your necessary Spring application values there.🚫 But for _super-secret_
+info (like Passwords or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I recommend store them
+as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply pass them by
+reference as `property.name = ${ENV_KEY_NAME}`.
 
 ## Databases Used
 
 ### MySQL 8
 
-This application uses MySQL 8 (InnoDB Engine) as main database. I have included a sample `.sql` file
-in [src/main/resources/wedemy.sql](src/main/resources/wedemy.sql) which contains data for COURSES & LESSONS, and schema
-for ALL required tables. Simply do the following to get started:
+This application uses MySQL 8 (InnoDB Engine) as main database. NOTE: All DateTimes are in UTC❗. I have included a
+sample `wedemy.sql` file inside [src/main/resources/](src/main/resources) which contains data for COURSES & LESSONS, and
+schema for ALL other required tables. Simply do the following to get started:
 
 1. Make sure you have MySQL 8.x installed. (in terminal or CMD, enter: `mysql --version`)
 2. Next, Install MySQL Workbench (version 8+) or use PhpMyAdmin instead (OPTIONAL).
