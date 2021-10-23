@@ -36,7 +36,6 @@ public class AuthController {
 
     @PostMapping(path = "/register")
     public ResponseEntity<MyCustomResponse> addNewUser(@RequestBody @Valid User user) {
-        // TODO: CREATE Session
         if (!user.getPassword().equals(user.getConfirmPass()))
             throw new ResponseStatusException(HttpStatus.valueOf(422), "Passwords dont match");
 
