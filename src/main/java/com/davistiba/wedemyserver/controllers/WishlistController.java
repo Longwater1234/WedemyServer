@@ -29,13 +29,13 @@ public class WishlistController {
     public MyCustomResponse addNewWishlist(@PathVariable(value = "courseId") Integer courseId,
                                            HttpSession session) {
 
-        try {
-            Integer userId = (Integer) session.getAttribute(AuthController.USERID);
-            wishlistRepository.saveByCourseIdAndUserId(courseId, userId);
-            return new MyCustomResponse("Added to Wishlist: courseId " + courseId);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        Integer userId = (Integer) session.getAttribute(AuthController.USERID);
+        int ok = wishlistRepository.saveByCourseIdAndUserId(courseId, userId);
+        if (ok != 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add wishlist");
         }
+        return new MyCustomResponse("Added to Wishlist: courseId " + courseId);
+
     }
 
     @GetMapping(path = "/mine/{courseId}")
@@ -43,15 +43,12 @@ public class WishlistController {
     public Map<String, Boolean> checkUserLikedCourse(@PathVariable(value = "courseId") @NotNull Integer courseId,
                                                      HttpSession session) {
 
-        try {
-            Map<String, Boolean> response = new HashMap<>();
-            Integer userId = (Integer) session.getAttribute(AuthController.USERID);
-            boolean isExist = wishlistRepository.checkIfWishlistExists(courseId, userId) == 1;
-            response.put("isWishlist", isExist);
-            return response;
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+        Map<String, Boolean> response = new HashMap<>();
+        Integer userId = (Integer) session.getAttribute(AuthController.USERID);
+        boolean isExist = wishlistRepository.checkIfWishlistExists(courseId, userId) == 1;
+        response.put("isWishlist", isExist);
+        return response;
+
     }
 
 
@@ -72,12 +69,12 @@ public class WishlistController {
     public MyCustomResponse removeWishlist(@PathVariable(value = "courseId") Integer courseId,
                                            HttpSession session) {
 
-        try {
-            Integer userId = (Integer) session.getAttribute(AuthController.USERID);
-            wishlistRepository.deleteByCourseIdAndUserId(courseId, userId);
-            return new MyCustomResponse("Removed from Wishlist, courseId " + courseId);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+
+        Integer userId = (Integer) session.getAttribute(AuthController.USERID);
+        int ok = wishlistRepository.deleteByCourseIdAndUserId(courseId, userId);
+        if (ok != 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove wishlist");
         }
+        return new MyCustomResponse("Removed from Wishlist, courseId " + courseId);
     }
 }
