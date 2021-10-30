@@ -6,7 +6,6 @@ import com.davistiba.wedemyserver.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,6 @@ import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping(path = "/profile")
-@Secured({"ROLE_USER", "ROLE_ADMIN"})
 public class ProfileController {
 
     private final UserRepository userRepository;

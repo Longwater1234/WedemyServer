@@ -10,13 +10,13 @@ Also contains CSRF protection.
 - MySQL 8
 - Redis Server (local or Cloud)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign In With Google_)
-- Lombok-enabled IDE.
+- Lombok.
 
 ## Important ⚠
 
 Please see the file [application.properties](src/main/resources/application.properties) inside `src/main/resources/`
 folder. Place all your necessary Spring application values there.🚫 But for _super-secret_
-info (like Passwords or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I recommend store them
+info (like Passwords or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY**. I recommend store them
 as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply pass them by
 reference as `property.name = ${ENV_KEY_NAME}`.
 
@@ -38,7 +38,7 @@ schema for ALL other required tables. Simply do the following to get started:
 ### Redis
 
 This app uses Redis to store user sessions. I prefer managing sessions server-side rather than using Stateless JWTs. Did
-you know Redis.com offers FREE lifetime trial for 1 Redis cloud instance? Check it out: https://redis.com/try-free/.
+you know Redis.com offers FREE lifetime trial for Redis cloud? Check it out: https://redis.com/try-free/.
 (**NOT SPONSORED**). Make sure you change the values inside `application.properties` to match your Redis local or cloud
 deployment.
 

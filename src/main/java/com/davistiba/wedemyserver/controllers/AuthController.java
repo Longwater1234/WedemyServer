@@ -25,13 +25,17 @@ import java.util.Map;
 @CrossOrigin
 public class AuthController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public static final String USERID = "USERID";
+
+    @Autowired
+    public AuthController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
 
     @PostMapping(path = "/register")
@@ -63,7 +67,7 @@ public class AuthController {
             response.put("loggedIn", true);
         } else if (auth != null) {
             response.put("user", auth.getPrincipal());
-            response.put("loggedIn", true);
+            response.put("loggedIn", auth.isAuthenticated());
 
         } else {
             response.put("user", "");
@@ -75,6 +79,7 @@ public class AuthController {
 
     @PostMapping(path = "/login")
     @Secured(value = "ROLE_USER")
+    // this runs after actual successful login
     public ResponseEntity<Object> realBasicAuthEntry(HttpSession session, Authentication auth) {
         Map<String, Object> response = new HashMap<>();
         try {
