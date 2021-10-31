@@ -3,7 +3,6 @@
 Backend repo. A Springboot + Vue.js 3 clone of Udemy. Uses HttpSession (stored in Redis) + Cookies, for authentication.
 Also contains CSRF protection.
 
-
 ## Requirements
 
 - JDK 11+
@@ -24,9 +23,10 @@ reference as `property.name = ${ENV_KEY_NAME}`.
 
 ### MySQL 8
 
-This application uses MySQL 8 (InnoDB Engine) as main database. NOTE: All DateTimes are in UTC❗. I have included a
-sample `wedemy.sql` file inside [src/main/resources/](src/main/resources) which contains data for COURSES & LESSONS, and
-schema for ALL other required tables. Simply do the following to get started:
+This application uses MySQL 8 (InnoDB Engine) as main database. NOTE: All DateTimes are saved and fetched in UTC❗. (
+**MUST MAKE SURE ONLY USE `java.time.Instant` as Type for ALL Date/Time fields**). I have included a sample `wedemy.sql`
+file inside [src/main/resources/](src/main/resources) which contains data for COURSES & LESSONS, and schema for ALL
+tables. Simply do the following to get started:
 
 1. Make sure you have MySQL 8.x installed. (in terminal or CMD, enter: `mysql --version`)
 2. Next, Install MySQL Workbench (version 8+) or use PhpMyAdmin instead (OPTIONAL).
@@ -37,8 +37,9 @@ schema for ALL other required tables. Simply do the following to get started:
 
 ### Redis
 
-This app uses Spring Session Redis to manage user sessions. I prefer storing sessions server-side rather than using Stateless JWTs. Did
-you know Redis.com offers FREE lifetime trial for 1 Redis cloud instance? Check it out: https://redis.com/try-free/.
-(**NOT SPONSORED**). Or, you could simply use locally-installed Redis on your server. Just make sure you change the values 
-inside `application.properties` to match your Redis local or cloud deployment.
+This app uses Spring Session Redis to manage user sessions. I prefer storing sessions server-side rather than using
+Stateless JWTs. Did you know Redis.com offers FREE lifetime trial for 1 Redis cloud instance? Check it
+out: https://redis.com/try-free/.
+(**NOT SPONSORED**). Or, you could simply use locally-installed Redis on your server. Just make sure you change the
+values inside `application.properties` to match your Redis local or cloud deployment.
 

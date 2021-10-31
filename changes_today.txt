@@ -1,0 +1,7 @@
+2021-11-01
+----------
+- removed unnecessary Cascades in children entities
+- added `createdAt` and `updatedAt` in Reviews.
+- changed Course.author max length to 100.
+- updated wedemy.sql file
+

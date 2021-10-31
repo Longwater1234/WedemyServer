@@ -20,11 +20,11 @@ public class Wishlist {
     private Integer wishlistId;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
     private User user;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
@@ -33,13 +33,6 @@ public class Wishlist {
     @Column(nullable = false)
     private Instant createdAt;
 
-    public Wishlist(User user, Course course) {
-        this.user = user;
-        this.course = course;
-    }
-
-    public Wishlist() {
-    }
 
     @Override
     public boolean equals(Object o) {
