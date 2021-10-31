@@ -31,7 +31,6 @@ public class Enrollment {
     @JsonBackReference
     private Lesson currentLesson;
 
-
     @Column(nullable = false)
     private Boolean isCompleted;
 

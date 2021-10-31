@@ -22,9 +22,9 @@ public class Course {
     @NotBlank
     private String title;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     @NotBlank
-    @Size(max = 50)
+    @Size(max = 100)
     private String author;
 
     @Column(length = 50, nullable = false)
@@ -32,7 +32,7 @@ public class Course {
     @Size(max = 50)
     private String category;
 
-    @Column(scale = 2, nullable = false)
+    @Column(scale = 2, nullable = false, length = 3)
     @ColumnDefault("3.5")
     private double rating = 3.5;
 

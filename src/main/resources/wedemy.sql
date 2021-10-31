@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 19, 2021 at 03:28 PM
+-- Generation Time: Oct 31, 2021 at 04:40 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -30,13 +30,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `courses`
 (
-    `id`        int(11)      NOT NULL,
-    `author`    varchar(50)  NOT NULL,
-    `category`  varchar(50)  NOT NULL,
-    `price`     double       NOT NULL,
-    `rating`    double       NOT NULL DEFAULT '3.5',
-    `thumb_url` varchar(255)          DEFAULT NULL,
-    `title`     varchar(255) NOT NULL
+    `id`        int(11)                                                       NOT NULL,
+    `author`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `category`  varchar(50)                                                   NOT NULL,
+    `price`     double                                                        NOT NULL,
+    `rating`    double                                                        NOT NULL DEFAULT '3.5',
+    `thumb_url` varchar(255)                                                           DEFAULT NULL,
+    `title`     varchar(255)                                                  NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci COMMENT ='Courses are parents of Lessons';
@@ -56,13 +56,13 @@ VALUES (10010, 'Corey Schafer', 'Development', 17.99, 4.5, 'https://i3.ytimg.com
         'Beginners Guide To Adobe Illustrator'),
        (10014, 'chinfat', 'PhotoVideo', 22.5, 3.5, 'https://i3.ytimg.com/vi/u99i1SmDgIc/maxresdefault.jpg',
         'Learn Adobe Premiere Pro CC'),
-       (10015, 'Jacob Clifford', 'Finance', 17.99, 4.5, 'https://i3.ytimg.com/vi/g9aDizJpd_s/maxresdefault.jpg',
+       (10015, 'Jacob Clifford', 'Finance', 15.99, 4.5, 'https://i3.ytimg.com/vi/g9aDizJpd_s/maxresdefault.jpg',
         'Crash Course Economics'),
        (10016, 'MrandMrsMuscle', 'Health', 18.99, 3.5, 'https://i3.ytimg.com/vi/By6GXzcldGY/maxresdefault.jpg',
         'Lose Belly Fat in 14 Days'),
        (10017, 'Robert Kiyosaki', 'Real Estate', 21.99, 4.5, 'https://i3.ytimg.com/vi/UJv9-F7SN5A/maxresdefault.jpg',
         'Real Estate Investing'),
-       (10018, 'Bill Hilton', 'Music', 19.99, 4.5, 'https://i3.ytimg.com/vi/WJ3-F02-F_Y/maxresdefault.jpg',
+       (10018, 'Bill Hilton', 'Music', 15.99, 4.5, 'https://i3.ytimg.com/vi/WJ3-F02-F_Y/maxresdefault.jpg',
         'How To Play Piano for Beginners'),
        (10019, 'GCFLearnFree.org', 'Office', 17.99, 3.5, 'https://i3.ytimg.com/vi/j-ZAVHk5SaU/maxresdefault.jpg',
         'Master MS Word');
@@ -75,12 +75,12 @@ VALUES (10010, 'Corey Schafer', 'Development', 17.99, 4.5, 'https://i3.ytimg.com
 
 CREATE TABLE `enrollments`
 (
-    `id`           int(11)    NOT NULL,
-    `created_at`   datetime(6) DEFAULT NULL,
-    `is_completed` bit(1)     NOT NULL,
-    `updated_at`   datetime(6) DEFAULT NULL,
-    `lesson_id`    binary(16) NOT NULL,
-    `user_id`      int(11)    NOT NULL
+    `id`                int(11)    NOT NULL,
+    `created_at`        datetime(6) DEFAULT NULL,
+    `is_completed`      bit(1)     NOT NULL,
+    `updated_at`        datetime(6) DEFAULT NULL,
+    `current_lesson_id` binary(16) NOT NULL,
+    `user_id`           int(11)    NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci COMMENT ='records and updates student progress';
@@ -221,11 +221,13 @@ VALUES (0x01fb76c505ba11ecac7d9457a5ebcddd, '1. Introduction to Java', '2dZiMBwX
 
 CREATE TABLE `reviews`
 (
-    `id`        int(11)      NOT NULL,
-    `rating`    double       NOT NULL,
-    `text_body` varchar(250) NOT NULL,
-    `course_id` int(11)      NOT NULL,
-    `user_id`   int(11)      NOT NULL
+    `id`         int(11)                                                       NOT NULL,
+    `rating`     double                                                        NOT NULL,
+    `content`    varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `course_id`  int(11)                                                       NOT NULL,
+    `user_id`    int(11)                                                       NOT NULL,
+    `created_at` datetime(6)                                                   NOT NULL,
+    `updated_at` datetime(6)                                                   NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci COMMENT ='Student reviews. Must own the course';
@@ -274,10 +276,10 @@ CREATE TABLE `users`
 
 CREATE TABLE `wishlist`
 (
-    `wishlist_id` int(11) NOT NULL,
-    `created_at`  datetime(6) DEFAULT NULL,
-    `course_id`   int(11) NOT NULL,
-    `user_id`     int(11) NOT NULL
+    `wishlist_id` int(11)     NOT NULL,
+    `created_at`  datetime(6) NOT NULL,
+    `course_id`   int(11)     NOT NULL,
+    `user_id`     int(11)     NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci COMMENT ='records user wishlist';
@@ -298,8 +300,8 @@ ALTER TABLE `courses`
 --
 ALTER TABLE `enrollments`
     ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `UKsb9w22vmn0ny3dq4sau62xih1` (`user_id`, `lesson_id`),
-    ADD KEY `FKsu6cg2f9qh1256x751mvubeuf` (`lesson_id`);
+    ADD UNIQUE KEY `UKsb9w22vmn0ny3dq4sau62xih1` (`user_id`, `current_lesson_id`),
+    ADD KEY `FKsu6cg2f9qh1256x751mvubeuf` (`current_lesson_id`);
 
 --
 -- Indexes for table `lessons`
@@ -372,7 +374,7 @@ ALTER TABLE `wishlist`
 --
 ALTER TABLE `enrollments`
     ADD CONSTRAINT `FK3hjx6rcnbmfw368sxigrpfpx0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-    ADD CONSTRAINT `FKsu6cg2f9qh1256x751mvubeuf` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`id`);
+    ADD CONSTRAINT `FKsu6cg2f9qh1256x751mvubeuf` FOREIGN KEY (`current_lesson_id`) REFERENCES `lessons` (`id`);
 
 --
 -- Constraints for table `lessons`
