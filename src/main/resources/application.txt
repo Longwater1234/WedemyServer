@@ -1,0 +1,42 @@
+frontend:
+  server:
+    url: http://localhost:8080
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+server:
+  error:
+    include-stacktrace: never
+  port: 9000
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        max-age: 10800s
+        name: WEDEMY
+        secure: false
+spring:
+  datasource:
+    password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3306/wedemy?useSSL=false&connectionTimeZone=UTC
+    username: ${DB_USERNAME}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  redis:
+    host: localhost
+    port: 6379
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+  session:
+    store-type: redis
