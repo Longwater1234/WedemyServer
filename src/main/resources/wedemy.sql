@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 31, 2021 at 04:40 PM
+-- Generation Time: Nov 07, 2021 at 10:24 AM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -47,7 +47,7 @@ CREATE TABLE `courses`
 
 INSERT INTO `courses` (`id`, `author`, `category`, `price`, `rating`, `thumb_url`, `title`)
 VALUES (10010, 'Corey Schafer', 'Development', 17.99, 4.5, 'https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg',
-        'Python Tutorial for Beginners'),
+        'Complete Python Bootcamp'),
        (10011, 'Dani Krossing', 'Development', 18.99, 4.5, 'https://i3.ytimg.com/vi/jS4aFq5-91M/maxresdefault.jpg',
         'Learn JavaScript Programming'),
        (10012, 'Caleb Curry', 'Development', 19.99, 3.5, 'https://i3.ytimg.com/vi/GoXwIVyNvX0/maxresdefault.jpg',
@@ -64,8 +64,8 @@ VALUES (10010, 'Corey Schafer', 'Development', 17.99, 4.5, 'https://i3.ytimg.com
         'Real Estate Investing'),
        (10018, 'Bill Hilton', 'Music', 15.99, 4.5, 'https://i3.ytimg.com/vi/WJ3-F02-F_Y/maxresdefault.jpg',
         'How To Play Piano for Beginners'),
-       (10019, 'GCFLearnFree.org', 'Office', 17.99, 3.5, 'https://i3.ytimg.com/vi/j-ZAVHk5SaU/maxresdefault.jpg',
-        'Master MS Word');
+       (10019, 'TfTS', 'Office', 17.99, 3.5, 'https://i3.ytimg.com/vi/Vl0H-qTclOg/maxresdefault.jpg',
+        'Master Microsoft Excel');
 
 -- --------------------------------------------------------
 
@@ -137,16 +137,16 @@ VALUES (0x01fb76c505ba11ecac7d9457a5ebcddd, '1. Introduction to Java', '2dZiMBwX
        (0x2f204a9e05bc11ecac7d9457a5ebcddd, '8. Importing Media Part 2', 'Y_aydeNr8l4', 10014),
        (0x2f204b7005bc11ecac7d9457a5ebcddd, '9. The Project Panel', 'UTtrFgapV_4', 10014),
        (0x2f204c3b05bc11ecac7d9457a5ebcddd, '10. The Source Panel', 'J7xy5l6IsMk', 10014),
-       (0x3396636004e611ec89079457a5ebcddd, '1. Getting Started', 'j-ZAVHk5SaU', 10019),
-       (0x33967fe904e611ec89079457a5ebcddd, '2. Creating and Opening Documents', 'PafCMUVH_OA', 10019),
-       (0x3396818e04e611ec89079457a5ebcddd, '3. Saving and Sharing Documents', 'iHuFzz7Wvt4', 10019),
-       (0x339682b104e611ec89079457a5ebcddd, '4. Text Basics', 'vmEzxQfVj5c', 10019),
-       (0x3396838204e611ec89079457a5ebcddd, '5. Formatting Text', 'ViGf0RKbCyA', 10019),
-       (0x3396848e04e611ec89079457a5ebcddd, '6. Using Find and Replace', 'p3Ql9y3eEyo', 10019),
-       (0x3396861604e611ec89079457a5ebcddd, '7. Indents and Tabs', 'vJGYWVe52T4', 10019),
-       (0x3396883204e611ec89079457a5ebcddd, '8. Line and Paragraph Spacing', 'mXWvKHWe2Co', 10019),
-       (0x339689fd04e611ec89079457a5ebcddd, '9. Lists', 'tyXahko-tX8', 10019),
-       (0x33968b4404e611ec89079457a5ebcddd, '10.Links', 'fqLQ1adyrjA', 10019),
+       (0x3396636004e611ec89079457a5ebcddd, '1. Excel Basics Tutorial', 'rwbho0CgEAE', 10019),
+       (0x33967fe904e611ec89079457a5ebcddd, '2. Intermediate Excel Skills, Tips, and Tricks', 'lxq_46nY43g', 10019),
+       (0x3396818e04e611ec89079457a5ebcddd, '3. VLOOKUP Basics', 'y8ygx1Zkcgs', 10019),
+       (0x339682b104e611ec89079457a5ebcddd, '4. Creating Pivot Tables in Excel', 'BkmxrvIfDGA', 10019),
+       (0x3396838204e611ec89079457a5ebcddd, '5. Using Recommended Pivot Tables', 'ebdgGbsTWs8', 10019),
+       (0x3396848e04e611ec89079457a5ebcddd, '6. Protecting a Sheet', 'piIWTp3qncw', 10019),
+       (0x3396861604e611ec89079457a5ebcddd, '7. Advanced Excel - 3D Formulas', 'arJBUarj8u8', 10019),
+       (0x3396883204e611ec89079457a5ebcddd, '8. Data Validation and Drop-Down Lists\r\n', 'SlWIgMFpsPg', 10019),
+       (0x339689fd04e611ec89079457a5ebcddd, '9. Creating Your Own Excel Templates', 'dgHjAHIBvsI', 10019),
+       (0x33968b4404e611ec89079457a5ebcddd, '10. Excel Split Names', 'yCxnWvD_r_Q', 10019),
        (0xba3bed7e04e411ec89079457a5ebcddd, '1. The Piano Keyboard', 'QBH6IpRkVDs', 10018),
        (0xba40aab904e411ec89079457a5ebcddd, '2. Starting to Read Music', '3BULT0-joT0', 10018),
        (0xba40ad3604e411ec89079457a5ebcddd, '3. Reading a Melody', 'NUVQIwO1SEI', 10018),
@@ -301,6 +301,7 @@ ALTER TABLE `courses`
 ALTER TABLE `enrollments`
     ADD PRIMARY KEY (`id`),
     ADD UNIQUE KEY `UKsb9w22vmn0ny3dq4sau62xih1` (`user_id`, `current_lesson_id`),
+    ADD UNIQUE KEY `UK9b67t8pe97iktaxdp9caj2bd9` (`user_id`, `current_lesson_id`),
     ADD KEY `FKsu6cg2f9qh1256x751mvubeuf` (`current_lesson_id`);
 
 --
