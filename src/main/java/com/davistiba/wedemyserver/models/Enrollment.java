@@ -3,6 +3,7 @@ package com.davistiba.wedemyserver.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -32,12 +33,14 @@ public class Enrollment {
     private Lesson currentLesson;
 
     @Column(nullable = false)
+    @ColumnDefault(value = "false")
     private Boolean isCompleted;
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(nullable = false)
     private Instant createdAt;
+
 
     @UpdateTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

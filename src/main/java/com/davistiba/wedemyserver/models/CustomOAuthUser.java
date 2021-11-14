@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class CustomOAuthUser extends User implements OAuth2User {
 
-    private OAuth2User oAuth2User;
+    private final OAuth2User oAuth2User;
 
     public CustomOAuthUser(OAuth2User oAuth2User) {
         this.oAuth2User = oAuth2User;

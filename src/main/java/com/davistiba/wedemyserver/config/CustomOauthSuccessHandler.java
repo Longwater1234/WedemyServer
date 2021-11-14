@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class CustomOauthSuccessHandler implements AuthenticationSuccessHandler {
     final MyUserDetailsService myUserDetailsService;
 
+    @Autowired
     public CustomOauthSuccessHandler(MyUserDetailsService myUserDetailsService) {
         this.myUserDetailsService = myUserDetailsService;
     }

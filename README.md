@@ -13,7 +13,7 @@ Also contains CSRF protection.
 
 ## Important ⚠
 
-Please see the file [application.properties](src/main/resources/application.properties) inside `src/main/resources/`
+Please see the file [application.yml](src/main/resources/application.yml) inside `src/main/resources/`
 folder. Place all your necessary Spring application values there. But for _super-sensitive_
 info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** 🚫. I recommend store them
 as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply pass them by

@@ -1,6 +1,7 @@
 package com.davistiba.wedemyserver.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
@@ -27,18 +29,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
     @Autowired
     private CustomOAuthUserService oAuthUserService;
 
     @Autowired
     private CustomOauthSuccessHandler successHandler;
 
+    @Value(value = "${frontend.server.url}")
+    private String FRONTEND_URL;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and().httpBasic()
+                .and().formLogin().usernameParameter("email")
+                .loginPage(String.format("%s/login", FRONTEND_URL)).loginProcessingUrl("/login")
+                .defaultSuccessUrl("/auth/statuslogin?ok", true)
+                .failureHandler(authenticationFailureHandler())
                 .and().oauth2Login().userInfoEndpoint().userService(oAuthUserService)
                 .and().successHandler(successHandler)
                 .and().authorizeRequests()
@@ -56,6 +63,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService())
                 .passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthFailureHandler();
     }
 
 
