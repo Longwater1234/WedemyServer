@@ -32,7 +32,7 @@ tables. Simply do the following to get started:
 2. Next, Install MySQL Workbench (version 8+) or use PhpMyAdmin instead (OPTIONAL).
 3. CREATE a database called `wedemy`.
 4. Then **Import** the file `wedemy.sql` into it.
-5. Replace the values of `DB_HOST` `DB_USERNAME` and `DB_PASSWORD` inside _application.properties_ to match your
+5. Replace the values of `DB_HOST` `DB_USERNAME` and `DB_PASSWORD` inside _application.yml_ to match your
    database setup. That's it, DONE.
 
 ### Redis
