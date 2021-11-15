@@ -1,6 +1,6 @@
 # WedemyServer
 
-Backend repo. A Springboot + Vue.js 3 clone of Udemy. Uses HttpSession (stored in Redis) + Cookies, for authentication.
+Backend repo. A Springboot + Vue.js 3 clone of Udemy. Uses HttpSession (stored in Redis) + Cookies, for auth work, _instead of_ stateless JWT Tokens.
 Also contains CSRF protection.
 
 ## Requirements
