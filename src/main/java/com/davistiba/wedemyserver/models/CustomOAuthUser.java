@@ -22,6 +22,7 @@ public class CustomOAuthUser extends User implements OAuth2User {
         return oAuth2User.getAttribute("name");
     }
 
+    @Override
     public String getEmail() {
         return oAuth2User.getAttribute("email");
     }
