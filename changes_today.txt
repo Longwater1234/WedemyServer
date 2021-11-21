@@ -4,4 +4,4 @@
 - added `createdAt` and `updatedAt` in Reviews.
 - changed Course.author max length to 100.
 - updated wedemy.sql file
-
+- twitclone netlify 34.204.131.44 || 52.73.87.228

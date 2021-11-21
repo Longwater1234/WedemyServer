@@ -45,4 +45,8 @@ public class Course {
     @Column(nullable = false, scale = 2)
     private double price;
 
+
+    @Size(max = 250)
+    private String subtitle;
+
 }

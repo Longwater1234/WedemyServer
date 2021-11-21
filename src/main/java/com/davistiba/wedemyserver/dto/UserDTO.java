@@ -14,7 +14,7 @@ public class UserDTO {
     /**
      * hide some email chars with star (*)
      *
-     * @return 'hidden' string
+     * @return 'masked' string
      */
     public String getEmail() {
         char[] baba = email.toCharArray();
