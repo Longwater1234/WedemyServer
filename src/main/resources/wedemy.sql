@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2021 at 10:24 AM
+-- Generation Time: Nov 21, 2021 at 05:04 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -36,7 +36,8 @@ CREATE TABLE `courses`
     `price`     double                                                        NOT NULL,
     `rating`    double                                                        NOT NULL DEFAULT '3.5',
     `thumb_url` varchar(255)                                                           DEFAULT NULL,
-    `title`     varchar(255)                                                  NOT NULL
+    `title`     varchar(255)                                                  NOT NULL,
+    `subtitle`  varchar(250)                                                           DEFAULT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci COMMENT ='Courses are parents of Lessons';
@@ -45,27 +46,36 @@ CREATE TABLE `courses`
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `author`, `category`, `price`, `rating`, `thumb_url`, `title`)
+INSERT INTO `courses` (`id`, `author`, `category`, `price`, `rating`, `thumb_url`, `title`, `subtitle`)
 VALUES (10010, 'Corey Schafer', 'Development', 17.99, 4.5, 'https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg',
-        'Complete Python Bootcamp'),
+        'Complete Python Bootcamp',
+        'Learn Python like a Professional. Start from the basics and go all the way to creating your own applications and games.'),
        (10011, 'Dani Krossing', 'Development', 18.99, 4.5, 'https://i3.ytimg.com/vi/jS4aFq5-91M/maxresdefault.jpg',
-        'Learn JavaScript Programming'),
+        'Learn JavaScript Programming',
+        'Master fundamentals with JavaScript exercises, projects, live examples & more'),
        (10012, 'Caleb Curry', 'Development', 19.99, 3.5, 'https://i3.ytimg.com/vi/GoXwIVyNvX0/maxresdefault.jpg',
-        'Java Programming Essentials'),
+        'Java Programming Essentials', 'Obtain valuable Core Java Skills And Java Certification'),
        (10013, 'Gareth David Studio', 'PhotoVideo', 21.99, 4.5, 'https://i3.ytimg.com/vi/9EGI-FSr0Ig/maxresdefault.jpg',
-        'Beginners Guide To Adobe Illustrator'),
+        'Beginners Guide To Adobe Illustrator',
+        'Learn graphic design, logo design, and more with this in-depth, practical, easy-to-follow course!'),
        (10014, 'chinfat', 'PhotoVideo', 22.5, 3.5, 'https://i3.ytimg.com/vi/u99i1SmDgIc/maxresdefault.jpg',
-        'Learn Adobe Premiere Pro CC'),
+        'Learn Adobe Premiere Pro CC',
+        'Learn Beginner-Advanced Video Editing, Audio Editing, Color Grading, Motion Graphics, and more'),
        (10015, 'Jacob Clifford', 'Finance', 15.99, 4.5, 'https://i3.ytimg.com/vi/g9aDizJpd_s/maxresdefault.jpg',
-        'Crash Course Economics'),
+        'Crash Course Economics',
+        'The Easiest Beginner level Course on Economics with real life examples and graphic content. Perfect for Newbies!'),
        (10016, 'MrandMrsMuscle', 'Health', 18.99, 3.5, 'https://i3.ytimg.com/vi/By6GXzcldGY/maxresdefault.jpg',
-        'Lose Belly Fat in 14 Days'),
+        'Lose Belly Fat in 14 Days',
+        'This course will help jump-start your body to lose belly fat, lose weight and guide you with a 14 day exercise plan. NO EQUIPMENT needed'),
        (10017, 'Robert Kiyosaki', 'Real Estate', 21.99, 4.5, 'https://i3.ytimg.com/vi/UJv9-F7SN5A/maxresdefault.jpg',
-        'Real Estate Investing'),
+        'Real Estate Investing',
+        'Learn professional investment techniques for real estate investing in residential and commercial properties'),
        (10018, 'Bill Hilton', 'Music', 15.99, 4.5, 'https://i3.ytimg.com/vi/WJ3-F02-F_Y/maxresdefault.jpg',
-        'How To Play Piano for Beginners'),
-       (10019, 'TfTS', 'Office', 17.99, 3.5, 'https://i3.ytimg.com/vi/Vl0H-qTclOg/maxresdefault.jpg',
-        'Master Microsoft Excel');
+        'How To Play Piano for Beginners',
+        'Learn Piano in WEEKS not years. Play-By-Ear & learn to Read Music. Pop, Blues, Jazz, Ballads, Classical'),
+       (10019, 'TTFS', 'Office', 17.99, 3.5, 'https://i3.ytimg.com/vi/Vl0H-qTclOg/maxresdefault.jpg',
+        'Master Microsoft Excel',
+        'Microsoft Excel Beginner to Professional. Includes Pivot Tables, Power Query, NEW Formulas');
 
 -- --------------------------------------------------------
 
@@ -76,9 +86,9 @@ VALUES (10010, 'Corey Schafer', 'Development', 17.99, 4.5, 'https://i3.ytimg.com
 CREATE TABLE `enrollments`
 (
     `id`                int(11)    NOT NULL,
-    `created_at`        datetime(6) DEFAULT NULL,
-    `is_completed`      bit(1)     NOT NULL,
-    `updated_at`        datetime(6) DEFAULT NULL,
+    `created_at`        datetime(6)         DEFAULT NULL,
+    `is_completed`      bit(1)     NOT NULL DEFAULT b'0',
+    `updated_at`        datetime(6)         DEFAULT NULL,
     `current_lesson_id` binary(16) NOT NULL,
     `user_id`           int(11)    NOT NULL
 ) ENGINE = InnoDB
@@ -115,6 +125,16 @@ VALUES (0x01fb76c505ba11ecac7d9457a5ebcddd, '1. Introduction to Java', '2dZiMBwX
        (0x01fba3e305ba11ecac7d9457a5ebcddd, '7. Primitives and Objects', 'r4wWYgkBcpI', 10012),
        (0x01fba4e205ba11ecac7d9457a5ebcddd, '8. Variable Declaration and Initialization', '1mRN2MwdWUo', 10012),
        (0x01fba5b405ba11ecac7d9457a5ebcddd, '9. Primitive Data Types', 'qUXbJziVs_o', 10012),
+       (0x0d200ec44aa911ec9ce79457a5ebcddd, 'DAY 1 - Lose Weight and Lose Belly Fat', 'By6GXzcldGY', 10016),
+       (0x0d2027a74aa911ec9ce79457a5ebcddd, 'DAY 2 - Lose Weight and Lose Belly Fat', '4920WOvqqPQ', 10016),
+       (0x0d2029754aa911ec9ce79457a5ebcddd, 'DAY 3 - Lose Weight and Lose Belly Fat', 'rqFYiJNOZjY', 10016),
+       (0x0d202aa74aa911ec9ce79457a5ebcddd, 'DAY 4 - Lose Weight and Lose Belly Fat', 'MnUflUjr2bw', 10016),
+       (0x0d202b764aa911ec9ce79457a5ebcddd, 'DAY 5 - Lose Weight and Lose Belly Fat', 'lSZacNnqn7g', 10016),
+       (0x0d202c434aa911ec9ce79457a5ebcddd, 'DAY 6 - Lose Weight and Lose Belly Fat', '2tHo7phAtfM', 10016),
+       (0x0d202d474aa911ec9ce79457a5ebcddd, 'DAY 7 - Lose Weight and Lose Belly Fat', '0nhfE3q6ZA8', 10016),
+       (0x0d202e084aa911ec9ce79457a5ebcddd, 'DAY 8 - Lose Weight and Lose Belly Fat', 'ex16_HWvYJM', 10016),
+       (0x0d202ee34aa911ec9ce79457a5ebcddd, 'DAY 9 - Lose Weight and Lose Belly Fat', 'mbNl_XaWjWQ', 10016),
+       (0x0d202f964aa911ec9ce79457a5ebcddd, 'DAY 10 - Lose Weight and Lose Belly Fat', 'x9MJjko7vJM', 10016),
        (0x2beeb834f6d611eb9dec9457a5ebcddd, '1. How to Get Started With JavaScript', 'ItYye9h_RXg', 10011),
        (0x2bf2426ef6d611eb9dec9457a5ebcddd, '2. Which Tools to Use When Developing', 'ns_L4kpxY8c', 10011),
        (0x2bf52459f6d611eb9dec9457a5ebcddd, '3. How to Install Extensions For JavaScript Development', 'ZouJQRxgem0',
@@ -198,15 +218,6 @@ VALUES (0x01fb76c505ba11ecac7d9457a5ebcddd, '1. Introduction to Java', '2dZiMBwX
         'aGFWmYHUQOU', 10013),
        (0xdce6b97e05ba11ecac7d9457a5ebcddd, '10. The Blob brush tool & Eraser tool in Adobe Illustrator', 'wnXDboK7FH8',
         10013),
-       (0xf576636d04df11ec89079457a5ebcddd, 'DAY 1 - Lose Weight and Lose Belly Fat', 'By6GXzcldGY', 10016),
-       (0xf5767d6704df11ec89079457a5ebcddd, 'DAY 2 - Lose Weight and Lose Belly Fat', '4920WOvqqPQ', 10016),
-       (0xf5767f6204df11ec89079457a5ebcddd, 'DAY 3 - Lose Weight and Lose Belly Fat', 'rqFYiJNOZjY', 10016),
-       (0xf57680b104df11ec89079457a5ebcddd, 'DAY 4 - Lose Weight and Lose Belly Fat', 'MnUflUjr2bw', 10016),
-       (0xf576819404df11ec89079457a5ebcddd, 'DAY 5 - Lose Weight and Lose Belly Fat', 'lSZacNnqn7g', 10016),
-       (0xf576827604df11ec89079457a5ebcddd, 'DAY 6 - Lose Weight and Lose Belly Fat', '2tHo7phAtfM', 10016),
-       (0xf5768b8204df11ec89079457a5ebcddd, 'DAY 8 - Lose Weight and Lose Belly Fat', 'ex16_HWvYJM', 10016),
-       (0xf5768cfe04df11ec89079457a5ebcddd, 'DAY 9 - Lose Weight and Lose Belly Fat', 'mbNl_XaWjWQ', 10016),
-       (0xf5768e3f04df11ec89079457a5ebcddd, 'DAY 10 - Lose Weight and Lose Belly Fat', 'x9MJjko7vJM', 10016),
        (0xf7cf71f304e311ec89079457a5ebcddd, 'Part 1 - Real Estate Investing', 'nFH8PV_jPLk', 10017),
        (0xf7cfa04204e311ec89079457a5ebcddd, 'Part 2 - Real Estate Investing', 'dgu5PaLFu5Y', 10017),
        (0xf7cfa1eb04e311ec89079457a5ebcddd, 'Part 3 - Real Estate Investing', '4c6afHE7P6M', 10017),

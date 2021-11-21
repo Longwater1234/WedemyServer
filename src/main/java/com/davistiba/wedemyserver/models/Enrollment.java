@@ -41,7 +41,6 @@ public class Enrollment {
     @Column(nullable = false)
     private Instant createdAt;
 
-
     @UpdateTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(nullable = false)
