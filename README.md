@@ -23,10 +23,11 @@ reference as `property.name = ${ENV_KEY_NAME}`.
 
 ### MySQL 8
 
-This application uses MySQL 8 (InnoDB Engine) as main database. NOTE: All DateTimes are saved and fetched in UTC❗. (
-**MUST MAKE SURE ONLY USE `java.time.Instant` as Type for ALL Date/Time fields**). I have included a sample `wedemy.sql`
-file inside [src/main/resources/](src/main/resources) which contains data for COURSES & LESSONS, and schema for ALL
-tables. Simply do the following to get started:
+This application uses MySQL 8 (InnoDB Engine) as main database. NOTE: All DateTimes are queried in UTC only❗. (
+**MUST MAKE SURE ONLY USE `java.time.Instant` as Type for ALL Date/time fields. Also see point #6 below.**). I have
+included a sample `wedemy.sql`
+file inside [src/main/resources/](src/main/resources) which contains sample data for COURSES, LESSONS, OBJECTIVES and
+schema for ALL other tables. Simply do the following to get started:
 
 1. Make sure you have MySQL 8.x installed. (in terminal or CMD, enter: `mysql --version`)
 2. Next, Install MySQL Workbench (version 8+) or use PhpMyAdmin instead (OPTIONAL).
@@ -34,6 +35,9 @@ tables. Simply do the following to get started:
 4. Then **Import** the file `wedemy.sql` into it.
 5. Replace the values of `DB_HOST` `DB_USERNAME` and `DB_PASSWORD` inside _application.properties_ to match your
    database setup. That's it, DONE.
+6. To maintain consistent time-zone (UTC) with your Java app, ensure your MySQL connection string has
+   parameter `connectionTimeZone=UTC`. See
+   _application.yml_ file (line 23).
 
 ### Redis
 

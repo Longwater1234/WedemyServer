@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 21, 2021 at 05:04 PM
+-- Generation Time: Dec 05, 2021 at 10:10 AM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -76,6 +76,77 @@ VALUES (10010, 'Corey Schafer', 'Development', 17.99, 4.5, 'https://i3.ytimg.com
        (10019, 'TTFS', 'Office', 17.99, 3.5, 'https://i3.ytimg.com/vi/Vl0H-qTclOg/maxresdefault.jpg',
         'Master Microsoft Excel',
         'Microsoft Excel Beginner to Professional. Includes Pivot Tables, Power Query, NEW Formulas');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course_objectives`
+--
+
+CREATE TABLE `course_objectives`
+(
+    `id`        int(11) NOT NULL,
+    `objective` varchar(200) DEFAULT NULL,
+    `course_id` int(11) NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `course_objectives`
+--
+
+INSERT INTO `course_objectives` (`id`, `objective`, `course_id`)
+VALUES (1, 'Be able to program in Python professionally', 10010),
+       (2, 'Build GUIs and Desktop applications with Python', 10010),
+       (3, 'Be able to build fully fledged websites and web apps with Python', 10010),
+       (4, 'Create a portfolio of Python projects to apply for developer jobs', 10010),
+       (5, 'Be able to build fully fledged websites and web apps with Python', 10010),
+       (6, 'All about variables, functions, objects and arrays', 10011),
+       (7, 'Modern ES6 from the beginning: arrow functions, destructuring, spread operator, optional chaining', 10011),
+       (8, 'Project-driven learning with plenty of examples', 10011),
+       (9, 'Asynchronous JavaScript: Event loop, promises, async/await, AJAX calls and APIs', 10011),
+       (10, 'Complex concepts like the \'this\' keyword, higher-order functions, closures', 10011),
+       (11, 'Learn industry best practices in Java software development from a professional', 10012),
+       (12, 'Obtain proficiency in Java 8 and Java 11', 10012),
+       (13, 'Be able to demonstrate your understanding of Java to future employers', 10012),
+       (14, 'Acquire essential java basics for transitioning to the Spring Framework, Java EE, Android', 10012),
+       (15, 'Master Exceptions, IO, Collections Framework, Generics, Multi-threading, Databases', 10012),
+       (16, 'Master advanced Illustrator tools and techniques', 10013),
+       (17, 'Design your own graphics, without any experience', 10013),
+       (18, 'Create custom typography', 10013),
+       (19, 'Take hand drawings and recreate them using Illustrator', 10013),
+       (20, 'Export your projects for print, web, or other design projects', 10013),
+       (21, 'Edit an entire video from beginning to end, using professional and efficient techniques', 10014),
+       (22, 'Master Premiere Pro and be CONFIDENT Editing Your Own Videos', 10014),
+       (23, 'Learn how to edit social media clips for Instagram, Facebook, Twitter & YouTube Stories', 10014),
+       (24, 'How to organize your video editing footage like a Pro', 10014),
+       (25, 'Add a feeling to your video with color grading', 10014),
+       (26, 'Acquire a solid understanding of key economic relationships', 10015),
+       (27, 'Understand business cycles', 10015),
+       (28, 'Using demand and supply, illustrate price determination', 10015),
+       (29, 'Examine the impact of tax/subsidies', 10015),
+       (30, 'Decluttering and impact on economy', 10015),
+       (31, 'Understand the fundamentals of weight loss', 10016),
+       (32, 'Develop healthy eating habits', 10016),
+       (33, 'Stay motivated for long term results', 10016),
+       (34, 'Lose weight Naturally within 2 weeks', 10016),
+       (35, 'Have a healthy relationship with food', 10016),
+       (36, 'Confidently analyze multifamily real estate investment opportunities', 10017),
+       (37, 'Use Professional Grade Investment Models to Evaluate Your Deals', 10017),
+       (38, 'Use Smart Investment Deal Structures With Business Partners', 10017),
+       (39, 'Evaluate Rental Income Properties', 10017),
+       (40, 'Know a \"Good\" Investment from a \"Bad\" Investment', 10017),
+       (41, 'You will learn to read sheet music AS you learn to play-by-ear', 10018),
+       (42, 'You get to sound like a pro right from the start', 10018),
+       (43, 'Learn to play the piano without theory', 10018),
+       (44, 'Master unique tips & techniques that you won\'t find in ANY other course, guaranteed', 10019),
+       (45, 'Build a solid understanding on the Basics of Microsoft Excel', 10019),
+       (46, 'Maintain large sets of Excel data in a list or table', 10019),
+       (47, 'Write advanced conditional, text, date and lookup functions, including XLOOKUP', 10019),
+       (48, 'Get LIFETIME access to project files, quizzes, homework exercises', 10019),
+       (49, 'Navigating the keyboard', 10018),
+       (50, 'Basic improvisation', 10018);
 
 -- --------------------------------------------------------
 
@@ -272,9 +343,9 @@ CREATE TABLE `users`
     `datejoined`    datetime(6)                                                                      NOT NULL,
     `email`         varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci                    NOT NULL,
     `fullname`      varchar(50)                                                                      NOT NULL,
-    `password`      varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci                              DEFAULT NULL COMMENT 'mapenzimatamu69=kaka@yahoo.com',
+    `password`      varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci                              DEFAULT NULL,
     `auth_provider` enum ('LOCAL','GOOGLE') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci         NOT NULL DEFAULT 'LOCAL',
-    `user_role`     enum ('ROLE_USER','ROLE_ADMIN') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'ROLE_USER' COMMENT 'keeps user authority'
+    `user_role`     enum ('ROLE_USER','ROLE_ADMIN') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'ROLE_USER'
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
@@ -305,6 +376,13 @@ CREATE TABLE `wishlist`
 ALTER TABLE `courses`
     ADD PRIMARY KEY (`id`),
     ADD KEY `IDX_CATEGORY` (`category`);
+
+--
+-- Indexes for table `course_objectives`
+--
+ALTER TABLE `course_objectives`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `FKe14b2c5dqha8fmbx7vwlebss7` (`course_id`);
 
 --
 -- Indexes for table `enrollments`
@@ -366,6 +444,13 @@ ALTER TABLE `courses`
     AUTO_INCREMENT = 10021;
 
 --
+-- AUTO_INCREMENT for table `course_objectives`
+--
+ALTER TABLE `course_objectives`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 51;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -380,6 +465,12 @@ ALTER TABLE `wishlist`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `course_objectives`
+--
+ALTER TABLE `course_objectives`
+    ADD CONSTRAINT `FKe14b2c5dqha8fmbx7vwlebss7` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
 
 --
 -- Constraints for table `enrollments`
