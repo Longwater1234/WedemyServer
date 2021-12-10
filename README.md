@@ -1,6 +1,6 @@
 # WedemyServer
 
-Backend repo. A Springboot + Vue.js 3 clone of Udemy. Uses HttpSession (stored in Redis) + Cookies, for auth work, _instead of_ stateless JWT Tokens.
+Backend repo. A Springboot + Vue.js 3 clone of Udemy. Uses HttpSession (stored in Redis) + Spring Security, for handling auth, _instead of_ stateless JWT Tokens.
 Also contains CSRF protection.
 
 ## Requirements
@@ -41,9 +41,9 @@ schema for ALL other tables. Simply do the following to get started:
 
 ### Redis
 
-This app uses Spring Session Redis to manage user sessions. I prefer storing sessions server-side rather than using
-Stateless JWTs. Did you know Redis.com offers FREE lifetime trial for 1 Redis cloud instance? Check it
-out: https://redis.com/try-free/.
+This app uses Spring Session Redis for 2 things: Caching, and Storing user sessions. I prefer managing sessions server-side rather than using
+Stateless JWTs. You could also try
+out: https://redis.com/try-free/, for a free lifetime trial of Redis Cloud.
 (**NOT SPONSORED**). Or, you could simply use locally-installed Redis on your backend server. Just make sure you change
 the values inside `application.yml` to match your Redis local or cloud deployment.
 
