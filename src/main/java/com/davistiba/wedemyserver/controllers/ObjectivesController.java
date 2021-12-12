@@ -2,7 +2,7 @@ package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.dto.ObjectivesDTO;
 import com.davistiba.wedemyserver.models.Course;
-import com.davistiba.wedemyserver.models.CourseObjectives;
+import com.davistiba.wedemyserver.models.CourseObjective;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.ObjectiveRepository;
@@ -23,6 +23,7 @@ public class ObjectivesController {
 
     @Autowired
     private ObjectiveRepository objectiveRepository;
+
     @Autowired
     private CourseRepository courseRepository;
 
@@ -34,7 +35,7 @@ public class ObjectivesController {
 
         try {
             Course course = courseRepository.findById(objDTO.getCourseId()).orElseThrow();
-            objectives.forEach(o -> objectiveRepository.save(new CourseObjectives(course, o)));
+            objectives.forEach(o -> objectiveRepository.save(new CourseObjective(course, o)));
             return ResponseEntity.status(HttpStatus.CREATED).body(new MyCustomResponse("Created"));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -42,7 +43,7 @@ public class ObjectivesController {
     }
 
     @GetMapping(value = "/course/{courseId}")
-    public List<CourseObjectives> getCourseObjectives(@PathVariable(value = "courseId") Integer courseId) {
+    public List<CourseObjective> getCourseObjectives(@PathVariable(value = "courseId") Integer courseId) {
         var objList = objectiveRepository.getCourseObjectivesByCourseId(courseId);
         if (objList.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No data!");
         return objList;
