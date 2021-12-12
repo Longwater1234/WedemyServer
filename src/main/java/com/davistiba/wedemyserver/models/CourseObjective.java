@@ -8,9 +8,9 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name = "course_objectives")
 @Data
-public class CourseObjectives {
+public class CourseObjective {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -24,13 +24,13 @@ public class CourseObjectives {
     private String objective;
 
 
-    public CourseObjectives(Course course, @Size(max = 200) String objective) {
+    public CourseObjective(Course course, @Size(max = 200) String objective) {
         super();
         this.course = course;
         this.objective = objective;
     }
 
-    public CourseObjectives() {
+    public CourseObjective() {
 
     }
 
@@ -39,7 +39,7 @@ public class CourseObjectives {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CourseObjectives that = (CourseObjectives) o;
+        CourseObjective that = (CourseObjective) o;
 
         if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(course, that.course)) return false;

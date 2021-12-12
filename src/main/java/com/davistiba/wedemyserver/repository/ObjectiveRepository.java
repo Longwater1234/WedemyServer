@@ -1,12 +1,12 @@
 package com.davistiba.wedemyserver.repository;
 
-import com.davistiba.wedemyserver.models.CourseObjectives;
+import com.davistiba.wedemyserver.models.CourseObjective;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ObjectiveRepository extends CrudRepository<CourseObjectives, Integer> {
+public interface ObjectiveRepository extends CrudRepository<CourseObjective, Integer> {
 
-    List<CourseObjectives> getCourseObjectivesByCourseId(Integer course_id);
+    List<CourseObjective> getCourseObjectivesByCourseId(Integer course_id);
 
 }
