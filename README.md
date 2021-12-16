@@ -42,8 +42,7 @@ schema for ALL other tables. Simply do the following to get started:
 ### Redis
 
 This app uses Spring Session Redis to manage user sessions. I prefer storing sessions server-side rather than using
-Stateless JWTs. Did you know Redis.com offers FREE lifetime trial for 1 Redis cloud instance? Check it
-out: https://redis.com/try-free/.
+Stateless JWTs. Or, you could try Redis Cloud for free trial of 1 instance. Check it out at: https://redis.com/try-free/
 (**NOT SPONSORED**). Or, you could simply use locally-installed Redis on your backend server. Just make sure you change
 the values inside `application.yml` to match your Redis local or cloud deployment.
 
