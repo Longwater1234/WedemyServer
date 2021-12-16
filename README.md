@@ -1,6 +1,6 @@
 # WedemyServer
 
-Backend repo. A Springboot + Vue.js 3 clone of Udemy. Uses HttpSession (stored in Redis) + Cookies, for authentication.
+Backend repo. A Springboot + Vue.js 3 clone of Udemy. Uses HttpSession (stored in Redis) + Spring Security, for handling auth, _instead of_ stateless JWT Tokens.
 Also contains CSRF protection.
 
 ## Requirements
@@ -33,7 +33,7 @@ schema for ALL other tables. Simply do the following to get started:
 2. Next, Install MySQL Workbench (version 8+) or use PhpMyAdmin instead (OPTIONAL).
 3. CREATE a database called `wedemy`.
 4. Then **Import** the file `wedemy.sql` into it.
-5. Replace the values of `DB_HOST` `DB_USERNAME` and `DB_PASSWORD` inside _application.properties_ to match your
+5. Replace the values of `DB_HOST` `DB_USERNAME` and `DB_PASSWORD` inside _application.yml_ to match your
    database setup. That's it, DONE.
 6. To maintain consistent time-zone (UTC) with your Java app, ensure your MySQL connection string has
    parameter `connectionTimeZone=UTC`. See
@@ -41,8 +41,9 @@ schema for ALL other tables. Simply do the following to get started:
 
 ### Redis
 
-This app uses Spring Session Redis to manage user sessions. I prefer storing sessions server-side rather than using
-Stateless JWTs. Or, you could try Redis Cloud for free trial of 1 instance. Check it out at: https://redis.com/try-free/
+This app uses Spring Session Redis for 2 things: Caching, and Storing user sessions. I prefer managing sessions server-side rather than using
+Stateless JWTs. You could also try
+out: https://redis.com/try-free/, for a free lifetime trial of Redis Cloud.
 (**NOT SPONSORED**). Or, you could simply use locally-installed Redis on your backend server. Just make sure you change
 the values inside `application.yml` to match your Redis local or cloud deployment.
 
