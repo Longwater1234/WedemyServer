@@ -42,8 +42,8 @@ schema for ALL other tables. Simply do the following to get started:
 ### Redis
 
 This app uses Redis for 2 things: Caching, and Storing user sessions. I prefer managing sessions server-side using Spring Session rather than using
-Stateless JWTs. For development, you could download Redis locally at https://redis.io/download. Windows users download from https://github.com/tporadowski/redis.  Or 
-if you prefere the cloud, you could try Redis Cloud
+Stateless JWTs. For local development, you could download Redis from https://redis.io/download. Windows users download from https://github.com/tporadowski/redis. 
+If you prefer the cloud instead, you could try Redis Cloud
 at: https://redis.com/try-free/, for a very generous free trial.
 (**NOT SPONSORED**). Just make sure you change
 the _url, password and port_ inside `application.yml` to point your Redis local or cloud deployment.
