@@ -30,7 +30,7 @@ file inside [src/main/resources/](src/main/resources) which contains sample data
 schema for ALL other tables. Simply do the following to get started:
 
 1. Make sure you have MySQL 8.x installed. (in terminal or CMD, enter: `mysql --version`)
-2. Next, Install MySQL Workbench (version 8+) or use PhpMyAdmin instead (OPTIONAL).
+2. Next, Install MySQL Workbench version 8+. (OPTIONAL).
 3. CREATE a database called `wedemy`.
 4. Then **Import** the file `wedemy.sql` into it.
 5. Replace the values of `DB_HOST` `DB_USERNAME` and `DB_PASSWORD` inside _application.yml_ to match your
@@ -41,9 +41,10 @@ schema for ALL other tables. Simply do the following to get started:
 
 ### Redis
 
-This app uses Spring Session Redis for 2 things: Caching, and Storing user sessions. I prefer managing sessions server-side rather than using
-Stateless JWTs. You could also try
-out: https://redis.com/try-free/, for a free lifetime trial of Redis Cloud.
-(**NOT SPONSORED**). Or, you could simply use locally-installed Redis on your backend server. Just make sure you change
-the values inside `application.yml` to match your Redis local or cloud deployment.
+This app uses Redis for 2 things: Caching, and Storing user sessions. I prefer managing sessions server-side using Spring Session rather than using
+Stateless JWTs. For development, you could download Redis locally at https://redis.io/download. Windows users download from https://github.com/tporadowski/redis.  Or 
+if you prefere the cloud, you could try Redis Cloud
+at: https://redis.com/try-free/, for a very generous free trial.
+(**NOT SPONSORED**). Just make sure you change
+the _url, password and port_ inside `application.yml` to point your Redis local or cloud deployment.
 
