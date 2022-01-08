@@ -1,7 +1,3 @@
-2021-11-01
+2022-01-08
 ----------
-- removed unnecessary Cascades in children entities
-- added `createdAt` and `updatedAt` in Reviews.
-- changed Course.author max length to 100.
-- updated wedemy.sql file
-- twitclone netlify 34.204.131.44 || 52.73.87.228
+-added cacheable on `topCourses`

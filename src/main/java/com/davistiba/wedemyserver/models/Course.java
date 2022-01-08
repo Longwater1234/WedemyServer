@@ -8,12 +8,16 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "courses",
         indexes = {@Index(name = "IDX_CATEGORY", columnList = "category")})
 @Data
-public class Course {
+public class Course implements Serializable {
+
+    private static final long serialVersionUID = -2540907171719494221L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -44,7 +48,6 @@ public class Course {
     @Min(value = 10)
     @Column(nullable = false, scale = 2)
     private double price;
-
 
     @Size(max = 250)
     private String subtitle;

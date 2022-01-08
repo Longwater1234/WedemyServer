@@ -1,11 +1,11 @@
 frontend:
   server:
     url: http://localhost:8080
-#logging:
-#  level:
-#    org:
-#      hibernate:
-#        SQL: debug
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
 server:
   error:
     include-stacktrace: never
@@ -28,6 +28,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600000
   redis:
     host: localhost
     port: 6379

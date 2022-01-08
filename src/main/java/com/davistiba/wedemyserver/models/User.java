@@ -134,7 +134,7 @@ public class User implements UserDetails {
     public int hashCode() {
         int result = fullname.hashCode();
         result = 31 * result + email.hashCode();
-        result = 31 * result + password.hashCode();
+        result = 31 * result + id.hashCode();
         return result;
     }
 }

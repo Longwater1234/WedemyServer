@@ -34,6 +34,7 @@ public class MyUserDetailsService implements UserDetailsService {
      * Else just login with new Session.
      *
      * @param oAuth2User authenticated User
+     * @param session    logged-in user
      */
     public void processOAuthPostLogin(OAuth2User oAuth2User, HttpSession session) {
         CustomOAuthUser m = new CustomOAuthUser(oAuth2User);

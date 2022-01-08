@@ -2,16 +2,24 @@ package com.davistiba.wedemyserver.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Table(name = "reviews",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
 public class Reviews {
@@ -46,5 +54,16 @@ public class Reviews {
     @Column(nullable = false)
     private Instant updatedAt;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Reviews reviews = (Reviews) o;
+        return id != null && Objects.equals(id, reviews.id);
+    }
 
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

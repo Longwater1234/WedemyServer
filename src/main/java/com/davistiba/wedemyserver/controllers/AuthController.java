@@ -50,7 +50,7 @@ public class AuthController {
                     .body(new MyCustomResponse("Registered", true));
         } catch (Exception ex) {
             if (ex instanceof DataIntegrityViolationException) {
-                throw new ResponseStatusException(HttpStatus.valueOf(409), "User already exists");
+                throw new ResponseStatusException(HttpStatus.valueOf(409), "Account already exists");
             }
             throw new ResponseStatusException(HttpStatus.valueOf(400), ex.getMessage());
         }
@@ -65,6 +65,7 @@ public class AuthController {
         if (oAuth2User != null) {
             response.put("user", oAuth2User.getAttribute("name"));
             response.put("loggedIn", true);
+
         } else if (auth != null) {
             response.put("user", auth.getPrincipal());
             response.put("loggedIn", auth.isAuthenticated());

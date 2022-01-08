@@ -5,6 +5,7 @@ import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -45,6 +46,7 @@ public class CourseController {
 
     @GetMapping(path = "/top")
     @ResponseStatus(value = HttpStatus.OK)
+    @Cacheable(value = "courses")
     public List<Course> getAllTopCourses() {
         return courseRepository.getTop6ByRatingGreaterThanEqual(4.5);
     }

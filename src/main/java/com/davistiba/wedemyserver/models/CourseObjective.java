@@ -1,7 +1,9 @@
 package com.davistiba.wedemyserver.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -9,7 +11,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "course_objectives")
-@Data
+@Getter
+@Setter
+@ToString
 public class CourseObjective {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
