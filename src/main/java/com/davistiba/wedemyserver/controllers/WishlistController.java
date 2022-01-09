@@ -34,7 +34,7 @@ public class WishlistController {
         if (ok != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add wishlist");
         }
-        return new MyCustomResponse("Added to Wishlist: courseId " + courseId);
+        return new MyCustomResponse("Added to Wishlist, courseId " + courseId);
 
     }
 

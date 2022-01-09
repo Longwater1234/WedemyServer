@@ -1,7 +1,6 @@
 package com.davistiba.wedemyserver.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -10,33 +9,31 @@ import javax.validation.constraints.NotBlank;
 import java.time.Instant;
 
 @Entity
-@Table(name = "transactions",
+@Table(name = "cart",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
 @Data
-public class Transactions {
+public class Cart {
     @Id
-    @Column(length = 20, updatable = false)
-    private String transactionId;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonBackReference
-    private User userId;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @ManyToOne(optional = false)
     @JsonBackReference
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
+    private User userId;
 
-    @Column(name = "totalprice", scale = 2, nullable = false)
     @NotBlank
-    private Double totalPrice;
-
+    @Column(nullable = false, scale = 2)
+    private Double price;
 
     @CreationTimestamp
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @NotBlank
     @Column(nullable = false)
     private Instant createdAt;
 

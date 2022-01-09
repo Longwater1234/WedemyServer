@@ -1,7 +1,7 @@
 package com.davistiba.wedemyserver.repository;
 
+import com.davistiba.wedemyserver.dto.CategoryDTO;
 import com.davistiba.wedemyserver.models.Course;
-
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -16,6 +16,8 @@ public interface CourseRepository extends CrudRepository<Course, Integer> {
 
 	List<Course> getCoursesByTitleContaining(@NotBlank String title);
 
-	@Query(value = "SELECT * FROM courses GROUP BY category", nativeQuery = true)
-	List<Course> getAllDistinctCategories();
+	@Query(value = "SELECT DISTINCT new com.davistiba.wedemyserver.dto.CategoryDTO(c.id, c.category) from Course c group by c.category")
+	List<CategoryDTO> getAllDistinctCategories();
+
+
 }

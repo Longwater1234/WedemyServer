@@ -47,7 +47,7 @@ public class Course implements Serializable {
     @NotBlank
     @Min(value = 10)
     @Column(nullable = false, scale = 2)
-    private double price;
+    private Double price;
 
     @Size(max = 250)
     private String subtitle;
