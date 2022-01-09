@@ -16,7 +16,7 @@ server:
         http-only: true
         max-age: 10800s
         name: WEDEMY
-        secure: false
+        secure: false #set TRUE in production
 spring:
   datasource:
     password: ${DB_PASSWORD}

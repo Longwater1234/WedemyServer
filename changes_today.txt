@@ -1,3 +1,5 @@
-2022-01-08
+2022-01-09
 ----------
--added cacheable on `topCourses`
+- Perfected DTO fetching using JPQL for Categories.
+- Means now I can fetch needed columns ONLY (id, category) from `courses` table
+- Added Cart table, repo and Controller. (after 5 months!!)

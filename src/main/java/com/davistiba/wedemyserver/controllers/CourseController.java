@@ -13,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/courses")
@@ -55,14 +54,13 @@ public class CourseController {
     @GetMapping(path = "/categories")
     @ResponseStatus(value = HttpStatus.OK)
     public List<CategoryDTO> getCategoryListDistinct() {
-        var courseList = courseRepository.getAllDistinctCategories();
-        return courseList.stream().map(item -> mapper.map(item, CategoryDTO.class)).collect(Collectors.toList());
-
+        return courseRepository.getAllDistinctCategories();
     }
+
 
     @GetMapping(path = "/search")
     @ResponseStatus(value = HttpStatus.OK)
-    public List<Course> searchForCourse(@RequestParam(value = "title", defaultValue = "") @NotBlank String title) {
+    public List<Course> searchForCourseByTitle(@RequestParam(value = "title", defaultValue = "") @NotBlank String title) {
 
         if (title.length() < 4)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Query too short");
