@@ -1,7 +1,7 @@
 # WedemyServer
 
 Backend repo. A Springboot + Vue.js 3 clone of Udemy. Uses HttpSession (stored in Redis) + Spring Security, for handling
-auth, _instead of_ stateless JWT Tokens. Also contains CSRF protection.
+auth, _instead of_ stateless JWT Tokens. Please beware, CSRF protection is enabled in the Security Config.
 
 ## Requirements
 
@@ -17,7 +17,7 @@ Please see the file [application.yml](src/main/resources/application.yml) inside
 folder. Place all your necessary Spring application values there. But for _super-sensitive_
 info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** 🚫. I recommend store them
 as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply pass them by
-reference as `property.name = ${ENV_KEY_NAME}`.
+reference as `property.name = ${ENV_KEY_NAME}`. Also notice my custom ENV variable `frontend.server.url`.
 
 ## Databases Used
 
@@ -29,14 +29,16 @@ have included a sample `wedemy.sql` file inside [src/main/resources/](src/main/r
 for COURSES, LESSONS, OBJECTIVES and schema for ALL other tables. Simply do the following to get started:
 
 1. Make sure you have MySQL 8.x installed. (in terminal or CMD, enter: `mysql --version`)
-2. Next, Install MySQL Workbench version 8. (OPTIONAL).
+2. Next, Install MySQL Workbench version 8. (OPTIONAL.)
 3. CREATE a database called `wedemy`.
-4. Then **Import** the file `wedemy.sql` into it.
+4. Then **Import** the file [`wedemy.sql`](src/main/resources/wedemy.sql) into it.
 5. Replace the values of `DB_HOST` `DB_USERNAME` and `DB_PASSWORD` inside _application.yml_ to match your database
    setup. That's it, DONE.
-6. To maintain consistent time-zone (UTC) with your Java app, ensure your MySQL connection string has
-   parameter `connectionTimeZone=UTC`. See
-   _application.yml_ file (line 23).
+6. To maintain consistent time-zone (UTC) with your Java app, ensure your MySQL connection URL has
+   parameter `connectionTimeZone=UTC`. See _application.yml_ file (line 23), or example below.
+   ```properties
+   spring.datasource.url= jdbc:mysql://localhost:3306/wedemy?useSSL=false&connectionTimeZone=UTC
+   ```
 
 ### Redis
 

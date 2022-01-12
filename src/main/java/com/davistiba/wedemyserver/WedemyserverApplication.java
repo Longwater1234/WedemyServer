@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021. DavisTibbz  MIT License. Github link: https://github.com/longwater1234
+ */
+
 package com.davistiba.wedemyserver;
 
 

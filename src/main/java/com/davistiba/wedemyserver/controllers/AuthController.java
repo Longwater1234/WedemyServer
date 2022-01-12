@@ -47,7 +47,7 @@ public class AuthController {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new MyCustomResponse("Registered", true));
+                    .body(new MyCustomResponse("Registered! Welcome", true));
         } catch (Exception ex) {
             if (ex instanceof DataIntegrityViolationException) {
                 throw new ResponseStatusException(HttpStatus.valueOf(409), "Account already exists");

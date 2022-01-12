@@ -5,7 +5,6 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -45,7 +44,6 @@ public class Course implements Serializable {
     private String thumbUrl;
 
     @NotBlank
-    @Min(value = 10)
     @Column(nullable = false, scale = 2)
     private Double price;
 

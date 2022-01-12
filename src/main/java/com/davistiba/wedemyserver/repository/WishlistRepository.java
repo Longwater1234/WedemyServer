@@ -20,7 +20,7 @@ public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO wishlist(created_at, course_id, user_id) VALUES (UTC_TIMESTAMP(), ?, ?)", nativeQuery = true)
-    Integer saveByCourseIdAndUserId(Integer courseId, Integer userId);
+    void saveByCourseIdAndUserId(Integer courseId, Integer userId);
 
     @Modifying
     @Transactional
