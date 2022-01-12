@@ -31,7 +31,7 @@ for COURSES, LESSONS, OBJECTIVES and schema for ALL other tables. Simply do the 
 1. Make sure you have MySQL 8.x installed. (in terminal or CMD, enter: `mysql --version`)
 2. Next, Install MySQL Workbench version 8. (OPTIONAL.)
 3. CREATE a database called `wedemy`.
-4. Then **Import** the file [`wedemy.sql`](src/main/resources/wedemy.sql) into it.
+4. Then **Import** the file [wedemy.sql](src/main/resources/wedemy.sql) into it.
 5. Replace the values of `DB_HOST` `DB_USERNAME` and `DB_PASSWORD` inside _application.yml_ to match your database
    setup. That's it, DONE.
 6. To maintain consistent time-zone (UTC) with your Java app, ensure your MySQL connection URL has
