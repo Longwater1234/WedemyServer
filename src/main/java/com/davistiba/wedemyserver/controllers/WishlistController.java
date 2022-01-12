@@ -1,7 +1,9 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.Wishlist;
+import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,9 @@ public class WishlistController {
     @Autowired
     private WishlistRepository wishlistRepository;
 
+    @Autowired
+    private CourseRepository courseRepository;
+
 
     @PostMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.CREATED)
@@ -30,11 +35,13 @@ public class WishlistController {
                                            HttpSession session) {
 
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
-        int ok = wishlistRepository.saveByCourseIdAndUserId(courseId, userId);
-        if (ok != 1) {
+        try {
+            Course course = courseRepository.findById(courseId).orElseThrow(); // verify if exists
+            wishlistRepository.saveByCourseIdAndUserId(course.getId(), userId);
+            return new MyCustomResponse("Added to Wishlist, courseId " + courseId);
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add wishlist");
         }
-        return new MyCustomResponse("Added to Wishlist, courseId " + courseId);
 
     }
 
@@ -46,7 +53,7 @@ public class WishlistController {
         Map<String, Boolean> response = new HashMap<>();
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
         boolean isExist = wishlistRepository.checkIfWishlistExists(courseId, userId) == 1;
-        response.put("isWishlist", isExist);
+        response.put("inWishlist", isExist);
         return response;
 
     }
@@ -66,8 +73,8 @@ public class WishlistController {
 
     @DeleteMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public MyCustomResponse removeWishlist(@PathVariable(value = "courseId") Integer courseId,
-                                           HttpSession session) {
+    public MyCustomResponse removeWishlistByCourseId(@PathVariable(value = "courseId") @NotNull Integer courseId,
+                                                     HttpSession session) {
 
 
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
@@ -76,5 +83,16 @@ public class WishlistController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove wishlist");
         }
         return new MyCustomResponse("Removed from Wishlist, courseId " + courseId);
+    }
+
+    @DeleteMapping(path = "/id/{wishlistId}")
+    @ResponseStatus(HttpStatus.OK)
+    public MyCustomResponse removeWishlistById(@PathVariable(value = "wishlistId") @NotNull Integer wishlistId) {
+        try {
+            wishlistRepository.deleteById(wishlistId);
+            return new MyCustomResponse("Removed from Wishlist, id " + wishlistId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove wishlist");
+        }
     }
 }

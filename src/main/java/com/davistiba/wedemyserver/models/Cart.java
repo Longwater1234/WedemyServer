@@ -1,6 +1,7 @@
 package com.davistiba.wedemyserver.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -23,7 +24,7 @@ public class Cart {
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
     private User userId;
@@ -33,9 +34,13 @@ public class Cart {
     private Double price;
 
     @CreationTimestamp
-    @NotBlank
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(nullable = false)
     private Instant createdAt;
+
+    public void setPrice(Double price) {
+        this.price = course.getPrice();
+    }
 
 
 }

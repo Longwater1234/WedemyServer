@@ -1,5 +1,4 @@
-2022-01-09
-----------
-- Perfected DTO fetching using JPQL for Categories.
-- Means now I can fetch needed columns ONLY (id, category) from `courses` table
-- Added Cart table, repo and Controller. (after 5 months!!)
+### 2022.01.12
+- checking if a Course exists first before adding to wishlist blindly.
+- Finished Cart repository and Controller.
+- Frontend can save and remove from cart
