@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
-    // TODO ADD PAGING LATER here
-    @Query(value = "SELECT * FROM wishlist WHERE user_id = ?1 ORDER BY wishlist_id LIMIT 10", nativeQuery = true)
-    List<Wishlist> getWishlistsByUserId(Integer user_id);
+
+    //FIXME DAMAGED! it runs N queries equal to number of wishlist items.
+    List<Wishlist> getWishlistsByUserId(Integer userId);
 
     @Query(value = "SELECT EXISTS(SELECT 1 FROM wishlist WHERE course_id = ?1 AND user_id = ?2)", nativeQuery = true)
     Integer checkIfWishlistExists(Integer courseId, Integer userId);
@@ -20,7 +20,7 @@ public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO wishlist(created_at, course_id, user_id) VALUES (UTC_TIMESTAMP(), ?, ?)", nativeQuery = true)
-    void saveByCourseIdAndUserId(Integer courseId, Integer userId);
+    Integer saveByCourseIdAndUserId(Integer courseId, Integer userId);
 
     @Modifying
     @Transactional
