@@ -36,8 +36,8 @@ public class CartController {
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
         try {
             Course course = courseRepository.findById(courseId).orElseThrow(); // verify if exists
-            cartRepository.addToCartCustom(course.getId(), userId, course.getPrice());
-            return new MyCustomResponse("Added to Cart, courseId " + courseId);
+            int k = cartRepository.addToCartCustom(course.getId(), userId, course.getPrice());
+            return new MyCustomResponse(String.format("Added %d item to Cart, courseId %d", k, courseId));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
             //TODO remove e.getMessage in Production
@@ -76,7 +76,7 @@ public class CartController {
 
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
         Map<String, Integer> response = new HashMap<>();
-        int cartCount = cartRepository.countCartByUserId_IdEquals(userId);
+        int cartCount = cartRepository.countCartByUserIdEquals(userId);
         response.put("cartCount", cartCount);
         return response;
     }

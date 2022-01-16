@@ -37,10 +37,10 @@ public class WishlistController {
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
         try {
             Course course = courseRepository.findById(courseId).orElseThrow(); // verify if exists
-            wishlistRepository.saveByCourseIdAndUserId(course.getId(), userId);
-            return new MyCustomResponse("Added to Wishlist, courseId " + courseId);
+            int w = wishlistRepository.saveByCourseIdAndUserId(course.getId(), userId);
+            return new MyCustomResponse(String.format("Added %d item to Wishlist, courseId %d", w, courseId));
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add wishlist");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add to wishlist", e);
         }
 
     }
@@ -62,7 +62,6 @@ public class WishlistController {
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)
     public List<Wishlist> getAllMyWishlistCourses(HttpSession session) {
-
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
         var wishlistItems = wishlistRepository.getWishlistsByUserId(userId);
         if (wishlistItems.isEmpty()) {

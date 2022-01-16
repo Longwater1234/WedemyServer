@@ -17,7 +17,7 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO cart(created_at, course_id, user_id, price) VALUES (UTC_TIMESTAMP(), ?, ?, ?)", nativeQuery = true)
-    void addToCartCustom(Integer courseId, Integer userId, Double price);
+    Integer addToCartCustom(Integer courseId, Integer userId, Double price);
 
     @Modifying
     @Transactional
@@ -28,7 +28,8 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     Integer checkIfCartItemExists(Integer courseId, Integer userId);
 
 
-    Integer countCartByUserId_IdEquals(Integer userId);
+    @Query(value = "SELECT COUNT(c) FROM Cart c WHERE c.userId.id = ?1")
+    Integer countCartByUserIdEquals(Integer userId);
 
 
 }
