@@ -1,7 +1,8 @@
 package com.davistiba.wedemyserver.models;
 
 /**
- * What method did Customer use to register
+ * [NOT A TABLE]
+ * What method did Customer used to register
  */
 public enum AuthProvider {
     LOCAL, GOOGLE

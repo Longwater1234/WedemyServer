@@ -2,7 +2,9 @@ package com.davistiba.wedemyserver.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -12,7 +14,9 @@ import java.time.Instant;
 @Entity
 @Table(name = "cart",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +31,7 @@ public class Cart {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
-    private User userId;
+    private User user;
 
     @NotBlank
     @Column(nullable = false, scale = 2)
@@ -38,9 +42,6 @@ public class Cart {
     @Column(nullable = false)
     private Instant createdAt;
 
-    public void setPrice(Double price) {
-        this.price = course.getPrice();
-    }
 
 
 }

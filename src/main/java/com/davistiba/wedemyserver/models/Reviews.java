@@ -39,9 +39,10 @@ public class Reviews {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User userId;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "course_id", referencedColumnName = "id")
+    @ToString.Exclude
     private Course course;
 
     @CreationTimestamp

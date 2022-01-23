@@ -3,7 +3,6 @@ package com.davistiba.wedemyserver.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -13,7 +12,6 @@ import java.util.Objects;
 @Table(name = "course_objectives")
 @Getter
 @Setter
-@ToString
 public class CourseObjective {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,11 +50,6 @@ public class CourseObjective {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (course != null ? course.hashCode() : 0);
-        result = 31 * result + (objective != null ? objective.hashCode() : 0);
-        return result;
+        return Objects.hash(course, objective);
     }
-
-
 }

@@ -1,4 +1,5 @@
-### 2022.01.12
-- checking if a Course exists first before adding to wishlist blindly.
-- Finished Cart repository and Controller.
-- Frontend can save and remove from cart
+### 2022.01.24
+- managed to solve the problem (N * number of items) in wishlist SELECT queries.
+- NOW only 1 query runs to return all items in Wishlist. Had to use `Course` return not `Wishlist`
+- cleaned up my controllers with empty @PathVariable annotation.
+- ki11ed 404 error for empty lists. Just return empty [] array
