@@ -24,7 +24,7 @@ public class Transactions {
     private User userId;
 
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;

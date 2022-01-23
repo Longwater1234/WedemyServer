@@ -1,6 +1,5 @@
 package com.davistiba.wedemyserver.controllers;
 
-import com.davistiba.wedemyserver.models.Cart;
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CartRepository;
@@ -46,8 +45,7 @@ public class CartController {
 
     @GetMapping(path = "/mine/course/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, Boolean> checkUserCartItem(@PathVariable(value = "courseId") @NotNull Integer courseId,
-                                                  HttpSession session) {
+    public Map<String, Boolean> checkUserCartItem(@PathVariable @NotNull Integer courseId, HttpSession session) {
 
         Map<String, Boolean> response = new HashMap<>();
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
@@ -60,14 +58,9 @@ public class CartController {
 
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)
-    public List<Cart> getAllMyCartItems(HttpSession session) {
-
+    public List<Course> getAllMyCartItems(HttpSession session) {
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
-        var cartItems = cartRepository.getCartByUserId(userId);
-        if (cartItems.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Your cart is empty");
-        }
-        return cartItems;
+        return courseRepository.getCoursesCartByUser(userId);
     }
 
     @GetMapping(path = "/mine/count")
@@ -83,8 +76,7 @@ public class CartController {
 
     @DeleteMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public MyCustomResponse removeCartByCourseId(@PathVariable(value = "courseId") @NotNull Integer courseId,
-                                                 HttpSession session) {
+    public MyCustomResponse removeCartByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
 
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
         int ok = cartRepository.deleteByCourseIdAndUserId(courseId, userId);

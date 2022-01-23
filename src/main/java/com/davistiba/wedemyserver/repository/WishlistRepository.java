@@ -6,13 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
-
-    //FIXME DAMAGED! it runs N queries equal to number of wishlist items.
-    List<Wishlist> getWishlistsByUserId(Integer userId);
 
     @Query(value = "SELECT EXISTS(SELECT 1 FROM wishlist WHERE course_id = ?1 AND user_id = ?2)", nativeQuery = true)
     Integer checkIfWishlistExists(Integer courseId, Integer userId);

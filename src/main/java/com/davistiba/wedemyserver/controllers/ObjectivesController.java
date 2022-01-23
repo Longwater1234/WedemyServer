@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/objectives")
@@ -35,7 +36,8 @@ public class ObjectivesController {
 
         try {
             Course course = courseRepository.findById(objDTO.getCourseId()).orElseThrow();
-            objectives.forEach(o -> objectiveRepository.save(new CourseObjective(course, o)));
+            List<CourseObjective> coList = objectives.stream().map(o -> new CourseObjective(course, o)).collect(Collectors.toList());
+            objectiveRepository.saveAll(coList);
             return ResponseEntity.status(HttpStatus.CREATED).body(new MyCustomResponse("Created"));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

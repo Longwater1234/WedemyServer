@@ -6,13 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 public interface CartRepository extends CrudRepository<Cart, Integer> {
-
-    // TODO ADD PAGING LATER here
-    @Query(value = "SELECT * FROM cart WHERE user_id = ?1 ORDER BY cart.id LIMIT 10", nativeQuery = true)
-    List<Cart> getCartByUserId(Integer user_id);
 
     @Modifying
     @Transactional
@@ -28,7 +22,7 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     Integer checkIfCartItemExists(Integer courseId, Integer userId);
 
 
-    @Query(value = "SELECT COUNT(c) FROM Cart c WHERE c.userId.id = ?1")
+    @Query(value = "SELECT COUNT(c) FROM Cart c WHERE c.user.id = ?1")
     Integer countCartByUserIdEquals(Integer userId);
 
 
