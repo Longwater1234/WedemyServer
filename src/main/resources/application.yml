@@ -30,7 +30,7 @@ spring:
   cache:
     type: redis
     redis:
-      time-to-live: 600000
+      time-to-live: PT10M #10minutes
   redis:
     host: localhost
     port: 6379
@@ -44,3 +44,5 @@ spring:
             client-secret: ${GOOGLE_CLIENT_SECRET}
   session:
     store-type: redis
+    redis:
+      cleanup-cron: 0 */1 * * * *

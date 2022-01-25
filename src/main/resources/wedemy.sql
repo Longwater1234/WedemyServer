@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 09, 2022 at 04:32 PM
+-- Generation Time: Jan 23, 2022 at 05:32 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -108,6 +108,62 @@ CREATE TABLE `course_objectives`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `course_objectives`
+--
+
+INSERT INTO `course_objectives` (`id`, `objective`, `course_id`)
+VALUES (1, 'Be able to program in Python professionally', 10010),
+       (2, 'Build GUIs and Desktop applications with Python', 10010),
+       (3, 'Be able to build fully fledged websites and web apps with Python', 10010),
+       (4, 'Create a portfolio of Python projects to apply for developer jobs', 10010),
+       (5, 'Be able to build fully fledged websites and web apps with Python', 10010),
+       (6, 'All about variables, functions, objects and arrays', 10011),
+       (7, 'Modern ES6 from the beginning: arrow functions, destructuring, spread operator, optional chaining', 10011),
+       (8, 'Project-driven learning with plenty of examples', 10011),
+       (9, 'Asynchronous JavaScript: Event loop, promises, async/await, AJAX calls and APIs', 10011),
+       (10, 'Complex concepts like the \'this\' keyword, higher-order functions, closures', 10011),
+       (11, 'Learn industry best practices in Java software development from a professional', 10012),
+       (12, 'Obtain proficiency in Java 8 and Java 11', 10012),
+       (13, 'Be able to demonstrate your understanding of Java to future employers', 10012),
+       (14, 'Acquire essential java basics for transitioning to the Spring Framework, Java EE, Android', 10012),
+       (15, 'Master Exceptions, IO, Collections Framework, Generics, Multi-threading, Databases', 10012),
+       (16, 'Master advanced Illustrator tools and techniques', 10013),
+       (17, 'Design your own graphics, without any experience', 10013),
+       (18, 'Create custom typography', 10013),
+       (19, 'Take hand drawings and recreate them using Illustrator', 10013),
+       (20, 'Export your projects for print, web, or other design projects', 10013),
+       (21, 'Edit an entire video from beginning to end, using professional and efficient techniques', 10014),
+       (22, 'Master Premiere Pro and be CONFIDENT Editing Your Own Videos', 10014),
+       (23, 'Learn how to edit social media clips for Instagram, Facebook, Twitter & YouTube Stories', 10014),
+       (24, 'How to organize your video editing footage like a Pro', 10014),
+       (25, 'Add a feeling to your video with color grading', 10014),
+       (26, 'Acquire a solid understanding of key economic relationships', 10015),
+       (27, 'Understand business cycles', 10015),
+       (28, 'Using demand and supply, illustrate price determination', 10015),
+       (29, 'Examine the impact of tax/subsidies', 10015),
+       (30, 'Decluttering and impact on economy', 10015),
+       (31, 'Understand the fundamentals of weight loss', 10016),
+       (32, 'Develop healthy eating habits', 10016),
+       (33, 'Stay motivated for long term results', 10016),
+       (34, 'Lose weight Naturally within 2 weeks', 10016),
+       (35, 'Have a healthy relationship with food', 10016),
+       (36, 'Confidently analyze multifamily real estate investment opportunities', 10017),
+       (37, 'Use Professional Grade Investment Models to Evaluate Your Deals', 10017),
+       (38, 'Use Smart Investment Deal Structures With Business Partners', 10017),
+       (39, 'Evaluate Rental Income Properties', 10017),
+       (40, 'Know a \"Good\" Investment from a \"Bad\" Investment', 10017),
+       (41, 'You will learn to read sheet music AS you learn to play-by-ear', 10018),
+       (42, 'You get to sound like a pro right from the start', 10018),
+       (43, 'Learn to play the piano without theory', 10018),
+       (44, 'Master unique tips & techniques that you won\'t find in ANY other course, guaranteed', 10019),
+       (45, 'Build a solid understanding on the Basics of Microsoft Excel', 10019),
+       (46, 'Maintain large sets of Excel data in a list or table', 10019),
+       (47, 'Write advanced conditional, text, date and lookup functions, including XLOOKUP', 10019),
+       (48, 'Get LIFETIME access to project files, quizzes, homework exercises', 10019),
+       (49, 'Navigating the keyboard', 10018),
+       (50, 'Basic improvisation', 10018);
 
 -- --------------------------------------------------------
 
@@ -421,7 +477,8 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `course_objectives`
 --
 ALTER TABLE `course_objectives`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 51;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -443,8 +500,8 @@ ALTER TABLE `wishlist`
 -- Constraints for table `cart`
 --
 ALTER TABLE `cart`
-    ADD CONSTRAINT `FK1vllsie342rrqn6niy90pufd5` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
-    ADD CONSTRAINT `FKg5uhi8vpsuy0lgloxk2h4w5o6` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+    ADD CONSTRAINT `FK1vllsie342rrqn6niy90pufd5` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `FKg5uhi8vpsuy0lgloxk2h4w5o6` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `course_objectives`
@@ -456,8 +513,8 @@ ALTER TABLE `course_objectives`
 -- Constraints for table `enrollments`
 --
 ALTER TABLE `enrollments`
-    ADD CONSTRAINT `FK3hjx6rcnbmfw368sxigrpfpx0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-    ADD CONSTRAINT `FKsu6cg2f9qh1256x751mvubeuf` FOREIGN KEY (`current_lesson_id`) REFERENCES `lessons` (`id`);
+    ADD CONSTRAINT `FK3hjx6rcnbmfw368sxigrpfpx0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `FKsu6cg2f9qh1256x751mvubeuf` FOREIGN KEY (`current_lesson_id`) REFERENCES `lessons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `lessons`
@@ -469,8 +526,8 @@ ALTER TABLE `lessons`
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-    ADD CONSTRAINT `FKccbfc9u1qimejr5ll7yuxbtqs` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
-    ADD CONSTRAINT `FKcgy7qjc1r99dp117y9en6lxye` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+    ADD CONSTRAINT `FKccbfc9u1qimejr5ll7yuxbtqs` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `FKcgy7qjc1r99dp117y9en6lxye` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transactions`
@@ -483,8 +540,8 @@ ALTER TABLE `transactions`
 -- Constraints for table `wishlist`
 --
 ALTER TABLE `wishlist`
-    ADD CONSTRAINT `FK3oou0jaquu0ulln4n7xs3ltao` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
-    ADD CONSTRAINT `FKtrd6335blsefl2gxpb8lr0gr7` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+    ADD CONSTRAINT `FK3oou0jaquu0ulln4n7xs3ltao` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `FKtrd6335blsefl2gxpb8lr0gr7` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
