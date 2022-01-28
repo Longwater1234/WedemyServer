@@ -53,6 +53,7 @@ public class CourseController {
 
     @GetMapping(path = "/categories")
     @ResponseStatus(value = HttpStatus.OK)
+    @Cacheable(value = "categories")
     public List<CategoryDTO> getCategoryListDistinct() {
         return courseRepository.getAllDistinctCategories();
     }

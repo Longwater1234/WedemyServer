@@ -43,10 +43,10 @@ LESSONS, OBJECTIVES. Simply do the following to get started:
 
 ### Redis
 
-This app uses Redis for 2 things: Caching, and Storing user sessions. I prefer managing sessions server-side using
+This app uses Redis for 2 things: Caching, and Storing User sessions. I prefer managing sessions server-side using
 Spring Session rather than using Stateless JWTs. For local development, you could download Redis (macOS & Linux)
 from https://redis.io/download. Windows users should download from https://github.com/tporadowski/redis. If you prefer
-the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/, for a very generous free trial.
+the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/, for a very generous free trial
 (**no credit card required**). Or, you could just use Docker. Just make sure you change the _url, password and port_
 inside `application.yml` to point your running Redis instance.
 

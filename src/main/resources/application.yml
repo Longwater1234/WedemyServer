@@ -30,7 +30,7 @@ spring:
   cache:
     type: redis
     redis:
-      time-to-live: PT10M #10minutes
+      time-to-live: PT30M #30minutes
   redis:
     host: localhost
     port: 6379

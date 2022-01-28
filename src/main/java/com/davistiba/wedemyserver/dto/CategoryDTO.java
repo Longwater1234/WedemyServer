@@ -1,9 +1,17 @@
 package com.davistiba.wedemyserver.dto;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
-@Data
-public class CategoryDTO {
+import java.io.Serializable;
+
+
+@Getter
+@EqualsAndHashCode
+@ToString
+public class CategoryDTO implements Serializable {
+    private static final long serialVersionUID = -248986479752746539L;
     private Integer id;
     private String category;
 
@@ -14,4 +22,6 @@ public class CategoryDTO {
 
     public CategoryDTO() {
     }
+
+
 }
