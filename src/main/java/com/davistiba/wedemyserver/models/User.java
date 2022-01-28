@@ -3,7 +3,10 @@ package com.davistiba.wedemyserver.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,7 +24,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
+@ToString
 public class User implements UserDetails {
 
     private static final long serialVersionUID = -1352733651057286866L;
@@ -118,23 +123,13 @@ public class User implements UserDetails {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         User user = (User) o;
-
-        if (!id.equals(user.id)) return false;
-        if (!fullname.equals(user.fullname)) return false;
-        if (!email.equals(user.email)) return false;
-        if (!password.equals(user.password)) return false;
-        if (!Objects.equals(confirmPass, user.confirmPass)) return false;
-        return Objects.equals(datejoined, user.datejoined);
+        return id != null && Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
-        int result = fullname.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + id.hashCode();
-        return result;
+        return getClass().hashCode();
     }
 }

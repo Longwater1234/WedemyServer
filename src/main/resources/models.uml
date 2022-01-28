@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.davistiba.wedemyserver.models</OriginalElement>
+  <nodes>
+    <node x="1033.048828125" y="77.0">com.davistiba.wedemyserver.models.UserRole</node>
+    <node x="330.8671875" y="0.0">com.davistiba.wedemyserver.models.Course</node>
+    <node x="519.375" y="699.0">com.davistiba.wedemyserver.models.Enrollment</node>
+    <node x="293.328125" y="360.0">com.davistiba.wedemyserver.models.CourseObjective</node>
+    <node x="526.375" y="349.0">com.davistiba.wedemyserver.models.Lesson</node>
+    <node x="701.375" y="710.0">com.davistiba.wedemyserver.models.Transactions</node>
+    <node x="910.25" y="294.0">com.davistiba.wedemyserver.models.User</node>
+    <node x="0.0" y="688.0">com.davistiba.wedemyserver.models.Reviews</node>
+    <node x="875.048828125" y="77.0">com.davistiba.wedemyserver.models.AuthProvider</node>
+    <node x="164.0" y="710.0">com.davistiba.wedemyserver.models.Cart</node>
+    <node x="0.0" y="921.0">com.davistiba.wedemyserver.models.MyCustomResponse</node>
+    <node x="979.5833333333333" y="754.0">com.davistiba.wedemyserver.models.CustomOAuthUser</node>
+    <node x="323.0" y="721.0">com.davistiba.wedemyserver.models.Wishlist</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.davistiba.wedemyserver.models.Reviews" target="com.davistiba.wedemyserver.models.User" relationship="TO_ONE">
+      <point x="-36.0" y="-94.0" />
+      <point x="36.0" y="627.0" />
+      <point x="352.693359375" y="627.0" />
+      <point x="352.693359375" y="557.0" />
+      <point x="941.9166666666666" y="557.0" />
+      <point x="-63.33333333333337" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Cart" target="com.davistiba.wedemyserver.models.Course" relationship="DEPENDENCY">
+      <point x="34.75" y="-72.0" />
+      <point x="268.25" y="647.0" />
+      <point x="737.875" y="647.0" />
+      <point x="737.875" y="263.0" />
+      <point x="655.048828125" y="263.0" />
+      <point x="655.048828125" y="253.0" />
+      <point x="451.6171875" y="253.0" />
+      <point x="40.25" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.User" target="com.davistiba.wedemyserver.models.AuthProvider" relationship="DEPENDENCY">
+      <point x="-47.5" y="-116.0" />
+      <point x="957.75" y="273.0" />
+      <point x="1000.25" y="273.0" />
+      <point x="1000.25" y="263.0" />
+      <point x="909.548828125" y="263.0" />
+      <point x="-34.5" y="39.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Lesson" target="com.davistiba.wedemyserver.models.Course" relationship="DEPENDENCY">
+      <point x="37.0" y="-61.0" />
+      <point x="637.375" y="263.0" />
+      <point x="655.048828125" y="263.0" />
+      <point x="655.048828125" y="253.0" />
+      <point x="451.6171875" y="253.0" />
+      <point x="40.25" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.User" target="com.davistiba.wedemyserver.models.AuthProvider" relationship="TO_ONE">
+      <point x="47.5" y="-116.0" />
+      <point x="1052.75" y="273.0" />
+      <point x="1010.25" y="273.0" />
+      <point x="1010.25" y="253.0" />
+      <point x="978.548828125" y="253.0" />
+      <point x="34.5" y="39.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Lesson" target="com.davistiba.wedemyserver.models.Course" relationship="TO_ONE">
+      <point x="-37.0" y="-61.0" />
+      <point x="563.375" y="273.0" />
+      <point x="256.1171875" y="273.0" />
+      <point x="256.1171875" y="263.0" />
+      <point x="371.1171875" y="263.0" />
+      <point x="-40.25" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.CourseObjective" target="com.davistiba.wedemyserver.models.Course" relationship="DEPENDENCY">
+      <point x="40.0" y="-50.0" />
+      <point x="413.328125" y="263.0" />
+      <point x="655.048828125" y="263.0" />
+      <point x="655.048828125" y="253.0" />
+      <point x="451.6171875" y="253.0" />
+      <point x="40.25" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.User" target="com.davistiba.wedemyserver.models.UserRole" relationship="TO_ONE">
+      <point x="47.5" y="-116.0" />
+      <point x="1052.75" y="273.0" />
+      <point x="1010.25" y="273.0" />
+      <point x="1010.25" y="253.0" />
+      <point x="1126.048828125" y="253.0" />
+      <point x="31.0" y="39.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Transactions" target="com.davistiba.wedemyserver.models.User" relationship="DEPENDENCY">
+      <point x="38.0" y="-72.0" />
+      <point x="815.375" y="667.0" />
+      <point x="846.298828125" y="667.0" />
+      <point x="846.298828125" y="577.0" />
+      <point x="793.953125" y="577.0" />
+      <point x="793.953125" y="547.0" />
+      <point x="1005.25" y="547.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Reviews" target="com.davistiba.wedemyserver.models.User" relationship="DEPENDENCY">
+      <point x="36.0" y="-94.0" />
+      <point x="108.0" y="657.0" />
+      <point x="515.875" y="657.0" />
+      <point x="515.875" y="587.0" />
+      <point x="793.953125" y="587.0" />
+      <point x="793.953125" y="547.0" />
+      <point x="1005.25" y="547.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Cart" target="com.davistiba.wedemyserver.models.Course" relationship="TO_ONE">
+      <point x="-34.75" y="-72.0" />
+      <point x="198.75" y="667.0" />
+      <point x="187.943359375" y="667.0" />
+      <point x="187.943359375" y="273.0" />
+      <point x="256.1171875" y="273.0" />
+      <point x="256.1171875" y="263.0" />
+      <point x="371.1171875" y="263.0" />
+      <point x="-40.25" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Cart" target="com.davistiba.wedemyserver.models.User" relationship="DEPENDENCY">
+      <point x="34.75" y="-72.0" />
+      <point x="268.25" y="647.0" />
+      <point x="737.875" y="647.0" />
+      <point x="737.875" y="607.0" />
+      <point x="793.953125" y="607.0" />
+      <point x="793.953125" y="547.0" />
+      <point x="1005.25" y="547.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Enrollment" target="com.davistiba.wedemyserver.models.Lesson" relationship="DEPENDENCY">
+      <point x="40.5" y="-83.0" />
+      <point x="640.875" y="667.0" />
+      <point x="605.375" y="667.0" />
+      <point x="605.375" y="577.0" />
+      <point x="637.375" y="577.0" />
+      <point x="37.0" y="61.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Reviews" target="com.davistiba.wedemyserver.models.Course" relationship="TO_ONE">
+      <point x="-36.0" y="-94.0" />
+      <point x="36.0" y="273.0" />
+      <point x="256.1171875" y="273.0" />
+      <point x="256.1171875" y="263.0" />
+      <point x="371.1171875" y="263.0" />
+      <point x="-40.25" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Enrollment" target="com.davistiba.wedemyserver.models.Lesson" relationship="TO_ONE">
+      <point x="-40.5" y="-83.0" />
+      <point x="559.875" y="667.0" />
+      <point x="595.375" y="667.0" />
+      <point x="595.375" y="567.0" />
+      <point x="563.375" y="567.0" />
+      <point x="-37.0" y="61.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Transactions" target="com.davistiba.wedemyserver.models.User" relationship="TO_ONE">
+      <point x="-38.0" y="-72.0" />
+      <point x="739.375" y="637.0" />
+      <point x="419.625" y="637.0" />
+      <point x="419.625" y="607.0" />
+      <point x="352.693359375" y="607.0" />
+      <point x="352.693359375" y="557.0" />
+      <point x="941.9166666666666" y="557.0" />
+      <point x="-63.33333333333337" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Reviews" target="com.davistiba.wedemyserver.models.Course" relationship="DEPENDENCY">
+      <point x="36.0" y="-94.0" />
+      <point x="108.0" y="657.0" />
+      <point x="515.875" y="657.0" />
+      <point x="515.875" y="263.0" />
+      <point x="655.048828125" y="263.0" />
+      <point x="655.048828125" y="253.0" />
+      <point x="451.6171875" y="253.0" />
+      <point x="40.25" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Cart" target="com.davistiba.wedemyserver.models.User" relationship="TO_ONE">
+      <point x="-34.75" y="-72.0" />
+      <point x="198.75" y="667.0" />
+      <point x="187.943359375" y="667.0" />
+      <point x="187.943359375" y="637.0" />
+      <point x="352.693359375" y="637.0" />
+      <point x="352.693359375" y="557.0" />
+      <point x="941.9166666666666" y="557.0" />
+      <point x="-63.33333333333337" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.CourseObjective" target="com.davistiba.wedemyserver.models.Course" relationship="TO_ONE">
+      <point x="-40.0" y="-50.0" />
+      <point x="333.328125" y="273.0" />
+      <point x="256.1171875" y="273.0" />
+      <point x="256.1171875" y="263.0" />
+      <point x="371.1171875" y="263.0" />
+      <point x="-40.25" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Enrollment" target="com.davistiba.wedemyserver.models.User" relationship="DEPENDENCY">
+      <point x="40.5" y="-83.0" />
+      <point x="640.875" y="667.0" />
+      <point x="605.375" y="667.0" />
+      <point x="605.375" y="597.0" />
+      <point x="793.953125" y="597.0" />
+      <point x="793.953125" y="547.0" />
+      <point x="1005.25" y="547.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Transactions" target="com.davistiba.wedemyserver.models.Course" relationship="TO_ONE">
+      <point x="-38.0" y="-72.0" />
+      <point x="739.375" y="637.0" />
+      <point x="419.625" y="637.0" />
+      <point x="419.625" y="617.0" />
+      <point x="504.875" y="617.0" />
+      <point x="504.875" y="273.0" />
+      <point x="256.1171875" y="273.0" />
+      <point x="256.1171875" y="263.0" />
+      <point x="371.1171875" y="263.0" />
+      <point x="-40.25" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Transactions" target="com.davistiba.wedemyserver.models.Course" relationship="DEPENDENCY">
+      <point x="38.0" y="-72.0" />
+      <point x="815.375" y="667.0" />
+      <point x="846.298828125" y="667.0" />
+      <point x="846.298828125" y="657.0" />
+      <point x="851.548828125" y="657.0" />
+      <point x="851.548828125" y="263.0" />
+      <point x="655.048828125" y="263.0" />
+      <point x="655.048828125" y="253.0" />
+      <point x="451.6171875" y="253.0" />
+      <point x="40.25" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Enrollment" target="com.davistiba.wedemyserver.models.User" relationship="TO_ONE">
+      <point x="-40.5" y="-83.0" />
+      <point x="559.875" y="667.0" />
+      <point x="595.375" y="667.0" />
+      <point x="595.375" y="577.0" />
+      <point x="352.693359375" y="577.0" />
+      <point x="352.693359375" y="557.0" />
+      <point x="941.9166666666666" y="557.0" />
+      <point x="-63.33333333333337" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.User" target="com.davistiba.wedemyserver.models.UserRole" relationship="DEPENDENCY">
+      <point x="-47.5" y="-116.0" />
+      <point x="957.75" y="273.0" />
+      <point x="1000.25" y="273.0" />
+      <point x="1000.25" y="263.0" />
+      <point x="1064.048828125" y="263.0" />
+      <point x="-31.0" y="39.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.CustomOAuthUser" target="com.davistiba.wedemyserver.models.User" relationship="GENERALIZATION">
+      <point x="0.0" y="-28.0" />
+      <point x="63.33333333333326" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Wishlist" target="com.davistiba.wedemyserver.models.Course" relationship="DEPENDENCY">
+      <point x="34.75" y="-61.0" />
+      <point x="427.25" y="627.0" />
+      <point x="748.125" y="627.0" />
+      <point x="748.125" y="577.0" />
+      <point x="742.875" y="577.0" />
+      <point x="742.875" y="263.0" />
+      <point x="655.048828125" y="263.0" />
+      <point x="655.048828125" y="253.0" />
+      <point x="451.6171875" y="253.0" />
+      <point x="40.25" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Wishlist" target="com.davistiba.wedemyserver.models.User" relationship="TO_ONE">
+      <point x="-34.75" y="-61.0" />
+      <point x="357.75" y="667.0" />
+      <point x="352.693359375" y="667.0" />
+      <point x="352.693359375" y="557.0" />
+      <point x="941.9166666666666" y="557.0" />
+      <point x="-63.33333333333337" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Wishlist" target="com.davistiba.wedemyserver.models.User" relationship="DEPENDENCY">
+      <point x="34.75" y="-61.0" />
+      <point x="427.25" y="627.0" />
+      <point x="748.125" y="627.0" />
+      <point x="748.125" y="617.0" />
+      <point x="793.953125" y="617.0" />
+      <point x="793.953125" y="547.0" />
+      <point x="1005.25" y="547.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="com.davistiba.wedemyserver.models.Wishlist" target="com.davistiba.wedemyserver.models.Course" relationship="TO_ONE">
+      <point x="-34.75" y="-61.0" />
+      <point x="357.75" y="667.0" />
+      <point x="352.693359375" y="667.0" />
+      <point x="352.693359375" y="617.0" />
+      <point x="282.828125" y="617.0" />
+      <point x="282.828125" y="273.0" />
+      <point x="256.1171875" y="273.0" />
+      <point x="256.1171875" y="263.0" />
+      <point x="371.1171875" y="263.0" />
+      <point x="-40.25" y="116.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.8684985279685966" showDependencies="true" x="579.0" y="499.50000000000006" />
+  <SelectedNodes>
+    <node>com.davistiba.wedemyserver.models.MyCustomResponse</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

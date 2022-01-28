@@ -1,5 +1,4 @@
-### 2022.01.24
-- managed to solve the problem (N * number of items) in wishlist SELECT queries.
-- NOW only 1 query runs to return all items in Wishlist. Had to use `Course` return not `Wishlist`
-- cleaned up my controllers with empty @PathVariable annotation.
-- ki11ed 404 error for empty lists. Just return empty [] array
+### 2022.01.22
+- Added categories to Cache too.
+- Need to fix the `cart` items fetch. Its is too crazy!
+- N queries for N items in cart! Wasteful.

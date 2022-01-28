@@ -38,8 +38,7 @@ public class CartController {
             int k = cartRepository.addToCartCustom(course.getId(), userId, course.getPrice());
             return new MyCustomResponse(String.format("Added %d item to Cart, courseId %d", k, courseId));
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-            //TODO remove e.getMessage in Production
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage()); //FIXME remove this in Prod
         }
     }
 
