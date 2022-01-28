@@ -17,13 +17,14 @@ Please see the file [application.yml](src/main/resources/application.yml) inside
 folder. Place all your necessary Spring application values there. But for _super-sensitive_
 info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** 🚫. I recommend store them
 as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply pass them by
-reference as `property.name = ${ENV_KEY_NAME}`. Also notice my custom ENV variable `frontend.server.url`
+reference as `property.name = ${ENV_KEY_NAME}`. Also notice my custom ENV variable `frontend.server.url` which 
+points to my Vue frontend.
 
 ## Databases Used
 
 ### MySQL 8
 
-This application uses MySQL 8 (InnoDB Engine) as main database. NOTE: All DateTimes are saved and fetched in UTC
+This application uses MySQL 8 (InnoDB Engine) as primary database. NOTE: All DateTimes are saved and fetched in UTC
 only❗. (**MUST MAKE SURE ONLY USE `java.time.Instant` as Type for ALL Datetime fields. Also see point #6 below.**).
 Handle Timezone Conversion on your Frontend. I have included a mysqldump file `wedemy.sql`
 inside [src/main/resources/](src/main/resources) which contains and schema for ALL tables and sample data for COURSES,
