@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
@@ -34,8 +35,8 @@ public class Cart {
     private User user;
 
     @NotBlank
-    @Column(nullable = false, scale = 2)
-    private Double price;
+    @Column(nullable = false, scale = 2, precision = 6)
+    private BigDecimal price;
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
