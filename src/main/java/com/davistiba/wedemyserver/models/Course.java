@@ -1,6 +1,9 @@
 package com.davistiba.wedemyserver.models;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.URL;
 
@@ -8,12 +11,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @Table(name = "courses",
         indexes = {@Index(name = "IDX_CATEGORY", columnList = "category")})
-@Data
+@Getter
+@Setter
+@ToString
 public class Course implements Serializable {
 
     private static final long serialVersionUID = -2540907171719494221L;
@@ -45,8 +51,8 @@ public class Course implements Serializable {
     private String thumbUrl;
 
     @NotBlank
-    @Column(nullable = false, scale = 2)
-    private Double price;
+    @Column(nullable = false, precision = 6, scale = 2)
+    private BigDecimal price;
 
     @Size(max = 250)
     private String subtitle;
@@ -54,24 +60,13 @@ public class Course implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Course course = (Course) o;
-
-        if (!Objects.equals(title, course.title)) return false;
-        if (!Objects.equals(author, course.author)) return false;
-        if (!Objects.equals(category, course.category)) return false;
-        if (!Objects.equals(thumbUrl, course.thumbUrl)) return false;
-        return Objects.equals(price, course.price);
+        return id != null && Objects.equals(id, course.id);
     }
 
     @Override
     public int hashCode() {
-        int result = title != null ? title.hashCode() : 0;
-        result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (category != null ? category.hashCode() : 0);
-        result = 31 * result + (thumbUrl != null ? thumbUrl.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
-        return result;
+        return getClass().hashCode();
     }
 }

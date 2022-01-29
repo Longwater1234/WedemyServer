@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 23, 2022 at 05:32 PM
+-- Generation Time: Jan 29, 2022 at 04:42 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -30,11 +30,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cart`
 (
-    `id`         int(11)     NOT NULL,
-    `created_at` datetime(6) NOT NULL,
-    `price`      double      NOT NULL,
-    `course_id`  int(11)     NOT NULL,
-    `user_id`    int(11)     NOT NULL
+    `id`         int(11)       NOT NULL,
+    `created_at` datetime(6)   NOT NULL,
+    `price`      decimal(6, 2) NOT NULL,
+    `course_id`  int(11)       NOT NULL,
+    `user_id`    int(11)       NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
@@ -50,7 +50,7 @@ CREATE TABLE `courses`
     `id`        int(11)                                                       NOT NULL,
     `author`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
     `category`  varchar(50)                                                   NOT NULL,
-    `price`     double                                                        NOT NULL,
+    `price`     decimal(6, 2)                                                 NOT NULL,
     `rating`    double                                                        NOT NULL DEFAULT '3.5',
     `thumb_url` varchar(255)                                                           DEFAULT NULL,
     `title`     varchar(255)                                                  NOT NULL,
@@ -64,33 +64,33 @@ CREATE TABLE `courses`
 --
 
 INSERT INTO `courses` (`id`, `author`, `category`, `price`, `rating`, `thumb_url`, `title`, `subtitle`)
-VALUES (10010, 'Corey Schafer', 'Development', 17.99, 4.5, 'https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg',
+VALUES (10010, 'Corey Schafer', 'Development', '17.99', 4.5, 'https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg',
         'Complete Python Bootcamp',
         'Learn Python like a Professional. Start from the basics and go all the way to creating your own applications and games.'),
-       (10011, 'Dani Krossing', 'Development', 18.99, 4.5, 'https://i3.ytimg.com/vi/jS4aFq5-91M/maxresdefault.jpg',
+       (10011, 'Dani Krossing', 'Development', '18.99', 4.5, 'https://i3.ytimg.com/vi/jS4aFq5-91M/maxresdefault.jpg',
         'Learn JavaScript Programming',
         'Master fundamentals with JavaScript exercises, projects, live examples & more'),
-       (10012, 'Caleb Curry', 'Development', 19.99, 3.5, 'https://i3.ytimg.com/vi/GoXwIVyNvX0/maxresdefault.jpg',
+       (10012, 'Caleb Curry', 'Development', '19.99', 3.5, 'https://i3.ytimg.com/vi/GoXwIVyNvX0/maxresdefault.jpg',
         'Java Programming Essentials', 'Obtain valuable Core Java Skills And Java Certification'),
-       (10013, 'Gareth David Studio', 'PhotoVideo', 21.99, 4.5, 'https://i3.ytimg.com/vi/9EGI-FSr0Ig/maxresdefault.jpg',
-        'Beginners Guide To Adobe Illustrator',
+       (10013, 'Gareth David Studio', 'PhotoVideo', '21.99', 4.5,
+        'https://i3.ytimg.com/vi/9EGI-FSr0Ig/maxresdefault.jpg', 'Beginners Guide To Adobe Illustrator',
         'Learn graphic design, logo design, and more with this in-depth, practical, easy-to-follow course!'),
-       (10014, 'chinfat', 'PhotoVideo', 22.5, 3.5, 'https://i3.ytimg.com/vi/u99i1SmDgIc/maxresdefault.jpg',
+       (10014, 'chinfat', 'PhotoVideo', '22.50', 3.5, 'https://i3.ytimg.com/vi/u99i1SmDgIc/maxresdefault.jpg',
         'Learn Adobe Premiere Pro CC',
         'Learn Beginner-Advanced Video Editing, Audio Editing, Color Grading, Motion Graphics, and more'),
-       (10015, 'Jacob Clifford', 'Finance', 15.99, 4.5, 'https://i3.ytimg.com/vi/g9aDizJpd_s/maxresdefault.jpg',
+       (10015, 'Jacob Clifford', 'Finance', '15.99', 4.5, 'https://i3.ytimg.com/vi/g9aDizJpd_s/maxresdefault.jpg',
         'Crash Course Economics',
         'The Easiest Beginner level Course on Economics with real life examples and graphic content. Perfect for Newbies!'),
-       (10016, 'MrandMrsMuscle', 'Health', 18.99, 3.5, 'https://i3.ytimg.com/vi/By6GXzcldGY/maxresdefault.jpg',
+       (10016, 'MrandMrsMuscle', 'Health', '18.99', 3.5, 'https://i3.ytimg.com/vi/By6GXzcldGY/maxresdefault.jpg',
         'Lose Belly Fat in 14 Days',
         'This course will help jump-start your body to lose belly fat, lose weight and guide you with a 14 day exercise plan. NO EQUIPMENT needed'),
-       (10017, 'Robert Kiyosaki', 'Real Estate', 21.99, 4.5, 'https://i3.ytimg.com/vi/UJv9-F7SN5A/maxresdefault.jpg',
+       (10017, 'Robert Kiyosaki', 'Real Estate', '21.99', 4.5, 'https://i3.ytimg.com/vi/UJv9-F7SN5A/maxresdefault.jpg',
         'Real Estate Investing',
         'Learn professional investment techniques for real estate investing in residential and commercial properties'),
-       (10018, 'Bill Hilton', 'Music', 15.99, 4.5, 'https://i3.ytimg.com/vi/WJ3-F02-F_Y/maxresdefault.jpg',
+       (10018, 'Bill Hilton', 'Music', '15.99', 4.5, 'https://i3.ytimg.com/vi/WJ3-F02-F_Y/maxresdefault.jpg',
         'How To Play Piano for Beginners',
         'Learn Piano in WEEKS not years. Play-By-Ear & learn to Read Music. Pop, Blues, Jazz, Ballads, Classical'),
-       (10019, 'TTFS', 'Office', 17.99, 3.5, 'https://i3.ytimg.com/vi/Vl0H-qTclOg/maxresdefault.jpg',
+       (10019, 'TTFS', 'Office', '17.99', 3.5, 'https://i3.ytimg.com/vi/Vl0H-qTclOg/maxresdefault.jpg',
         'Master Microsoft Excel',
         'Microsoft Excel Beginner to Professional. Includes Pivot Tables, Power Query, NEW Formulas');
 
@@ -334,23 +334,6 @@ CREATE TABLE `reviews`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transactions`
---
-
-CREATE TABLE `transactions`
-(
-    `transaction_id` varchar(20) NOT NULL,
-    `created_at`     datetime(6) DEFAULT NULL,
-    `totalprice`     double      NOT NULL,
-    `course_id`      int(11)     NOT NULL,
-    `user_id`        int(11)     NOT NULL
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci COMMENT ='Cash transactions for buying courses';
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -415,6 +398,7 @@ ALTER TABLE `course_objectives`
 ALTER TABLE `enrollments`
     ADD PRIMARY KEY (`id`),
     ADD UNIQUE KEY `UKsb9w22vmn0ny3dq4sau62xih1` (`user_id`, `current_lesson_id`),
+    ADD UNIQUE KEY `UK9b67t8pe97iktaxdp9caj2bd9` (`user_id`, `current_lesson_id`),
     ADD KEY `FKsu6cg2f9qh1256x751mvubeuf` (`current_lesson_id`);
 
 --
@@ -432,14 +416,6 @@ ALTER TABLE `reviews`
     ADD PRIMARY KEY (`id`),
     ADD UNIQUE KEY `UKgvg1ect42p0nkk171cbuwho8o` (`user_id`, `course_id`),
     ADD KEY `FKccbfc9u1qimejr5ll7yuxbtqs` (`course_id`);
-
---
--- Indexes for table `transactions`
---
-ALTER TABLE `transactions`
-    ADD PRIMARY KEY (`transaction_id`),
-    ADD UNIQUE KEY `UKqfqcie6xb6blc5p61b1uy076e` (`user_id`, `course_id`),
-    ADD KEY `FKgxxdhhlltjwna28jdamsu1poa` (`course_id`);
 
 --
 -- Indexes for table `users`
@@ -528,13 +504,6 @@ ALTER TABLE `lessons`
 ALTER TABLE `reviews`
     ADD CONSTRAINT `FKccbfc9u1qimejr5ll7yuxbtqs` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT `FKcgy7qjc1r99dp117y9en6lxye` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `transactions`
---
-ALTER TABLE `transactions`
-    ADD CONSTRAINT `FKgxxdhhlltjwna28jdamsu1poa` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
-    ADD CONSTRAINT `FKqwv7rmvc8va8rep7piikrojds` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `wishlist`

@@ -1,4 +1,6 @@
-### 2022.01.22
-- Added categories to Cache too.
-- Need to fix the `cart` items fetch. Its is too crazy!
-- N queries for N items in cart! Wasteful.
+### 2022.01.29
+- changed all money fields to BigDecimal
+- Turns out the cart N Query problem was never already fixed
+- Renamed Transaction table ==> Orders
+- Added `payment_method` column to Orders table
+- Created an empty Checkout controller
