@@ -4,6 +4,21 @@
       "name": "frontend.server.url",
       "type": "java.lang.String",
       "description": "Root address for frontend server."
+    },
+    {
+      "name": "braintree.merchant-id",
+      "type": "java.lang.String",
+      "description": "Merchant Id from Braintree."
+    },
+    {
+      "name": "braintree.public-key",
+      "type": "java.lang.String",
+      "description": "Public Key from Braintree."
+    },
+    {
+      "name": "braintree.private-key",
+      "type": "java.lang.String",
+      "description": "Private Key from Braintree."
     }
   ]
 }

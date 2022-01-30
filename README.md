@@ -1,7 +1,8 @@
 # WedemyServer
 
-Backend repo. A Springboot + Vue.js 3 clone of Udemy. Uses Spring Session (stored in Redis) + Spring Security, for
-handling auth, _instead of_ stateless JWT Tokens. Please note, CSRF protection is ENABLED in the Security Config.
+Backend repo. A Springboot + Vue.js 3 clone of Udemy. With PayPal and CreditCard checkout (both powered by **
+Braintree**). Uses Spring Session (stored in Redis) + Spring Security, for handling auth, _instead of_ stateless JWT
+Tokens. Please note, CSRF protection is ENABLED in Security Config.
 
 ## Requirements
 
@@ -9,7 +10,7 @@ handling auth, _instead of_ stateless JWT Tokens. Please note, CSRF protection i
 - MySQL 8
 - Redis Server (local or Cloud)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign In With Google_)
-- Lombok
+- [Braintree](https://developer.paypal.com/braintree/docs) Developer Account + API Keys (for payments handling)
 
 ## Important ⚠
 
@@ -17,8 +18,7 @@ Please see the file [application.yml](src/main/resources/application.yml) inside
 folder. Place all your necessary Spring application values there. But for _super-sensitive_
 info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** 🚫. I recommend store them
 as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply pass them by
-reference as `property.name = ${ENV_KEY_NAME}`. Also notice my custom ENV variable `frontend.server.url` which 
-points to my Vue frontend.
+reference as `property.name = ${ENV_KEY_NAME}`. Also notice my custom ENV variable `frontend.server.url`
 
 ## Databases Used
 
@@ -26,7 +26,7 @@ points to my Vue frontend.
 
 This application uses MySQL 8 (InnoDB Engine) as primary database. NOTE: All DateTimes are saved and fetched in UTC
 only❗. (**MUST MAKE SURE ONLY USE `java.time.Instant` as Type for ALL Datetime fields. Also see point #6 below.**).
-Handle Timezone Conversion on your Frontend. I have included a mysqldump file `wedemy.sql`
+Handle Timezone Conversion on your frontend. I have included a mysqldump file `wedemy.sql`
 inside [src/main/resources/](src/main/resources) which contains and schema for ALL tables and sample data for COURSES,
 LESSONS, OBJECTIVES. Simply do the following to get started:
 
