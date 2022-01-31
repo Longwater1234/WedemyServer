@@ -45,9 +45,18 @@ LESSONS, OBJECTIVES. Simply do the following to get started:
 ### Redis
 
 This app uses Redis for 2 things: Caching, and Storing User sessions. I prefer managing sessions server-side using
-Spring Session rather than using Stateless JWTs. For local development, you could download Redis (macOS & Linux)
-from https://redis.io/download. Windows users should download from https://github.com/tporadowski/redis. If you prefer
-the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/, for a very generous free trial
-(**no credit card required**). Or, you could just use Docker. Just make sure you change the _url, password and port_
+Spring Session rather than using Stateless JWTs. For local development, you may download Redis (macOS & Linux)
+from https://redis.io/download. Windows users should download latest from https://github.com/tporadowski/redis. If you
+prefer the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/, for a very generous free trial
+(**no credit card required**). Or, you could just use Docker. Just make sure you change the redis _host, password and
+port_
 inside `application.yml` to point your running Redis instance.
 
+## Payments Handling
+
+All payments are fully handled by Braintree Payments, a PayPal service. The UI and Logic is 100% courtesy of Braintree.
+No credit card info is stored in my database; only transaction ID after **successful** payment. Make sure you obtain a
+set of 3 API Keys from your Braintree SANDBOX Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY`
+and `BT_PRIVATE_KEY`. As for the Demo site, **NO REAL CHARGES** occur, since it uses Sandbox Account. You may use test
+credit-card numbers [listed here](https://developer.paypal.com/braintree/docs/guides/credit-cards/testing-go-live/java).
+For tutorials and examples, see the [official docs](https://developer.paypal.com/braintree/docs).
