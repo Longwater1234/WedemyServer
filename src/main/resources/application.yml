@@ -46,7 +46,3 @@ spring:
     store-type: redis
     redis:
       cleanup-cron: 0 1 * * * *
-braintree:
-  merchant-id: ${BT_MERCHANT_ID}
-  public-key: ${BT_PUBLIC_KEY}
-  private-key: ${BT_PRIVATE_KEY}

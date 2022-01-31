@@ -15,14 +15,15 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
+@Table(name = "order_items",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class Orders {
+public class OrderItems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -63,8 +64,8 @@ public class Orders {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Orders orders = (Orders) o;
-        return orderId != null && Objects.equals(orderId, orders.orderId);
+        OrderItems orderItems = (OrderItems) o;
+        return id != null && Objects.equals(id, orderItems.id);
     }
 
     @Override
