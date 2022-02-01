@@ -1,4 +1,4 @@
-package com.davistiba.wedemyserver.config;
+package com.davistiba.wedemyserver.services;
 
 import com.davistiba.wedemyserver.controllers.AuthController;
 import com.davistiba.wedemyserver.models.AuthProvider;

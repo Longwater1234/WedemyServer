@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 30, 2022 at 06:10 PM
+-- Generation Time: Feb 01, 2022 at 08:04 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -173,15 +173,29 @@ VALUES (1, 'Be able to program in Python professionally', 10010),
 
 CREATE TABLE `enrollments`
 (
-    `id`                int(11)    NOT NULL,
-    `created_at`        datetime(6)         DEFAULT NULL,
-    `is_completed`      bit(1)     NOT NULL DEFAULT b'0',
-    `updated_at`        datetime(6)         DEFAULT NULL,
-    `current_lesson_id` binary(16) NOT NULL,
-    `user_id`           int(11)    NOT NULL
+    `id`             int(11)     NOT NULL,
+    `created_at`     datetime(6) NOT NULL,
+    `current_lesson` binary(16)           DEFAULT NULL,
+    `is_completed`   bit(1)      NOT NULL DEFAULT b'0',
+    `updated_at`     datetime(6) NOT NULL,
+    `course_id`      int(11)     NOT NULL,
+    `user_id`        int(11)     NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci COMMENT ='records and updates student progress';
+  COLLATE = utf8mb4_0900_ai_ci;
+
+--
+-- Triggers `enrollments`
+--
+DELIMITER $$
+CREATE TRIGGER `INSERT_LESSON_ID`
+    BEFORE UPDATE
+    ON `enrollments`
+    FOR EACH ROW UPDATE enrollments
+                 SET NEW.current_lesson = (SELECT id FROM lessons WHERE lessons.course_id = enrollments.course_id)
+                 WHERE enrollments.current_lesson IS NULL
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -397,9 +411,8 @@ ALTER TABLE `course_objectives`
 --
 ALTER TABLE `enrollments`
     ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `UKsb9w22vmn0ny3dq4sau62xih1` (`user_id`, `current_lesson_id`),
-    ADD UNIQUE KEY `UK9b67t8pe97iktaxdp9caj2bd9` (`user_id`, `current_lesson_id`),
-    ADD KEY `FKsu6cg2f9qh1256x751mvubeuf` (`current_lesson_id`);
+    ADD UNIQUE KEY `UKg1muiskd02x66lpy6fqcj6b9q` (`user_id`, `course_id`),
+    ADD KEY `FKho8mcicp4196ebpltdn9wl6co` (`course_id`);
 
 --
 -- Indexes for table `lessons`
@@ -457,6 +470,12 @@ ALTER TABLE `course_objectives`
     AUTO_INCREMENT = 51;
 
 --
+-- AUTO_INCREMENT for table `enrollments`
+--
+ALTER TABLE `enrollments`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -489,8 +508,8 @@ ALTER TABLE `course_objectives`
 -- Constraints for table `enrollments`
 --
 ALTER TABLE `enrollments`
-    ADD CONSTRAINT `FK3hjx6rcnbmfw368sxigrpfpx0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `FKsu6cg2f9qh1256x751mvubeuf` FOREIGN KEY (`current_lesson_id`) REFERENCES `lessons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+    ADD CONSTRAINT `FK3hjx6rcnbmfw368sxigrpfpx0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+    ADD CONSTRAINT `FKho8mcicp4196ebpltdn9wl6co` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
 
 --
 -- Constraints for table `lessons`

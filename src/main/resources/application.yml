@@ -19,14 +19,17 @@ server:
 spring:
   datasource:
     password: ${DB_PASSWORD}
-    url: jdbc:mysql://localhost:3306/wedemy?useSSL=false&connectionTimeZone=UTC
+    url: ${DB_HOST}
     username: ${DB_USERNAME}
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
+        order_inserts: true
         dialect: org.hibernate.dialect.MySQL8Dialect
+        jdbc:
+          batch-size: 30
   cache:
     type: redis
     redis:

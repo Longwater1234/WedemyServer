@@ -13,7 +13,7 @@ public class BraintreeConfig {
     private static final org.springframework.core.env.Environment env = new StandardEnvironment();
 
     private static final BraintreeGateway gateway = new BraintreeGateway(
-            Environment.SANDBOX, // <-- change to PRODUCTION if necessary (real charges!)
+            Environment.SANDBOX, // <-- change if necessary (read the official docs!)
             Objects.requireNonNull(env.getProperty("BT_MERCHANT_ID")),
             Objects.requireNonNull(env.getProperty("BT_PUBLIC_KEY")),
             Objects.requireNonNull(env.getProperty("BT_PRIVATE_KEY"))
