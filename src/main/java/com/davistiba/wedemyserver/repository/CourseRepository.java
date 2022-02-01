@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Collection;
 import java.util.List;
 
 public interface CourseRepository extends CrudRepository<Course, Integer> {
@@ -18,6 +19,8 @@ public interface CourseRepository extends CrudRepository<Course, Integer> {
 
     @Query(value = "SELECT DISTINCT new com.davistiba.wedemyserver.dto.CategoryDTO(c.id, c.category) FROM Course c GROUP BY c.category")
     List<CategoryDTO> getAllDistinctCategories();
+
+    List<Course> findCoursesByIdIn(Collection<Integer> ids);
 
     @Query(value = "SELECT c FROM Course c JOIN Wishlist w on w.course.id = c.id AND w.user.id = ?1 ORDER BY w.wishlistId DESC")
     List<Course> getCoursesWishlistByUser(Integer userId);

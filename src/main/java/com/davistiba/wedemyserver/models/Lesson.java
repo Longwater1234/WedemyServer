@@ -1,16 +1,24 @@
 package com.davistiba.wedemyserver.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Table(name = "lessons")
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class Lesson {
 
     @Id
@@ -30,6 +38,19 @@ public class Lesson {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     @JsonBackReference
+    @ToString.Exclude
     private Course course;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Lesson lesson = (Lesson) o;
+        return id != null && Objects.equals(id, lesson.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

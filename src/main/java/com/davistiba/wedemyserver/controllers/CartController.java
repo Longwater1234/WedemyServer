@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +79,7 @@ public class CartController {
     public MyCustomResponse removeCartByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
 
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
-        int ok = cartRepository.deleteByCourseIdAndUserId(courseId, userId);
+        int ok = cartRepository.deleteByCourseIdAndUserId(Collections.singleton(courseId), userId);
         if (ok != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from cart");
         }
