@@ -49,7 +49,7 @@ public class CartController {
 
         Map<String, Boolean> response = new HashMap<>();
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
-        boolean isExist = cartRepository.checkIfCartItemExists(courseId, userId) == 1;
+        boolean isExist = cartRepository.checkIfCourseInCart(courseId, userId);
         response.put("inCart", isExist);
         return response;
 
