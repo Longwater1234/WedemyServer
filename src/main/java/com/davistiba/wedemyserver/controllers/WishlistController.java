@@ -49,7 +49,7 @@ public class WishlistController {
 
         Map<String, Boolean> response = new HashMap<>();
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
-        boolean isExist = wishlistRepository.checkIfWishlistExists(courseId, userId) == 1;
+        boolean isExist = wishlistRepository.checkIfCourseInWishlist(userId, courseId);
         response.put("inWishlist", isExist);
         return response;
 

@@ -8,9 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
-
-    @Query(value = "SELECT EXISTS(SELECT 1 FROM wishlist WHERE course_id = ?1 AND user_id = ?2)", nativeQuery = true)
-    Integer checkIfWishlistExists(Integer courseId, Integer userId);
+    @Query("SELECT (COUNT(w) > 0) FROM Wishlist w WHERE w.user.id = ?1 AND w.course.id = ?2")
+    boolean checkIfCourseInWishlist(Integer userId, Integer courseId);
 
     @Modifying
     @Transactional
