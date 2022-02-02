@@ -3,8 +3,7 @@ package com.davistiba.wedemyserver.services;
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
 import com.davistiba.wedemyserver.models.*;
 import com.davistiba.wedemyserver.repository.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,26 +17,24 @@ import java.util.Map;
 public class CheckoutService {
 
     @Autowired
-    OrdersRepository ordersRepository;
+    private OrdersRepository ordersRepository;
 
     @Autowired
-    CartRepository cartRepository;
+    private CartRepository cartRepository;
 
     @Autowired
-    CourseRepository courseRepository;
+    private CourseRepository courseRepository;
 
     @Autowired
-    EnrollmentRepository enrollmentRepository;
+    private EnrollmentRepository enrollmentRepository;
 
     @Autowired
-    SalesRepository salesRepository;
-
-    public final Logger logger = LoggerFactory.getLogger(String.valueOf(this));
+    private SalesRepository salesRepository;
 
     /**
      * Process all items in Cart.
      * Save batch as single Sale.
-     * Save each item to OrderItems.
+     * Insert each item to OrderItems.
      * Add each course to Enrollment table.
      * Finally, delete all items from Cart table
      *
@@ -49,9 +46,9 @@ public class CheckoutService {
     @Transactional
     public Map<String, Object> processCheckoutDatabase(String transactionId,
                                                        Integer userId,
-                                                       CheckoutRequest request,
+                                                       @NotNull CheckoutRequest request,
                                                        User user) {
-        logger.info("PROCESS: Now in thread {}", Thread.currentThread().getName());
+
         Map<String, Object> response = new HashMap<>();
 
         List<OrderItem> orderItemList = new ArrayList<>();
@@ -71,12 +68,11 @@ public class CheckoutService {
         }
 
         ordersRepository.saveAllAndFlush(orderItemList);
-        long i = cartRepository.deleteByCourseIdAndUserId(request.getCourses(), userId);
+        cartRepository.deleteByCourseIdAndUserId(request.getCourses(), userId);
         enrollmentRepository.saveAllAndFlush(enrollments);
-        logger.info("DELETED COUNT CART {}", i);
         //-----------------------------------------------
         response.put("success", true);
-        response.put("message", "Successfully paid " + request.getTotalAmount());
+        response.put("message", "Successfully paid USD " + request.getTotalAmount());
         return response;
 
     }

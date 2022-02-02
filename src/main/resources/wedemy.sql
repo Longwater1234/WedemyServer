@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 01, 2022 at 08:04 PM
+-- Generation Time: Feb 02, 2022 at 10:38 AM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -184,19 +184,6 @@ CREATE TABLE `enrollments`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
---
--- Triggers `enrollments`
---
-DELIMITER $$
-CREATE TRIGGER `INSERT_LESSON_ID`
-    BEFORE UPDATE
-    ON `enrollments`
-    FOR EACH ROW UPDATE enrollments
-                 SET NEW.current_lesson = (SELECT id FROM lessons WHERE lessons.course_id = enrollments.course_id)
-                 WHERE enrollments.current_lesson IS NULL
-$$
-DELIMITER ;
-
 -- --------------------------------------------------------
 
 --
@@ -329,6 +316,21 @@ VALUES (0x01fb76c505ba11ecac7d9457a5ebcddd, '1. Introduction to Java', '2dZiMBwX
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items`
+(
+    `id`             bigint(20)  NOT NULL,
+    `course_id`      int(11)     NOT NULL,
+    `transaction_id` varchar(20) NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `reviews`
 --
 
@@ -344,6 +346,23 @@ CREATE TABLE `reviews`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci COMMENT ='Student reviews. Must own the course';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales`
+--
+
+CREATE TABLE `sales`
+(
+    `transaction_id` varchar(20)   NOT NULL,
+    `created_at`     datetime(6)   NOT NULL,
+    `payment_method` varchar(30)   NOT NULL,
+    `total_paid`     decimal(6, 2) NOT NULL,
+    `user_id`        int(11)       NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -423,12 +442,27 @@ ALTER TABLE `lessons`
     ADD KEY `FK17ucc7gjfjddsyi0gvstkqeat` (`course_id`);
 
 --
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `IDX_TRANSACTION_ID` (`transaction_id`),
+    ADD KEY `FKy4aiomvn1gl62yjreckpt6lv` (`course_id`);
+
+--
 -- Indexes for table `reviews`
 --
 ALTER TABLE `reviews`
     ADD PRIMARY KEY (`id`),
     ADD UNIQUE KEY `UKgvg1ect42p0nkk171cbuwho8o` (`user_id`, `course_id`),
     ADD KEY `FKccbfc9u1qimejr5ll7yuxbtqs` (`course_id`);
+
+--
+-- Indexes for table `sales`
+--
+ALTER TABLE `sales`
+    ADD PRIMARY KEY (`transaction_id`),
+    ADD KEY `IDX_USER_ID` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -476,6 +510,12 @@ ALTER TABLE `enrollments`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -518,11 +558,24 @@ ALTER TABLE `lessons`
     ADD CONSTRAINT `FK17ucc7gjfjddsyi0gvstkqeat` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+    ADD CONSTRAINT `FKceser0bpu7s99jinnuax1ys5u` FOREIGN KEY (`transaction_id`) REFERENCES `sales` (`transaction_id`),
+    ADD CONSTRAINT `FKy4aiomvn1gl62yjreckpt6lv` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
+
+--
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
     ADD CONSTRAINT `FKccbfc9u1qimejr5ll7yuxbtqs` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT `FKcgy7qjc1r99dp117y9en6lxye` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `sales`
+--
+ALTER TABLE `sales`
+    ADD CONSTRAINT `FK5bgaw8g0rrbqdvafq36g58smk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `wishlist`

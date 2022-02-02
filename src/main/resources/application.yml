@@ -14,7 +14,7 @@ server:
     session:
       cookie:
         http-only: true
-        max-age: 10800s
+        max-age: 10800s #3hours
         name: WEDEMY
 spring:
   datasource:

@@ -1,7 +1,6 @@
 package com.davistiba.wedemyserver.repository;
 
 import com.davistiba.wedemyserver.models.Cart;
-import com.davistiba.wedemyserver.models.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -29,8 +28,6 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     @Query(value = "SELECT COUNT(c) FROM Cart c WHERE c.user.id = ?1")
     Integer countCartByUserIdEquals(Integer userId);
 
-
-    long deleteByUserEquals(User user);
 
 
 }

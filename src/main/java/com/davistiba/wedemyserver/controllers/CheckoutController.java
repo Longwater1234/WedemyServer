@@ -6,8 +6,6 @@ import com.davistiba.wedemyserver.dto.CheckoutRequest;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.services.CheckoutService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +18,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -33,8 +30,6 @@ public class CheckoutController {
     private final CheckoutService checkoutService;
 
     private final UserRepository userRepository;
-
-    public final Logger logger = LoggerFactory.getLogger(String.valueOf(this));
 
     @Autowired
     public CheckoutController(BraintreeGateway gateway, CheckoutService checkoutService, UserRepository userRepository) {
@@ -50,7 +45,6 @@ public class CheckoutController {
             Map<String, String> response = new HashMap<>();
             String clientToken = gateway.clientToken().generate();
             response.put("clientToken", clientToken);
-            logger.info("TOKEN:: Now in thread {}", Thread.currentThread().getName());
             return response;
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,35 +59,37 @@ public class CheckoutController {
         String transactionId;
         Map<String, Object> response;
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
-        List<String> errorList;
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN));
 
         // try to create Braintree transaction
         TransactionRequest transactionRequest = new TransactionRequest()
                 .amount(checkout.getTotalAmount())
                 .paymentMethodNonce(checkout.getNonce())
+                .billingAddress()
+                .firstName(user.getFullname()) // <-- customer details
+                .lastName(user.getEmail())
+                .done()
                 .options()
                 .submitForSettlement(true)
                 .done();
 
         Result<Transaction> result = gateway.transaction().sale(transactionRequest);
 
+        // listen for Braintree Transaction Result
         if (result.isSuccess()) {
             transactionId = result.getTarget().getId();
         } else if (result.getTransaction() != null) {
             transactionId = result.getTransaction().getId();
         } else {
-            errorList = new ArrayList<>();
+            var errorList = new ArrayList<>();
             for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
                 errorList.add(error.getMessage());
             }
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorList.toString());
         }
 
-        //OK SO FAR, ALL IS GOOD. let's finally make DB queries and wrap everything.
-
+        //OK SO FAR, ALL IS GOOD. let's finally wrap everything up.
         try {
-            User user = userRepository.findById(userId).orElseThrow();
-            logger.info("COMPLETE:: Now in thread {}", Thread.currentThread().getName());
             response = checkoutService.processCheckoutDatabase(transactionId, userId, checkout, user);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
