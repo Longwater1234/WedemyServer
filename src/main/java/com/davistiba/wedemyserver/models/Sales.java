@@ -55,7 +55,7 @@ public class Sales {
         this.transactionId = transactionId;
         this.userId = userId;
         this.totalPaid = totalPaid;
-        this.paymentMethod = paymentMethod;
+        this.paymentMethod = paymentMethod.toUpperCase();
     }
 
     @Override
