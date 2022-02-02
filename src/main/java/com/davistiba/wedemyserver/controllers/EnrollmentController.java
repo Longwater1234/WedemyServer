@@ -3,6 +3,7 @@ package com.davistiba.wedemyserver.controllers;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/enroll")
-@CrossOrigin
+@Secured(value = {"ROLE_USER", "ROLE_ADMIN"})
 public class EnrollmentController {
 
     @Autowired
