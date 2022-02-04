@@ -29,7 +29,7 @@ public class ProfileController {
     }
 
     @GetMapping(path = "/id/{id}")
-    public UserDTO getUserbyId(@PathVariable(value = "id") @NotNull Integer id) {
+    public UserDTO getUserById(@PathVariable @NotNull Integer id) {
         try {
             User user = userRepository.findById(id).orElseThrow();
             return mapper.map(user, UserDTO.class);

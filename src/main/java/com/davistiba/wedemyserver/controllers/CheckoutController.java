@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -81,7 +82,7 @@ public class CheckoutController {
         } else if (result.getTransaction() != null) {
             transactionId = result.getTransaction().getId();
         } else {
-            var errorList = new ArrayList<>();
+            List<String> errorList = new ArrayList<>();
             for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
                 errorList.add(error.getMessage());
             }

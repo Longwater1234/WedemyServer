@@ -43,7 +43,7 @@ public class CartController {
         }
     }
 
-    @GetMapping(path = "/mine/course/{courseId}")
+    @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Boolean> checkUserCartItem(@PathVariable @NotNull Integer courseId, HttpSession session) {
 
