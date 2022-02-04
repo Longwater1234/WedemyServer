@@ -43,7 +43,7 @@ public class WishlistController {
 
     }
 
-    @GetMapping(path = "/mine/{courseId}")
+    @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Boolean> checkUserLikedCourse(@PathVariable @NotNull Integer courseId, HttpSession session) {
 

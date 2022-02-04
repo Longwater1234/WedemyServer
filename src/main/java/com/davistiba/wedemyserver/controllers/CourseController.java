@@ -25,7 +25,7 @@ public class CourseController {
     private ModelMapper mapper;
 
     @GetMapping(path = "/id/{id}")
-    public Course getCoursebyId(@PathVariable(value = "id") @NotNull Integer id) {
+    public Course getCourseById(@PathVariable(value = "id") @NotNull Integer id) {
         try {
             return courseRepository.findById(id).orElseThrow();
         } catch (Exception e) {
