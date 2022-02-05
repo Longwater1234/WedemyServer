@@ -1,7 +1,7 @@
 package com.davistiba.wedemyserver.config;
 
-import com.davistiba.wedemyserver.services.CustomOAuthUserService;
-import com.davistiba.wedemyserver.services.MyUserDetailsService;
+import com.davistiba.wedemyserver.service.CustomOAuthUserService;
+import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

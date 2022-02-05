@@ -1,15 +1,18 @@
 package com.davistiba.wedemyserver.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.Instant;
 
 @Data
+@AllArgsConstructor
 public class UserDTO {
     private Integer id;
     private String fullname;
     private String email;
     private Instant datejoined;
+
 
     /**
      * hide some email chars with star (*)

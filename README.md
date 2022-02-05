@@ -2,7 +2,9 @@
 
 (Backend repo). A Springboot + Vue.js 3 clone of Udemy. With PayPal and CreditCard checkout (powered by **Braintree** ).
 Uses Spring Session (stored in Redis) + Spring Security, for handling auth, _instead of_ stateless JWT Tokens. CSRF
-protection is ENABLED.
+protection is ENABLED. Only 1 login session per user at any time. If same user logs in again, first session is revoked.
+You can customize these settings
+in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java)
 
 ## Requirements
 
@@ -43,10 +45,10 @@ schema for ALL tables and some sample data. To get quickly started:
 
 ### Redis
 
-This app uses Redis for 2 things: Caching, and Storing User sessions. I prefer managing sessions server-side using
-Spring Session to using Stateless JWTs. You can download Redis (macOS & Linux) from https://redis.io/download. Windows
-users should download latest from https://github.com/tporadowski/redis. If you prefer the Cloud instead, you could try
-Redis Cloud at: https://redis.com/try-free/, (**no credit card required**). Remember to replace
+This app uses Redis for 2 things: Caching, and Storing User sessions. You can download Redis (macOS & Linux)
+from https://redis.io/download. Windows users should download latest from https://github.com/tporadowski/redis. If you
+prefer the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/, (**no credit card required**).
+Remember to replace
 _host, password and port_  inside `application.yml` to match your running Redis instance.
 
 ## Payments Handling

@@ -1,6 +1,2 @@
-### 2022.01.29
-- changed all money fields to BigDecimal
-- Turns out the cart N Query problem was never already fixed
-- Renamed Transaction table ==> Orders
-- Added `payment_method` column to Orders table
-- Created an empty Checkout controller
+### 2022.01.05
+- Now fetching UserDTO directly from database. No need of model mapper.

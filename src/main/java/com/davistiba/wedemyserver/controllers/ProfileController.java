@@ -1,9 +1,7 @@
 package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.dto.UserDTO;
-import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,19 +18,16 @@ public class ProfileController {
 
     private final UserRepository userRepository;
 
-    private final ModelMapper mapper;
 
     @Autowired
-    public ProfileController(UserRepository userRepository, ModelMapper mapper) {
+    public ProfileController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.mapper = mapper;
     }
 
     @GetMapping(path = "/id/{id}")
     public UserDTO getUserById(@PathVariable @NotNull Integer id) {
         try {
-            User user = userRepository.findById(id).orElseThrow();
-            return mapper.map(user, UserDTO.class);
+            return userRepository.findUserDTObyId(id).orElseThrow();
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
         }
