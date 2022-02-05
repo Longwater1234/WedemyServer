@@ -1,4 +1,4 @@
-package com.davistiba.wedemyserver.services;
+package com.davistiba.wedemyserver.service;
 
 import com.davistiba.wedemyserver.models.CustomOAuthUser;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
