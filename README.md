@@ -1,6 +1,6 @@
 # WedemyServer
 
-(Backend repo). A Springboot + Vue.js 3 clone of Udemy. With PayPal and CreditCard checkout (powered by **Braintree** ).
+(Backend repo). A Springboot + Vue.js 3 clone of Udemy. With PayPal and CreditCard checkout (powered by **Braintree** Payments).
 Uses Spring Session (stored in Redis) + Spring Security, for handling auth, _instead of_ stateless JWT Tokens. CSRF
 protection is ENABLED. Only 1 login session per user at any time. If same user logs in again, first session is revoked.
 You can customize these settings
@@ -32,9 +32,9 @@ Frontend! I have included a mysqldump file `wedemy.sql` inside [src/main/resourc
 schema for ALL tables and some sample data. To get quickly started:
 
 1. Make sure you have MySQL 8.x installed. (in terminal or CMD, enter: `mysql --version`)
-2. Next, Install MySQL Workbench version 8.x (OPTIONAL)
+2. Next, Install MySQL Workbench v8 (OPTIONAL)
 3. CREATE new database called `wedemy` or whatever you like.
-4. Then **Import** the file [wedemy.sql](src/main/resources/wedemy.sql) into it.
+4. Then IMPORT the schema [wedemy.sql](src/main/resources/wedemy.sql) into it.
 5. Replace the values of `DB_HOST` `DB_USERNAME` and `DB_PASSWORD` inside _application.yml_ to match your database
    setup.
 6. To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
