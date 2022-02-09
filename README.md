@@ -1,6 +1,7 @@
 # WedemyServer
 
-(Backend repo). A Springboot + Vue.js 3 clone of Udemy. With PayPal and CreditCard checkout (powered by **Braintree** Payments).
+(Backend repo). A Springboot + Vue.js 3 clone of Udemy, an e-learning platform. With PayPal and CreditCard checkout 
+(powered by **Braintree** Payments).
 Uses Spring Session (stored in Redis) + Spring Security, for handling auth, _instead of_ stateless JWT Tokens. CSRF
 protection is ENABLED. Only 1 login session per user at any time. If same user logs in again, first session is revoked.
 You can customize these settings
