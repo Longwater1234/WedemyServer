@@ -21,7 +21,8 @@ Please see the file [application.yml](src/main/resources/application.yml) inside
 folder. Place all your necessary Spring Application values there. But for _sensitive_
 info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** 🚫. I recommend store them
 as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply declare them
-as `property.name = ${ENV_KEY_NAME}`, or use directly in your code as `Environment.getProperty ("ENV_KEY_NAME")`
+as `property.name = ${ENV_KEY_NAME}`, OR use directly in your code as `Environment.getProperty ("ENV_KEY_NAME")`
+as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java)
 
 ## Databases Used
 
