@@ -13,7 +13,7 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 - MySQL 8
 - Redis Server (local or Cloud)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign In With Google_)
-- [Braintree](https://developer.paypal.com/braintree/docs) Developer Account + API Keys (for payments handling)
+- [Braintree](https://developer.paypal.com/braintree/docs) + Paypal(OPTIONAL) Developer Account (for payments handling)
 
 ## Important ⚠
 
