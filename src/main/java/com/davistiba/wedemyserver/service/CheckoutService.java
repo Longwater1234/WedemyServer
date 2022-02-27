@@ -35,31 +35,31 @@ public class CheckoutService {
      * Process all items in Cart.
      * Save batch as single Sale.
      * Insert each item to OrderItems.
-     * Add each course to Enrollment table.
-     * Finally, delete all items from Cart table
+     * Then add each item to Enrollment table.
+     * Finally, delete all items from Cart table by this user
      *
      * @param transactionId request
-     * @param userId        user session
+     * @param user          the customer
      * @param request       request body from client
      * @return success or fail
      */
     @Transactional
     public Map<String, Object> processCheckoutDatabase(String transactionId,
-                                                       Integer userId,
                                                        @NotNull CheckoutRequest request,
                                                        User user) {
 
         Map<String, Object> response = new HashMap<>();
 
+        //TODO use db triggers
         List<OrderItem> orderItemList = new ArrayList<>();
-        List<Course> courses = courseRepository.findCoursesByIdIn(request.getCourses());
+        List<Course> courseList = courseRepository.findCoursesByIdIn(request.getCourses());
         List<Enrollment> enrollments = new ArrayList<>();
 
         //===== begin DB OPERATIONS ========
         Sales savedSale = salesRepository.saveAndFlush(
                 new Sales(transactionId, user, request.getTotalAmount(), request.getPaymentMethod()));
 
-        for (Course course : courses) {
+        for (Course course : courseList) {
             OrderItem o = new OrderItem(savedSale, course);
             orderItemList.add(o);
 
@@ -68,7 +68,7 @@ public class CheckoutService {
         }
 
         ordersRepository.saveAllAndFlush(orderItemList);
-        cartRepository.deleteByCourseIdAndUserId(request.getCourses(), userId);
+        cartRepository.deleteAllByUserIdAndCourseIdIn(request.getCourses(), user.getId());
         enrollmentRepository.saveAllAndFlush(enrollments);
         //-----------------------------------------------
         response.put("success", true);

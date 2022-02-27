@@ -21,7 +21,7 @@ public class CustomOauthSuccessHandler implements AuthenticationSuccessHandler {
         this.myUserDetailsService = myUserDetailsService;
     }
 
-    @Value(value = "${frontend.server.url}")
+    @Value(value = "${frontend.root.url}")
     private String FRONTEND_URL;
 
     @Override

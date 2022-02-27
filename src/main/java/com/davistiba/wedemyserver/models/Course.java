@@ -8,6 +8,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -52,6 +53,7 @@ public class Course implements Serializable {
 
     @NotBlank
     @Column(nullable = false, precision = 6, scale = 2)
+    @Min(1)
     private BigDecimal price;
 
     @Size(max = 250)

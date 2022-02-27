@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -18,10 +18,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "sales",
-        indexes = {@Index(name = "IDX_USER_ID", columnList = "user_id")})
+@Table(name = "sales")
 @Getter
-@Setter
 @RequiredArgsConstructor
 public class Sales {
     @Id
@@ -35,6 +33,7 @@ public class Sales {
 
     @Column(precision = 6, scale = 2, nullable = false)
     @NotNull
+    @Min(1)
     private BigDecimal totalPaid;
 
     @Column(nullable = false, length = 30)
@@ -48,8 +47,15 @@ public class Sales {
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     @JsonManagedReference
-    List<OrderItem> orderItemList;
+    private List<OrderItem> orderItemList;
 
+    @Transient
+    private Integer numOfItems;
+
+
+    public Integer getNumOfItems() {
+        return orderItemList.size();
+    }
 
     public Sales(String transactionId, User userId, BigDecimal totalPaid, String paymentMethod) {
         this.transactionId = transactionId;

@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface SalesRepository extends JpaRepository<Sales, String> {
 
-    @Query("select s from Sales s where s.userId.id = ?1")
+    @Query("SELECT s FROM Sales s WHERE s.userId.id = ?1")
     List<Sales> findByUserId_IdEquals(Integer id);
 
     List<Sales> findByCreatedAtBetween(Instant createdAtStart, Instant createdAtEnd);

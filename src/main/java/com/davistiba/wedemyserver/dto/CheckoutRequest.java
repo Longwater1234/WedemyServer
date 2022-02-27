@@ -11,9 +11,8 @@ import java.util.ArrayList;
 
 /**
  * NOT A TABLE.
- * This is the payload sent by client at Checkout
+ * This is the payload sent from Frontend at Checkout
  */
-// "ApplePayCard" | "CREDITCARD" | "AndroidPayCard" | "PayPalAccount" | "VenmoAccount"
 @Getter
 @ToString
 @EqualsAndHashCode
@@ -29,6 +28,7 @@ public class CheckoutRequest {
 
     @NotEmpty
     private String paymentMethod;
+    // "ApplePayCard" | "CREDITCARD" | "AndroidPayCard" | "PayPalAccount" | "VenmoAccount"
 
     public CheckoutRequest() {
     }

@@ -40,7 +40,6 @@ public class WishlistController {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add to wishlist", e);
         }
-
     }
 
     @GetMapping(path = "/status/c/{courseId}")
@@ -74,6 +73,7 @@ public class WishlistController {
         }
         return new MyCustomResponse("Removed from Wishlist, courseId " + courseId);
     }
+
 
     @DeleteMapping(path = "/id/{wishlistId}")
     @ResponseStatus(HttpStatus.OK)

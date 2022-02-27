@@ -10,13 +10,14 @@ import java.util.Objects;
 
 @Configuration
 public class BraintreeConfig {
-    private static final org.springframework.core.env.Environment env = new StandardEnvironment();
+    //get ENV values
+    private static final org.springframework.core.env.Environment ENV = new StandardEnvironment();
 
     private static final BraintreeGateway gateway = new BraintreeGateway(
-            Environment.SANDBOX, // <-- change if necessary (read the official docs!)
-            Objects.requireNonNull(env.getProperty("BT_MERCHANT_ID")),
-            Objects.requireNonNull(env.getProperty("BT_PUBLIC_KEY")),
-            Objects.requireNonNull(env.getProperty("BT_PRIVATE_KEY"))
+            Environment.SANDBOX, // <-- (TEST mode, no actual charges incurred)
+            Objects.requireNonNull(ENV.getProperty("BT_MERCHANT_ID")),
+            Objects.requireNonNull(ENV.getProperty("BT_PUBLIC_KEY")),
+            Objects.requireNonNull(ENV.getProperty("BT_PRIVATE_KEY"))
     );
 
     @Bean

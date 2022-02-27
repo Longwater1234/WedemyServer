@@ -29,7 +29,6 @@ public class EnrollmentController {
         boolean isOwned = enrollmentRepository.existsByCourseIdAndUserId(userId, courseId);
         response.put("isOwned", isOwned);
         return response;
-
     }
 
 
