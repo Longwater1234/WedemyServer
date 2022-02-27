@@ -17,9 +17,9 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 
 ## Important ⚠
 
-Please examine the file [application.yml](src/main/resources/application.yml) inside `src/main/resources/`
+Please examine the file [application.yml](src/main/resources/application.yml) inside *src/main/resources/*
 folder. Place all your necessary Spring Application values there. Notice property `frontend.root.url`; replace with
-yours. But for _sensitive_ info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** 🚫. I recommend store
+yours. But for _sensitive_ info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I recommend store
 them as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply declare them
 as `property.name = ${ENV_KEY_NAME}`, OR use directly in your code as `Environment.getProperty ("ENV_KEY_NAME")`
 as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
@@ -28,7 +28,7 @@ as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.
 
 ### MySQL 8.0
 
-This is the primary database. All DateTimes are stored and queried in UTC only❗. (**Hint:
+This is the primary database. All DateTimes are stored and queried in UTC only❗ (**Hint:
 USE `java.time.Instant` as Type for ALL Datetime fields. Also see point #6 below.**) Handle timezone Conversion on your
 Frontend! I have included a mysqldump file `wedemy.sql` inside [src/main/resources/](src/main/resources) which contains
 schema for ALL tables and some sample data. Take a look at the [ERD diagram](src/main/resources/wedemy_db_erd.png) of
@@ -41,7 +41,7 @@ this DB. To get quickly started:
 5. Replace the values of `DB_HOST` `DB_USERNAME` and `DB_PASSWORD` inside _application.yml_ to match your database
    setup.
 6. To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
-   parameter `connectionTimeZone=UTC`. See example below.
+   parameter `connectionTimeZone=UTC`. See example below. For custom @Query's, use UTC_TIMESTAMP() or UTC_DATE()
    ```properties
    spring.datasource.url= jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC
    ```
