@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
 
+        //session setup
         http.sessionManagement().sessionFixation().newSession().maximumSessions(1);
 
     }

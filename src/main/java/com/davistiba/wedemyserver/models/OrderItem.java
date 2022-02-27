@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -9,8 +10,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "order_items",
-        indexes = {@Index(name = "IDX_TRANSACTION_ID", columnList = "transaction_id")})
+@Table(name = "order_items")
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -20,11 +20,13 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "transaction_id")
     private Sales transactionId;
 
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "course_id")
     private Course courseId;
 

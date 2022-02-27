@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer> {
-    @Query("select (count(e) > 0) from Enrollment e where e.userId.id = ?1 and e.course.id = ?2")
+    @Query("SELECT (COUNT(e) > 0) FROM Enrollment e WHERE e.userId.id = ?1 AND e.course.id = ?2")
     boolean existsByCourseIdAndUserId(Integer userId, Integer courseId);
 
 

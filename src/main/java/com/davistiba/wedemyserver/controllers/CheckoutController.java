@@ -42,15 +42,10 @@ public class CheckoutController {
     @GetMapping(path = "/token")
     @ResponseStatus(value = HttpStatus.OK)
     public Map<String, String> getClientToken() {
-        try {
-            Map<String, String> response = new HashMap<>();
-            String clientToken = gateway.clientToken().generate();
-            response.put("clientToken", clientToken);
-            return response;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+        Map<String, String> response = new HashMap<>();
+        String clientToken = gateway.clientToken().generate();
+        response.put("clientToken", clientToken);
+        return response;
     }
 
 
@@ -67,7 +62,7 @@ public class CheckoutController {
                 .amount(checkout.getTotalAmount())
                 .paymentMethodNonce(checkout.getNonce())
                 .billingAddress()
-                .firstName(user.getFullname()) // <-- customer details
+                .firstName(user.getFullname()) // <-- customer details (OPTIONAL)
                 .lastName(user.getEmail())
                 .done()
                 .options()
@@ -91,7 +86,7 @@ public class CheckoutController {
 
         //OK SO FAR, ALL IS GOOD. let's finally wrap everything up.
         try {
-            response = checkoutService.processCheckoutDatabase(transactionId, userId, checkout, user);
+            response = checkoutService.processCheckoutDatabase(transactionId, checkout, user);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not complete purchase", e);

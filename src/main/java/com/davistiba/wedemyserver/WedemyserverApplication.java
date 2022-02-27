@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. DavisTibbz  MIT License. Github link: https://github.com/longwater1234
+ * Copyright (c) 2021. Davis Tibbz  MIT License. Github: https://github.com/longwater1234
  */
 
 package com.davistiba.wedemyserver;
@@ -21,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableTransactionManagement
 public class WedemyserverApplication {
 
-    @Value(value = "${frontend.server.url}")
+    @Value(value = "${frontend.root.url}")
     private String FRONTEND_URL;
 
     public static void main(String[] args) {

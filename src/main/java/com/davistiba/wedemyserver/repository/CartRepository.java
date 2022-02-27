@@ -18,10 +18,11 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM cart WHERE course_id IN (?1) AND user_id = ?2", nativeQuery = true)
-    Integer deleteByCourseIdAndUserId(Collection<Integer> courseId, Integer userId);
+    @Query(value = "DELETE FROM Cart c where c.course.id in ?1 and c.user.id = ?2")
+    Integer deleteAllByUserIdAndCourseIdIn(Collection<Integer> courseId, Integer userId);
 
-    @Query("select (count(c) > 0) from Cart c where c.course.id = ?1 and c.user.id = ?2")
+
+    @Query("SELECT (count(c) > 0) from Cart c where c.course.id = ?1 and c.user.id = ?2")
     boolean checkIfCourseInCart(Integer courseId, Integer userId);
 
 

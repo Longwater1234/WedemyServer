@@ -1,6 +1,6 @@
 frontend:
-  server:
-    url: http://localhost:8080 #replace with your frontend root URL here
+  root:
+    url: http://localhost:8080 #replace with your frontend URL here
 logging:
   level:
     org:
@@ -23,7 +23,7 @@ spring:
     username: ${DB_USERNAME}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: update #change to `none` in prod
     properties:
       hibernate:
         order_inserts: true
