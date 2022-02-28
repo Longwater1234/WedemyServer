@@ -18,7 +18,7 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 ## Important ⚠
 
 Please examine the file [application.yml](src/main/resources/application.yml) inside *src/main/resources/*
-folder. Place all your necessary Spring Application values there. Notice property `frontend.root.url`; replace with
+folder. Place all your necessary Spring Application properties there. Notice property `frontend.root.url`; replace value with
 yours. But for _sensitive_ info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I recommend store
 them as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply declare them
 as `property.name = ${ENV_KEY_NAME}`, OR use directly in your code as `Environment.getProperty ("ENV_KEY_NAME")`
@@ -34,7 +34,7 @@ Frontend! I have included a mysqldump file `wedemy.sql` inside [src/main/resourc
 schema for ALL tables and some sample data. Take a look at the [ERD diagram](src/main/resources/wedemy_db_erd.png) of
 this DB. To get quickly started:
 
-1. Make sure you have MySQL 8.x installed. (in terminal or CMD, enter: `mysql --version`)
+1. Make sure you have MySQL 8.0.x. installed. (in terminal or CMD, enter: `mysql --version`)
 2. Next, Install MySQL Workbench v8.x (OPTIONAL)
 3. CREATE new database called `wedemy` or whatever you like.
 4. Then IMPORT the schema [wedemy.sql](src/main/resources/wedemy.sql) into it.
