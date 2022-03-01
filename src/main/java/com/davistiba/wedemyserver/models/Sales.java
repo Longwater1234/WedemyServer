@@ -1,7 +1,6 @@
 package com.davistiba.wedemyserver.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -45,17 +43,6 @@ public class Sales {
     @Column(nullable = false)
     private Instant createdAt;
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<OrderItem> orderItemList;
-
-    @Transient
-    private Integer numOfItems;
-
-
-    public Integer getNumOfItems() {
-        return orderItemList.size();
-    }
 
     public Sales(String transactionId, User userId, BigDecimal totalPaid, String paymentMethod) {
         this.transactionId = transactionId;

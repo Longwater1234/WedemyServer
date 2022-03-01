@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 27, 2022 at 05:11 PM
+-- Generation Time: Mar 01, 2022 at 01:11 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -372,13 +372,13 @@ CREATE TABLE `sales`
 
 CREATE TABLE `users`
 (
-    `id`            int(11)                         NOT NULL,
-    `auth_provider` enum ('LOCAL','GOOGLE')         NOT NULL,
-    `datejoined`    datetime(6)                     NOT NULL,
-    `email`         varchar(255)                    NOT NULL,
-    `fullname`      varchar(100)                    NOT NULL,
+    `id`            int(11)                                                       NOT NULL,
+    `fullname`      varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `email`         varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `auth_provider` enum ('LOCAL','GOOGLE')                                       NOT NULL,
+    `datejoined`    datetime(6)                                                   NOT NULL,
     `password`      varchar(100) DEFAULT NULL,
-    `user_role`     enum ('ROLE_USER','ROLE_ADMIN') NOT NULL
+    `user_role`     enum ('ROLE_USER','ROLE_ADMIN')                               NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
