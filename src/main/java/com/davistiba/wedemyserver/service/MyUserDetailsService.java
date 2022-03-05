@@ -30,7 +30,7 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     /**
-     * Checks if OAuth User exists in dB. If not, register new user.
+     * Checks if OAuth User exists in dB. If not, register as new user.
      * Else just login with new Session.
      *
      * @param oAuth2User authenticated User

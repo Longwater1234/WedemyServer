@@ -29,6 +29,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+
+    /*
+    IF YOU DON'T WANT TO USE *COOKIES* TO TRANSFER SESSION_ID, UNCOMMENT THIS BLOCK BELOW TO USE
+    HEADER "X-AUTH-TOKEN" INSTEAD. YOU WILL ALSO NEED TO MANUALLY CONFIGURE YOUR FRONTEND TO STORE
+    THIS TOKEN AFTER SUCCESSFUL LOGIN, AND RE-USE IT FOR ALL REQUESTS.
+     */
+    /*----------------------------------------------------
+      @Bean
+      public HttpSessionIdResolver sessionIdResolver() {
+          return HeaderHttpSessionIdResolver.xAuthToken();
+      }
+    //----------------------------------------------------*/
+
     @Autowired
     private CustomOAuthUserService oAuthUserService;
 
@@ -49,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
 
-        //session setup
+        //SESSION SETUP
         http.sessionManagement().sessionFixation().newSession().maximumSessions(1);
 
     }

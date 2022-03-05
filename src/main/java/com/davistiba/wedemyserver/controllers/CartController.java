@@ -37,7 +37,7 @@ public class CartController {
         try {
             Course course = courseRepository.findById(courseId).orElseThrow(); // verify if exists
             int k = cartRepository.addToCartCustom(course.getId(), userId, course.getPrice());
-            return new MyCustomResponse(String.format("Added %d item to Cart, courseId %d", k, courseId));
+            return new MyCustomResponse(String.format("Added %d item to Cart, course %d", k, courseId));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage()); //FIXME remove this in Prod
         }
@@ -79,11 +79,11 @@ public class CartController {
     public MyCustomResponse removeCartByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
 
         Integer userId = (Integer) session.getAttribute(AuthController.USERID);
-        int ok = cartRepository.deleteAllByUserIdAndCourseIdIn(Collections.singleton(courseId), userId);
+        int ok = cartRepository.deleteAllByUserIdAndCourseIdIn(userId, Collections.singleton(courseId));
         if (ok != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from cart");
         }
-        return new MyCustomResponse("Removed from Cart, courseId " + courseId);
+        return new MyCustomResponse("Removed from Cart, course " + courseId);
     }
 
     @DeleteMapping(path = "/id/{cartId}")

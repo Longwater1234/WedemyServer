@@ -28,12 +28,12 @@ public class OrderItem {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "course_id")
-    private Course courseId;
+    private Course course;
 
 
-    public OrderItem(Sales transactionId, Course courseId) {
+    public OrderItem(Sales transactionId, Course course) {
         this.transactionId = transactionId;
-        this.courseId = courseId;
+        this.course = course;
     }
 
     @Override

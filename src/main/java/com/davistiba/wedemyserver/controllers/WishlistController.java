@@ -36,7 +36,7 @@ public class WishlistController {
         try {
             Course course = courseRepository.findById(courseId).orElseThrow(); // verify if exists
             int w = wishlistRepository.saveByCourseIdAndUserId(course.getId(), userId);
-            return new MyCustomResponse(String.format("Added %d item to Wishlist, courseId %d", w, courseId));
+            return new MyCustomResponse(String.format("Added %d item to Wishlist, course %d", w, courseId));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add to wishlist", e);
         }
@@ -71,7 +71,7 @@ public class WishlistController {
         if (ok != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove wishlist");
         }
-        return new MyCustomResponse("Removed from Wishlist, courseId " + courseId);
+        return new MyCustomResponse("Removed from Wishlist, course " + courseId);
     }
 
 
