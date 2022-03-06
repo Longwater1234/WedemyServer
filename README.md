@@ -11,7 +11,7 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 
 - JDK 11+
 - MySQL 8.0.x
-- Redis Server v5+ (local or Cloud)
+- Redis Server v5.0+ (local or Cloud)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign In With Google_)
 - [Braintree](https://developer.paypal.com/braintree/docs) Developer Account (for payments handling)
 - (OPTIONAL) PayPal Developer Account.

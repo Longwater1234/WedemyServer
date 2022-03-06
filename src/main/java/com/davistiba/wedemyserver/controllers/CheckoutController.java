@@ -42,6 +42,7 @@ public class CheckoutController {
     @GetMapping(path = "/token")
     @ResponseStatus(value = HttpStatus.OK)
     public Map<String, String> getClientToken() {
+        // may throw exception!
         Map<String, String> response = new HashMap<>();
         String clientToken = gateway.clientToken().generate();
         response.put("clientToken", clientToken);
@@ -50,7 +51,7 @@ public class CheckoutController {
 
 
     @PostMapping(path = "/complete")
-    public ResponseEntity<Map<String, Object>> completePurchase(@Valid @RequestBody CheckoutRequest checkout,
+    public ResponseEntity<Map<String, Object>> completePurchase(@Valid @RequestBody CheckoutRequest request,
                                                                 @NotNull HttpSession session) {
         String transactionId;
         Map<String, Object> response;
@@ -59,8 +60,8 @@ public class CheckoutController {
 
         // try to create Braintree transaction
         TransactionRequest transactionRequest = new TransactionRequest()
-                .amount(checkout.getTotalAmount())
-                .paymentMethodNonce(checkout.getNonce())
+                .amount(request.getTotalAmount())
+                .paymentMethodNonce(request.getNonce())
                 .billingAddress()
                 .firstName(user.getFullname()) // <-- customer details (OPTIONAL)
                 .lastName(user.getEmail())
@@ -77,6 +78,7 @@ public class CheckoutController {
         } else if (result.getTransaction() != null) {
             transactionId = result.getTransaction().getId();
         } else {
+            //Oops! ☹
             List<String> errorList = new ArrayList<>();
             for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
                 errorList.add(error.getMessage());
@@ -84,9 +86,9 @@ public class CheckoutController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorList.toString());
         }
 
-        //OK SO FAR, ALL IS GOOD. let's finally wrap everything up.
+        //OK SO FAR, ALL IS GOOD! let's finally wrap everything up.
         try {
-            response = checkoutService.processCheckoutDatabase(transactionId, checkout, user);
+            response = checkoutService.processCheckoutDatabase(transactionId, request, user);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not complete purchase", e);

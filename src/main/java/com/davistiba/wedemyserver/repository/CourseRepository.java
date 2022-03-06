@@ -4,11 +4,13 @@ import com.davistiba.wedemyserver.dto.CategoryDTO;
 import com.davistiba.wedemyserver.models.Course;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.List;
 
+@Repository
 public interface CourseRepository extends CrudRepository<Course, Integer> {
 
     List<Course> getCoursesByCategoryEquals(@NotBlank String category);

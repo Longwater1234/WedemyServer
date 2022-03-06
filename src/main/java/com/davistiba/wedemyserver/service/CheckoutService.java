@@ -17,7 +17,7 @@ import java.util.Map;
 public class CheckoutService {
 
     @Autowired
-    private OrdersRepository ordersRepository;
+    private OrderItemRepository orderItemRepository;
 
     @Autowired
     private CartRepository cartRepository;
@@ -50,7 +50,7 @@ public class CheckoutService {
 
         Map<String, Object> response = new HashMap<>();
 
-        //TODO use db triggers
+        //TODO use db triggers for Cart cleanup
         List<OrderItem> orderItemList = new ArrayList<>();
         List<Course> courseList = courseRepository.findCoursesByIdIn(request.getCourses());
         List<Enrollment> enrollments = new ArrayList<>();
@@ -67,8 +67,8 @@ public class CheckoutService {
             enrollments.add(e);
         }
 
-        ordersRepository.saveAllAndFlush(orderItemList);
-        cartRepository.deleteAllByUserIdAndCourseIdIn(request.getCourses(), user.getId());
+        orderItemRepository.saveAllAndFlush(orderItemList);
+        cartRepository.deleteAllByUserIdAndCourseIdIn(user.getId(), request.getCourses());
         enrollmentRepository.saveAllAndFlush(enrollments);
         //-----------------------------------------------
         response.put("success", true);
