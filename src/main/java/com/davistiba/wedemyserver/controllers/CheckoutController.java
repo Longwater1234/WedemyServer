@@ -42,6 +42,7 @@ public class CheckoutController {
     @GetMapping(path = "/token")
     @ResponseStatus(value = HttpStatus.OK)
     public Map<String, String> getClientToken() {
+        // may throw exception!
         Map<String, String> response = new HashMap<>();
         String clientToken = gateway.clientToken().generate();
         response.put("clientToken", clientToken);

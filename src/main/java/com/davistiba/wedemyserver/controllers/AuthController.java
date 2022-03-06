@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.models.CustomOAuthUser;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,12 +32,24 @@ public class AuthController {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public static final String USERID = "USERID";
+    public static final String USERID = "USER_ID";
+    public static final String SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
 
     @Autowired
     public AuthController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    /**
+     * Custom method (NOT CONTROLLER) to get User details saved in SESSION STORE
+     *
+     * @param session loggedIn session
+     * @return USER object
+     */
+    public static User getSessionUserDetails(@NotNull HttpSession session) {
+        SecurityContext context = (SecurityContext) session.getAttribute(SECURITY_CONTEXT);
+        return (User) context.getAuthentication().getPrincipal();
     }
 
 
@@ -63,7 +78,8 @@ public class AuthController {
         Map<String, Object> response = new HashMap<>();
 
         if (oAuth2User != null) {
-            response.put("user", oAuth2User.getAttribute("name"));
+            CustomOAuthUser cu = new CustomOAuthUser(oAuth2User);
+            response.put("user", cu.getName());
             response.put("loggedIn", true);
 
         } else if (auth != null) {
@@ -80,7 +96,7 @@ public class AuthController {
 
     @PostMapping(path = "/login")
     @Secured(value = "ROLE_USER")
-    // this actually runs after successful basicAuth login
+    // this is the target LOGIN URL, but actually runs AFTER successful basicAuth login
     public ResponseEntity<Object> realBasicAuthEntry(HttpSession session, Authentication auth) {
         Map<String, Object> response = new HashMap<>();
         try {

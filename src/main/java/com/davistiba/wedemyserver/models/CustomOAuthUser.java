@@ -4,6 +4,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Map;
 
+/**
+ * custom Object for GoogleLogin User details
+ */
 public class CustomOAuthUser extends User implements OAuth2User {
 
     private final OAuth2User oAuth2User;

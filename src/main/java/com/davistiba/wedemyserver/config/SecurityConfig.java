@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //----------------------------------------------------*/
 
     @Autowired
-    private CustomOAuthUserService oAuthUserService;
+    private CustomOAuthUserService googleOauthService;
 
     @Autowired
     private CustomOauthSuccessHandler successHandler;
@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and().httpBasic()
-                .and().oauth2Login().userInfoEndpoint().userService(oAuthUserService)
+                .and().oauth2Login().userInfoEndpoint().userService(googleOauthService)
                 .and().successHandler(successHandler)
                 .and().authorizeRequests()
                 .antMatchers("/index.html", "/", "/auth/**", "/login/**").permitAll()
