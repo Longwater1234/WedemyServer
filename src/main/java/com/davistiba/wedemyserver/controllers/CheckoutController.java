@@ -4,7 +4,6 @@ import com.braintreegateway.*;
 import com.davistiba.wedemyserver.config.BraintreeConfig;
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
 import com.davistiba.wedemyserver.models.User;
-import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.service.CheckoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,19 +29,15 @@ public class CheckoutController {
 
     private final CheckoutService checkoutService;
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public CheckoutController(BraintreeGateway gateway, CheckoutService checkoutService, UserRepository userRepository) {
+    public CheckoutController(BraintreeGateway gateway, CheckoutService checkoutService) {
         this.gateway = BraintreeConfig.getGateway();
         this.checkoutService = checkoutService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping(path = "/token")
     @ResponseStatus(value = HttpStatus.OK)
     public Map<String, String> getClientToken() {
-        // may throw exception!
         Map<String, String> response = new HashMap<>();
         String clientToken = gateway.clientToken().generate();
         response.put("clientToken", clientToken);
@@ -55,15 +50,14 @@ public class CheckoutController {
                                                                 @NotNull HttpSession session) {
         String transactionId;
         Map<String, Object> response;
-        Integer userId = (Integer) session.getAttribute(AuthController.USERID);
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN));
+        User user = AuthController.getSessionUserDetails(session); //from redis Store
 
         // try to create Braintree transaction
         TransactionRequest transactionRequest = new TransactionRequest()
                 .amount(request.getTotalAmount())
                 .paymentMethodNonce(request.getNonce())
-                .billingAddress()
-                .firstName(user.getFullname()) // <-- customer details (OPTIONAL)
+                .billingAddress()  // <-- START customer details (OPTIONAL)
+                .firstName(user.getFullname())
                 .lastName(user.getEmail())
                 .done()
                 .options()
@@ -86,7 +80,7 @@ public class CheckoutController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorList.toString());
         }
 
-        //OK SO FAR, ALL IS GOOD! let's finally wrap everything up.
+        //OK, ALL IS GOOD! let's finally wrap everything up.
         try {
             response = checkoutService.processCheckoutDatabase(transactionId, request, user);
             return ResponseEntity.ok().body(response);
