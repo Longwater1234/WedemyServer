@@ -3,7 +3,6 @@ package com.davistiba.wedemyserver.controllers;
 import com.davistiba.wedemyserver.dto.CategoryDTO;
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.repository.CourseRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -20,9 +19,6 @@ public class CourseController {
 
     @Autowired
     private CourseRepository courseRepository;
-
-    @Autowired
-    private ModelMapper mapper;
 
     @GetMapping(path = "/id/{id}")
     public Course getCourseById(@PathVariable(value = "id") @NotNull Integer id) {
@@ -64,7 +60,7 @@ public class CourseController {
     public List<Course> searchForCourseByTitle(@RequestParam(value = "title", defaultValue = "") @NotBlank String title) {
 
         if (title.length() < 4)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Query too short");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Search query too short");
         var searchResults = courseRepository.getCoursesByTitleContaining(title);
         if (searchResults.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results for your query.");

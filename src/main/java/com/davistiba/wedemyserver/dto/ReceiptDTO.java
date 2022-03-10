@@ -23,7 +23,6 @@ public class ReceiptDTO {
     private String currency;    // transaction.getCurrencyIsoCode()
     private String paymentMethod; //transaction.getPaymentInstrumentType()
     private String recieptNo; // UUIDv4.random()
-    private Instant generatedAt = Instant.now(); // current datetime in UTC
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

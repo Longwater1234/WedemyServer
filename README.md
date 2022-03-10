@@ -19,10 +19,10 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 ## Important ⚠
 
 Please examine the file [application.yml](src/main/resources/application.yml) inside *src/main/resources/*
-folder. Place all your necessary Spring Application properties there. Notice property `frontend.root.url`; replace value with
-yours. But for _sensitive_ info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I recommend store
-them as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply declare them
-as `property.name = ${ENV_KEY_NAME}`, OR use directly in your code as `Environment.getProperty ("ENV_KEY_NAME")`
+folder. Place all your necessary Spring Application properties there. Notice property `frontend.root.url`; replace value
+with yours. But for _sensitive_ info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I recommend
+store them as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply declare
+them as `property.name = ${ENV_KEY_NAME}`, OR use directly in your code as `Environment.getProperty ("ENV_KEY_NAME")`
 as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
 ## Databases Used
@@ -36,7 +36,7 @@ schema for ALL tables and some sample data. Take a look at the [ERD diagram](src
 this DB. To get quickly started:
 
 1. Make sure you have MySQL 8.0.x. installed. (in terminal or CMD, enter: `mysql --version`)
-2. Next, Install MySQL Workbench v8.x (OPTIONAL)
+2. Next, Install MySQL Workbench v8.x (OPTIONAL, can use built-in MySQL shell)
 3. CREATE new database called `wedemy` or whatever you like.
 4. Then IMPORT the schema [wedemy.sql](src/main/resources/wedemy.sql) into it.
 5. Replace the values of `DB_HOST` `DB_USERNAME` and `DB_PASSWORD` inside _application.yml_ to match your database
@@ -59,6 +59,5 @@ Remember to replace _host, password and port_ for redis inside `application.yml`
 All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports Apple Pay, GooglePay,
 Venmo and many other methods. This project has been configured with PayPal and Credit-Card ONLY, in SANDBOX (test) mode.
 Make sure you obtain a set of 3 API Keys from your own Braintree Account dashboard and store them as ENV
-variables: `BT_MERCHANT_ID`
-, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials and examples, see
-the [official docs](https://developer.paypal.com/braintree/docs).
+variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials and examples, see
+the [official docs](https://developer.paypal.com/braintree/docs). Here is a sample GitHub project.

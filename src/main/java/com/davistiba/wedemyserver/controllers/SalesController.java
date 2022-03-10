@@ -22,7 +22,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -76,9 +75,8 @@ public class SalesController {
                     t.getAmount(),
                     t.getStatus().name(),
                     t.getCurrencyIsoCode(),
-                    t.getPaymentInstrumentType(),
+                    t.getPaymentInstrumentType().toUpperCase(),
                     UUID.randomUUID().toString(),
-                    Instant.now(),
                     orderItems
             );
 
