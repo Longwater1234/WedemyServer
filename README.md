@@ -30,7 +30,7 @@ as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.
 ### MySQL 8.0
 
 This is the primary database. All DateTimes are stored and queried in UTC only❗ (**Hint:
-USE `java.time.Instant` as Type for ALL Datetime fields. Also see point #6 below.**) Handle timezone Conversion on your
+USE `java.time.Instant` as Type for ALL Datetime fields. Also see point 6 below.**) Handle timezone Conversion on your
 Frontend! I have included a mysqldump file `wedemy.sql` inside [src/main/resources/](src/main/resources) which contains
 schema for ALL tables and some sample data. Take a look at the [ERD diagram](src/main/resources/wedemy_db_erd.png) of
 this DB. To get quickly started:
