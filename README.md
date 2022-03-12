@@ -12,15 +12,15 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 - JDK 11+
 - MySQL 8.0.x
 - Redis Server v5.0+ (local or Cloud)
-- [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign In With Google_)
-- [Braintree](https://developer.paypal.com/braintree/docs) Developer Account (for payments handling)
+- [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for Google-Login)
+- [Braintree](https://developer.paypal.com/braintree/docs) Developer Account (for payments)
 - (OPTIONAL) PayPal Developer Account.
 
 ## Important ⚠
 
-Please examine the file [application.yml](src/main/resources/application.yml) inside *src/main/resources/*
+Please examine the file [application.yml](src/main/resources/application.yml) inside src/main/resources/
 folder. Place all your necessary Spring Application properties there. Notice property `frontend.root.url`; replace value
-with yours. But for _sensitive_ info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I recommend
+with yours. But for sensitive info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I recommend
 store them as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply declare
 them as `property.name = ${ENV_KEY_NAME}`, OR use directly in your code as `Environment.getProperty ("ENV_KEY_NAME")`
 as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
@@ -60,4 +60,4 @@ All payments are securely handled by **Braintree Payments** (owned by PayPal), w
 Venmo and many other methods. This project has been configured with PayPal and Credit-Card ONLY, in SANDBOX (test) mode.
 Make sure you obtain a set of 3 API Keys from your own Braintree Account dashboard and store them as ENV
 variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials and examples, see
-the [official docs](https://developer.paypal.com/braintree/docs). Here is a sample GitHub project.
+the [official docs](https://developer.paypal.com/braintree/docs).
