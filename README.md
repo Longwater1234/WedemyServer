@@ -50,7 +50,7 @@ this DB. To get quickly started:
 ### Redis v5
 
 This app uses Redis for 2 things: Caching, and Storing User sessions. You can download Redis (macOS & Linux)
-from https://redis.io/download. Windows users should download latest from https://github.com/tporadowski/redis. If you
+from https://redis.io/download. Windows users should download latest .exe from https://github.com/tporadowski/redis. If you
 prefer the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/. Or you could set it up with docker.
 Remember to replace _host, password and port_ for redis inside `application.yml` to match your running Redis instance.
 
