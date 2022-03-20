@@ -36,12 +36,7 @@ public class CheckoutService {
      * Save batch as single Sale.
      * Insert each item to OrderItems.
      * Then add each item to Enrollment table.
-     * Finally, delete all items from Cart table by this user
-     *
-     * @param transactionId request
-     * @param user          the customer
-     * @param request       request body from client
-     * @return success or fail
+     * Finally, clear Cart by this user_id
      */
     @Transactional
     public Map<String, Object> processCheckoutDatabase(String transactionId,
@@ -68,7 +63,7 @@ public class CheckoutService {
         }
 
         orderItemRepository.saveAllAndFlush(orderItemList);
-        cartRepository.deleteAllByUserIdAndCourseIdIn(user.getId(), request.getCourses());
+        cartRepository.deleteAllByUserIdAndCoursesIn(user.getId(), request.getCourses());
         enrollmentRepository.saveAllAndFlush(enrollments);
         //-----------------------------------------------
         response.put("success", true);

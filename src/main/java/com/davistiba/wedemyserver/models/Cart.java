@@ -8,7 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -34,7 +34,7 @@ public class Cart {
     @JsonBackReference
     private User user;
 
-    @NotBlank
+    @NotNull
     @Column(nullable = false, scale = 2, precision = 6)
     private BigDecimal price;
 
@@ -44,5 +44,9 @@ public class Cart {
     private Instant createdAt;
 
 
-
+    public Cart(Course course, User user) {
+        this.course = course;
+        this.user = user;
+        this.price = this.course.getPrice();
+    }
 }

@@ -19,7 +19,7 @@ public interface SalesRepository extends JpaRepository<Sales, String> {
     List<Sales> findByCreatedAtBetween(Instant createdAtStart, Instant createdAtEnd);
 
     @Query("select new com.davistiba.wedemyserver.dto.SalesDTO(s.transactionId,s.createdAt, s.paymentMethod, s.totalPaid, count(o)) " +
-            "from Sales s join OrderItem o on s.transactionId = o.transactionId where s.userId.id = ?1  group by s.transactionId " +
+            "from Sales s join OrderItem o on s.transactionId = o.sale.transactionId where s.userId.id = ?1  group by s.transactionId " +
             "order by s.createdAt DESC")
     List<SalesDTO> findByUserIdOrderByCreatedAtDesc(Integer userId, Pageable pageable);
 

@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.URL;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -43,20 +44,20 @@ public class Course implements Serializable {
     @Size(max = 50)
     private String category;
 
-    @Column(scale = 2, nullable = false, length = 3)
     @ColumnDefault("3.5")
-    private double rating = 3.5;
+    @Column(precision = 3, scale = 2, nullable = false)
+    private BigDecimal rating;
 
     @NotBlank
     @URL
     private String thumbUrl;
 
-    @NotBlank
+    @NotNull
     @Column(nullable = false, precision = 6, scale = 2)
     @Min(1)
     private BigDecimal price;
 
-    @Size(max = 250)
+    @Size(min = 1)
     private String subtitle;
 
     @Override

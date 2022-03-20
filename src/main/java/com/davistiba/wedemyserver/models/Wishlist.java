@@ -37,5 +37,8 @@ public class Wishlist {
     @Column(nullable = false)
     private Instant createdAt;
 
-
+    public Wishlist(User user, Course course) {
+        this.user = user;
+        this.course = course;
+    }
 }

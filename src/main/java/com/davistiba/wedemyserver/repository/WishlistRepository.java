@@ -15,11 +15,6 @@ public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO wishlist(created_at, course_id, user_id) VALUES (UTC_TIMESTAMP(), ?, ?)", nativeQuery = true)
-    Integer saveByCourseIdAndUserId(Integer courseId, Integer userId);
-
-    @Modifying
-    @Transactional
     @Query(value = "DELETE FROM wishlist WHERE course_id = ?1 AND user_id = ?2", nativeQuery = true)
     Integer deleteByCourseIdAndUserId(Integer courseId, Integer userId);
 

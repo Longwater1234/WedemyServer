@@ -22,7 +22,7 @@ public class OrderItem {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "transaction_id")
-    private Sales transactionId;
+    private Sales sale;
 
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -31,8 +31,8 @@ public class OrderItem {
     private Course course;
 
 
-    public OrderItem(Sales transactionId, Course course) {
-        this.transactionId = transactionId;
+    public OrderItem(Sales sale, Course course) {
+        this.sale = sale;
         this.course = course;
     }
 
