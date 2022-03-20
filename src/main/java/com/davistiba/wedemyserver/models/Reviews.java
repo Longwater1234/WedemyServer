@@ -11,7 +11,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -27,8 +29,9 @@ public class Reviews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(scale = 2, nullable = false, length = 3)
-    private double rating;
+    @Column(precision = 3, scale = 2, nullable = false)
+    @Max(5)
+    private BigDecimal rating;
 
     @Column(nullable = false)
     @Size(max = 250)
@@ -37,7 +40,7 @@ public class Reviews {
     @ManyToOne(optional = false)
     @JsonBackReference
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User userId;
+    private User user;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference

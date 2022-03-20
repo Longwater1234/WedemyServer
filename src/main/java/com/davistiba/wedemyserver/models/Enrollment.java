@@ -32,7 +32,7 @@ public class Enrollment {
     @ManyToOne(optional = false)
     @JsonBackReference
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User userId;
+    private User user;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
@@ -57,8 +57,8 @@ public class Enrollment {
     private Instant updatedAt;
 
 
-    public Enrollment(User userId, Course course) {
-        this.userId = userId;
+    public Enrollment(User user, Course course) {
+        this.user = user;
         this.course = course;
     }
 

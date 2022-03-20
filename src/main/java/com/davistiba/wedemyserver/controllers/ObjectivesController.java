@@ -28,7 +28,7 @@ public class ObjectivesController {
     @Autowired
     private CourseRepository courseRepository;
 
-    @PostMapping(value = "/add")
+    @PostMapping(value = "/")
     @Secured(value = "ROLE_ADMIN")
     @Validated
     public ResponseEntity<MyCustomResponse> addNewObjectives(@RequestBody @NotNull ObjectivesDTO objDTO) {

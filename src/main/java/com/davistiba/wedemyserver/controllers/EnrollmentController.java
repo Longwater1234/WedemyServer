@@ -1,6 +1,7 @@
 package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
+import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -19,13 +20,11 @@ public class EnrollmentController {
     @Autowired
     private EnrollmentRepository enrollmentRepository;
 
-
     @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Boolean> checkEnrollStatus(@PathVariable @NotNull Integer courseId, HttpSession session) {
-
         Map<String, Boolean> response = new HashMap<>();
-        Integer userId = (Integer) session.getAttribute(AuthController.USERID);
+        Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
         boolean isOwned = enrollmentRepository.existsByCourseIdAndUserId(userId, courseId);
         response.put("isOwned", isOwned);
         return response;

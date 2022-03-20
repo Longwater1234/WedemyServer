@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Query("SELECT new com.davistiba.wedemyserver.dto.OrderItemDTO(o.id, c.title, c.price) from OrderItem o " +
-            "JOIN Course c on o.course.id = c.id where o.transactionId.transactionId = ?1")
+            "JOIN Course c on o.course.id = c.id where o.sale.transactionId = ?1")
     List<OrderItemDTO> findByTransactionIdEquals(String transactionId, Pageable pageable);
 
 

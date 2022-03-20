@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -43,7 +44,7 @@ public class CourseController {
     @ResponseStatus(value = HttpStatus.OK)
     @Cacheable(value = "courses")
     public List<Course> getAllTopCourses() {
-        return courseRepository.getTop6ByRatingGreaterThanEqual(4.5);
+        return courseRepository.getTop6ByRatingGreaterThanEqual(BigDecimal.valueOf(4.5));
     }
 
 

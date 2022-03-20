@@ -5,6 +5,7 @@ import com.davistiba.wedemyserver.config.BraintreeConfig;
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.service.CheckoutService;
+import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,13 +51,13 @@ public class CheckoutController {
                                                                 @NotNull HttpSession session) {
         String transactionId;
         Map<String, Object> response;
-        User user = AuthController.getSessionUserDetails(session); //from redis Store
+        User user = MyUserDetailsService.getSessionUserDetails(session); //from redis Store
 
         // try to create Braintree transaction
         TransactionRequest transactionRequest = new TransactionRequest()
                 .amount(request.getTotalAmount())
                 .paymentMethodNonce(request.getNonce())
-                .billingAddress()  // <-- START customer details (OPTIONAL)
+                .billingAddress()  // <-- user details (OPTIONAL)
                 .firstName(user.getFullname())
                 .lastName(user.getEmail())
                 .done()

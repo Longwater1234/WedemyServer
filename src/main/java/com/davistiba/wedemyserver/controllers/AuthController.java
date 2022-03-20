@@ -4,6 +4,7 @@ import com.davistiba.wedemyserver.models.CustomOAuthUser;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
+import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,24 +31,10 @@ public class AuthController {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public static final String USERID = "USER_ID";
-    public static final String SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
-
     @Autowired
     public AuthController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    /**
-     * Custom method (NOT CONTROLLER) to get User details saved in SESSION STORE
-     *
-     * @param session loggedIn session
-     * @return USER object
-     */
-    public static User getSessionUserDetails(@NotNull HttpSession session) {
-        SecurityContext context = (SecurityContext) session.getAttribute(SECURITY_CONTEXT);
-        return (User) context.getAuthentication().getPrincipal();
     }
 
 
@@ -102,7 +87,7 @@ public class AuthController {
         try {
             User loggedInUser = userRepository.findByEmail(auth.getName()).orElseThrow();
             Integer userId = loggedInUser.getId();
-            session.setAttribute(USERID, userId);
+            session.setAttribute(MyUserDetailsService.USERID, userId);
 
             //return response
             response.put("success", auth.isAuthenticated());
