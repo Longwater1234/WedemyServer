@@ -71,7 +71,7 @@ public class WishlistController {
         Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
         int ok = wishlistRepository.deleteByCourseIdAndUserId(courseId, userId);
         if (ok != 1) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove wishlist");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from wishlist");
         }
         return new MyCustomResponse("Removed from Wishlist, course " + courseId);
     }
@@ -84,7 +84,7 @@ public class WishlistController {
             wishlistRepository.deleteById(wishlistId);
             return new MyCustomResponse("Removed from Wishlist, id " + wishlistId);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove wishlist", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from wishlist", e);
         }
     }
 }
