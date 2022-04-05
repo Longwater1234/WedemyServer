@@ -29,4 +29,5 @@ public class CustomOAuthUser extends User implements OAuth2User {
     public String getEmail() {
         return oAuth2User.getAttribute("email");
     }
+
 }
