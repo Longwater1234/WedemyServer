@@ -11,7 +11,7 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 
 - JDK 11+
 - MySQL 8.0.x
-- Redis Server v5.0+ (local or Cloud)
+- Redis Server v5.0.14+ (local or Cloud)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign In With Google_)
 - [Braintree](https://developer.paypal.com/braintree/docs) Developer Account + API Keys (for payments handling)
 - (OPTIONAL) PayPal Developer Account.
@@ -25,7 +25,7 @@ store them as [Environmental Variables](https://www.baeldung.com/properties-with
 them as `property.name = ${ENV_KEY_NAME}`, OR use directly in your code as `Environment.getProperty("ENV_KEY_NAME")`
 as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
-| Tip 💡 | For IntelliJ users, I highly recommend the free plugin JPABuddy, it will make your life so much easier when dealing with Spring Data JPA |
+| Tip 💡 | For IntelliJ users, I highly recommend the free plugin JPABuddy, it will make dealing with Spring Data JPA so MUCH EASIER! |
 |---------|:---------------------------------------------------------------------|
 
 ## Databases Used
@@ -33,7 +33,7 @@ as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.
 ### MySQL 8.0
 
 This is the primary database. All DateTimes are stored and queried in UTC only❗ (**Hint:
-USE `java.time.Instant` as Type for ALL Datetime fields. Also see point (7) below.**) Handle timezone Conversion on your
+USE `java.time.Instant` as Type for ALL Datetime fields. Also see point 6 below.**) Handle timezone Conversion on your
 Frontend! For your convenience, I have included a mysqldump file `wedemy.sql`
 inside [src/main/resources](src/main/resources) which contains SAMPLE data for few tables. You may take a look at
 the [ERD diagram](src/main/resources/wedemy_db_erd.png) of this DB. To get QUICKLY STARTED:
@@ -42,7 +42,7 @@ the [ERD diagram](src/main/resources/wedemy_db_erd.png) of this DB. To get QUICK
 2. CREATE new database called `wedemy` or whatever you like.
 3. Replace the values of `DB_HOST` `DB_USERNAME` and `DB_PASSWORD` inside _application.yml_ to match your database.
 4. If everything is set, you may now launch the SpringBoot app for Hibernate to auto-generate all tables and indexes.
-5. You may decide to IMPORT file [wedemy.sql](src/main/resources/wedemy.sql) into your db.
+5. Now you can finally IMPORT file [wedemy.sql](src/main/resources/wedemy.sql) with sample data into your db.
 6. To maintain consistent time-zone (UTC) with your Java app, ensure your MySQL connection URL has
    parameter `connectionTimeZone=UTC`. See example below. For custom @Query's, use UTC_TIMESTAMP() or UTC_DATE()
    ```properties
