@@ -6,6 +6,7 @@ import com.davistiba.wedemyserver.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,6 +14,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(path = "/courses")
@@ -22,12 +25,16 @@ public class CourseController {
     private CourseRepository courseRepository;
 
     @GetMapping(path = "/id/{id}")
-    public Course getCourseById(@PathVariable(value = "id") @NotNull Integer id) {
+    @Async
+    public CompletableFuture<Course> getCourseById(@PathVariable(value = "id") @NotNull Integer id) {
         try {
-            return courseRepository.findById(id).orElseThrow();
+            var executor = CompletableFuture.delayedExecutor(2000, TimeUnit.MILLISECONDS);
+            CompletableFuture<Course> cf = CompletableFuture.supplyAsync(() -> courseRepository.findById(id).orElseThrow(), executor);
+            return CompletableFuture.completedFuture(cf.get());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No course of id " + id);
         }
+
     }
 
     @GetMapping(path = "/cat/{category}")
@@ -36,7 +43,6 @@ public class CourseController {
         var courseList = courseRepository.getCoursesByCategoryEquals(category);
         if (courseList.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results");
-
         return courseList;
     }
 
