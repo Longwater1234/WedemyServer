@@ -11,7 +11,7 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 
 - JDK 11+
 - MySQL 8.0.x
-- Redis Server v5.0.14+ (local or Cloud)
+- Redis Server v5.0+ (local or Cloud)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign In With Google_)
 - [Braintree](https://developer.paypal.com/braintree/docs) Developer Account + API Keys (for payments handling)
 - (OPTIONAL) PayPal Developer Account.
@@ -56,6 +56,10 @@ from https://redis.io/download. Windows users may download the latest stable .ms
 from [this Github repo](https://github.com/tporadowski/redis/releases). Or you could set it up with Docker. If you
 prefer the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace _host, password
 and port_ for redis inside `application.yml` to match your running Redis instance.
+
+| Tip 💡 | Redis creators have released the cross-platform desktop GUI for redis: _
+RedisInsight_. Download it free from [here](https://redis.com/redis-enterprise/redis-insight/) |
+|---------|:---------------------------------------------------------------------|
 
 ## Payments Handling
 
