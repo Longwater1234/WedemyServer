@@ -11,7 +11,7 @@ public class UserDTO {
     private Integer id;
     private String fullname;
     private String email;
-    private Instant datejoined;
+    private Instant createdAt;
 
 
 }

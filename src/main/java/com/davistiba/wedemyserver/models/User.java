@@ -69,7 +69,7 @@ public class User implements UserDetails {
     @CreationTimestamp
     @Column(nullable = false)
     @JsonProperty(access = Access.READ_ONLY)
-    private Instant datejoined;
+    private Instant createdAt;
 
 
     @Override
