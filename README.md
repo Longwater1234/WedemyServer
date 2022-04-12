@@ -57,8 +57,7 @@ from [this Github repo](https://github.com/tporadowski/redis/releases). Or you c
 prefer the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace _host, password
 and port_ for redis inside `application.yml` to match your running Redis instance.
 
-| Tip 💡 | Redis creators have released the cross-platform desktop GUI for redis: _
-RedisInsight_. Download it free from [here](https://redis.com/redis-enterprise/redis-insight/) |
+| Tip 💡 | Redis creators have released the cross-platform desktop GUI for redis: RedisInsight. Download it free from [here](https://redis.com/redis-enterprise/redis-insight/) |
 |---------|:---------------------------------------------------------------------|
 
 ## Payments Handling

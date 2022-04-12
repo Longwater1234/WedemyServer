@@ -17,8 +17,8 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     @Query(value = "DELETE FROM Cart c where c.user.id = ?1 and c.course.id in ?2")
     Integer deleteAllByUserIdAndCoursesIn(Integer userId, Collection<Integer> courseId);
 
-    @Query("SELECT (count(c) > 0) from Cart c where c.course.id = ?1 and c.user.id = ?2")
-    boolean checkIfCourseInCart(Integer courseId, Integer userId);
+    @Query(value = "SELECT (count(c) > 0) from Cart c where c.user.id = ?2 and c.course.id = ?1")
+    boolean checkIfCourseInCart(Integer userId, Integer courseId);
 
     @Query(value = "SELECT COUNT(c) FROM Cart c WHERE c.user.id = ?1")
     Integer countCartByUserIdEquals(Integer userId);

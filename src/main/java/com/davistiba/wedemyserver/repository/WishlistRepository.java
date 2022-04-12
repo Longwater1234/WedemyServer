@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
-    @Query("SELECT (COUNT(w) > 0) FROM Wishlist w WHERE w.user.id = ?1 AND w.course.id = ?2")
+    @Query(value = "SELECT (COUNT(w) > 0) FROM Wishlist w WHERE w.user.id = ?1 AND w.course.id = ?2")
     boolean checkIfCourseInWishlist(Integer userId, Integer courseId);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM wishlist WHERE course_id = ?1 AND user_id = ?2", nativeQuery = true)
+    @Query(value = "DELETE FROM Wishlist w WHERE w.course.id = ?1 AND w.user.id = ?2")
     Integer deleteByCourseIdAndUserId(Integer courseId, Integer userId);
 
 
