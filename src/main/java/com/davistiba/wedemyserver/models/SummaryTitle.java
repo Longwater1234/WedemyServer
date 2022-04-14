@@ -6,5 +6,5 @@ package com.davistiba.wedemyserver.models;
 public enum SummaryTitle {
     JOINED,
     COMPLETED,
-    OWNED
+    OWNING
 }
