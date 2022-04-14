@@ -2,7 +2,6 @@ package com.davistiba.wedemyserver.models;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.URL;
@@ -21,7 +20,6 @@ import java.util.Objects;
         indexes = {@Index(name = "IDX_CATEGORY", columnList = "category")})
 @Getter
 @Setter
-@ToString
 public class Course implements Serializable {
 
     private static final long serialVersionUID = -2540907171719494221L;

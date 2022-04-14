@@ -11,7 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
@@ -39,10 +42,11 @@ public class ProfileController {
         this.enrollmentRepository = enrollmentRepository;
     }
 
-    @GetMapping(path = "/id/{id}")
-    public UserDTO getUserById(@PathVariable @NotNull Integer id) {
+    @GetMapping(path = "/mine")
+    public UserDTO getUserById(@NotNull HttpSession session) {
         try {
-            return userRepository.findUserDTObyId(id).orElseThrow();
+            Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+            return userRepository.findUserDTObyId(userId).orElseThrow();
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
         }
@@ -53,12 +57,13 @@ public class ProfileController {
     public List<UserSummary> getUserSummary(@NotNull HttpSession session) {
         User user = MyUserDetailsService.getSessionUserDetails(session);
         List<UserSummary> summaryList = new ArrayList<>();
-        long completed = enrollmentRepository.countEnrollmentByUserAndIsCompleted(user, true);
-        UserSummary s1 = new UserSummary(SummaryTitle.COMPLETED, completed, "courses");
-        summaryList.add(s1);
 
         long owned = enrollmentRepository.countEnrollmentByUser(user);
-        UserSummary s2 = new UserSummary(SummaryTitle.OWNED, owned, "courses");
+        UserSummary s1 = new UserSummary(SummaryTitle.OWNING, owned, "courses");
+        summaryList.add(s1);
+
+        long completed = enrollmentRepository.countEnrollmentByUserAndIsCompleted(user, true);
+        UserSummary s2 = new UserSummary(SummaryTitle.COMPLETED, completed, "courses");
         summaryList.add(s2);
 
         Instant dateCreated = userRepository.findById(user.getId()).get().getCreatedAt();

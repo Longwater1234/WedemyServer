@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,7 +25,6 @@ import java.util.Objects;
 @Table(name = "users")
 @Getter
 @Setter
-@ToString
 public class User implements UserDetails {
 
     private static final long serialVersionUID = -1352733651057286866L;
