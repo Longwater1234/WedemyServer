@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
+import java.security.Principal;
 import java.util.Optional;
 
 
@@ -70,7 +71,11 @@ public class MyUserDetailsService implements UserDetailsService {
      */
     public static User getSessionUserDetails(@NotNull HttpSession session) {
         SecurityContext context = (SecurityContext) session.getAttribute(SECURITY_CONTEXT);
-        return (User) context.getAuthentication().getPrincipal();
+        Principal principal = (Principal) context.getAuthentication().getPrincipal();
+        if (principal instanceof OAuth2User) {
+            return new CustomOAuthUser((OAuth2User) principal);
+        }
+        return (User) principal;
     }
 
 

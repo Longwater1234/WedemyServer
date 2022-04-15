@@ -7,6 +7,7 @@ import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.service.CheckoutService;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -47,6 +48,7 @@ public class CheckoutController {
 
 
     @PostMapping(path = "/complete")
+    @CacheEvict(value = "usersummary", key = "#session.id")
     public ResponseEntity<Map<String, Object>> completePurchase(@Valid @RequestBody CheckoutRequest request,
                                                                 @NotNull HttpSession session) {
         String transactionId;

@@ -91,9 +91,10 @@ public class CartController {
 
     @DeleteMapping(path = "/id/{cartId}")
     @ResponseStatus(HttpStatus.OK)
-    public MyCustomResponse removeCartById(@PathVariable @NotNull Integer cartId) {
+    public MyCustomResponse removeCartById(@PathVariable @NotNull Integer cartId, HttpSession session) {
         try {
-            cartRepository.deleteById(cartId);
+            User user = MyUserDetailsService.getSessionUserDetails(session); //from redis Store
+            cartRepository.deleteByIdAndUser(cartId, user);
             return new MyCustomResponse("Removed from Wishlist, id " + cartId);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

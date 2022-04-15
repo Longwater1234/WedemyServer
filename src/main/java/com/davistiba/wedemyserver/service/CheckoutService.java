@@ -63,8 +63,8 @@ public class CheckoutService {
         }
 
         orderItemRepository.saveAllAndFlush(orderItemList);
-        cartRepository.deleteAllByUserIdAndCoursesIn(user.getId(), request.getCourses());
         enrollmentRepository.saveAllAndFlush(enrollments);
+        cartRepository.deleteAllByUserIdAndCoursesIn(user.getId(), request.getCourses());
         //-----------------------------------------------
         response.put("success", true);
         response.put("message", "Successfully paid USD " + request.getTotalAmount());

@@ -11,8 +11,8 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 
 - JDK 11+
 - MySQL 8.0.x
-- Redis Server v5.0+ (local or Cloud)
-- [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign In With Google_)
+- Redis Server v5.0.14+ (local or Cloud)
+- [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign in with Google_)
 - [Braintree](https://developer.paypal.com/braintree/docs) Developer Account + API Keys (for payments handling)
 - (OPTIONAL) PayPal Developer Account.
 
@@ -67,3 +67,4 @@ Venmo and many other methods. This project has been configured with PayPal and C
 Make sure you obtain a set of 3 API Keys from your own Braintree Account dashboard and store them as ENV
 variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials and examples, see
 the [official docs](https://developer.paypal.com/braintree/docs).
+

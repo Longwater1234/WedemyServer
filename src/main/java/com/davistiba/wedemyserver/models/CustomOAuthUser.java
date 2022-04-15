@@ -32,4 +32,8 @@ public class CustomOAuthUser extends User implements OAuth2User, Serializable {
         return oAuth2User.getAttribute("email");
     }
 
+    @Override
+    public String getFullname() {
+        return oAuth2User.getName();
+    }
 }
