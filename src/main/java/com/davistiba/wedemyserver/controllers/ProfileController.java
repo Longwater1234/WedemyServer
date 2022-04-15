@@ -10,7 +10,9 @@ import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -54,8 +56,8 @@ public class ProfileController {
 
     @GetMapping(path = "/summary")
     @ResponseStatus(value = HttpStatus.OK)
-    public List<UserSummary> getUserSummary(@NotNull HttpSession session) {
-        User user = MyUserDetailsService.getSessionUserDetails(session);
+    @Cacheable(value = "usersummary", key = "#session.id")
+    public List<UserSummary> getUserSummary(@NotNull HttpSession session, @AuthenticationPrincipal User user) {
         List<UserSummary> summaryList = new ArrayList<>();
 
         long owned = enrollmentRepository.countEnrollmentByUser(user);
@@ -67,9 +69,8 @@ public class ProfileController {
         summaryList.add(s2);
 
         Instant dateCreated = userRepository.findById(user.getId()).get().getCreatedAt();
-
         Period period = Period.between(LocalDate.ofInstant(dateCreated, ZoneId.of("UTC")), LocalDate.now());
-        int numberDays = Math.abs(period.getDays()); //get positive
+        final int numberDays = Math.abs(period.getDays());
         long result = 0;
         String units;
         if (numberDays == 0) units = "today";
@@ -81,7 +82,7 @@ public class ProfileController {
             units = "months ago";
         } else {
             result = period.getYears();
-            units = "years ago";
+            units = "year(s) ago";
         }
 
         UserSummary s3 = new UserSummary(SummaryTitle.JOINED, result, units);

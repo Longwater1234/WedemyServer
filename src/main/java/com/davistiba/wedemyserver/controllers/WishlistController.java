@@ -36,14 +36,14 @@ public class WishlistController {
     @ResponseStatus(HttpStatus.CREATED)
     public MyCustomResponse addNewWishlist(@PathVariable Integer courseId, HttpSession session) {
 
-        try {
-            User u = MyUserDetailsService.getSessionUserDetails(session); //from redis Store
-            Course course = courseRepository.findById(courseId).orElseThrow();
-            wishlistRepository.save(new Wishlist(u, course));
-            return new MyCustomResponse(String.format("Added to Wishlist, course %d ", courseId));
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add to wishlist", e);
-        }
+        //  try {
+        User u = MyUserDetailsService.getSessionUserDetails(session); //from redis Store
+        Course course = courseRepository.findById(courseId).orElseThrow();
+        wishlistRepository.save(new Wishlist(u, course));
+        return new MyCustomResponse(String.format("Added to Wishlist, course %d ", courseId));
+//        } catch (Exception e) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add to wishlist", e);
+//        }
     }
 
     @GetMapping(path = "/status/c/{courseId}")
@@ -79,9 +79,10 @@ public class WishlistController {
 
     @DeleteMapping(path = "/id/{wishlistId}")
     @ResponseStatus(HttpStatus.OK)
-    public MyCustomResponse removeWishlistById(@PathVariable @NotNull Integer wishlistId) {
+    public MyCustomResponse removeWishlistById(HttpSession session, @PathVariable @NotNull Integer wishlistId) {
         try {
-            wishlistRepository.deleteById(wishlistId);
+            User user = MyUserDetailsService.getSessionUserDetails(session); //from redis Store
+            wishlistRepository.deleteByWishlistIdAndUser(wishlistId, user);
             return new MyCustomResponse("Removed from Wishlist, id " + wishlistId);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from wishlist", e);
