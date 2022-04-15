@@ -10,12 +10,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
-import java.security.Principal;
 import java.util.Optional;
 
 
@@ -38,11 +37,11 @@ public class MyUserDetailsService implements UserDetailsService {
      * Checks if Google-User exists in dB. If not, register as new user.
      * Else just login with new Session.
      *
-     * @param oAuth2User authenticated User
-     * @param session    logged-in session
+     * @param oidcUser authenticated User
+     * @param session  logged-in session
      */
-    public void processOAuthPostLogin(OAuth2User oAuth2User, HttpSession session) {
-        CustomOAuthUser m = new CustomOAuthUser(oAuth2User);
+    public void processOAuthPostLogin(OidcUser oidcUser, HttpSession session) {
+        CustomOAuthUser m = new CustomOAuthUser(oidcUser);
         Optional<User> existUser = userRepository.findByEmail(m.getEmail());
 
         if (existUser.isEmpty()) {
@@ -71,11 +70,7 @@ public class MyUserDetailsService implements UserDetailsService {
      */
     public static User getSessionUserDetails(@NotNull HttpSession session) {
         SecurityContext context = (SecurityContext) session.getAttribute(SECURITY_CONTEXT);
-        Principal principal = (Principal) context.getAuthentication().getPrincipal();
-        if (principal instanceof OAuth2User) {
-            return new CustomOAuthUser((OAuth2User) principal);
-        }
-        return (User) principal;
+        return (User) context.getAuthentication().getPrincipal();
     }
 
 

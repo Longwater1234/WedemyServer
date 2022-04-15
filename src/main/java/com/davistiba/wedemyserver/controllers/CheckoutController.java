@@ -75,7 +75,7 @@ public class CheckoutController {
         } else if (result.getTransaction() != null) {
             transactionId = result.getTransaction().getId();
         } else {
-            //Oops! ☹
+            //Oops! FAIL ☹
             List<String> errorList = new ArrayList<>();
             for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
                 errorList.add(error.getMessage());
