@@ -4,7 +4,7 @@ import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -28,8 +28,8 @@ public class CustomOauthSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        myUserDetailsService.processOAuthPostLogin(oAuth2User, request.getSession());
+        OidcUser oidcUser = (OidcUser) authentication.getPrincipal();
+        myUserDetailsService.processOAuthPostLogin(oidcUser, request.getSession());
         response.sendRedirect(FRONTEND_URL);
 
     }

@@ -1,6 +1,6 @@
 frontend:
   root:
-    url: http://localhost:8080 #replace with your frontend URL here
+    url: http://localhost:8080 #replace with yours
 logging:
   level:
     org:

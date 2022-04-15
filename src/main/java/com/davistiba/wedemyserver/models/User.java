@@ -35,7 +35,7 @@ public class User implements UserDetails {
 
     @Column(nullable = false, length = 100)
     @Size(max = 100)
-    @Pattern(regexp = "^[^<>&/#]+?", message = "Invalid characters in name")
+    @Pattern(regexp = "^[ a-zA-Z0-9_'\\-]+?", message = "Invalid characters in name")
     @NotBlank
     private String fullname;
 

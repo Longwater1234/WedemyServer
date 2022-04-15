@@ -1,19 +1,19 @@
 # WedemyServer
 
 (Backend repo). A Springboot + Vue 3 + Typescript clone of Udemy, an e-learning platform. With PayPal and CreditCard
-checkout (powered by **Braintree** Payments). Uses Spring Session Redis + Spring Security + Cookies, for handling auth,
-_instead of_ stateless JWT Tokens. CSRF protection is ENABLED. For simplicity, both UserDetails and Role (single) are
-stored in the same table. Max 2 login **sessions** per user at any time. If same user logs in third time, first session
-is revoked. You can customize these settings
-in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java)
+checkout (powered by **Braintree** Payments). Uses Spring Security, Spring Session Redis, and Cookies (or, X-AUTH-TOKEN
+header) for auth, _instead of_ stateless JWT Tokens. CSRF protection is ENABLED. For simplicity, both UserDetails and
+UserRole (enum) are stored in the same table. Max 2 login **sessions** per user at any time. If same user logs in third
+time, first session is revoked. You can easily customize these settings
+in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java) and/or in _application.yml_
 
 ## Requirements
 
 - JDK 11+
 - MySQL 8.0.x
 - Redis Server v5.0.14+ (local or Cloud)
-- [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Sign in with Google_)
-- [Braintree](https://developer.paypal.com/braintree/docs) Developer Account + API Keys (for payments handling)
+- [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Google Login_)
+- [Braintree](https://developer.paypal.com/braintree/docs) Developer Account + API Keys.
 - (OPTIONAL) PayPal Developer Account.
 
 ## Important ⚠
@@ -25,7 +25,7 @@ store them as [Environmental Variables](https://www.baeldung.com/properties-with
 them as `property.name = ${ENV_KEY_NAME}`, OR use directly in your code as `Environment.getProperty("ENV_KEY_NAME")`
 as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
-| Tip 💡 | For IntelliJ users, I highly recommend the free plugin JPABuddy, it will make dealing with Spring Data JPA so MUCH EASIER! |
+| Tip 💡 | For IntelliJ users, I highly recommend the free plugin JPABuddy, it will make dealing with Spring Data JPA so MUCH EASIER and CLEANER! |
 |---------|:---------------------------------------------------------------------|
 
 ## Databases Used
@@ -35,7 +35,7 @@ as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.
 This is the primary database. All DateTimes are stored and queried in UTC only❗ (**Hint:
 USE `java.time.Instant` as Type for ALL Datetime fields. Also see point 6 below.**) Handle timezone Conversion on your
 Frontend! For your convenience, I have included a mysqldump file `wedemy.sql`
-inside [src/main/resources](src/main/resources) which contains SAMPLE data for few tables. You may take a look at
+inside [src/main/resources](src/main/resources) which contains SAMPLE data for some tables. You may take a look at
 the [ERD diagram](src/main/resources/wedemy_db_erd.png) of this DB. To get QUICKLY STARTED:
 
 1. Make sure you have MySQL 8.0.x. installed. (Verify, in terminal: `mysql --version`)
@@ -57,7 +57,7 @@ from [this Github repo](https://github.com/tporadowski/redis/releases). Or you c
 prefer the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace _host, password
 and port_ for redis inside `application.yml` to match your running Redis instance.
 
-| Tip 💡 | Redis creators have released the cross-platform desktop GUI for redis: RedisInsight. Download it free from [here](https://redis.com/redis-enterprise/redis-insight/) |
+| Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI: RedisInsight. Download it free from [here](https://redis.com/redis-enterprise/redis-insight/) |
 |---------|:---------------------------------------------------------------------|
 
 ## Payments Handling
