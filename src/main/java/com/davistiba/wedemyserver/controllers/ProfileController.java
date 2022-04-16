@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -57,8 +56,9 @@ public class ProfileController {
     @GetMapping(path = "/summary")
     @ResponseStatus(value = HttpStatus.OK)
     @Cacheable(value = "usersummary", key = "#session.id")
-    public List<UserSummary> getUserSummary(@NotNull HttpSession session, @AuthenticationPrincipal User user) {
+    public List<UserSummary> getUserSummary(@NotNull HttpSession session) {
         List<UserSummary> summaryList = new ArrayList<>();
+        User user = MyUserDetailsService.getSessionUser(session);
 
         long owned = enrollmentRepository.countEnrollmentByUser(user);
         UserSummary s1 = new UserSummary(SummaryTitle.OWNING, owned, "courses");

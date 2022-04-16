@@ -37,7 +37,7 @@ public class WishlistController {
     public MyCustomResponse addNewWishlist(@PathVariable Integer courseId, HttpSession session) {
 
         //  try {
-        User u = MyUserDetailsService.getSessionUserDetails(session); //from redis Store
+        User u = MyUserDetailsService.getSessionUser(session); //from redis Store
         Course course = courseRepository.findById(courseId).orElseThrow();
         wishlistRepository.save(new Wishlist(u, course));
         return new MyCustomResponse(String.format("Added to Wishlist, course %d ", courseId));
@@ -81,7 +81,7 @@ public class WishlistController {
     @ResponseStatus(HttpStatus.OK)
     public MyCustomResponse removeWishlistById(HttpSession session, @PathVariable @NotNull Integer wishlistId) {
         try {
-            User user = MyUserDetailsService.getSessionUserDetails(session); //from redis Store
+            User user = MyUserDetailsService.getSessionUser(session); //from redis Store
             wishlistRepository.deleteByWishlistIdAndUser(wishlistId, user);
             return new MyCustomResponse("Removed from Wishlist, id " + wishlistId);
         } catch (Exception e) {

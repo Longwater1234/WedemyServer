@@ -68,9 +68,13 @@ public class MyUserDetailsService implements UserDetailsService {
      * @param session loggedIn session
      * @return USER object
      */
-    public static User getSessionUserDetails(@NotNull HttpSession session) {
+    public static User getSessionUser(@NotNull HttpSession session) {
         SecurityContext context = (SecurityContext) session.getAttribute(SECURITY_CONTEXT);
-        return (User) context.getAuthentication().getPrincipal();
+        Object principal = context.getAuthentication().getPrincipal();
+        if (principal instanceof CustomOAuthUser) {
+            return (CustomOAuthUser) principal;
+        }
+        return (User) principal;
     }
 
 

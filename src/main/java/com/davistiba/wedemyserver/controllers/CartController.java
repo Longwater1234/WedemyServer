@@ -37,7 +37,7 @@ public class CartController {
     @ResponseStatus(HttpStatus.CREATED)
     public MyCustomResponse addSingleItem(HttpSession session, @PathVariable Integer courseId) {
         try {
-            User user = MyUserDetailsService.getSessionUserDetails(session); //from redis store
+            User user = MyUserDetailsService.getSessionUser(session); //from redis store
             Course course = courseRepository.findById(courseId).orElseThrow(); // verify if exists
             cartRepository.save(new Cart(course, user));
             return new MyCustomResponse(String.format("Added item to Cart, course %d", courseId));
@@ -93,7 +93,7 @@ public class CartController {
     @ResponseStatus(HttpStatus.OK)
     public MyCustomResponse removeCartById(@PathVariable @NotNull Integer cartId, HttpSession session) {
         try {
-            User user = MyUserDetailsService.getSessionUserDetails(session); //from redis Store
+            User user = MyUserDetailsService.getSessionUser(session); //from redis Store
             cartRepository.deleteByIdAndUser(cartId, user);
             return new MyCustomResponse("Removed from Wishlist, id " + cartId);
         } catch (Exception e) {
