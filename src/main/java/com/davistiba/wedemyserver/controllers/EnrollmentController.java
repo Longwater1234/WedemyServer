@@ -24,7 +24,7 @@ public class EnrollmentController {
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Boolean> checkEnrollStatus(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Map<String, Boolean> response = new HashMap<>();
-        Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
         boolean isOwned = enrollmentRepository.existsByCourseIdAndUserId(userId, courseId);
         response.put("isOwned", isOwned);
         return response;

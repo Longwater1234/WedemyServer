@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +27,7 @@ import java.util.Objects;
 @Table(name = "users")
 @Getter
 @Setter
+@ToString
 public class User implements UserDetails {
 
     private static final long serialVersionUID = -1352733651057286866L;
@@ -77,6 +80,18 @@ public class User implements UserDetails {
         return Collections.singletonList(authority);
     }
 
+    public User() {
+    }
+
+    public User(@NotNull CustomOAuthUser m) {
+        this.id = m.getId();
+        this.fullname = m.getName();
+        this.email = m.getEmail();
+        this.userRole = UserRole.ROLE_USER;
+        this.authProvider = m.getAuthProvider();
+        this.createdAt = m.getCreatedAt();
+        this.confirmPass = m.getConfirmPass();
+    }
 
     @Override
     @JsonIgnore

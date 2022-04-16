@@ -53,7 +53,7 @@ public class CheckoutController {
                                                                 @NotNull HttpSession session) {
         String transactionId;
         Map<String, Object> response;
-        User user = MyUserDetailsService.getSessionUser(session); //from redis Store
+        User user = MyUserDetailsService.getSessionUserInfo(session); //from redis Store
 
         // try to create Braintree transaction
         TransactionRequest transactionRequest = new TransactionRequest()

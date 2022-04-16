@@ -68,14 +68,23 @@ public class MyUserDetailsService implements UserDetailsService {
      * @param session loggedIn session
      * @return USER object
      */
-    public static User getSessionUser(@NotNull HttpSession session) {
+    public static User getSessionUserInfo(@NotNull HttpSession session) {
         SecurityContext context = (SecurityContext) session.getAttribute(SECURITY_CONTEXT);
         Object principal = context.getAuthentication().getPrincipal();
         if (principal instanceof CustomOAuthUser) {
-            return (CustomOAuthUser) principal;
+            return new User((CustomOAuthUser) principal);
         }
         return (User) principal;
     }
 
+    /**
+     * Just return the user_id saved in Redis Store
+     *
+     * @param session session
+     * @return userId
+     */
+    public static Integer getSessionUserId(@NotNull HttpSession session) {
+        return (Integer) session.getAttribute(USERID);
+    }
 
 }

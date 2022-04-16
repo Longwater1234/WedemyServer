@@ -1,6 +1,5 @@
 package com.davistiba.wedemyserver.controllers;
 
-import com.davistiba.wedemyserver.models.Cart;
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
@@ -37,10 +36,10 @@ public class CartController {
     @ResponseStatus(HttpStatus.CREATED)
     public MyCustomResponse addSingleItem(HttpSession session, @PathVariable Integer courseId) {
         try {
-            User user = MyUserDetailsService.getSessionUser(session); //from redis store
-            Course course = courseRepository.findById(courseId).orElseThrow(); // verify if exists
-            cartRepository.save(new Cart(course, user));
-            return new MyCustomResponse(String.format("Added item to Cart, course %d", courseId));
+            Integer userId = MyUserDetailsService.getSessionUserId(session);
+            Course course = courseRepository.findById(courseId).orElseThrow();
+            int count = cartRepository.addToCartCustom(course.getId(), userId, course.getPrice());
+            return new MyCustomResponse(String.format("Added %d item to Cart", count));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add to cart", e);
         }
@@ -70,7 +69,7 @@ public class CartController {
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Integer> countMyCartItems(HttpSession session) {
 
-        Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
         Map<String, Integer> response = new HashMap<>();
         int cartCount = cartRepository.countCartByUserIdEquals(userId);
         response.put("cartCount", cartCount);
@@ -81,7 +80,7 @@ public class CartController {
     @ResponseStatus(HttpStatus.OK)
     public MyCustomResponse removeCartByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
 
-        Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
         int ok = cartRepository.deleteAllByUserIdAndCoursesIn(userId, Collections.singleton(courseId));
         if (ok != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from cart");
@@ -93,7 +92,7 @@ public class CartController {
     @ResponseStatus(HttpStatus.OK)
     public MyCustomResponse removeCartById(@PathVariable @NotNull Integer cartId, HttpSession session) {
         try {
-            User user = MyUserDetailsService.getSessionUser(session); //from redis Store
+            User user = MyUserDetailsService.getSessionUserInfo(session); //from redis Store
             cartRepository.deleteByIdAndUser(cartId, user);
             return new MyCustomResponse("Removed from Wishlist, id " + cartId);
         } catch (Exception e) {

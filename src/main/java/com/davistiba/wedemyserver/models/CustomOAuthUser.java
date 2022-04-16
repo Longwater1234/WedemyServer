@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.models;
 
+import lombok.ToString;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -12,6 +13,7 @@ import java.util.Map;
  * [NOT A TABLE]
  * custom Object for GoogleLogin User details
  */
+@ToString
 public class CustomOAuthUser extends User implements OidcUser, Serializable {
 
     private static final long serialVersionUID = -8362892628832016809L;
@@ -22,49 +24,38 @@ public class CustomOAuthUser extends User implements OidcUser, Serializable {
     }
 
     @Override
-    public Integer getId() {
-        return super.getId();
-    }
-
-    @Override
     @Transient
     public Map<String, Object> getClaims() {
         return oidcUser.getClaims();
     }
 
     @Override
-    @Transient
     public OidcUserInfo getUserInfo() {
         return oidcUser.getUserInfo();
     }
 
     @Override
-    @Transient
     public OidcIdToken getIdToken() {
         return oidcUser.getIdToken();
     }
 
     @Override
-    @Transient
     public Map<String, Object> getAttributes() {
         return oidcUser.getAttributes();
     }
 
     @Override
-    @Transient
     public String getUsername() {
-        return oidcUser.getEmail();
+        return oidcUser.getAttribute("name");
     }
 
     @Override
-    @Transient
     public String getName() {
-        return oidcUser.getName();
+        return oidcUser.getAttribute("name");
     }
 
     @Override
-    @Transient
     public String getEmail() {
-        return oidcUser.getEmail();
+        return oidcUser.getAttribute("email");
     }
 }
