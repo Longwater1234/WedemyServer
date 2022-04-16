@@ -35,7 +35,7 @@ public class LessonController {
 
     @GetMapping(path = "/course/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Lesson> getLessonsbyCourseId(@PathVariable(name = "id") @NotNull Integer id) {
+    public List<Lesson> getLessonsByCourseId(@PathVariable(name = "id") @NotNull Integer id) {
 
         var LessonList = lessonRepository.getLessonsByCourse_Id(id);
         if (LessonList.isEmpty()) {
@@ -46,7 +46,7 @@ public class LessonController {
     }
 
 
-    @PostMapping(path = "/create")
+    @PostMapping(path = "/")
     @ResponseStatus(HttpStatus.CREATED)
     @Secured(value = "ROLE_ADMIN")
     @Async

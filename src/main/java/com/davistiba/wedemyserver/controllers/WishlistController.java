@@ -3,7 +3,6 @@ package com.davistiba.wedemyserver.controllers;
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
-import com.davistiba.wedemyserver.models.Wishlist;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.WishlistRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
@@ -36,19 +35,15 @@ public class WishlistController {
     @ResponseStatus(HttpStatus.CREATED)
     public MyCustomResponse addNewWishlist(@PathVariable Integer courseId, HttpSession session) {
 
-        //  try {
-        User u = MyUserDetailsService.getSessionUserDetails(session); //from redis Store
-        Course course = courseRepository.findById(courseId).orElseThrow();
-        wishlistRepository.save(new Wishlist(u, course));
-        return new MyCustomResponse(String.format("Added to Wishlist, course %d ", courseId));
-//        } catch (Exception e) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add to wishlist", e);
-//        }
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
+        int count = wishlistRepository.saveByCourseIdAndUserId(courseId, userId);
+        return new MyCustomResponse(String.format("Added %d to Wishlist", count));
     }
 
     @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Boolean> checkUserLikedCourse(@PathVariable @NotNull Integer courseId, HttpSession session) {
+
         Map<String, Boolean> response = new HashMap<>();
         Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
         boolean isExist = wishlistRepository.checkIfCourseInWishlist(userId, courseId);
@@ -60,7 +55,7 @@ public class WishlistController {
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)
     public List<Course> getAllMyWishlistCourses(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
-        Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
         return courseRepository.getCoursesWishlistByUser(userId, PageRequest.of(page, 10));
     }
 
@@ -68,7 +63,7 @@ public class WishlistController {
     @ResponseStatus(HttpStatus.OK)
     public MyCustomResponse removeWishlistByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
 
-        Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
         int ok = wishlistRepository.deleteByCourseIdAndUserId(courseId, userId);
         if (ok != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from wishlist");
@@ -81,7 +76,7 @@ public class WishlistController {
     @ResponseStatus(HttpStatus.OK)
     public MyCustomResponse removeWishlistById(HttpSession session, @PathVariable @NotNull Integer wishlistId) {
         try {
-            User user = MyUserDetailsService.getSessionUserDetails(session); //from redis Store
+            User user = MyUserDetailsService.getSessionUserInfo(session); //from redis Store
             wishlistRepository.deleteByWishlistIdAndUser(wishlistId, user);
             return new MyCustomResponse("Removed from Wishlist, id " + wishlistId);
         } catch (Exception e) {
