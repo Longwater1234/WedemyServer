@@ -5,7 +5,6 @@ import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
-import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -24,7 +23,6 @@ public class CustomOAuthUser extends User implements OidcUser, Serializable {
     }
 
     @Override
-    @Transient
     public Map<String, Object> getClaims() {
         return oidcUser.getClaims();
     }

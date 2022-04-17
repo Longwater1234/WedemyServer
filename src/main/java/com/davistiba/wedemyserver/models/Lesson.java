@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -17,7 +18,6 @@ import java.util.UUID;
 @Table(name = "lessons")
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 public class Lesson {
 
@@ -34,6 +34,10 @@ public class Lesson {
     @Column(nullable = false, unique = true, length = 20)
     @Size(max = 20)
     private String videokey;
+
+    @NotBlank
+    @ColumnDefault("0")
+    private Integer videoLength;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", referencedColumnName = "id")

@@ -72,7 +72,7 @@ public class MyUserDetailsService implements UserDetailsService {
         SecurityContext context = (SecurityContext) session.getAttribute(SECURITY_CONTEXT);
         Object principal = context.getAuthentication().getPrincipal();
         if (principal instanceof CustomOAuthUser) {
-            return new User((CustomOAuthUser) principal);
+            return (CustomOAuthUser) principal;
         }
         return (User) principal;
     }

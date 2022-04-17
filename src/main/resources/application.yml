@@ -23,13 +23,14 @@ spring:
     username: ${DB_USERNAME}
   jpa:
     hibernate:
-      ddl-auto: update #change to `none` in prod
+      ddl-auto: update #change to `none` in production
     properties:
       hibernate:
         order_inserts: true
+        order_updates: true
         dialect: org.hibernate.dialect.MySQL8Dialect
         jdbc:
-          batch-size: 30
+          batch-size: 20
   cache:
     type: redis
     redis:

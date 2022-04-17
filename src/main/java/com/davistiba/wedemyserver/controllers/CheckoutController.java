@@ -4,6 +4,7 @@ import com.braintreegateway.*;
 import com.davistiba.wedemyserver.config.BraintreeConfig;
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
 import com.davistiba.wedemyserver.models.User;
+import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.service.CheckoutService;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,11 @@ public class CheckoutController {
 
     private final CheckoutService checkoutService;
 
+    private final UserRepository userRepository;
+
     @Autowired
-    public CheckoutController(BraintreeGateway gateway, CheckoutService checkoutService) {
+    public CheckoutController(BraintreeGateway gateway, CheckoutService checkoutService, UserRepository userRepository) {
+        this.userRepository = userRepository;
         this.gateway = BraintreeConfig.getGateway();
         this.checkoutService = checkoutService;
     }
@@ -53,7 +57,8 @@ public class CheckoutController {
                                                                 @NotNull HttpSession session) {
         String transactionId;
         Map<String, Object> response;
-        User user = MyUserDetailsService.getSessionUserInfo(session); //from redis Store
+        Integer userId = MyUserDetailsService.getSessionUserId(session); //from redis Store
+        User user = userRepository.findById(userId).orElseThrow();
 
         // try to create Braintree transaction
         TransactionRequest transactionRequest = new TransactionRequest()
