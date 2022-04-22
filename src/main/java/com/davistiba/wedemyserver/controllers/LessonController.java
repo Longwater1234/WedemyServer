@@ -37,7 +37,7 @@ public class LessonController {
     @ResponseStatus(HttpStatus.OK)
     public List<Lesson> getLessonsByCourseId(@PathVariable(name = "id") @NotNull Integer id) {
 
-        var lessonList = lessonRepository.getLessonsByCourse_Id(id);
+        var lessonList = lessonRepository.getLessonsByCourseId(id);
         if (lessonList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("Sorry, no lessons for course id %d", id));

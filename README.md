@@ -3,15 +3,15 @@
 (Backend repo). A Springboot + Vue 3 + Typescript clone of Udemy, an e-learning platform. With PayPal and CreditCard
 checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis, and Cookies (httpOnly)
 for auth, _instead of_ stateless JWT Tokens. CSRF protection is ENABLED. For simplicity, both UserDetails and UserRole (
-enum) are stored in the same table. Max 2 login **sessions** per user at any time. If same user logs in third time,
-first session is revoked. You can easily customize these settings
+enum) are stored in the same table. Max 2 **concurrent** login sessions per user. If same user logs in third time, first
+session is auto-revoked. You can easily customize these settings
 in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java)
 
 ## Requirements
 
 - JDK 11+
 - MySQL 8.0.x
-- Redis Server 6.0+ (local or Cloud)
+- Redis Server 6.0 (local or Cloud)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Google Login_)
 - [Braintree](https://developer.paypal.com/braintree/docs) Developer Account + API Keys.
 - (OPTIONAL) PayPal Developer Account.
@@ -36,7 +36,7 @@ This is the primary database. All DateTimes are stored and queried in UTC only‚ù
 USE `java.time.Instant` as Type for ALL Datetime fields. Also see point 6 below.**) Handle timezone Conversion on your
 Frontend! For your convenience, I have included a mysqldump file `wedemy.sql`
 inside [src/main/resources](src/main/resources) which contains sample data for some tables. You can take a look at
-the [ERD diagram](src/main/resources/wedemy_db_erd.png) of this DB. To get QUICKLY STARTED:
+the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB. To get QUICKLY STARTED:
 
 1. Make sure you have MySQL 8.0.x. installed. (Verify, in terminal: `mysql --version`)
 2. CREATE new database called `wedemy` or whatever you like.
