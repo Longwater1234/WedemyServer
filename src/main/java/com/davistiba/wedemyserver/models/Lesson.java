@@ -10,7 +10,9 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.Duration;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -35,9 +37,14 @@ public class Lesson {
     @Size(max = 20)
     private String videokey;
 
-    @NotBlank
+    @NotNull
     @ColumnDefault("0")
-    private Integer videoLength;
+    private Integer lengthSeconds;
+
+    @NotNull
+    @ColumnDefault("0")
+    @Column(nullable = false)
+    private Integer position;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
@@ -51,6 +58,11 @@ public class Lesson {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Lesson lesson = (Lesson) o;
         return id != null && Objects.equals(id, lesson.id);
+    }
+
+    public String getLengthSeconds() {
+        return String.format("%02d:%02d", Duration.ofSeconds(this.lengthSeconds).toMinutesPart(),
+                Duration.ofSeconds(this.lengthSeconds).toSecondsPart());
     }
 
     @Override

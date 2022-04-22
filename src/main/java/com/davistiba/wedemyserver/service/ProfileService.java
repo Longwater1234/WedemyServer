@@ -5,14 +5,14 @@ import com.davistiba.wedemyserver.models.SummaryTitle;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
 import com.davistiba.wedemyserver.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +23,8 @@ public class ProfileService {
 
     @Autowired
     private EnrollmentRepository enrollmentRepository;
+
+    public static final Logger logger = LoggerFactory.getLogger(ProfileService.class);
 
     /**
      * Custom service to return Student summary
@@ -41,8 +43,10 @@ public class ProfileService {
         summaryList.add(s2);
 
         Instant dateCreated = userRepository.findById(user.getId()).get().getCreatedAt();
-        Period period = Period.between(LocalDate.ofInstant(dateCreated, ZoneId.of("UTC")), LocalDate.now());
-        final int numberDays = Math.abs(period.getDays());
+        Duration duration = Duration.between(Instant.now(), dateCreated).abs();
+        final long numberDays = duration.toDays();
+        logger.info("" + numberDays);
+
         long result = 0;
         String units;
         if (numberDays == 0) units = "today";
@@ -50,11 +54,11 @@ public class ProfileService {
             result = numberDays;
             units = "days ago";
         } else if (numberDays > 30 && numberDays <= 365) {
-            result = period.getMonths();
-            units = "month(s) ago";
+            result = Math.floorDiv(duration.toDays(), 30);
+            units = "months ago";
         } else {
-            result = period.getYears();
-            units = "year(s) ago";
+            result = Math.floorDiv(duration.toDays(), 365);
+            units = "years ago";
         }
 
         UserSummary s3 = new UserSummary(SummaryTitle.JOINED, result, units);
