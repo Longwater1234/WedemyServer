@@ -77,7 +77,7 @@ public class WishlistController {
     public MyCustomResponse removeWishlistById(HttpSession session, @PathVariable @NotNull Integer wishlistId) {
         try {
             User user = MyUserDetailsService.getSessionUserInfo(session); //from redis Store
-            wishlistRepository.deleteByWishlistIdAndUser(wishlistId, user);
+            wishlistRepository.deleteByIdAndUser(wishlistId, user);
             return new MyCustomResponse("Removed from Wishlist, id " + wishlistId);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from wishlist", e);

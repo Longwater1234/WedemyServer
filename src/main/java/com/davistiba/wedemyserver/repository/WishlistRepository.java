@@ -27,5 +27,5 @@ public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
     @Modifying
     @Transactional
-    void deleteByWishlistIdAndUser(Integer wishlistId, User user);
+    void deleteByIdAndUser(Integer wishlistId, User user);
 }
