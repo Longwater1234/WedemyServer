@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Configuration
 public class BraintreeConfig {
-    //get ENV values
+    //get ENV variables
     private static final org.springframework.core.env.Environment ENV = new StandardEnvironment();
 
     private static final BraintreeGateway gateway = new BraintreeGateway(

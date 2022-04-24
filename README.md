@@ -3,8 +3,7 @@
 (Backend repo). A Springboot + Vue 3 + Typescript clone of Udemy, an e-learning platform. With PayPal and CreditCard
 checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis, and Cookies (httpOnly)
 for auth, _instead of_ stateless JWT Tokens. CSRF protection is ENABLED. For simplicity, both UserDetails and UserRole (
-enum) are stored in the same table. Max 2 **concurrent** login sessions per user. If same user logs in third time, first
-session is auto-revoked. You can easily customize these settings
+enum) are stored in the same table. Max 2 *concurrent* login sessions per user. You can easily customize these settings
 in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java)
 
 ## Requirements
@@ -21,11 +20,12 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 Please examine the file [application.yml](src/main/resources/application.yml) inside src/main/resources/ folder. Place
 all your necessary Spring Application properties there. Notice property `frontend.root.url`; replace value with yours.
 But for _sensitive_ info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I suggest store them
-as [Environmental Variables](https://www.baeldung.com/properties-with-spring) instead, then simply declare them
-as `property.name = ${ENV_KEY_NAME}`, OR use directly in your code as `Environment.getProperty("ENV_KEY_NAME")`
-as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
+as [Environmental Variables](https://docs.oracle.com/javase/tutorial/essential/environment/env.html) instead, then
+simply declare them as `property.name = ${ENV_KEY_NAME}`, OR use directly in your code
+as `Environment.getProperty("ENV_KEY_NAME")` as
+shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
-| Tip 💡 | For IntelliJ users, I highly recommend the free plugin JPABuddy, it will make dealing with Spring Data JPA so much EASIER and CLEANER! |
+| Tip 💡 | For IntelliJ users, I highly recommend the free plugin JPABuddy; it will make working with Spring Data JPA so much EASIER and CLEANER! |
 |---------|:---------------------------------------------------------------------|
 
 ## Databases Used
@@ -51,8 +51,8 @@ the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB. To get QUICKLY 
 
 ### Redis v6.0
 
-This project uses Redis for 2 things: Caching, and Storing User sessions. You can download latest Redis (macOS & Linux)
-from https://redis.io/download. Windows users may download the latest stable .msi
+This project uses Redis for 2 main tasks: Caching, and Storing User sessions. You can download latest Redis (macOS &
+Linux) from https://redis.io/download. Windows users may download the latest stable .msi
 from [this Github repo](https://github.com/tporadowski/redis/releases). Or you could set it up with Docker. If you
 prefer the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace _host, password
 and port_ for redis inside `application.yml` to match your running Redis instance.

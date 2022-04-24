@@ -4,9 +4,6 @@ import com.davistiba.wedemyserver.dto.UserSummary;
 import com.davistiba.wedemyserver.models.SummaryTitle;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
-import com.davistiba.wedemyserver.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +15,9 @@ import java.util.List;
 
 @Service
 public class ProfileService {
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private EnrollmentRepository enrollmentRepository;
-
-    public static final Logger logger = LoggerFactory.getLogger(ProfileService.class);
 
     /**
      * Custom service to return Student summary
@@ -42,10 +35,8 @@ public class ProfileService {
         UserSummary s2 = new UserSummary(SummaryTitle.COMPLETED, completed, "courses");
         summaryList.add(s2);
 
-        Instant dateCreated = userRepository.findById(user.getId()).get().getCreatedAt();
-        Duration duration = Duration.between(Instant.now(), dateCreated).abs();
+        Duration duration = Duration.between(Instant.now(), user.getCreatedAt()).abs();
         final long numberDays = duration.toDays();
-        logger.info("" + numberDays);
 
         long result = 0;
         String units;
@@ -55,10 +46,10 @@ public class ProfileService {
             units = "days ago";
         } else if (numberDays > 30 && numberDays <= 365) {
             result = Math.floorDiv(duration.toDays(), 30);
-            units = "months ago";
+            units = "month(s) ago";
         } else {
             result = Math.floorDiv(duration.toDays(), 365);
-            units = "years ago";
+            units = "year(s) ago";
         }
 
         UserSummary s3 = new UserSummary(SummaryTitle.JOINED, result, units);

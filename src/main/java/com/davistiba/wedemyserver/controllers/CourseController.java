@@ -28,7 +28,6 @@ public class CourseController {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No course of id " + id);
         }
-
     }
 
     @GetMapping(path = "/cat/{category}")
@@ -58,10 +57,10 @@ public class CourseController {
 
     @GetMapping(path = "/search")
     @ResponseStatus(value = HttpStatus.OK)
-    public List<Course> searchForCourseByTitle(@RequestParam(value = "title", defaultValue = "") @NotBlank String title) {
-
-        if (title.length() < 4)
+    public List<Course> searchForCourseByTitle(@RequestParam(defaultValue = "") @NotBlank String title) {
+        if (title.length() < 4) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Search query too short");
+        }
         var searchResults = courseRepository.getCoursesByTitleContaining(title);
         if (searchResults.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results for your query.");
