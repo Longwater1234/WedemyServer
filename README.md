@@ -25,7 +25,7 @@ simply declare them as `property.name = ${ENV_KEY_NAME}`, OR use directly in you
 as `Environment.getProperty("ENV_KEY_NAME")` as
 shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
-| Tip 💡 | For IntelliJ users, I highly recommend the free plugin JPABuddy; it will make working with Spring Data JPA so much EASIER and CLEANER! |
+| Tip 💡 | For IntelliJ users, I highly recommend the free plugin JPABuddy; it will make dealing with Spring Data JPA so much EASIER and CLEANER! |
 |---------|:---------------------------------------------------------------------|
 
 ## Databases Used
