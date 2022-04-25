@@ -25,6 +25,13 @@ MUSIC - https://www.youtube.com/watch?v=QBH6IpRkVDs&list=PLpOuhygfD7QnP46wUgQudO
 OFFICE - https://www.youtube.com/watch?v=j-ZAVHk5SaU&list=PLpQQipWcxwt85bD079KkDtIJBMBwaU2TK
 ------✔***
 
+//GET user progress
+============================
+SELECT mama.*, `position`/`num_lessons`*100 as progress from(SELECT e.id, c.title, e.user_id,
+(SELECT COUNT(*) FROM lessons WHERE lessons.course_id = e.course_id) AS `num_lessons`, IFNULL(l.position, 0)
+AS `position` FROM enrollments e
+LEFT JOIN lessons l ON e.current_lesson = l.id
+iNNER JOIN courses c on e.course_id= c.id WHERE e.user_id = 1) mama
 
 
 

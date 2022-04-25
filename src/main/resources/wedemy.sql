@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 21, 2022 at 11:42 PM
+-- Generation Time: Apr 25, 2022 at 02:48 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -21,6 +21,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `wedemy`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `courses`
+--
+
+CREATE TABLE `courses`
+(
+    `id`        int(11)       NOT NULL,
+    `author`    varchar(100)  NOT NULL,
+    `category`  varchar(50)   NOT NULL,
+    `price`     decimal(6, 2) NOT NULL,
+    `rating`    decimal(3, 2) NOT NULL                                        DEFAULT '3.50',
+    `subtitle`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+    `thumb_url` varchar(255)                                                  DEFAULT NULL,
+    `title`     varchar(255)  NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `courses`
@@ -56,6 +76,21 @@ VALUES (10010, 'Corey Schafer', 'Development', '17.99', '4.50',
        (10019, 'TTFS', 'Office', '17.99', '3.50',
         'Microsoft Excel Beginner to Professional. Includes Pivot Tables, Power Query, NEW Formulas',
         'https://i3.ytimg.com/vi/Vl0H-qTclOg/maxresdefault.jpg', 'Master Microsoft Excel');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course_objectives`
+--
+
+CREATE TABLE `course_objectives`
+(
+    `id`        int(11) NOT NULL,
+    `objective` varchar(200) DEFAULT NULL,
+    `course_id` int(11) NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `course_objectives`
@@ -113,133 +148,245 @@ VALUES (1, 'Be able to program in Python professionally', 10010),
        (49, 'Navigating the keyboard', 10018),
        (50, 'Basic improvisation', 10018);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lessons`
+--
+
+CREATE TABLE `lessons`
+(
+    `id`             binary(16)   NOT NULL,
+    `lesson_name`    varchar(255) NOT NULL,
+    `videokey`       varchar(20)  NOT NULL,
+    `course_id`      int(11)      NOT NULL,
+    `length_seconds` int(11)               DEFAULT '0',
+    `position`       int(11)      NOT NULL DEFAULT '0'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
 --
 -- Dumping data for table `lessons`
 --
 
 INSERT INTO `lessons` (`id`, `lesson_name`, `videokey`, `course_id`, `length_seconds`, `position`)
-VALUES (BIN_TO_UUID(UUID()), '1. Introduction to Java', '2dZiMBwX_5Q', 10012, 455, 1),
-       (BIN_TO_UUID(UUID()), '2. Installation and Hello World', 'Hdf5OmERt0g', 10012, 323, 2),
-       (BIN_TO_UUID(UUID()), '3. Understanding Java Foundation', 'ovb8njlzvlA', 10012, 688, 3),
-       (BIN_TO_UUID(UUID()), '4. Arguments and Parameters', 'U5b9TH14REM', 10012, 690, 4),
-       (BIN_TO_UUID(UUID()), '5. Input and Output', 'JceW6zvmA_Q', 10012, 564, 5),
-       (BIN_TO_UUID(UUID()), '6. Variables', '7wWvSn_qiBc', 10012, 531, 6),
-       (BIN_TO_UUID(UUID()), '7. Primitives and Objects', 'r4wWYgkBcpI', 10012, 507, 7),
-       (BIN_TO_UUID(UUID()), '8. Variable Declaration and Initialization', '1mRN2MwdWUo', 10012, 478, 8),
-       (BIN_TO_UUID(UUID()), '9. Primitive Data Types', 'qUXbJziVs_o', 10012, 660, 9),
-       (BIN_TO_UUID(UUID()), 'DAY 1 - Lose Weight and Lose Belly Fat', 'By6GXzcldGY', 10016, 1320, 1),
-       (BIN_TO_UUID(UUID()), 'DAY 2 - Lose Weight and Lose Belly Fat', '4920WOvqqPQ', 10016, 1311, 2),
-       (BIN_TO_UUID(UUID()), 'DAY 3 - Lose Weight and Lose Belly Fat', 'rqFYiJNOZjY', 10016, 1338, 3),
-       (BIN_TO_UUID(UUID()), 'DAY 4 - Lose Weight and Lose Belly Fat', 'MnUflUjr2bw', 10016, 1329, 4),
-       (BIN_TO_UUID(UUID()), 'DAY 5 - Lose Weight and Lose Belly Fat', 'lSZacNnqn7g', 10016, 1327, 5),
-       (BIN_TO_UUID(UUID()), 'DAY 6 - Lose Weight and Lose Belly Fat', '2tHo7phAtfM', 10016, 1317, 6),
-       (BIN_TO_UUID(UUID()), 'DAY 7 - Lose Weight and Lose Belly Fat', '0nhfE3q6ZA8', 10016, 1313, 7),
-       (BIN_TO_UUID(UUID()), 'DAY 8 - Lose Weight and Lose Belly Fat', 'ex16_HWvYJM', 10016, 1315, 8),
-       (BIN_TO_UUID(UUID()), 'DAY 9 - Lose Weight and Lose Belly Fat', 'mbNl_XaWjWQ', 10016, 1312, 9),
-       (BIN_TO_UUID(UUID()), 'DAY 10 - Lose Weight and Lose Belly Fat', 'x9MJjko7vJM', 10016, 1318, 10),
-       (BIN_TO_UUID(UUID()), '1. How to Get Started With JavaScript', 'ItYye9h_RXg', 10011, 208, 1),
-       (BIN_TO_UUID(UUID()), '2. Which Tools to Use When Developing', 'ns_L4kpxY8c', 10011, 268, 2),
-       (BIN_TO_UUID(UUID()), '3. How to Install Extensions For JavaScript Development', 'ZouJQRxgem0',
+VALUES (UUID_TO_BIN(UUID()), '1. Introduction to Java', '2dZiMBwX_5Q', 10012, 455, 1),
+       (UUID_TO_BIN(UUID()), '2. Installation and Hello World', 'Hdf5OmERt0g', 10012, 323, 2),
+       (UUID_TO_BIN(UUID()), '3. Understanding Java Foundation', 'ovb8njlzvlA', 10012, 688, 3),
+       (UUID_TO_BIN(UUID()), '4. Arguments and Parameters', 'U5b9TH14REM', 10012, 690, 4),
+       (UUID_TO_BIN(UUID()), '5. Input and Output', 'JceW6zvmA_Q', 10012, 564, 5),
+       (UUID_TO_BIN(UUID()), '6. Variables', '7wWvSn_qiBc', 10012, 531, 6),
+       (UUID_TO_BIN(UUID()), '7. Primitives and Objects', 'r4wWYgkBcpI', 10012, 507, 7),
+       (UUID_TO_BIN(UUID()), '8. Variable Declaration and Initialization', '1mRN2MwdWUo', 10012, 478, 8),
+       (UUID_TO_BIN(UUID()), '9. Primitive Data Types', 'qUXbJziVs_o', 10012, 660, 9),
+       (UUID_TO_BIN(UUID()), 'DAY 1 - Lose Weight and Lose Belly Fat', 'By6GXzcldGY', 10016, 1320, 1),
+       (UUID_TO_BIN(UUID()), 'DAY 2 - Lose Weight and Lose Belly Fat', '4920WOvqqPQ', 10016, 1311, 2),
+       (UUID_TO_BIN(UUID()), 'DAY 3 - Lose Weight and Lose Belly Fat', 'rqFYiJNOZjY', 10016, 1338, 3),
+       (UUID_TO_BIN(UUID()), 'DAY 4 - Lose Weight and Lose Belly Fat', 'MnUflUjr2bw', 10016, 1329, 4),
+       (UUID_TO_BIN(UUID()), 'DAY 5 - Lose Weight and Lose Belly Fat', 'lSZacNnqn7g', 10016, 1327, 5),
+       (UUID_TO_BIN(UUID()), 'DAY 6 - Lose Weight and Lose Belly Fat', '2tHo7phAtfM', 10016, 1317, 6),
+       (UUID_TO_BIN(UUID()), 'DAY 7 - Lose Weight and Lose Belly Fat', '0nhfE3q6ZA8', 10016, 1313, 7),
+       (UUID_TO_BIN(UUID()), 'DAY 8 - Lose Weight and Lose Belly Fat', 'ex16_HWvYJM', 10016, 1315, 8),
+       (UUID_TO_BIN(UUID()), 'DAY 9 - Lose Weight and Lose Belly Fat', 'mbNl_XaWjWQ', 10016, 1312, 9),
+       (UUID_TO_BIN(UUID()), 'DAY 10 - Lose Weight and Lose Belly Fat', 'x9MJjko7vJM', 10016, 1318, 10),
+       (UUID_TO_BIN(UUID()), '1. How to Get Started With JavaScript', 'ItYye9h_RXg', 10011, 208, 1),
+       (UUID_TO_BIN(UUID()), '2. Which Tools to Use When Developing', 'ns_L4kpxY8c', 10011, 268, 2),
+       (UUID_TO_BIN(UUID()), '3. How to Install Extensions For JavaScript Development', 'ZouJQRxgem0',
         10011, 381, 3),
-       (BIN_TO_UUID(UUID()), '4. How to Include JavaScript in Our HTML', 'AD5hxsFJc4o', 10011, 499, 4),
-       (BIN_TO_UUID(UUID()), '5. How to Use the Developer Tool for JavaScript Development',
+       (UUID_TO_BIN(UUID()), '4. How to Include JavaScript in Our HTML', 'AD5hxsFJc4o', 10011, 499, 4),
+       (UUID_TO_BIN(UUID()), '5. How to Use the Developer Tool for JavaScript Development',
         'sjmyfwESv1g', 10011, 382, 5),
-       (BIN_TO_UUID(UUID()), '6. Rules for Writing JavaScript Code', 'FdlBtidhAnE', 10011, 338, 6),
-       (BIN_TO_UUID(UUID()), '7. How to Create Variables in JavaScript', '9aGIAL16DL4', 10011, 537, 7),
-       (BIN_TO_UUID(UUID()), '8. Different Data Types in JavaScript', 'O9by2KcR2v4', 10011, 880, 8),
-       (BIN_TO_UUID(UUID()), '9. Different Types of Operators in JavaScript', 'FZzyij43A54', 10011, 288,
+       (UUID_TO_BIN(UUID()), '6. Rules for Writing JavaScript Code', 'FdlBtidhAnE', 10011, 338, 6),
+       (UUID_TO_BIN(UUID()), '7. How to Create Variables in JavaScript', '9aGIAL16DL4', 10011, 537, 7),
+       (UUID_TO_BIN(UUID()), '8. Different Data Types in JavaScript', 'O9by2KcR2v4', 10011, 880, 8),
+       (UUID_TO_BIN(UUID()), '9. Different Types of Operators in JavaScript', 'FZzyij43A54', 10011, 288,
         9),
-       (BIN_TO_UUID(UUID()), '10. String Operator in JavaScript Explained', 'uli67N4Z03Y', 10011, 283,
+       (UUID_TO_BIN(UUID()), '10. String Operator in JavaScript Explained', 'uli67N4Z03Y', 10011, 283,
         10),
-       (BIN_TO_UUID(UUID()), '1. Preferences and Project Settings', 'EFK-vhzvYDg', 10014, 1137, 1),
-       (BIN_TO_UUID(UUID()), '2. Timeline Scroll: Page VS Smooth', 'GRESV6TO5sA', 10014, 162, 2),
-       (BIN_TO_UUID(UUID()), '3. Scale or Set to Frame Size', 'kh5wWqyG1KU', 10014, 562, 3),
-       (BIN_TO_UUID(UUID()), '4. Keyboard Shortcuts', 'aJTn5pj2zZ0', 10014, 409, 4),
-       (BIN_TO_UUID(UUID()), '5. How to Setup a New Project', 'Ud3ABhhJwb0', 10014, 766, 5),
-       (BIN_TO_UUID(UUID()), '6. Windows and Layouts', 'J-XuNBVG_lg', 10014, 396, 6),
-       (BIN_TO_UUID(UUID()), '7. Importing Media Part 1', 't7hGBgkOJDY', 10014, 607, 7),
-       (BIN_TO_UUID(UUID()), '8. Importing Media Part 2', 'Y_aydeNr8l4', 10014, 257, 8),
-       (BIN_TO_UUID(UUID()), '9. The Project Panel', 'UTtrFgapV_4', 10014, 653, 9),
-       (BIN_TO_UUID(UUID()), '10. The Source Panel', 'J7xy5l6IsMk', 10014, 432, 10),
-       (BIN_TO_UUID(UUID()), '1. Excel Basics Tutorial', 'rwbho0CgEAE', 10019, 1307, 1),
-       (BIN_TO_UUID(UUID()), '2. Intermediate Excel Skills, Tips, and Tricks', 'lxq_46nY43g', 10019,
+       (UUID_TO_BIN(UUID()), '1. Preferences and Project Settings', 'EFK-vhzvYDg', 10014, 1137, 1),
+       (UUID_TO_BIN(UUID()), '2. Timeline Scroll: Page VS Smooth', 'GRESV6TO5sA', 10014, 162, 2),
+       (UUID_TO_BIN(UUID()), '3. Scale or Set to Frame Size', 'kh5wWqyG1KU', 10014, 562, 3),
+       (UUID_TO_BIN(UUID()), '4. Keyboard Shortcuts', 'aJTn5pj2zZ0', 10014, 409, 4),
+       (UUID_TO_BIN(UUID()), '5. How to Setup a New Project', 'Ud3ABhhJwb0', 10014, 766, 5),
+       (UUID_TO_BIN(UUID()), '6. Windows and Layouts', 'J-XuNBVG_lg', 10014, 396, 6),
+       (UUID_TO_BIN(UUID()), '7. Importing Media Part 1', 't7hGBgkOJDY', 10014, 607, 7),
+       (UUID_TO_BIN(UUID()), '8. Importing Media Part 2', 'Y_aydeNr8l4', 10014, 257, 8),
+       (UUID_TO_BIN(UUID()), '9. The Project Panel', 'UTtrFgapV_4', 10014, 653, 9),
+       (UUID_TO_BIN(UUID()), '10. The Source Panel', 'J7xy5l6IsMk', 10014, 432, 10),
+       (UUID_TO_BIN(UUID()), '1. Excel Basics Tutorial', 'rwbho0CgEAE', 10019, 1307, 1),
+       (UUID_TO_BIN(UUID()), '2. Intermediate Excel Skills, Tips, and Tricks', 'lxq_46nY43g', 10019,
         1218, 2),
-       (BIN_TO_UUID(UUID()), '3. VLOOKUP Basics', 'y8ygx1Zkcgs', 10019, 718, 3),
-       (BIN_TO_UUID(UUID()), '4. Creating Pivot Tables in Excel', 'BkmxrvIfDGA', 10019, 791, 4),
-       (BIN_TO_UUID(UUID()), '5. Using Recommended Pivot Tables', 'ebdgGbsTWs8', 10019, 317, 5),
-       (BIN_TO_UUID(UUID()), '6. Protecting a Sheet', 'piIWTp3qncw', 10019, 255, 6),
-       (BIN_TO_UUID(UUID()), '7. Advanced Excel - 3D Formulas', 'arJBUarj8u8', 10019, 443, 7),
-       (BIN_TO_UUID(UUID()), '8. Data Validation and Drop-Down Lists', 'SlWIgMFpsPg', 10019, 788, 8),
-       (BIN_TO_UUID(UUID()), '9. Creating Your Own Excel Templates', 'dgHjAHIBvsI', 10019, 345, 9),
-       (BIN_TO_UUID(UUID()), '10. Excel Split Names', 'yCxnWvD_r_Q', 10019, 314, 10),
-       (BIN_TO_UUID(UUID()), '1. The Piano Keyboard', 'QBH6IpRkVDs', 10018, 698, 1),
-       (BIN_TO_UUID(UUID()), '2. Starting to Read Music', '3BULT0-joT0', 10018, 1182, 2),
-       (BIN_TO_UUID(UUID()), '3. Reading a Melody', 'NUVQIwO1SEI', 10018, 984, 3),
-       (BIN_TO_UUID(UUID()), '4. The Left Hand And The Scale Of C Major', 'f9JI_5y0K68', 10018, 987, 4),
-       (BIN_TO_UUID(UUID()), '5. Learning a Piece', '1JVtPB8VJXE', 10018, 881, 5),
-       (BIN_TO_UUID(UUID()), '6. A New Piece, A New Scale, And Rests', 'yeP2qRcHuUM', 10018, 796, 6),
-       (BIN_TO_UUID(UUID()), '7. Quavers (Eighth Notes) And Accidentals', '3UetN01yPTs', 10018, 864, 7),
-       (BIN_TO_UUID(UUID()), '8. A New Piece, Phrase Marks And Ritenuto', '7x20caWKKkQ', 10018, 749, 8),
-       (BIN_TO_UUID(UUID()), '9. The Concept Of Musical Key', 'aU3VEy-4qwM', 10018, 788, 9),
-       (BIN_TO_UUID(UUID()), '10. More Scales, And Playing Staccato', 'ZCdfa9GyyuM', 10018, 1114, 10),
-       (BIN_TO_UUID(UUID()), '1. Intro to Economics: Crash Course Economics', '3ez10ADR_gM', 10015, 729,
+       (UUID_TO_BIN(UUID()), '3. VLOOKUP Basics', 'y8ygx1Zkcgs', 10019, 718, 3),
+       (UUID_TO_BIN(UUID()), '4. Creating Pivot Tables in Excel', 'BkmxrvIfDGA', 10019, 791, 4),
+       (UUID_TO_BIN(UUID()), '5. Using Recommended Pivot Tables', 'ebdgGbsTWs8', 10019, 317, 5),
+       (UUID_TO_BIN(UUID()), '6. Protecting a Sheet', 'piIWTp3qncw', 10019, 255, 6),
+       (UUID_TO_BIN(UUID()), '7. Advanced Excel - 3D Formulas', 'arJBUarj8u8', 10019, 443, 7),
+       (UUID_TO_BIN(UUID()), '8. Data Validation and Drop-Down Lists', 'SlWIgMFpsPg', 10019, 788, 8),
+       (UUID_TO_BIN(UUID()), '9. Creating Your Own Excel Templates', 'dgHjAHIBvsI', 10019, 345, 9),
+       (UUID_TO_BIN(UUID()), '10. Excel Split Names', 'yCxnWvD_r_Q', 10019, 314, 10),
+       (UUID_TO_BIN(UUID()), '1. The Piano Keyboard', 'QBH6IpRkVDs', 10018, 698, 1),
+       (UUID_TO_BIN(UUID()), '2. Starting to Read Music', '3BULT0-joT0', 10018, 1182, 2),
+       (UUID_TO_BIN(UUID()), '3. Reading a Melody', 'NUVQIwO1SEI', 10018, 984, 3),
+       (UUID_TO_BIN(UUID()), '4. The Left Hand And The Scale Of C Major', 'f9JI_5y0K68', 10018, 987, 4),
+       (UUID_TO_BIN(UUID()), '5. Learning a Piece', '1JVtPB8VJXE', 10018, 881, 5),
+       (UUID_TO_BIN(UUID()), '6. A New Piece, A New Scale, And Rests', 'yeP2qRcHuUM', 10018, 796, 6),
+       (UUID_TO_BIN(UUID()), '7. Quavers (Eighth Notes) And Accidentals', '3UetN01yPTs', 10018, 864, 7),
+       (UUID_TO_BIN(UUID()), '8. A New Piece, Phrase Marks And Ritenuto', '7x20caWKKkQ', 10018, 749, 8),
+       (UUID_TO_BIN(UUID()), '9. The Concept Of Musical Key', 'aU3VEy-4qwM', 10018, 788, 9),
+       (UUID_TO_BIN(UUID()), '10. More Scales, And Playing Staccato', 'ZCdfa9GyyuM', 10018, 1114, 10),
+       (UUID_TO_BIN(UUID()), '1. Intro to Economics: Crash Course Economics', '3ez10ADR_gM', 10015, 729,
         1),
-       (BIN_TO_UUID(UUID()), '2. Crash Course Economics- How it all started', 'A307rSHkJdc', 10015, 159,
+       (UUID_TO_BIN(UUID()), '2. Crash Course Economics- How it all started', 'A307rSHkJdc', 10015, 159,
         2),
-       (BIN_TO_UUID(UUID()), '3. Specialization and Trade: Crash Course Economics', 'NI9TLDIPVcs', 10015,
+       (UUID_TO_BIN(UUID()), '3. Specialization and Trade: Crash Course Economics', 'NI9TLDIPVcs', 10015,
         543, 3),
-       (BIN_TO_UUID(UUID()), '4. Economic Systems and Macroeconomics: Crash Course Economics',
+       (UUID_TO_BIN(UUID()), '4. Economic Systems and Macroeconomics: Crash Course Economics',
         'B43YEW2FvDs', 10015, 617, 4),
-       (BIN_TO_UUID(UUID()), '5. Supply and Demand: Crash Course Economics', 'g9aDizJpd_s', 10015, 622,
+       (UUID_TO_BIN(UUID()), '5. Supply and Demand: Crash Course Economics', 'g9aDizJpd_s', 10015, 622,
         5),
-       (BIN_TO_UUID(UUID()), '6. Macroeconomics: Crash Course Economics', 'd8uTB5XorBw', 10015, 823, 6),
-       (BIN_TO_UUID(UUID()), '7. Productivity and Growth: Crash Course Economics', 'UHiUYj5EA0w', 10015,
+       (UUID_TO_BIN(UUID()), '6. Macroeconomics: Crash Course Economics', 'd8uTB5XorBw', 10015, 823, 6),
+       (UUID_TO_BIN(UUID()), '7. Productivity and Growth: Crash Course Economics', 'UHiUYj5EA0w', 10015,
         530, 7),
-       (BIN_TO_UUID(UUID()), '8. Inflation and Bubbles and Tulips: Crash Course Economics',
+       (UUID_TO_BIN(UUID()), '8. Inflation and Bubbles and Tulips: Crash Course Economics',
         'T8-85cZRI9o', 10015, 625, 8),
-       (BIN_TO_UUID(UUID()), '9. Fiscal Policy and Stimulus: Crash Course Economics', 'otmgFQHbaDo',
+       (UUID_TO_BIN(UUID()), '9. Fiscal Policy and Stimulus: Crash Course Economics', 'otmgFQHbaDo',
         10015, 713, 9),
-       (BIN_TO_UUID(UUID()), '10. Deficits & Debts: Crash Course Economics', '3sUCSGVYzI0', 10015, 451,
+       (UUID_TO_BIN(UUID()), '10. Deficits & Debts: Crash Course Economics', '3sUCSGVYzI0', 10015, 451,
         10),
-       (BIN_TO_UUID(UUID()), '1. Install and Setup for Mac and Windows', 'YYXdXT2l-Gg', 10010, 928, 1),
-       (BIN_TO_UUID(UUID()), '2. Strings - Working with Textual Data', 'k9TUPpGqYTo', 10010, 1271, 2),
-       (BIN_TO_UUID(UUID()), '3. Integers and Floats - Working with Numeric Data', 'khKv-8q7YmY', 10010,
+       (UUID_TO_BIN(UUID()), '1. Install and Setup for Mac and Windows', 'YYXdXT2l-Gg', 10010, 928, 1),
+       (UUID_TO_BIN(UUID()), '2. Strings - Working with Textual Data', 'k9TUPpGqYTo', 10010, 1271, 2),
+       (UUID_TO_BIN(UUID()), '3. Integers and Floats - Working with Numeric Data', 'khKv-8q7YmY', 10010,
         715, 3),
-       (BIN_TO_UUID(UUID()), '4. Lists, Tuples, and Sets', 'W8KRzm-HUcc', 10010, 1744, 4),
-       (BIN_TO_UUID(UUID()), '5. Dictionaries - Working with Key-Value Pairs', 'daefaLgNkw0', 10010, 599,
+       (UUID_TO_BIN(UUID()), '4. Lists, Tuples, and Sets', 'W8KRzm-HUcc', 10010, 1744, 4),
+       (UUID_TO_BIN(UUID()), '5. Dictionaries - Working with Key-Value Pairs', 'daefaLgNkw0', 10010, 599,
         5),
-       (BIN_TO_UUID(UUID()), '6. Conditionals and Booleans - If, Else, and Elif Statements',
+       (UUID_TO_BIN(UUID()), '6. Conditionals and Booleans - If, Else, and Elif Statements',
         'DZwmZ8Usvnk', 10010, 988, 6),
-       (BIN_TO_UUID(UUID()), '7. Loops and Iterations - For/While Loops', '6iF8Xb7Z3wQ', 10010, 614, 7),
-       (BIN_TO_UUID(UUID()), '8. Functions', '9Os0o3wzS_I', 10010, 1307, 8),
-       (BIN_TO_UUID(UUID()), '9. Import Modules and Exploring The Standard Library', 'CqvZ3vGoGs0',
+       (UUID_TO_BIN(UUID()), '7. Loops and Iterations - For/While Loops', '6iF8Xb7Z3wQ', 10010, 614, 7),
+       (UUID_TO_BIN(UUID()), '8. Functions', '9Os0o3wzS_I', 10010, 1307, 8),
+       (UUID_TO_BIN(UUID()), '9. Import Modules and Exploring The Standard Library', 'CqvZ3vGoGs0',
         10010, 1317, 9),
-       (BIN_TO_UUID(UUID()), '10. Setting up a Python Development Environment in Sublime Text',
+       (UUID_TO_BIN(UUID()), '10. Setting up a Python Development Environment in Sublime Text',
         'xFciV6Ew5r4', 10010, 1562, 10),
-       (BIN_TO_UUID(UUID()), '1. Interface Introduction to Adobe Illustrator', 'QKWnkIPur2Q', 10013, 866,
+       (UUID_TO_BIN(UUID()), '1. Interface Introduction to Adobe Illustrator', 'QKWnkIPur2Q', 10013, 866,
         1),
-       (BIN_TO_UUID(UUID()), '2. Panels & Workspaces in Adobe Illustrator', '2E9oGKd0Ayg', 10013, 552,
+       (UUID_TO_BIN(UUID()), '2. Panels & Workspaces in Adobe Illustrator', '2E9oGKd0Ayg', 10013, 552,
         2),
-       (BIN_TO_UUID(UUID()), '3. Artboards in Adobe Illustrator', '9GbLm_WXWwk', 10013, 579, 3),
-       (BIN_TO_UUID(UUID()), '4. Vector basics | Selection & Direct selection tool & more',
+       (UUID_TO_BIN(UUID()), '3. Artboards in Adobe Illustrator', '9GbLm_WXWwk', 10013, 579, 3),
+       (UUID_TO_BIN(UUID()), '4. Vector basics | Selection & Direct selection tool & more',
         'GFY0_EMVYDw', 10013, 1033, 4),
-       (BIN_TO_UUID(UUID()), '5. Fill & Stroke effects in Adobe Illustrator', 'xhATZA88zC4', 10013, 651,
+       (UUID_TO_BIN(UUID()), '5. Fill & Stroke effects in Adobe Illustrator', 'xhATZA88zC4', 10013, 651,
         5),
-       (BIN_TO_UUID(UUID()), '6. Using Colour | Swatches | Pantone\'s | Gradients & more', 'MX67tVC8f3s',
+       (UUID_TO_BIN(UUID()), '6. Using Colour | Swatches | Pantone\'s | Gradients & more', 'MX67tVC8f3s',
         10013, 1067, 6),
-       (BIN_TO_UUID(UUID()), '7. 10 Handy Tips | Things to know for beginners', 'wRL9rPO2SYk', 10013,
+       (UUID_TO_BIN(UUID()), '7. 10 Handy Tips | Things to know for beginners', 'wRL9rPO2SYk', 10013,
         716, 7),
-       (BIN_TO_UUID(UUID()), '8. Creating shape vectors in Adobe Illustrator', 'FH4-WIkHnd4', 10013,
+       (UUID_TO_BIN(UUID()), '8. Creating shape vectors in Adobe Illustrator', 'FH4-WIkHnd4', 10013,
         1129, 8),
-       (BIN_TO_UUID(UUID()), '9. Grouping | Compounding vectors & Using the shape builder tool',
+       (UUID_TO_BIN(UUID()), '9. Grouping | Compounding vectors & Using the shape builder tool',
         'aGFWmYHUQOU', 10013, 901, 9),
-       (BIN_TO_UUID(UUID()), '10. The Blob brush tool & Eraser tool in Adobe Illustrator', 'wnXDboK7FH8',
+       (UUID_TO_BIN(UUID()), '10. The Blob brush tool & Eraser tool in Adobe Illustrator', 'wnXDboK7FH8',
         10013, 483, 10),
-       (BIN_TO_UUID(UUID()), 'Part 1 - Real Estate Investing', 'nFH8PV_jPLk', 10017, 344, 1),
-       (BIN_TO_UUID(UUID()), 'Part 2 - Real Estate Investing', 'dgu5PaLFu5Y', 10017, 452, 2),
-       (BIN_TO_UUID(UUID()), 'Part 3 - Real Estate Investing', '4c6afHE7P6M', 10017, 261, 3),
-       (BIN_TO_UUID(UUID()), 'Part 4 - Real Estate Investing', 'mRzoImyFMSY', 10017, 1880, 4),
-       (BIN_TO_UUID(UUID()), 'Part 5 - Real Estate Investing', '1mecyBhnJKg', 10017, 896, 5);
+       (UUID_TO_BIN(UUID()), 'Part 1 - Real Estate Investing', 'nFH8PV_jPLk', 10017, 344, 1),
+       (UUID_TO_BIN(UUID()), 'Part 2 - Real Estate Investing', 'dgu5PaLFu5Y', 10017, 452, 2),
+       (UUID_TO_BIN(UUID()), 'Part 3 - Real Estate Investing', '4c6afHE7P6M', 10017, 261, 3),
+       (UUID_TO_BIN(UUID()), 'Part 4 - Real Estate Investing', 'mRzoImyFMSY', 10017, 1880, 4),
+       (UUID_TO_BIN(UUID()), 'Part 5 - Real Estate Investing', '1mecyBhnJKg', 10017, 896, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_course_progress`
+-- (See below for the actual view)
+--
+CREATE TABLE `view_course_progress`
+(
+    `id`       int(11),
+    `title`    varchar(255),
+    `user_id`  int(11),
+    `progress` decimal(5, 2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_course_progress`
+--
+DROP TABLE IF EXISTS `view_course_progress`;
+
+CREATE VIEW `view_course_progress` AS
+select `mama`.`id`                                           AS `id`,
+       `mama`.`title`                                        AS `title`,
+       `mama`.`user_id`                                      AS `user_id`,
+       ((`mama`.`position` / `mama`.`num_of_lessons`) * 100) AS `progress`
+from (select `e`.`id`                                                                         AS `id`,
+             `c`.`title`                                                                      AS `title`,
+             `e`.`user_id`                                                                    AS `user_id`,
+             (select count(0) from `lessons` where (`lessons`.`course_id` = `e`.`course_id`)) AS `num_of_lessons`,
+             ifnull(`l`.`position`, 0)                                                        AS `position`
+      from ((`enrollments` `e` left join `lessons` `l` on ((`e`.`current_lesson` = `l`.`id`)))
+               join `courses` `c` on ((`e`.`course_id` = `c`.`id`)))) `mama`;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `courses`
+--
+ALTER TABLE `courses`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `IDX_CATEGORY` (`category`);
+
+--
+-- Indexes for table `course_objectives`
+--
+ALTER TABLE `course_objectives`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `FKe14b2c5dqha8fmbx7vwlebss7` (`course_id`);
+
+--
+-- Indexes for table `lessons`
+--
+ALTER TABLE `lessons`
+    ADD PRIMARY KEY (`id`),
+    ADD UNIQUE KEY `UK_e4ri79ihrl4716saiqpqeod2i` (`videokey`),
+    ADD KEY `FK17ucc7gjfjddsyi0gvstkqeat` (`course_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `courses`
+--
+ALTER TABLE `courses`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 10020;
+
+--
+-- AUTO_INCREMENT for table `course_objectives`
+--
+ALTER TABLE `course_objectives`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 51;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `course_objectives`
+--
+ALTER TABLE `course_objectives`
+    ADD CONSTRAINT `FKe14b2c5dqha8fmbx7vwlebss7` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
+
+--
+-- Constraints for table `lessons`
+--
+ALTER TABLE `lessons`
+    ADD CONSTRAINT `FK17ucc7gjfjddsyi0gvstkqeat` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
