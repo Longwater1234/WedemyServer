@@ -18,9 +18,9 @@ server:
         name: WEDEMY
 spring:
   datasource:
-    password: ${DB_PASSWORD}
-    url: ${DB_HOST}
-    username: ${DB_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    url: ${MYSQL_HOST}
+    username: ${MYSQL_USERNAME}
   jpa:
     hibernate:
       ddl-auto: update #change to `none` in production
