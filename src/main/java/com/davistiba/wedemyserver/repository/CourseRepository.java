@@ -5,6 +5,7 @@ import com.davistiba.wedemyserver.models.Course;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotBlank;
@@ -19,7 +20,7 @@ public interface CourseRepository extends CrudRepository<Course, Integer> {
 
     List<Course> getTop6ByRatingGreaterThanEqual(BigDecimal rating);
 
-    List<Course> getCoursesByTitleContaining(@NotBlank String title);
+    List<Course> getCoursesByTitleContaining(@Param("title") String title);
 
     @Query(value = "SELECT DISTINCT new com.davistiba.wedemyserver.dto.CategoryDTO(c.id, c.category) FROM Course c GROUP BY c.category")
     List<CategoryDTO> getAllDistinctCategories();

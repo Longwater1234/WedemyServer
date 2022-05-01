@@ -10,31 +10,26 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 
 - JDK 11+
 - MySQL 8.0.x
-- Redis Server 6.0 (local or Cloud)
+- Redis Server 6.0+ (local or Cloud)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Google Login_)
 - [Braintree](https://developer.paypal.com/braintree/docs) Developer Account + API Keys.
 - (OPTIONAL) PayPal Developer Account.
 
 ### Environmental Variables
 
-You MUST set these ENV variables on your System before you launch this app. **Tip**: During dev, you easily can set them
-up within your IDE (will be LOCAL only). In either Eclipse or IntelliJ IDEA, in the top toolbar, find the **Run**
-menu > **Edit /Run Configuration** > **Environment** > **Environmental Variables**. Add each key and value, then
-click **Apply**.
+You MUST set these ENV variables on your System before you launch this Springboot app. **Tip**: During dev, you easily
+can set them up within your IDE (will be LOCAL only). In either Eclipse or IntelliJ IDEA, in the top toolbar, find
+the **Run** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add each key and value,
+then click **Apply**.
 
 ```shell
 #below are for Google Login
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
-#below are for MySQL
-MYSQL_USERNAME=
-MYSQL_PASSWORD=
-MYSQL_HOST=
-#below are for BraintreePayments
+#below are for Braintree Payments
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
-
 ```
 
 ## Important ⚠
@@ -43,10 +38,7 @@ Please examine the file [application.yml](src/main/resources/application.yml) in
 all your necessary Spring Application properties there. Notice property `frontend.root.url`; replace value with yours.
 But for _sensitive_ info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I suggest store them as
 Environmental Variables instead, then simply declare them as `property.name = ${ENV_KEY_NAME}`, OR use directly in your
-code as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
-
-| Tip 💡 | For IntelliJ users, I highly recommend the free plugin JPABuddy; it will make working with Spring Data JPA so much EASIER and CLEANER! |
-|---------|:---------------------------------------------------------------------|
+code as shown in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
 ## Databases Used
 
@@ -54,16 +46,15 @@ code as shown [here](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 This is the primary database. All DateTimes are stored and queried in UTC only❗ (**Hint:
 USE `java.time.Instant` as Type for ALL Datetime fields. Also see point 6 below.**) Handle timezone Conversion on your
-Frontend! For your convenience, I have included a mysqldump file `wedemy.sql`
+Frontend! For your convenience, I have included a mysqldump file `data_wedemy.sql`
 inside [src/main/resources](src/main/resources) which contains sample data for some tables. You can take a look at
 the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB. To get QUICKLY STARTED:
 
 1. Make sure you have MySQL 8.0.x. installed. (Verify, in terminal: `mysql --version`)
 2. CREATE new database called `wedemy` or whatever you like.
-3. Replace the values of `MYSQL_HOST` `MYSQL_USERNAME` and `MYSQL_PASSWORD` inside _application.yml_ to match your
-   database.
+3. Replace the values of `MYSQL_HOST` `MYSQL_USERNAME` and `MYSQL_PASSWORD` inside _application.yml_ to match your db.
 4. If everything is set, you may now launch the SpringBoot app for Hibernate to auto-generate all tables and indexes.
-5. Now you can finally IMPORT file [wedemy.sql](src/main/resources/wedemy.sql) into your db. (OPTIONAL)
+5. Now you can finally IMPORT file [data_wedemy.sql](src/main/resources/data_wedemy.sql) into your db. (OPTIONAL)
 6. To maintain consistent time-zone (UTC) with your Java app, ensure your MySQL connection URL has
    parameter `connectionTimeZone=UTC`. See example below. For custom @Query's, use UTC_TIMESTAMP() or UTC_DATE()
    ```properties
