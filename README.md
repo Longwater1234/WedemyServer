@@ -40,6 +40,7 @@ But for _sensitive_ info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE
 Environmental Variables instead, then simply declare them as `property.name = ${ENV_KEY_NAME}`, OR use directly in your
 code as shown in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
+
 ## Databases Used
 
 ### MySQL 8.0.x
