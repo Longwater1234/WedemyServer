@@ -22,7 +22,7 @@ public class CourseController {
     private CourseRepository courseRepository;
 
     @GetMapping(path = "/id/{id}")
-    public Course getCourseById(@PathVariable(value = "id") @NotNull Integer id) {
+    public Course getCourseById(@PathVariable @NotNull Integer id) {
         try {
             return courseRepository.findById(id).orElseThrow();
         } catch (Exception e) {
@@ -32,7 +32,7 @@ public class CourseController {
 
     @GetMapping(path = "/cat/{category}")
     @ResponseStatus(value = HttpStatus.OK)
-    public List<Course> getCoursesByCategory(@PathVariable(value = "category") @NotBlank String category) {
+    public List<Course> getCoursesByCategory(@PathVariable @NotBlank String category) {
         var courseList = courseRepository.getCoursesByCategoryEquals(category);
         if (courseList.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results");

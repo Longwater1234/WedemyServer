@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -37,11 +37,11 @@ public class MyUserDetailsService implements UserDetailsService {
      * Checks if Google-User exists in dB. If not, register as new user.
      * Else just login with new Session.
      *
-     * @param oidcUser authenticated User
-     * @param session  logged-in session
+     * @param oAuth2User authenticated User
+     * @param session    logged-in session
      */
-    public void processOAuthPostLogin(OidcUser oidcUser, HttpSession session) {
-        CustomOAuthUser m = new CustomOAuthUser(oidcUser);
+    public void processOAuthPostLogin(OAuth2User oAuth2User, HttpSession session) {
+        CustomOAuthUser m = new CustomOAuthUser(oAuth2User);
         Optional<User> existUser = userRepository.findByEmail(m.getEmail());
 
         if (existUser.isEmpty()) {

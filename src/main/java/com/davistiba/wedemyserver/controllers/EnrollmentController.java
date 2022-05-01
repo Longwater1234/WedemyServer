@@ -37,13 +37,13 @@ public class EnrollmentController {
         return response;
     }
 
-    @GetMapping(path = "/myprogress/top3")
+    @GetMapping(path = "/progress/summary")
     public List<ViewCourseProgress> getCourseProgress(@NotNull HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         return progressRepository.findTop3ByUserId(userId);
     }
 
-    @GetMapping(path = "/myprogress/all")
+    @GetMapping(path = "/mine")
     public List<ViewCourseProgress> getAllCourseProgress(@NotNull HttpSession session, @RequestParam(defaultValue = "0") Integer page) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         return progressRepository.findByUserId(userId, PageRequest.of(page, 10));

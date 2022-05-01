@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.models;
 
+import lombok.ToString;
 import org.hibernate.annotations.Immutable;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import java.math.RoundingMode;
 @Entity
 @Immutable
 @Table(name = "view_course_progress")
+@ToString
 public class ViewCourseProgress {
     @Id
     @Column(name = "id", nullable = false)
@@ -25,6 +27,20 @@ public class ViewCourseProgress {
 
     @Column(name = "progress", precision = 5, scale = 2)
     private BigDecimal progress;
+
+    @Column(name = "thumb_url")
+    private String thumbUrl;
+
+    @Column(name = "course_id", nullable = false)
+    private Integer courseId;
+
+    public Integer getCourseId() {
+        return courseId;
+    }
+
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
 
     public BigDecimal getProgress() {
         return progress.setScale(0, RoundingMode.HALF_UP);

@@ -3,9 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 25, 2022 at 02:48 PM
+-- Generation Time: May 01, 2022 at 11:45 AM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
+USE prissy;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,26 +22,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `wedemy`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `courses`
---
-
-CREATE TABLE `courses`
-(
-    `id`        int(11)       NOT NULL,
-    `author`    varchar(100)  NOT NULL,
-    `category`  varchar(50)   NOT NULL,
-    `price`     decimal(6, 2) NOT NULL,
-    `rating`    decimal(3, 2) NOT NULL                                        DEFAULT '3.50',
-    `subtitle`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-    `thumb_url` varchar(255)                                                  DEFAULT NULL,
-    `title`     varchar(255)  NOT NULL
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `courses`
@@ -76,21 +57,6 @@ VALUES (10010, 'Corey Schafer', 'Development', '17.99', '4.50',
        (10019, 'TTFS', 'Office', '17.99', '3.50',
         'Microsoft Excel Beginner to Professional. Includes Pivot Tables, Power Query, NEW Formulas',
         'https://i3.ytimg.com/vi/Vl0H-qTclOg/maxresdefault.jpg', 'Master Microsoft Excel');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `course_objectives`
---
-
-CREATE TABLE `course_objectives`
-(
-    `id`        int(11) NOT NULL,
-    `objective` varchar(200) DEFAULT NULL,
-    `course_id` int(11) NOT NULL
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `course_objectives`
@@ -147,24 +113,6 @@ VALUES (1, 'Be able to program in Python professionally', 10010),
        (48, 'Get LIFETIME access to project files, quizzes, homework exercises', 10019),
        (49, 'Navigating the keyboard', 10018),
        (50, 'Basic improvisation', 10018);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `lessons`
---
-
-CREATE TABLE `lessons`
-(
-    `id`             binary(16)   NOT NULL,
-    `lesson_name`    varchar(255) NOT NULL,
-    `videokey`       varchar(20)  NOT NULL,
-    `course_id`      int(11)      NOT NULL,
-    `length_seconds` int(11)               DEFAULT '0',
-    `position`       int(11)      NOT NULL DEFAULT '0'
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `lessons`
@@ -293,100 +241,6 @@ VALUES (UUID_TO_BIN(UUID()), '1. Introduction to Java', '2dZiMBwX_5Q', 10012, 45
        (UUID_TO_BIN(UUID()), 'Part 3 - Real Estate Investing', '4c6afHE7P6M', 10017, 261, 3),
        (UUID_TO_BIN(UUID()), 'Part 4 - Real Estate Investing', 'mRzoImyFMSY', 10017, 1880, 4),
        (UUID_TO_BIN(UUID()), 'Part 5 - Real Estate Investing', '1mecyBhnJKg', 10017, 896, 5);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `view_course_progress`
--- (See below for the actual view)
---
-CREATE TABLE `view_course_progress`
-(
-    `id`       int(11),
-    `title`    varchar(255),
-    `user_id`  int(11),
-    `progress` decimal(5, 2)
-);
-
--- --------------------------------------------------------
-
---
--- Structure for view `view_course_progress`
---
-DROP TABLE IF EXISTS `view_course_progress`;
-
-CREATE VIEW `view_course_progress` AS
-select `mama`.`id`                                           AS `id`,
-       `mama`.`title`                                        AS `title`,
-       `mama`.`user_id`                                      AS `user_id`,
-       ((`mama`.`position` / `mama`.`num_of_lessons`) * 100) AS `progress`
-from (select `e`.`id`                                                                         AS `id`,
-             `c`.`title`                                                                      AS `title`,
-             `e`.`user_id`                                                                    AS `user_id`,
-             (select count(0) from `lessons` where (`lessons`.`course_id` = `e`.`course_id`)) AS `num_of_lessons`,
-             ifnull(`l`.`position`, 0)                                                        AS `position`
-      from ((`enrollments` `e` left join `lessons` `l` on ((`e`.`current_lesson` = `l`.`id`)))
-               join `courses` `c` on ((`e`.`course_id` = `c`.`id`)))) `mama`;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `courses`
---
-ALTER TABLE `courses`
-    ADD PRIMARY KEY (`id`),
-    ADD KEY `IDX_CATEGORY` (`category`);
-
---
--- Indexes for table `course_objectives`
---
-ALTER TABLE `course_objectives`
-    ADD PRIMARY KEY (`id`),
-    ADD KEY `FKe14b2c5dqha8fmbx7vwlebss7` (`course_id`);
-
---
--- Indexes for table `lessons`
---
-ALTER TABLE `lessons`
-    ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `UK_e4ri79ihrl4716saiqpqeod2i` (`videokey`),
-    ADD KEY `FK17ucc7gjfjddsyi0gvstkqeat` (`course_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `courses`
---
-ALTER TABLE `courses`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 10020;
-
---
--- AUTO_INCREMENT for table `course_objectives`
---
-ALTER TABLE `course_objectives`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 51;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `course_objectives`
---
-ALTER TABLE `course_objectives`
-    ADD CONSTRAINT `FKe14b2c5dqha8fmbx7vwlebss7` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
-
---
--- Constraints for table `lessons`
---
-ALTER TABLE `lessons`
-    ADD CONSTRAINT `FK17ucc7gjfjddsyi0gvstkqeat` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
