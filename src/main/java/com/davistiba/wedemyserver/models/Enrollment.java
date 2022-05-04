@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,7 +18,6 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Table(name = "enrollments",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
@@ -54,7 +52,6 @@ public class Enrollment {
     @UpdateTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant updatedAt;
-
 
     public Enrollment(User user, Course course) {
         this.user = user;

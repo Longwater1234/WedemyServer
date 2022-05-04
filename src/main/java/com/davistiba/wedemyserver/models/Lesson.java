@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -17,10 +16,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "lessons")
 @Getter
 @Setter
 @RequiredArgsConstructor
+@Table(name = "lessons")
 public class Lesson {
 
     @Id
@@ -42,14 +41,12 @@ public class Lesson {
     private Integer lengthSeconds;
 
     @NotNull
-    @ColumnDefault("0")
     @Column(nullable = false)
     private Integer position;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     @JsonBackReference
-    @ToString.Exclude
     private Course course;
 
     @Override

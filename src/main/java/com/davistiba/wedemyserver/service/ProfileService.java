@@ -6,7 +6,6 @@ import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.time.Duration;
@@ -21,12 +20,11 @@ public class ProfileService {
     private EnrollmentRepository enrollmentRepository;
 
     /**
-     * Custom service to return Student summary
+     * Custom service to return a Student's summary
      *
      * @param user User
      * @return list
      */
-    @Transactional
     public List<UserSummary> getUserSummaryList(@NotNull User user) {
         List<UserSummary> summaryList = new ArrayList<>();
         long owned = enrollmentRepository.countEnrollmentByUser(user);
