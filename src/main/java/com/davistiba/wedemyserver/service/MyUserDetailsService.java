@@ -22,7 +22,7 @@ import java.util.Optional;
 public class MyUserDetailsService implements UserDetailsService {
 
     public static final String USERID = "USER_ID";
-    public static final String SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
+    private static final String SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
 
     @Autowired
     private UserRepository userRepository;

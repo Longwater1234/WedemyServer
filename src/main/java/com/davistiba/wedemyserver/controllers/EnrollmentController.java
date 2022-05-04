@@ -44,7 +44,8 @@ public class EnrollmentController {
     }
 
     @GetMapping(path = "/mine")
-    public List<ViewCourseProgress> getAllCourseProgress(@NotNull HttpSession session, @RequestParam(defaultValue = "0") Integer page) {
+    public List<ViewCourseProgress> getAllCourseProgress(@NotNull HttpSession session,
+                                                         @RequestParam(defaultValue = "0") Integer page) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         return progressRepository.findByUserId(userId, PageRequest.of(page, 10));
     }

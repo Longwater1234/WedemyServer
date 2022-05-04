@@ -3,10 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 01, 2022 at 11:45 AM
+-- Generation Time: May 04, 2022 at 05:59 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.3.10
-USE prissy;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;

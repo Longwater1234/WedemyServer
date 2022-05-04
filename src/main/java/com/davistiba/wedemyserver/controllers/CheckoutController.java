@@ -23,6 +23,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+ * THIS MODIFIED CODE TAKEN FROM THE OFFICIAL `BRAINTREE` GITHUB
+ * https://github.com/braintree/braintree_spring_example
+ */
 @RestController
 @RequestMapping(path = "/checkout")
 @Secured(value = "ROLE_USER")
