@@ -80,6 +80,7 @@ public class User implements UserDetails {
     public User() {
     }
 
+
     @Override
     @JsonIgnore
     public String getPassword() {
@@ -131,5 +132,14 @@ public class User implements UserDetails {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", fullname='" + fullname + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

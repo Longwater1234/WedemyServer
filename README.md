@@ -2,9 +2,9 @@
 
 (Backend repo). A Springboot + Vue 3 + Typescript clone of Udemy, an e-learning platform. With PayPal and CreditCard
 checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis, and Cookies (httpOnly)
-for auth, _instead of_ stateless JWT Tokens. CSRF protection is ENABLED. For simplicity, both UserDetails and UserRole (
-enum) are stored in the same table. Max 2 *concurrent* login sessions per user. You can easily customize these settings
-in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java)
+for auth, _instead of_ stateless JWT Tokens. CSRF protection is ENABLED. For simplicity, both UserDetails and UserRole  
+(enum) are stored in the same table. Max 2 *concurrent* login sessions per user. You can easily customize these settings
+in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java).
 
 ## Requirements
 
@@ -12,7 +12,7 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 - MySQL 8.0.x
 - Redis Server 6.0+ (local or Cloud)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Google Login_)
-- [Braintree](https://developer.paypal.com/braintree/docs) Developer Account + API Keys.
+- [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys.
 - (OPTIONAL) PayPal Developer Account.
 
 ### Environmental Variables
@@ -37,9 +37,8 @@ BT_PRIVATE_KEY=
 Please examine the file [application.yml](src/main/resources/application.yml) inside src/main/resources/ folder. Place
 all your necessary Spring Application properties there. Notice property `frontend.root.url`; replace value with yours.
 But for _sensitive_ info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I suggest store them as
-Environmental Variables instead, then simply declare them as `property.name = ${ENV_KEY_NAME}`, OR use directly in your
+Environmental Variables instead, then either declare them as `property.name = ${ENV_KEY_NAME}`, OR call directly in your
 code as shown in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
-
 
 ## Databases Used
 
@@ -75,9 +74,9 @@ and port_ for redis inside `application.yml` to match your running Redis instanc
 
 ## Payments Handling
 
-All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports Apple Pay, GooglePay,
-Venmo and many other methods. This project has been configured with PayPal and Credit-Card ONLY, in SANDBOX (test) mode.
-Make sure you obtain a set of 3 API Keys from your own Braintree Account dashboard and store them as ENV
-variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials and examples, please check
-the [official docs](https://developer.paypal.com/braintree/docs).
+All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
+GooglePay, Venmo and many other methods. This project has been [configured with PayPal](https://shorturl.at/bfsDF) and
+Credit-Card ONLY, in SANDBOX (test) mode. Make sure you obtain a set of 3 API Keys from your own Braintree Account
+dashboard and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree
+tutorials and examples, please check the [official docs](https://developer.paypal.com/braintree/docs).
 
