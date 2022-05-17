@@ -1,7 +1,7 @@
 #ALL ENTRIES IN ${CURLY_BRACES} SHOULD BE SET AS ENV VARIABLES, FOR SECURITY REASONS.
 frontend:
   root:
-    url: http://localhost:8080 #replace with yours
+    url: http://localhost:8080 #replace with valid URL
 logging:
   level:
     org:

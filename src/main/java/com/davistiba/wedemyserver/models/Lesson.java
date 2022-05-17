@@ -57,6 +57,7 @@ public class Lesson {
         return id != null && Objects.equals(id, lesson.id);
     }
 
+    /* convert to mm:ss */
     public String getLengthSeconds() {
         return String.format("%02d:%02d", Duration.ofSeconds(this.lengthSeconds).toMinutesPart(),
                 Duration.ofSeconds(this.lengthSeconds).toSecondsPart());

@@ -32,11 +32,11 @@ public class CheckoutService {
     private SalesRepository salesRepository;
 
     /**
-     * Process all items in Cart.
+     * Process all courses in Cart.
      * Save batch as single Sale.
      * Insert each item to OrderItems.
      * Then add each item to Enrollment table.
-     * Finally, clear Cart by this user_id
+     * Finally, clear Cart by current userId
      */
     @Transactional
     public Map<String, Object> processCheckoutDatabase(String transactionId,
@@ -45,7 +45,6 @@ public class CheckoutService {
 
         Map<String, Object> response = new HashMap<>();
 
-        //TODO use db triggers for Cart cleanup
         List<OrderItem> orderItemList = new ArrayList<>();
         List<Course> courseList = courseRepository.findCoursesByIdIn(request.getCourses());
         List<Enrollment> enrollments = new ArrayList<>();

@@ -116,14 +116,29 @@
         <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
-            <version>3.28.0-GA</version>
+            <version>3.29.0-GA</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.braintreepayments.gateway/braintree-java -->
         <dependency>
             <groupId>com.braintreepayments.gateway</groupId>
             <artifactId>braintree-java</artifactId>
-            <version>3.15.0</version>
+            <version>3.16.0</version>
         </dependency>
+
+        <!--        UNCOMMENT BELOW FOR SWAGGER-UI-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springdoc</groupId>-->
+        <!--            <artifactId>springdoc-openapi-ui</artifactId>-->
+        <!--            <version>1.6.8</version>-->
+        <!--        </dependency>-->
+
+        <!--        <dependency>-->
+        <!--            <groupId>org.springdoc</groupId>-->
+        <!--            <artifactId>springdoc-openapi-security</artifactId>-->
+        <!--            <version>1.6.8</version>-->
+        <!--        </dependency>-->
+        <!--        UNCOMMENT ABOVE FOR SWAGGER-UI-->
+
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
