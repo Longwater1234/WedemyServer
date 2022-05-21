@@ -52,12 +52,14 @@ public class EnrollmentController {
         return progressRepository.findTop3ByUserId(userId);
     }
 
+
     @GetMapping(path = "/mine")
     public List<ViewCourseProgress> getAllCourseProgress(@NotNull HttpSession session,
                                                          @RequestParam(defaultValue = "0") Integer page) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         return progressRepository.findByUserId(userId, PageRequest.of(page, 10));
     }
+
 
     @GetMapping(path = "/resume/course/{courseId}")
     public Map<String, String> getLastViewedVideo(@NotNull HttpSession session, @PathVariable Integer courseId) {
@@ -69,8 +71,8 @@ public class EnrollmentController {
         UUID currentLessonId = enrollment.get().getCurrentLesson();
         if (currentLessonId == null) {
             //user has not begun course!
-            Lesson lesson = lessonRepository.getLessonsByCourseId(courseId, Pageable.ofSize(1)).get(0);
-            currentLessonId = lesson.getId();
+            Lesson firstLesson = lessonRepository.getLessonsByCourseId(courseId, Pageable.ofSize(1)).get(0);
+            currentLessonId = firstLesson.getId();
         }
         Map<String, String> response = new HashMap<>();
         response.put("lessonId", currentLessonId.toString());
