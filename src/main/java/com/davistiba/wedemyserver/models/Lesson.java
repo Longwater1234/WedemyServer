@@ -19,7 +19,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@Table(name = "lessons")
+@Table(name = "lessons", uniqueConstraints = @UniqueConstraint(columnNames = {"course_id", "position"}))
 public class Lesson {
 
     @Id

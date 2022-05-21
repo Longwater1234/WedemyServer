@@ -32,6 +32,8 @@ public class Course implements Serializable {
     @NotBlank
     private String title;
 
+    private String subtitle;
+
     @Column(nullable = false, length = 100)
     @NotBlank
     @Size(max = 100)
@@ -54,9 +56,6 @@ public class Course implements Serializable {
     @Column(nullable = false, precision = 6, scale = 2)
     @Min(1)
     private BigDecimal price;
-
-    @Size(min = 1)
-    private String subtitle;
 
     @Override
     public boolean equals(Object o) {

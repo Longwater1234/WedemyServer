@@ -17,6 +17,8 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer>
 
     long countEnrollmentByUser(User user);
 
-    @Query("SELECT e FROM Enrollment e WHERE e.user.id = ?1 AND e.course.id = ?2")
+    @Query(value = "SELECT e FROM Enrollment e WHERE e.user.id = ?1 AND e.course.id = ?2")
     Optional<Enrollment> getByUserIdAndCourseId(Integer userId, Integer courseId);
+
+
 }
