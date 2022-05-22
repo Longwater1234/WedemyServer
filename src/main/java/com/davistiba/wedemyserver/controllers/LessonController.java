@@ -51,7 +51,7 @@ public class LessonController {
     }
 
     @PostMapping(path = "/videolink/builder")
-    @Secured(value = "ROLE_USER")
+    @Secured(value = "ROLE_STUDENT")
     public ResponseEntity<Lesson> getLessonVideoLink(@NotNull HttpSession session, @RequestBody @Valid VideoRequest request) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);

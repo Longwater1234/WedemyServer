@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@Secured("ROLE_USER")
+@Secured("ROLE_STUDENT")
 @RequestMapping(path = "/wishlist")
 public class WishlistController {
 

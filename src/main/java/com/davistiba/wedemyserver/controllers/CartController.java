@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@Secured(value = "ROLE_USER")
+@Secured(value = "ROLE_STUDENT")
 @RequestMapping(path = "/cart")
 public class CartController {
 
