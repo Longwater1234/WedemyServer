@@ -1,4 +1,4 @@
-#ALL ENTRIES IN ${CURLY_BRACES} SHOULD BE SET AS ENV VARIABLES, FOR SECURITY REASONS.
+#All entries in ${CURLY_BRACES} should be set as ENV variables, for security reasons.
 frontend:
   root:
     url: http://localhost:8080 #replace with valid URL
@@ -16,7 +16,7 @@ server:
       cookie:
         http-only: true
         max-age: 10800s #3hours
-        name: WEDEMY
+        name: WD_SESSION
 spring:
   datasource:
     password: ${MYSQL_PASSWORD}

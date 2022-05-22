@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/enroll")
-@Secured(value = {"ROLE_USER"})
+@Secured(value = {"ROLE_STUDENT"})
 public class EnrollmentController {
 
     @Autowired

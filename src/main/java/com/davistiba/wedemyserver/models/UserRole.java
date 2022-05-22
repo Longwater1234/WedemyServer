@@ -5,5 +5,5 @@ package com.davistiba.wedemyserver.models;
  * Stored in the SAME table as `users`
  */
 public enum UserRole {
-    ROLE_USER, ROLE_ADMIN
+    ROLE_STUDENT, ROLE_ADMIN
 }

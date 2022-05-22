@@ -76,7 +76,7 @@ public class AuthController {
     }
 
     @PostMapping(path = "/login")
-    @Secured(value = "ROLE_USER")
+    @Secured(value = "ROLE_STUDENT")
     // this actually runs AFTER successful basicAuth login
     public ResponseEntity<Object> realBasicAuthEntry(HttpSession session, Authentication auth) {
         Map<String, Object> response = new HashMap<>();

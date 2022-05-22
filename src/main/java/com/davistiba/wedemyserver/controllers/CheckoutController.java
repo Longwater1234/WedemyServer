@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(path = "/checkout")
-@Secured(value = "ROLE_USER")
+@Secured(value = "ROLE_STUDENT")
 public class CheckoutController {
 
     private final BraintreeGateway gateway;

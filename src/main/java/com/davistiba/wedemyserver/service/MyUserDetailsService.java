@@ -50,7 +50,7 @@ public class MyUserDetailsService implements UserDetailsService {
             newUser.setEmail(m.getEmail());
             newUser.setConfirmPass("WHATEVER!");
             newUser.setAuthProvider(AuthProvider.GOOGLE);
-            newUser.setUserRole(UserRole.ROLE_USER);
+            newUser.setUserRole(UserRole.ROLE_STUDENT);
 
             userRepository.save(newUser);
             session.setAttribute(USERID, newUser.getId());
