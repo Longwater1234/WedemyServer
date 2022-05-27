@@ -1,7 +1,7 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.dto.StudentSummary;
 import com.davistiba.wedemyserver.dto.UserDTO;
-import com.davistiba.wedemyserver.dto.UserSummary;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
@@ -45,8 +45,8 @@ public class ProfileController {
 
     @GetMapping(path = "/summary")
     @ResponseStatus(value = HttpStatus.OK)
-    @Cacheable(value = "usersummary", key = "#session.id")
-    public List<UserSummary> getUserSummary(@NotNull HttpSession session) {
+    @Cacheable(value = "studentsummary", key = "#session.id")
+    public List<StudentSummary> getUserSummary(@NotNull HttpSession session) {
 
         Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
         User user = userRepository.findById(userId).orElseThrow();

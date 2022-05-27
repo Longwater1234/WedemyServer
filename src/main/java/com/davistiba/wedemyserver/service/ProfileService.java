@@ -1,6 +1,6 @@
 package com.davistiba.wedemyserver.service;
 
-import com.davistiba.wedemyserver.dto.UserSummary;
+import com.davistiba.wedemyserver.dto.StudentSummary;
 import com.davistiba.wedemyserver.models.SummaryTitle;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
@@ -19,20 +19,17 @@ public class ProfileService {
     @Autowired
     private EnrollmentRepository enrollmentRepository;
 
-    /**
+    /*
      * Custom service to return a Student's summary
-     *
-     * @param user User
-     * @return list
      */
-    public List<UserSummary> getUserSummaryList(@NotNull User user) {
-        List<UserSummary> summaryList = new ArrayList<>();
+    public List<StudentSummary> getUserSummaryList(@NotNull User user) {
+        List<StudentSummary> summaryList = new ArrayList<>();
         long owned = enrollmentRepository.countEnrollmentByUser(user);
-        UserSummary s1 = new UserSummary(SummaryTitle.OWNING, owned, "courses");
+        StudentSummary s1 = new StudentSummary(SummaryTitle.OWNING, owned, "courses");
         summaryList.add(s1);
 
         long completed = enrollmentRepository.countEnrollmentByUserAndIsCompleted(user, true);
-        UserSummary s2 = new UserSummary(SummaryTitle.COMPLETED, completed, "courses");
+        StudentSummary s2 = new StudentSummary(SummaryTitle.COMPLETED, completed, "courses");
         summaryList.add(s2);
 
         Duration duration = Duration.between(Instant.now(), user.getCreatedAt()).abs();
@@ -52,7 +49,7 @@ public class ProfileService {
             units = "year(s) ago";
         }
 
-        UserSummary s3 = new UserSummary(SummaryTitle.JOINED, result, units);
+        StudentSummary s3 = new StudentSummary(SummaryTitle.JOINED, result, units);
         summaryList.add(s3);
 
         return summaryList;

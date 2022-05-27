@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,6 +26,7 @@ import java.util.Objects;
 @Table(name = "users")
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class User implements UserDetails {
 
     private static final long serialVersionUID = -1352733651057286866L;
@@ -69,17 +71,12 @@ public class User implements UserDetails {
     @JsonProperty(access = Access.READ_ONLY)
     private Instant createdAt;
 
-
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(this.getUserRole());
         return Collections.singletonList(authority);
     }
-
-    public User() {
-    }
-
 
     @Override
     @JsonIgnore

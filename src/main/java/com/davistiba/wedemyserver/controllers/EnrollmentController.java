@@ -68,7 +68,7 @@ public class EnrollmentController {
         if (enrollment.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't own this course");
         }
-        UUID currentLessonId = enrollment.get().getCurrentLesson();
+        UUID currentLessonId = enrollment.get().getCurrentLessonId();
         if (currentLessonId == null) {
             //user has not begun course!
             Lesson firstLesson = lessonRepository.getLessonsByCourseId(courseId, Pageable.ofSize(1)).get(0);

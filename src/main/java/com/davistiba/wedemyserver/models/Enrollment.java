@@ -41,8 +41,8 @@ public class Enrollment {
     @ColumnDefault(value = "false")
     private Boolean isCompleted = false;
 
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID currentLesson;
+    @Column(name = "current_lesson_id", columnDefinition = "BINARY(16)")
+    private UUID currentLessonId;
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

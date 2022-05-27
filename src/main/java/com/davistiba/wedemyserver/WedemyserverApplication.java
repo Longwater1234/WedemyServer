@@ -20,20 +20,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableCaching
 @EnableTransactionManagement
 public class WedemyserverApplication {
-
     @Value(value = "${frontend.root.url}")
     private String FRONTEND_URL;
-
     public static void main(String[] args) {
         SpringApplication.run(WedemyserverApplication.class, args);
     }
-
     @Bean
     public ModelMapper mapper() {
         return new ModelMapper();
     }
-
-
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {

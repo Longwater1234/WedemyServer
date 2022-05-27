@@ -19,5 +19,10 @@ public interface LessonRepository extends CrudRepository<Lesson, Integer> {
     @Query("select l from Lesson l where l.id = ?1 and l.course.id = ?2")
     Optional<Lesson> findByIdAndCourseId(UUID lessonId, Integer courseId);
 
+    @Query("select l from Lesson l where l.course.id = ?1 and l.position = ?2")
+    Optional<Lesson> findByCourse_IdAndPosition(Integer id, Integer position);
+
+
+
 
 }
