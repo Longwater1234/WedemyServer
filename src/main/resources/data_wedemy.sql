@@ -240,6 +240,21 @@ VALUES (UUID_TO_BIN(UUID()), '1. Introduction to Java', '2dZiMBwX_5Q', 10012, 45
        (UUID_TO_BIN(UUID()), 'Part 3 - Real Estate Investing', '4c6afHE7P6M', 10017, 261, 3),
        (UUID_TO_BIN(UUID()), 'Part 4 - Real Estate Investing', 'mRzoImyFMSY', 10017, 1880, 4),
        (UUID_TO_BIN(UUID()), 'Part 5 - Real Estate Investing', '1mecyBhnJKg', 10017, 896, 5);
+
+--
+-- Trigger for table `enroll_progress`
+--
+DROP TRIGGER IF EXISTS `UPDATE_USER_ENROLL`;
+DELIMITER $$
+CREATE TRIGGER UPDATE_USER_ENROLL
+    AFTER INSERT
+    ON `enroll_progress`
+    FOR EACH ROW UPDATE enrollments e
+                 SET e.current_lesson_id =NEW.lesson_id,
+                     e.updated_at        = UTC_TIMESTAMP()
+                 WHERE e.id = new.enrollment_id;
+$$
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;

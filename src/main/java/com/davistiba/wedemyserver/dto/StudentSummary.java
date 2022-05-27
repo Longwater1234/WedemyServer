@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class UserSummary implements Serializable {
+public class StudentSummary implements Serializable {
     private static final long serialVersionUID = -6556685957514582951L;
     SummaryTitle title;
     Long value;

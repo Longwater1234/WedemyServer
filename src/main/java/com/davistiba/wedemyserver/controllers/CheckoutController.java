@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 /*
- * THIS MODIFIED CODE TAKEN FROM THE OFFICIAL `BRAINTREE` GITHUB
- * https://github.com/braintree/braintree_spring_example
+ * THIS MODIFIED CODE TAKEN FROM THE SAMPLE PROJECT BY `BRAINTREE`
+ * See: https://github.com/braintree/braintree_spring_example
  */
 @RestController
 @RequestMapping(path = "/checkout")
@@ -56,7 +56,7 @@ public class CheckoutController {
 
 
     @PostMapping(path = "/complete")
-    @CacheEvict(value = "usersummary", key = "#session.id")
+    @CacheEvict(value = "studentsummary", key = "#session.id")
     public ResponseEntity<Map<String, Object>> completePurchase(@Valid @RequestBody CheckoutRequest request,
                                                                 @NotNull HttpSession session) {
         String transactionId;

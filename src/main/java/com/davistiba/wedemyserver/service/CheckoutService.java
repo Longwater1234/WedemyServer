@@ -35,8 +35,8 @@ public class CheckoutService {
      * Process all courses in Cart.
      * Save batch as single Sale.
      * Insert each item to OrderItems.
-     * Then add each item to Enrollment table.
-     * Finally, clear Cart by current userId
+     * Then insert each distinct item to Enrollment table.
+     * Finally, clear Cart of current user.
      */
     @Transactional
     public Map<String, Object> processCheckoutDatabase(String transactionId,
