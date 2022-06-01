@@ -55,7 +55,7 @@ public class LessonController {
     public ResponseEntity<Lesson> getLessonVideoLink(@NotNull HttpSession session, @RequestBody @Valid VideoRequest request) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
-            boolean isOwned = enrollmentRepository.existsByCourseIdAndUserId(userId, request.getCourseId());
+            boolean isOwned = enrollmentRepository.existsByUserIdAndCourseId(userId, request.getCourseId());
             if (!isOwned) {
                 throw new Exception("You don't own this course");
             }
@@ -75,7 +75,7 @@ public class LessonController {
     @Secured(value = "ROLE_ADMIN")
     @Async
     public CompletableFuture<MyCustomResponse> addNewLessons(@RequestBody @NotEmpty List<Lesson> newLessons) {
-        //TODO: FOR ADMINS to ADD NEW LESSONS
+        /* === FOR ADMINS to ADD NEW LESSONS ==== */
         long startClock = System.nanoTime();
         final List<Lesson> mamas = new ArrayList<>();
         newLessons.forEach(lesson -> {
@@ -84,7 +84,7 @@ public class LessonController {
             lesson.setCourse(course);
             mamas.add(lesson);
         });
-        logger.info("totalTime: " + (System.nanoTime() - startClock) / 1e6);
+        logger.info("totalTime: {} ms", (System.nanoTime() - startClock) / 1e6);
         lessonRepository.saveAll(mamas);
         return CompletableFuture.completedFuture(new MyCustomResponse("All saved!", true));
 

@@ -8,6 +8,10 @@ import org.springframework.core.env.StandardEnvironment;
 
 import java.util.Objects;
 
+/*
+ * READ OFFICIAL DOCS
+ * https://developer.paypal.com/braintree/docs/start/hello-server/java
+ */
 @Configuration
 public class BraintreeConfig {
     //Get ENV variables

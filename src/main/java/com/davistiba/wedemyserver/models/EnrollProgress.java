@@ -9,6 +9,9 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * THIS IS JOINT TABLE BETWEEN Enrollment and Lessons
+ */
 @Entity
 @Getter
 @Setter
@@ -19,15 +22,19 @@ public class EnrollProgress {
     private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "enrollment_id")
+    @JoinColumn(name = "enrollment_id", referencedColumnName = "id")
     @JsonBackReference
     private Enrollment enrollment;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "lesson_id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     @JsonBackReference
     private Lesson lesson;
 
+    public EnrollProgress(Enrollment enrollment, Lesson lesson) {
+        this.enrollment = enrollment;
+        this.lesson = lesson;
+    }
 
     @Override
     public boolean equals(Object o) {

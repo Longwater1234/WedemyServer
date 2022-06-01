@@ -27,7 +27,7 @@ public class Sales {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
-    private User userId;
+    private User user;
 
     @Column(precision = 6, scale = 2, nullable = false)
     @NotNull
@@ -44,9 +44,9 @@ public class Sales {
     private Instant createdAt;
 
 
-    public Sales(String transactionId, User userId, BigDecimal totalPaid, String paymentMethod) {
+    public Sales(String transactionId, User user, BigDecimal totalPaid, String paymentMethod) {
         this.transactionId = transactionId;
-        this.userId = userId;
+        this.user = user;
         this.totalPaid = totalPaid;
         this.paymentMethod = paymentMethod.toUpperCase();
     }
