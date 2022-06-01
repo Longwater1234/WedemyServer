@@ -11,6 +11,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
@@ -27,12 +30,12 @@ public class Enrollment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     @JsonBackReference
     private Course course;
@@ -43,6 +46,11 @@ public class Enrollment {
 
     @Column(name = "current_lesson_id", columnDefinition = "BINARY(16)")
     private UUID currentLessonId;
+
+    @ColumnDefault("0")
+    @Max(100)
+    @Column(nullable = false, precision = 3, scale = 2)
+    private BigDecimal progress;
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -56,6 +64,10 @@ public class Enrollment {
     public Enrollment(User user, Course course) {
         this.user = user;
         this.course = course;
+    }
+
+    public BigDecimal getProgress() {
+        return progress.setScale(0, RoundingMode.HALF_UP);
     }
 
     @Override

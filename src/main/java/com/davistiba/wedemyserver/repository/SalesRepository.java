@@ -13,14 +13,14 @@ import java.util.List;
 @Repository
 public interface SalesRepository extends JpaRepository<Sales, String> {
 
-    @Query("SELECT s FROM Sales s WHERE s.userId.id = ?1")
+    @Query("SELECT s FROM Sales s WHERE s.user.id = ?1")
     List<Sales> findByUserId_IdEquals(Integer id);
 
     List<Sales> findByCreatedAtBetween(Instant createdAtStart, Instant createdAtEnd);
 
-    @Query("select new com.davistiba.wedemyserver.dto.SalesDTO(s.transactionId,s.createdAt, s.paymentMethod, s.totalPaid, count(o)) " +
-            "from Sales s join OrderItem o on s.transactionId = o.sale.transactionId where s.userId.id = ?1  group by s.transactionId " +
-            "order by s.createdAt DESC")
+    @Query("SELECT new com.davistiba.wedemyserver.dto.SalesDTO(s.transactionId,s.createdAt, s.paymentMethod, s.totalPaid, count(o)) " +
+            "FROM Sales s JOIN OrderItem o ON s.transactionId = o.sale.transactionId WHERE s.user.id = ?1 GROUP BY s.transactionId " +
+            "ORDER BY s.createdAt DESC")
     List<SalesDTO> findByUserIdOrderByCreatedAtDesc(Integer userId, Pageable pageable);
 
 
