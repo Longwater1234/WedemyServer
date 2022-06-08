@@ -125,7 +125,7 @@
             <version>3.16.0</version>
         </dependency>
 
-        <!--        UNCOMMENT BELOW FOR SWAGGER-UI-->
+        <!--        UNCOMMENT THIS BLOCK FOR SWAGGER-UI-->
         <!--        <dependency>-->
         <!--            <groupId>org.springdoc</groupId>-->
         <!--            <artifactId>springdoc-openapi-ui</artifactId>-->

@@ -35,7 +35,7 @@ public class EnrollProgressService {
         long currentPosition = progress.getLesson().getPosition();
         long totalLessons = lessonRepository.countByCourseId(status.getCourseId());
 
-        //update DB
+        //update dB
         BigDecimal progressPercent = BigDecimal.valueOf(currentPosition / totalLessons).multiply(BigDecimal.valueOf(100));
         Enrollment e = enrollmentRepository.findById(status.getEnrollId()).orElseThrow();
         e.setProgress(progressPercent);

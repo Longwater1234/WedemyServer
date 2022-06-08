@@ -58,12 +58,10 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum('LOCAL', 'GOOGLE') DEFAULT 'LOCAL'", nullable = false)
-    @JsonProperty(access = Access.READ_ONLY)
     private AuthProvider authProvider = AuthProvider.LOCAL;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum('ROLE_STUDENT', 'ROLE_ADMIN') DEFAULT 'ROLE_STUDENT'", nullable = false)
-    @JsonProperty(access = Access.READ_ONLY)
     private UserRole userRole = UserRole.ROLE_STUDENT;
 
     @CreationTimestamp
