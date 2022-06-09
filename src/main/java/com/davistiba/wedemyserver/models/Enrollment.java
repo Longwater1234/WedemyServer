@@ -49,7 +49,7 @@ public class Enrollment {
 
     @ColumnDefault("0")
     @Max(100)
-    @Column(nullable = false, precision = 3, scale = 2)
+    @Column(nullable = false, precision = 4, scale = 2)
     private BigDecimal progress;
 
     @CreationTimestamp
@@ -60,6 +60,7 @@ public class Enrollment {
     @UpdateTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant updatedAt;
+
 
     public Enrollment(User user, Course course) {
         this.user = user;

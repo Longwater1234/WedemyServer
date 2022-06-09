@@ -1,7 +1,9 @@
 package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.dto.VideoRequest;
+import com.davistiba.wedemyserver.dto.VideoResponse;
 import com.davistiba.wedemyserver.models.Course;
+import com.davistiba.wedemyserver.models.Enrollment;
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CourseRepository;
@@ -25,6 +27,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -52,19 +55,19 @@ public class LessonController {
 
     @PostMapping(path = "/videolink/builder")
     @Secured(value = "ROLE_STUDENT")
-    public ResponseEntity<Lesson> getLessonVideoLink(@NotNull HttpSession session, @RequestBody @Valid VideoRequest request) {
+    public ResponseEntity<VideoResponse> getLessonVideoLink(@NotNull HttpSession session, @RequestBody @Valid VideoRequest request) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
-            boolean isOwned = enrollmentRepository.existsByUserIdAndCourseId(userId, request.getCourseId());
-            if (!isOwned) {
+            Optional<Enrollment> enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, request.getCourseId());
+            if (enrollment.isEmpty()) {
                 throw new Exception("You don't own this course");
             }
             UUID lessonId = UUID.fromString(request.getLessonId());
-            Integer courseId = request.getCourseId();
-            Lesson currentLesson = lessonRepository.findByIdAndCourseId(lessonId, courseId).orElseThrow();
-            return ResponseEntity.ok().body(currentLesson);
+            Lesson currentLesson = lessonRepository.findByIdAndCourseId(lessonId, request.getCourseId()).orElseThrow();
+            VideoResponse response = new VideoResponse(enrollment.get().getId(), currentLesson);
+            return ResponseEntity.ok().body(response);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sorry could not get lesson", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sorry, could not get lesson", e);
         }
 
     }

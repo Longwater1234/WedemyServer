@@ -5,11 +5,15 @@ import com.davistiba.wedemyserver.models.Enrollment;
 import com.davistiba.wedemyserver.models.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer> {
@@ -27,4 +31,7 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer>
             "INNER JOIN Course c ON e.course.id = c.id WHERE e.user.id = ?1 ORDER BY e.id DESC")
     List<EnrollmentDTO> findByUserId(Integer userId, Pageable pageable);
 
+    @Modifying
+    @Query("UPDATE Enrollment e SET e.currentLessonId = ?1, e.progress = ?2, e.updatedAt = ?3 WHERE e.id = ?4")
+    int updateCustom(UUID currentLessonId, BigDecimal progress, Instant updatedAt, Integer id);
 }

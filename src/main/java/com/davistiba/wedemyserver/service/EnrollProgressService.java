@@ -8,11 +8,15 @@ import com.davistiba.wedemyserver.repository.EnrollProgressRepository;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
 import com.davistiba.wedemyserver.repository.LessonRepository;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,24 +31,48 @@ public class EnrollProgressService {
     @Autowired
     private EnrollmentRepository enrollmentRepository;
 
+    public static final Logger logger = LoggerFactory.getLogger(EnrollProgressService.class);
 
+    /**
+     * Update tables, then return next lesson
+     *
+     * @param status     watchStatus
+     * @param enrollment current
+     * @return next Lesson
+     */
     @Transactional
-    public Lesson updateAndGetNextLesson(@NotNull WatchStatus status) {
-        EnrollProgress progress = progressRepository.saveCustom(status.getEnrollId(), UUID.fromString(status.getCurrentLessonId()));
-        //calculate percent progress
-        long currentPosition = progress.getLesson().getPosition();
-        long totalLessons = lessonRepository.countByCourseId(status.getCourseId());
+    public Lesson updateAndGetNextLesson(@NotNull WatchStatus status, Enrollment enrollment) {
+        UUID lessonId = UUID.fromString(status.getCurrentLessonId());
+        Lesson currentLesson = lessonRepository.findLessonById(lessonId).orElseThrow();
+        Optional<EnrollProgress> enrollProgress = progressRepository.findByEnrollIdAndLessonId(status.getEnrollId(), lessonId);
 
-        //update dB
-        BigDecimal progressPercent = BigDecimal.valueOf(currentPosition / totalLessons).multiply(BigDecimal.valueOf(100));
-        Enrollment e = enrollmentRepository.findById(status.getEnrollId()).orElseThrow();
-        e.setProgress(progressPercent);
-        e.setCurrentLessonId(UUID.fromString(status.getCurrentLessonId()));
-        enrollmentRepository.save(e);
+        if (enrollProgress.isEmpty()) {
+            //INSERT into progress table
+            EnrollProgress progress = progressRepository.save(new EnrollProgress(enrollment, currentLesson));
 
-        //get next lesson
-        Integer courseId = progress.getLesson().getCourse().getId();
-        Integer nextPosition = progress.getLesson().getPosition() + 1;
+            //calculate percent progress
+            long currentPosition = currentLesson.getPosition();
+            long totalLessons = lessonRepository.countByCourseId(status.getCourseId());
+            double valDouble = (double) currentPosition / (double) totalLessons * 100.00;
+
+            //update `Enrollments` table
+            logger.info("percent {}", valDouble);
+            BigDecimal progressPercent = BigDecimal.valueOf(valDouble).setScale(2, RoundingMode.FLOOR);
+            enrollment.setCurrentLessonId(lessonId);
+            enrollment.setProgress(progressPercent);
+            enrollmentRepository.save(enrollment);
+
+            //get next lesson
+            Integer courseId = progress.getLesson().getCourse().getId();
+            Integer nextPosition = progress.getLesson().getPosition() + 1;
+            return lessonRepository.findByCourseIdAndPosition(courseId, nextPosition).orElseThrow();
+        }
+
+        //OTHERWISE, simply RETURN NEXT.
+        Integer courseId = status.getCourseId();
+        Integer nextPosition = currentLesson.getPosition() + 1;
         return lessonRepository.findByCourseIdAndPosition(courseId, nextPosition).orElseThrow();
+
     }
+
 }

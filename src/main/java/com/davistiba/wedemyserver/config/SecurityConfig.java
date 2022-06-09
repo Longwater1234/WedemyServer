@@ -50,9 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and().httpBasic()
+        http.cors().and().httpBasic()
                 .and().oauth2Login().userInfoEndpoint().userService(googleOauthService)
                 .and().successHandler(successHandler)
                 .and().authorizeRequests()
@@ -62,8 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
 
-        //SESSION SETUP
-        http.sessionManagement().maximumSessions(2);
+        //SESSION and CSRF
+        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and().sessionManagement().maximumSessions(1);
 
     }
 
