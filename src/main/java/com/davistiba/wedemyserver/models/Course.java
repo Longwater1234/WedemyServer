@@ -44,8 +44,8 @@ public class Course implements Serializable {
     @Size(max = 50)
     private String category;
 
-    @ColumnDefault("3.5")
-    @Column(precision = 3, scale = 2, nullable = false)
+    @ColumnDefault("3.50")
+    @Column(precision = 4, scale = 2, nullable = false)
     private BigDecimal rating;
 
     @NotBlank

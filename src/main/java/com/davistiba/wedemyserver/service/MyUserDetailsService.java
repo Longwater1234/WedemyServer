@@ -72,13 +72,13 @@ public class MyUserDetailsService implements UserDetailsService {
         SecurityContext context = (SecurityContext) session.getAttribute(SECURITY_CONTEXT);
         Object principal = context.getAuthentication().getPrincipal();
         if (principal instanceof CustomOAuthUser) {
-            return (CustomOAuthUser) principal;
+            return (User) principal;
         }
         return (User) principal;
     }
 
     /**
-     * Just return the user_id saved in Redis Store
+     * Just return the userID saved in Session Store (redis)
      *
      * @param session session
      * @return userId

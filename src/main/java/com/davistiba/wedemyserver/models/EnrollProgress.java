@@ -15,6 +15,8 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@Table(name = "enroll_progress",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"enrollment_id", "lesson_id"}))
 @RequiredArgsConstructor
 public class EnrollProgress {
     @Id

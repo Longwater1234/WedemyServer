@@ -1,12 +1,14 @@
 package com.davistiba.wedemyserver.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 
-@Data
+@Getter
+@RequiredArgsConstructor
 public class ObjectivesDTO {
     @NotNull
     private Integer courseId;

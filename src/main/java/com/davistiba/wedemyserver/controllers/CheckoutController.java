@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 /*
- * THIS MODIFIED CODE TAKEN FROM THE SAMPLE PROJECT BY `BRAINTREE`
- * See: https://github.com/braintree/braintree_spring_example
+ * THIS CODE COPIED & MODIFIED FROM THE SAMPLE Spring PROJECT BY `BRAINTREE`
+ * Link: https://github.com/braintree/braintree_spring_example
  */
 @RestController
 @RequestMapping(path = "/checkout")

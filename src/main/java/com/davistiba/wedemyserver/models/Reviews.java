@@ -29,7 +29,7 @@ public class Reviews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(precision = 3, scale = 2, nullable = false)
+    @Column(precision = 4, scale = 2, nullable = false)
     @Max(5)
     private BigDecimal rating;
 
@@ -55,7 +55,6 @@ public class Reviews {
 
     @UpdateTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @Column(nullable = false)
     private Instant updatedAt;
 
     @Override

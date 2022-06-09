@@ -2,12 +2,14 @@ package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.dto.EnrollmentDTO;
 import com.davistiba.wedemyserver.dto.WatchStatus;
+import com.davistiba.wedemyserver.models.Enrollment;
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
 import com.davistiba.wedemyserver.repository.LessonRepository;
 import com.davistiba.wedemyserver.service.EnrollProgressService;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -18,10 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "/enroll")
@@ -64,7 +63,7 @@ public class EnrollmentController {
 
     @GetMapping(path = "/resume/course/{courseId}")
     @Secured(value = "ROLE_STUDENT")
-    public Map<String, String> getLastViewedVideo(@NotNull HttpSession session, @PathVariable Integer courseId) {
+    public Map<String, String> resumeMyCourse(@NotNull HttpSession session, @PathVariable Integer courseId) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         var enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, courseId);
         if (enrollment.isEmpty()) {
@@ -72,7 +71,7 @@ public class EnrollmentController {
         }
         UUID currentLessonId = enrollment.get().getCurrentLessonId();
         if (currentLessonId == null) {
-            //fresh course for User!
+            //fresh enroll!
             Lesson firstLesson = lessonRepository.findByCourseIdAndPosition(courseId, 1).orElseThrow();
             currentLessonId = firstLesson.getId();
         }
@@ -83,19 +82,20 @@ public class EnrollmentController {
 
     @PostMapping(path = "/watched")
     @Secured(value = "ROLE_STUDENT")
+    @CacheEvict(value = "studentsummary", key = "#session.id")
     public Map<String, String> updateWatchStatus(@NotNull HttpSession session, @RequestBody @Valid WatchStatus status) {
         try {
             //first, check if user owns course
             Integer userId = MyUserDetailsService.getSessionUserId(session);
-            boolean isOwned = enrollmentRepository.existsByUserIdAndCourseId(userId, status.getCourseId());
-            if (!isOwned) throw new Exception("You don't own this course");
+            Optional<Enrollment> enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, status.getCourseId());
+            if (enrollment.isEmpty()) throw new Exception("You don't own this course");
             //get next Lesson
-            Lesson nextLesson = progressService.updateAndGetNextLesson(status);
+            Lesson nextLesson = progressService.updateAndGetNextLesson(status, enrollment.get());
             Map<String, String> response = new HashMap<>();
             response.put("nextLessonId", nextLesson.getId().toString());
             return response;
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update status: " + e.getMessage(), e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update status", e);
         }
 
     }
