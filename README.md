@@ -70,7 +70,7 @@ DB. To get QUICKLY STARTED:
 
 This project uses Redis for 2 main tasks: Caching, and Storing login sessions. You can download latest Redis (macOS &
 Linux) from https://redis.io/download. Windows users may download the latest native installer (.msi)
-from [this Github repo](https://github.com/tporadowski/redis/releases). Alternatively, you could run redis using Docker.
+from [this Github repo](https://github.com/tporadowski/redis/releases). Alternatively, you could run redis in Docker.
 If you prefer the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace
 redis credentials inside `application.yml` to match your running Redis instance.
 
@@ -80,8 +80,8 @@ redis credentials inside `application.yml` to match your running Redis instance.
 ## Payments Handling
 
 All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
-GooglePay, Venmo and many other methods. This project has been configured for Credit-Card(default) and PayPal Checkout
-only, in SANDBOX (test) mode. Make sure you obtain a set of 3 API Keys from your own Braintree Dev Account and store
+GooglePay, Venmo and many other methods. This project has been configured with Credit-Card and PayPal Checkout only,
+in SANDBOX (test) mode. Make sure you obtain a set of 3 API Keys from your own Braintree Dev Account and store
 them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials and examples,
 please check their well-written [official docs](https://developer.paypal.com/braintree/docs) or GitHub page.
 

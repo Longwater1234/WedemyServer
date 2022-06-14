@@ -28,7 +28,7 @@ public class EnrollProgress {
     @JsonBackReference
     private Enrollment enrollment;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     @JsonBackReference
     private Lesson lesson;

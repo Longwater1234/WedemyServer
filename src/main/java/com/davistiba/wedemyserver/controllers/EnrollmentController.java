@@ -1,6 +1,8 @@
 package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.dto.EnrollmentDTO;
+import com.davistiba.wedemyserver.dto.VideoRequest;
+import com.davistiba.wedemyserver.dto.VideoResponse;
 import com.davistiba.wedemyserver.dto.WatchStatus;
 import com.davistiba.wedemyserver.models.Enrollment;
 import com.davistiba.wedemyserver.models.Lesson;
@@ -13,6 +15,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -61,6 +64,24 @@ public class EnrollmentController {
     }
 
 
+    @PostMapping(path = "/videolink/builder")
+    @Secured(value = "ROLE_STUDENT")
+    public ResponseEntity<VideoResponse> getLessonVideoLink(@NotNull HttpSession session, @RequestBody @Valid VideoRequest request) {
+        try {
+            Integer userId = MyUserDetailsService.getSessionUserId(session);
+            Optional<Enrollment> enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, request.getCourseId());
+            if (enrollment.isEmpty()) {
+                throw new Exception("You don't own this course");
+            }
+            Lesson currentLesson = progressService.getNextLesson(enrollment.get());
+            VideoResponse response = new VideoResponse(enrollment.get().getId(), currentLesson);
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sorry, could not get lesson", e);
+        }
+
+    }
+
     @GetMapping(path = "/resume/course/{courseId}")
     @Secured(value = "ROLE_STUDENT")
     public Map<String, String> resumeMyCourse(@NotNull HttpSession session, @PathVariable Integer courseId) {
@@ -69,16 +90,12 @@ public class EnrollmentController {
         if (enrollment.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't own this course");
         }
-        UUID currentLessonId = enrollment.get().getCurrentLessonId();
-        if (currentLessonId == null) {
-            //fresh enroll!
-            Lesson firstLesson = lessonRepository.findByCourseIdAndPosition(courseId, 1).orElseThrow();
-            currentLessonId = firstLesson.getId();
-        }
+        UUID currentLessonId = progressService.getNextLesson(enrollment.get()).getId();
         Map<String, String> response = new HashMap<>();
         response.put("lessonId", currentLessonId.toString());
         return response;
     }
+
 
     @PostMapping(path = "/watched")
     @Secured(value = "ROLE_STUDENT")
