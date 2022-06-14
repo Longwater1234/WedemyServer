@@ -8,8 +8,6 @@ import com.davistiba.wedemyserver.repository.EnrollProgressRepository;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
 import com.davistiba.wedemyserver.repository.LessonRepository;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +29,6 @@ public class EnrollProgressService {
     @Autowired
     private EnrollmentRepository enrollmentRepository;
 
-    public static final Logger logger = LoggerFactory.getLogger(EnrollProgressService.class);
 
     /**
      * Update tables, then return next lesson
@@ -54,12 +51,15 @@ public class EnrollProgressService {
             long currentPosition = currentLesson.getPosition();
             long totalLessons = lessonRepository.countByCourseId(status.getCourseId());
             double valDouble = (double) currentPosition / (double) totalLessons * 100.00;
+            boolean isCompleted = (valDouble / 100.00) == 1;
 
             //update `Enrollments` table
-            logger.info("percent {}", valDouble);
             BigDecimal progressPercent = BigDecimal.valueOf(valDouble).setScale(2, RoundingMode.FLOOR);
-            enrollment.setCurrentLessonId(lessonId);
             enrollment.setProgress(progressPercent);
+            enrollment.setIsCompleted(isCompleted);
+            if (!isCompleted) {
+                enrollment.setNextPosition(currentLesson.getPosition() + 1);
+            }
             enrollmentRepository.save(enrollment);
 
             //get next lesson
@@ -73,6 +73,18 @@ public class EnrollProgressService {
         Integer nextPosition = currentLesson.getPosition() + 1;
         return lessonRepository.findByCourseIdAndPosition(courseId, nextPosition).orElseThrow();
 
+    }
+
+
+    /**
+     * Get the next lesson for this Enrollment
+     *
+     * @param enrollment current
+     * @return next lessonId
+     */
+    public Lesson getNextLesson(@NotNull Enrollment enrollment) {
+        Integer nextPosition = enrollment.getNextPosition();
+        return lessonRepository.findByCourseIdAndPosition(enrollment.getCourse().getId(), nextPosition).orElseThrow();
     }
 
 }

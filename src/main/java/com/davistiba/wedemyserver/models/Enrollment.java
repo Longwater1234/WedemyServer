@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -35,7 +34,7 @@ public class Enrollment {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     @JsonBackReference
     private Course course;
@@ -44,8 +43,8 @@ public class Enrollment {
     @ColumnDefault(value = "false")
     private Boolean isCompleted = false;
 
-    @Column(name = "current_lesson_id", columnDefinition = "BINARY(16)")
-    private UUID currentLessonId;
+    @ColumnDefault(value = "1")
+    private Integer nextPosition = 1;
 
     @ColumnDefault("0")
     @Max(100)
