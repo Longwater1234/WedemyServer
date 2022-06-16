@@ -73,7 +73,8 @@ public class EnrollmentController {
             if (enrollment.isEmpty()) {
                 throw new Exception("You don't own this course");
             }
-            Lesson currentLesson = progressService.getNextLesson(enrollment.get());
+            UUID lessonId = UUID.fromString(request.getLessonId());
+            Lesson currentLesson = lessonRepository.findLessonById(lessonId).orElseThrow();
             VideoResponse response = new VideoResponse(enrollment.get().getId(), currentLesson);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
