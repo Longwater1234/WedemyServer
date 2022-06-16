@@ -14,12 +14,11 @@ settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/Sec
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Google Login_)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys.
 - (OPTIONAL) PayPal Business Account.
-- (OPTIONAL) MySQL Workbench.
 
 ### Environmental Variables
 
 You MUST set these ENV variables on your System before you launch this Springboot app. **💡TIP**: During dev, you
-can easily set them up within your IDE (⚠ will be LOCAL only). In either Eclipse or IntelliJ IDEA, in the top toolbar,
+can easily set them up within your IDE (⚠ will be LOCAL only): In either Eclipse or IntelliJ IDEA, in the top toolbar,
 find the **Run** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+) each key and
 its value, then click **Apply**. Otherwise, lookup instructions for your specific OS/Container/Cloud Service.
 
@@ -37,7 +36,8 @@ BT_PRIVATE_KEY=
 
 Please examine the file [application.yml](src/main/resources/application.yml) inside src/main/resources/ folder. Default
 server port: 9000. Place all your necessary Spring Application properties there. Notice property `frontend.root.url`;
-replace value with yours. But for _sensitive_ info (like Secrets or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌.
+replace value with yours. But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY**
+❌.
 I suggest store them as Environmental Variables instead (see above), then either declare them
 as `property.name = ${ENV_KEY_NAME}`, OR call directly in your code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
@@ -49,7 +49,7 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 This is the primary database. All DateTimes are stored and queried in UTC only❗ (**Hint: USE `java.time.Instant` as Type
 for ALL Datetime fields. Also see point #.7 below.**) Handle Timezone conversion on your Frontend! For your convenience,
 I have included a mysqldump file `data_wedemy.sql` inside [src/main/resources](src/main/resources) which contains
-initial sample data for some tables. Please take a look at the [ERD diagram](src/main/resources/wedemy_erd.png) of this
+sample data for some tables. Please take a look at the [ERD diagram](src/main/resources/wedemy_erd.png) of this
 DB. To get QUICKLY STARTED:
 
 1. Make sure you have MySQL 8.0.x. installed. (Verify, in terminal: `mysql --version`)
@@ -83,5 +83,5 @@ All payments are securely handled by **Braintree Payments** (owned by PayPal), w
 GooglePay, Venmo and many other methods. This project has been configured with Credit-Card and PayPal Checkout only,
 in SANDBOX (test) mode. Make sure you obtain a set of 3 API Keys from your own Braintree Dev Account and store
 them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials and examples,
-please check their well-written [official docs](https://developer.paypal.com/braintree/docs) or GitHub page.
+please check their well-written [official docs](https://developer.paypal.com/braintree/docs).
 

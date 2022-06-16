@@ -63,7 +63,7 @@ public class EnrollProgressService {
             enrollmentRepository.save(enrollment);
 
             //get next lesson
-            Integer courseId = progress.getLesson().getCourse().getId();
+            Integer courseId = status.getCourseId();
             Integer nextPosition = progress.getLesson().getPosition() + 1;
             return lessonRepository.findByCourseIdAndPosition(courseId, nextPosition).orElseThrow();
         }

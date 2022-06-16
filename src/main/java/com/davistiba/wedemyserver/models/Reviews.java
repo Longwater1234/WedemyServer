@@ -13,7 +13,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -29,12 +28,12 @@ public class Reviews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(precision = 4, scale = 2, nullable = false)
+    @Column(nullable = false)
     @Max(5)
-    private BigDecimal rating;
+    private Integer rating;
 
     @Column(nullable = false)
-    @Size(max = 250)
+    @Size(max = 300)
     private String content;
 
     @ManyToOne(optional = false)
