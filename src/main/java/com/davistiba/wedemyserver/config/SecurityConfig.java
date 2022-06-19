@@ -51,10 +51,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().httpBasic()
-                .and().oauth2Login().userInfoEndpoint().userService(googleOauthService)
+                .and().oauth2Login().userInfoEndpoint().oidcUserService(googleOauthService)
                 .and().successHandler(successHandler)
                 .and().authorizeRequests()
-                .antMatchers("/index.html", "/", "/auth/**", "/login/**").permitAll()
+                .antMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**").permitAll()
                 .antMatchers("/profile/**", "/user/**").hasAuthority("ROLE_STUDENT")
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")

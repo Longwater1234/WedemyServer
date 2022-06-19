@@ -57,8 +57,8 @@ public class AuthController {
 
 
     @GetMapping(path = "/statuslogin")
-    public ResponseEntity<Object> checkLoginStatus(Authentication auth,
-                                                   @AuthenticationPrincipal OAuth2User oAuth2User) {
+    public ResponseEntity<Map<String, Object>> checkLoginStatus(Authentication auth,
+                                                                @AuthenticationPrincipal OAuth2User oAuth2User) {
         Map<String, Object> response = new HashMap<>();
 
         if (oAuth2User != null) {
