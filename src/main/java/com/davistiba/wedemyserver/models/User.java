@@ -37,13 +37,13 @@ public class User implements UserDetails {
 
     @Column(nullable = false, length = 100)
     @Size(max = 100)
-    @Pattern(regexp = "^[ a-zA-Z0-9_'\\-]+?", message = "Invalid characters in name")
+    @Pattern(regexp = "^[ a-zA-Z0-9_\\.'\\-]+?", message = "Invalid characters in name")
     @NotBlank
     private String fullname;
 
     @Column(nullable = false, unique = true)
     @Email
-    @Pattern(regexp = "(^[0-9A-Za-z][\\w.-]+@[\\w]+\\.[\\w]\\S+\\w)$", message = "Invalid email!")
+    @Pattern(regexp = "(^[0-9A-Za-z][\\w.\\-]+@[\\w]+\\.[\\w]\\S+\\w)$", message = "Invalid email!")
     @NotBlank
     private String email;
 

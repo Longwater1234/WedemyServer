@@ -54,7 +54,7 @@ public class Reviews {
 
     @UpdateTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Instant updatedAt;
+    private Instant updatedAt = null;
 
     @Override
     public boolean equals(Object o) {

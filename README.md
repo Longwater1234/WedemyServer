@@ -17,7 +17,7 @@ settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/Sec
 
 ### Environmental Variables
 
-You MUST set these ENV variables on your System before you launch this Springboot app. **💡TIP**: During dev, you
+You MUST set these ENV variables on your System before you launch this Springboot app. **💡TIP**: During dev/test, you
 can easily set them up within your IDE (⚠ will be LOCAL only): In either Eclipse or IntelliJ IDEA, in the top toolbar,
 find the **Run** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+) each key and
 its value, then click **Apply**. Otherwise, lookup instructions for your specific OS/Container/Cloud Service.
