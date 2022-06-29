@@ -36,7 +36,7 @@ public class Reviews {
     @Size(max = 300)
     private String content;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -55,6 +55,13 @@ public class Reviews {
     @UpdateTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant updatedAt = null;
+
+    public Reviews(Integer rating, String content, User user, Course course) {
+        this.rating = rating;
+        this.content = content;
+        this.user = user;
+        this.course = course;
+    }
 
     @Override
     public boolean equals(Object o) {

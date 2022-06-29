@@ -1,10 +1,10 @@
 # WedemyServer
 
-(Backend repo). A Springboot + Vue 3 + Typescript clone of Udemy, an e-learning platform. With PayPal and CreditCard
-checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis, and Cookies (httpOnly)
-for auth, _instead of_ stateless JWT Tokens. CSRF protection is ENABLED. For simplicity, both UserDetails and UserRole (
-enum) are stored in the same table. Maximum 2 *concurrent* login sessions per user. You can easily customize these
-settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java).
+(Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With CreditCard and
+PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis, and Cookies (
+httpOnly) for auth, _instead of_ stateless JWT Tokens. CSRF protection is ENABLED. For simplicity, both UserDetails and
+UserRole (enum) are stored in the same table. Maximum 2 *concurrent* login sessions per user. You can easily customize
+these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java).
 
 ## Requirements
 
@@ -20,7 +20,7 @@ settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/Sec
 You MUST set these ENV variables on your System before you launch this Springboot app. **💡TIP**: During dev/test, you
 can easily set them up within your IDE (⚠ will be LOCAL only): In either Eclipse or IntelliJ IDEA, in the top toolbar,
 find the **Run** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+) each key and
-its value, then click **Apply**. Otherwise, lookup instructions for your specific OS/Container/Cloud Service.
+its value, then click **Apply**.
 
 ```shell
 #below are for Google OAuth
@@ -30,16 +30,18 @@ GOOGLE_CLIENT_SECRET=
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
+#database credentials
+MYSQL_PASSWORD=
+REDIS_PASSWORD=
 ```
 
 ## Important ⚠
 
-Please examine the file [application.yml](src/main/resources/application.yml) inside src/main/resources/ folder. Default
-server port: 9000. Place all your necessary Spring Application properties there. Notice property `frontend.root.url`;
-replace value with yours. But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY**
-❌.
-I suggest store them as Environmental Variables instead (see above), then either declare them
-as `property.name = ${ENV_KEY_NAME}`, OR call directly in your code as shown
+Please examine the file [application.yml](src/main/resources/application.yml) inside src/main/resources/ folder. Place
+all your necessary Spring Application properties there. Notice property `frontend.root.url`; replace value with yours.
+But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I suggest store them as
+Environmental Variables instead (see above), then either declare them as `property.name = ${ENV_KEY_NAME}`, OR call
+directly in your code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
 ## Databases Used
