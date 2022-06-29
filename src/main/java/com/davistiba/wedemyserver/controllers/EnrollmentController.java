@@ -4,7 +4,6 @@ import com.davistiba.wedemyserver.dto.EnrollmentDTO;
 import com.davistiba.wedemyserver.dto.VideoRequest;
 import com.davistiba.wedemyserver.dto.VideoResponse;
 import com.davistiba.wedemyserver.dto.WatchStatus;
-import com.davistiba.wedemyserver.models.CustomOAuthUser;
 import com.davistiba.wedemyserver.models.Enrollment;
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
@@ -18,8 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -88,12 +85,8 @@ public class EnrollmentController {
 
     @GetMapping(path = "/resume/course/{courseId}")
     @Secured(value = "ROLE_STUDENT")
-    public Map<String, String> resumeMyCourse(@NotNull HttpSession session, @PathVariable Integer courseId, @AuthenticationPrincipal
-    OidcUser oidcUser) {
+    public Map<String, String> resumeMyCourse(@NotNull HttpSession session, @PathVariable Integer courseId) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        if (oidcUser != null) {
-            CustomOAuthUser user = (CustomOAuthUser) oidcUser;
-        }
         var enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, courseId);
         if (enrollment.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't own this course");
