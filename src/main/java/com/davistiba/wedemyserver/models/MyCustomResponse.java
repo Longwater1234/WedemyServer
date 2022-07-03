@@ -1,5 +1,8 @@
 package com.davistiba.wedemyserver.models;
 
+/**
+ * Generic response with message
+ */
 public class MyCustomResponse {
     private final String message;
     private final Boolean success;

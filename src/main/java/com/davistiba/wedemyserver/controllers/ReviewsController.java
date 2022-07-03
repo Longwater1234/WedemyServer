@@ -5,8 +5,10 @@ import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.ReviewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +34,10 @@ public class ReviewsController {
     }
 
     @GetMapping(path = "/course/{courseId}")
-    public Page<ReviewDTO> getCourseReviews(@RequestParam(defaultValue = "0") Integer page, @PathVariable Integer courseId) {
-        return reviewsRepository.findByCourseIdOrderByCreatedAtDesc(courseId, PageRequest.of(page, 10));
+    public Slice<ReviewDTO> getCourseReviews(@RequestParam(defaultValue = "0") Integer page,
+                                             @RequestParam(defaultValue = "createdAt") String sortBy,
+                                             @PathVariable Integer courseId) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, sortBy);
+        return reviewsRepository.findByCourseId(courseId, pageable);
     }
 }

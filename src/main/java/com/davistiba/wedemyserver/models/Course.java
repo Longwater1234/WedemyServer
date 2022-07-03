@@ -1,6 +1,8 @@
 package com.davistiba.wedemyserver.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
@@ -20,6 +22,7 @@ import java.util.Objects;
         indexes = {@Index(name = "IDX_CATEGORY", columnList = "category")})
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class Course implements Serializable {
 
     private static final long serialVersionUID = -2540907171719494221L;
@@ -44,8 +47,9 @@ public class Course implements Serializable {
     @Size(max = 50)
     private String category;
 
-    @ColumnDefault("3.50")
+    @ColumnDefault("0.0")
     @Column(precision = 4, scale = 2, nullable = false)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private BigDecimal rating;
 
     @NotBlank

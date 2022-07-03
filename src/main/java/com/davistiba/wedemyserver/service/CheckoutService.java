@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CheckoutService {
@@ -39,11 +37,9 @@ public class CheckoutService {
      * Finally, clear Cart of current user.
      */
     @Transactional
-    public Map<String, Object> processCheckoutDatabase(String transactionId,
-                                                       @NotNull CheckoutRequest request,
-                                                       User user) {
-
-        Map<String, Object> response = new HashMap<>();
+    public MyCustomResponse processCheckoutDatabase(String transactionId,
+                                                    @NotNull CheckoutRequest request,
+                                                    User user) {
 
         List<OrderItem> orderItemList = new ArrayList<>();
         List<Course> courseList = courseRepository.findCoursesByIdIn(request.getCourses());
@@ -65,9 +61,7 @@ public class CheckoutService {
         enrollmentRepository.saveAll(enrollments);
         cartRepository.deleteAllByUserIdAndCoursesIn(user.getId(), request.getCourses());
         //-----------------------------------------------
-        response.put("success", true);
-        response.put("message", "Successfully paid USD " + request.getTotalAmount());
-        return response;
+        return new MyCustomResponse("Successfully paid USD " + request.getTotalAmount());
 
     }
 }
