@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -24,12 +26,14 @@ public class EnrollProgress {
     private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "enrollment_id", referencedColumnName = "id")
+    @JoinColumn(name = "enrollment_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private Enrollment enrollment;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "lesson_id", referencedColumnName = "id")
+    @JoinColumn(name = "lesson_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private Lesson lesson;
 

@@ -62,7 +62,7 @@ public class CartController {
     @ResponseStatus(HttpStatus.OK)
     public List<Course> getAllMyCartItems(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
         Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
-        return courseRepository.getCoursesCartByUser(userId, PageRequest.of(page, 10));
+        return courseRepository.getCoursesCartByUser(userId, PageRequest.of(Math.abs(page), 10));
     }
 
     @GetMapping(path = "/mine/count")

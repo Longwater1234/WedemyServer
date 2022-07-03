@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -22,12 +24,14 @@ public class OrderItem {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "transaction_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Sales sale;
 
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "course_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
 

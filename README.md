@@ -30,9 +30,7 @@ GOOGLE_CLIENT_SECRET=
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
-#database credentials
-MYSQL_PASSWORD=
-REDIS_PASSWORD=
+#...You may add DB passwords too...
 ```
 
 ## Important ⚠

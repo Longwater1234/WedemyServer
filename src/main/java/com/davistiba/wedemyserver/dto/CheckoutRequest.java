@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -21,6 +22,7 @@ public class CheckoutRequest {
     private String nonce;
 
     @NotNull
+    @Min(1)
     private BigDecimal totalAmount;
 
     @NotEmpty
@@ -28,7 +30,7 @@ public class CheckoutRequest {
 
     @NotEmpty
     private String paymentMethod;
-    // "ApplePayCard" | "CREDITCARD" | "AndroidPayCard" | "PayPalAccount" | "VenmoAccount"
+    // "ApplePayCard" | "CreditCard" | "AndroidPayCard" | "PayPalAccount" | "VenmoAccount"
 
     public CheckoutRequest() {
     }

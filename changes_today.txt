@@ -1,2 +1,4 @@
-### 2022.01.05
-- Now fetching UserDTO directly from database. No need of model mapper.
+### 2022.03.07
+- Now using `Slice` instead of `Page` for Reviews
+- finally discovered `@OnDelete cascade` for ManyToOne associations
+- Added sorting for reviews

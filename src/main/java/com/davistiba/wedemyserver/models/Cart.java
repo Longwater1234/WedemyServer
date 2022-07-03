@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,11 +27,13 @@ public class Cart {
 
     @ManyToOne(optional = false)
     @JsonBackReference
-    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    @JoinColumn(name = "course_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private User user;
 

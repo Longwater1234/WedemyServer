@@ -5,9 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -19,7 +20,6 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Table(name = "reviews",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
@@ -38,13 +38,14 @@ public class Reviews {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name = "course_id", referencedColumnName = "id")
-    @ToString.Exclude
+    @JoinColumn(name = "course_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
     @CreationTimestamp
@@ -54,7 +55,7 @@ public class Reviews {
 
     @UpdateTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Instant updatedAt = null;
+    private Instant updatedAt;
 
     public Reviews(Integer rating, String content, User user, Course course) {
         this.rating = rating;

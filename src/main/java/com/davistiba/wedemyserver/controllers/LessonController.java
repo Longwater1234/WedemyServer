@@ -58,10 +58,10 @@ public class LessonController {
     }
 
 
-    @GetMapping(path = "/course/{courseId}/enroll/{enrollId}")
+    @GetMapping(path = "/c/{courseId}/enroll/{enrollId}")
     @ResponseStatus(HttpStatus.OK)
     @Secured(value = "ROLE_STUDENT")
-    public List<Map<String, Object>> getAllWatchedLessons(@PathVariable Integer courseId, @PathVariable Integer enrollId) {
+    public List<Map<String, Object>> getMyWatchedLessons(@PathVariable Integer courseId, @PathVariable Integer enrollId) {
         return lessonRepository.getAllWatchedLessons(enrollId, courseId);
     }
 

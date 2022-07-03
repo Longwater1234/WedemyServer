@@ -6,10 +6,10 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import java.math.BigDecimal;
@@ -31,12 +31,14 @@ public class Enrollment {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    @JoinColumn(name = "course_id")
     @JsonBackReference
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
     @Column(nullable = false)

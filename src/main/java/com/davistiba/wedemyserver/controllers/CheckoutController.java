@@ -3,6 +3,7 @@ package com.davistiba.wedemyserver.controllers;
 import com.braintreegateway.*;
 import com.davistiba.wedemyserver.config.BraintreeConfig;
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
+import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.service.CheckoutService;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /*
- * THIS MODIFIED CODE COPIED FROM THE SAMPLE Spring PROJECT BY `BRAINTREE`
+ * THIS MODIFIED CODE TAKEN FROM THE SAMPLE PROJECT BY `BRAINTREE`
  * https://github.com/braintree/braintree_spring_example
  */
 @RestController
@@ -57,10 +58,10 @@ public class CheckoutController {
 
     @PostMapping(path = "/complete")
     @CacheEvict(value = "studentsummary", key = "#session.id")
-    public ResponseEntity<Map<String, Object>> completePurchase(@Valid @RequestBody CheckoutRequest request,
-                                                                @NotNull HttpSession session) {
-        String transactionId;
-        Map<String, Object> response;
+    public ResponseEntity<MyCustomResponse> completePurchase(@Valid @RequestBody CheckoutRequest request,
+                                                             @NotNull HttpSession session) {
+
+        String transactionId; //from Braintree
         Integer userId = MyUserDetailsService.getSessionUserId(session); //from redis Store
         User user = userRepository.findById(userId).orElseThrow();
 
@@ -68,7 +69,7 @@ public class CheckoutController {
         TransactionRequest transactionRequest = new TransactionRequest()
                 .amount(request.getTotalAmount())
                 .paymentMethodNonce(request.getNonce())
-                .billingAddress()  // <-- user details (OPTIONAL)
+                .billingAddress()  // <-- OPTIONAL
                 .firstName(user.getFullname())
                 .lastName(user.getEmail())
                 .done()
@@ -94,7 +95,7 @@ public class CheckoutController {
 
         //OK, ALL IS GOOD! let's finally wrap everything up.
         try {
-            response = checkoutService.processCheckoutDatabase(transactionId, request, user);
+            MyCustomResponse response = checkoutService.processCheckoutDatabase(transactionId, request, user);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not complete purchase", e);
