@@ -78,12 +78,6 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-core</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
-        <dependency>
-            <groupId>commons-validator</groupId>
-            <artifactId>commons-validator</artifactId>
-            <version>1.7</version>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -110,6 +104,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
+            <version>5.3.20</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
@@ -122,7 +117,7 @@
         <dependency>
             <groupId>com.braintreepayments.gateway</groupId>
             <artifactId>braintree-java</artifactId>
-            <version>3.16.0</version>
+            <version>3.16.1</version>
         </dependency>
 
         <!--        UNCOMMENT THIS BLOCK FOR SWAGGER-UI-->
@@ -152,6 +147,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${project.parent.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>

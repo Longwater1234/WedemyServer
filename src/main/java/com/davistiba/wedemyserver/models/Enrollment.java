@@ -62,7 +62,6 @@ public class Enrollment {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant updatedAt = null;
 
-
     public Enrollment(User user, Course course) {
         this.user = user;
         this.course = course;

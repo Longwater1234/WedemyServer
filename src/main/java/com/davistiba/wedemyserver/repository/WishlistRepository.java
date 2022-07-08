@@ -1,6 +1,5 @@
 package com.davistiba.wedemyserver.repository;
 
-import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.models.Wishlist;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,7 +24,4 @@ public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
     Integer saveByCourseIdAndUserId(Integer courseId, Integer userId);
 
 
-    @Modifying
-    @Transactional
-    void deleteByIdAndUser(Integer wishlistId, User user);
 }

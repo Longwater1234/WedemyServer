@@ -2,7 +2,6 @@ package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
-import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.WishlistRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
@@ -71,16 +70,4 @@ public class WishlistController {
         return new MyCustomResponse("Removed from Wishlist, course " + courseId);
     }
 
-
-    @DeleteMapping(path = "/id/{wishlistId}")
-    @ResponseStatus(HttpStatus.OK)
-    public MyCustomResponse removeWishlistById(HttpSession session, @PathVariable @NotNull Integer wishlistId) {
-        try {
-            User user = MyUserDetailsService.getSessionUserInfo(session); //from redis Store
-            wishlistRepository.deleteByIdAndUser(wishlistId, user);
-            return new MyCustomResponse("Removed from Wishlist, id " + wishlistId);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from wishlist", e);
-        }
-    }
 }

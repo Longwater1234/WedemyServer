@@ -83,7 +83,7 @@ public class EnrollmentController {
 
     }
 
-    @GetMapping(path = "/resume/course/{courseId}")
+    @GetMapping(path = "/resume/c/{courseId}")
     @Secured(value = "ROLE_STUDENT")
     public Map<String, String> resumeMyCourse(@NotNull HttpSession session, @PathVariable Integer courseId) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);

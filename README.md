@@ -48,8 +48,8 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 This is the primary database. All DateTimes are stored and queried in UTC only❗ (**Hint: USE `java.time.Instant` as Type
 for ALL Datetime fields. Also see point #.7 below.**) Handle Timezone conversion on your Frontend! For your convenience,
-I have included a mysqldump file `data_wedemy.sql` inside [src/main/resources](src/main/resources) which contains
-sample data for some tables. Please take a look at the [ERD diagram](src/main/resources/wedemy_erd.png) of this
+I have included a mysqldump file `data_wedemy.sql` inside [src/main/resources](src/main/resources/data_wedemy.sql) which
+contains sample data for some tables. Please take a look at the [ERD diagram](src/main/resources/wedemy_erd.png) of this
 DB. To get QUICKLY STARTED:
 
 1. Make sure you have MySQL 8.0.x. installed. (Verify, in terminal: `mysql --version`)
@@ -59,7 +59,7 @@ DB. To get QUICKLY STARTED:
 5. If everything is set, you may launch the SpringBoot app for Hibernate to auto-generate all tables and indexes.
 6. You can now IMPORT file [data_wedemy.sql](src/main/resources/data_wedemy.sql) into your db (OPTIONAL).
 7. To maintain consistent time-zone (UTC) with your Java app, ensure your MySQL connection URL has
-   parameter `connectionTimeZone=UTC`. See example below. For custom @Query's, use UTC_TIMESTAMP() or UTC_DATE().
+   parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
    ```properties
    spring.datasource.url=jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC
    # OR, use this

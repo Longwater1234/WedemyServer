@@ -61,15 +61,15 @@ public class CheckoutController {
     public ResponseEntity<MyCustomResponse> completePurchase(@Valid @RequestBody CheckoutRequest request,
                                                              @NotNull HttpSession session) {
 
-        String transactionId; //from Braintree
-        Integer userId = MyUserDetailsService.getSessionUserId(session); //from redis Store
+        String transactionId; // from Braintree
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
         User user = userRepository.findById(userId).orElseThrow();
 
         // try to create Braintree transaction
         TransactionRequest transactionRequest = new TransactionRequest()
                 .amount(request.getTotalAmount())
                 .paymentMethodNonce(request.getNonce())
-                .billingAddress()  // <-- OPTIONAL
+                .billingAddress()  // <-- (OPTIONAL)
                 .firstName(user.getFullname())
                 .lastName(user.getEmail())
                 .done()

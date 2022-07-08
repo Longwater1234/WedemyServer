@@ -2,7 +2,6 @@ package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
-import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.CartRepository;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
@@ -86,18 +85,6 @@ public class CartController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from cart");
         }
         return new MyCustomResponse("Removed from Cart, course " + courseId);
-    }
-
-    @DeleteMapping(path = "/id/{cartId}")
-    @ResponseStatus(HttpStatus.OK)
-    public MyCustomResponse removeCartById(@PathVariable @NotNull Integer cartId, HttpSession session) {
-        try {
-            User user = MyUserDetailsService.getSessionUserInfo(session); //from redis Store
-            cartRepository.deleteByIdAndUser(cartId, user);
-            return new MyCustomResponse("Removed from Wishlist, id " + cartId);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
     }
 
 
