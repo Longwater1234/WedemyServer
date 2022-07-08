@@ -1,16 +1,20 @@
 package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.dto.ReviewDTO;
+import com.davistiba.wedemyserver.dto.ReviewRequest;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
-import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.ReviewsRepository;
+import com.davistiba.wedemyserver.service.MyUserDetailsService;
+import com.davistiba.wedemyserver.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -24,13 +28,19 @@ public class ReviewsController {
     private ReviewsRepository reviewsRepository;
 
     @Autowired
-    private CourseRepository courseRepository;
+    private ReviewService reviewService;
+
 
     @PostMapping(path = "/")
     @Secured(value = "ROLE_STUDENT")
-    public MyCustomResponse addCourseReview(@Valid ReviewDTO review, @NotNull HttpSession session) {
-        //TODO add method to add review here
-        return new MyCustomResponse("Successfully added review for course");
+    public MyCustomResponse addCourseReview(@Valid ReviewRequest request, @NotNull HttpSession session) {
+        try {
+            Integer userId = MyUserDetailsService.getSessionUserId(session);
+            reviewService.handleCourseRating(request, userId);
+            return new MyCustomResponse("Successfully added review for course");
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add review", e);
+        }
     }
 
     @GetMapping(path = "/course/{courseId}")

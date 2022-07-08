@@ -23,7 +23,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Table(name = "reviews",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
-public class Reviews {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -57,7 +57,7 @@ public class Reviews {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant updatedAt;
 
-    public Reviews(Integer rating, String content, User user, Course course) {
+    public Review(Integer rating, String content, User user, Course course) {
         this.rating = rating;
         this.content = content;
         this.user = user;
@@ -68,8 +68,8 @@ public class Reviews {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Reviews reviews = (Reviews) o;
-        return id != null && Objects.equals(id, reviews.id);
+        Review review = (Review) o;
+        return id != null && Objects.equals(id, review.id);
     }
 
     @Override
