@@ -3,6 +3,7 @@ package com.davistiba.wedemyserver.controllers;
 import com.davistiba.wedemyserver.dto.ReviewDTO;
 import com.davistiba.wedemyserver.dto.ReviewRequest;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
+import com.davistiba.wedemyserver.models.Review;
 import com.davistiba.wedemyserver.repository.ReviewsRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import com.davistiba.wedemyserver.service.ReviewService;
@@ -33,14 +34,20 @@ public class ReviewsController {
 
     @PostMapping(path = "/")
     @Secured(value = "ROLE_STUDENT")
-    public MyCustomResponse addCourseReview(@Valid ReviewRequest request, @NotNull HttpSession session) {
+    public MyCustomResponse addCourseReview(@Valid @RequestBody ReviewRequest review, @NotNull HttpSession session) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
-            reviewService.handleCourseRating(request, userId);
-            return new MyCustomResponse("Successfully added review for course");
+            reviewService.updateCourseRating(review, userId);
+            return new MyCustomResponse("Thanks for your review!");
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add review", e);
         }
+    }
+
+    @GetMapping(path = "/mine/c/{courseId}")
+    public Review getMyReviewOnCourse(@PathVariable Integer courseId, @NotNull HttpSession session) {
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
+        return reviewsRepository.findByUserIdAndCourseId(userId, courseId).orElse(null);
     }
 
     @GetMapping(path = "/course/{courseId}")

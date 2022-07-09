@@ -27,14 +27,15 @@ public class ReviewService {
     private ReviewsRepository reviewsRepository;
 
     /**
-     * Insert new review, rating.
-     * Calculate and update average rating for course.
+     * Insert new review.
+     * Then, calculate and update AVG rating for course.
+     * All in single DB transaction
      *
      * @param request from frontend
      * @param userId  userId
      */
     @Transactional
-    public void handleCourseRating(ReviewRequest request, Integer userId) {
+    public void updateCourseRating(ReviewRequest request, Integer userId) {
         User user = userRepository.findById(userId).orElseThrow();
         Course course = courseRepository.findById(request.getCourseId()).orElseThrow();
         Review myReview = new Review(request.getRating(), request.getContent(), user, course);

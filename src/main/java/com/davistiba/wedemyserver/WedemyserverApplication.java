@@ -6,7 +6,6 @@ package com.davistiba.wedemyserver;
 
 
 import org.jetbrains.annotations.NotNull;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,11 +26,6 @@ public class WedemyserverApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WedemyserverApplication.class, args);
-    }
-
-    @Bean
-    public ModelMapper mapper() {
-        return new ModelMapper();
     }
 
     @Bean

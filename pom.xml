@@ -14,6 +14,8 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>wedemyserver</name>
     <description>Wedemy project for Spring Boot</description>
+    <url>https://github.com/longwater1234/WedemyServer</url>
+
     <properties>
         <java.version>11</java.version>
     </properties>
