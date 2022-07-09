@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -20,12 +20,11 @@ public class ReviewRequest {
     private Integer rating;
 
     @Size(max = 300)
-    @NotBlank
+    @NotEmpty
     private String content;
 
     @NotNull
     private Integer courseId;
 
-    public ReviewRequest() {
-    }
+
 }

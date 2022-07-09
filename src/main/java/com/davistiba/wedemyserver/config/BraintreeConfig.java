@@ -19,7 +19,7 @@ public class BraintreeConfig {
 
     private static final BraintreeGateway gateway = new BraintreeGateway(
             Environment.SANDBOX, // <-- (TEST mode)
-            Objects.requireNonNull(ENV.getProperty("BT_MERCHANT_ID")),
+            Objects.requireNonNull(ENV.getProperty("BT_MERCHANT_ID")), //ensure NOT NULL!
             Objects.requireNonNull(ENV.getProperty("BT_PUBLIC_KEY")),
             Objects.requireNonNull(ENV.getProperty("BT_PRIVATE_KEY"))
     );

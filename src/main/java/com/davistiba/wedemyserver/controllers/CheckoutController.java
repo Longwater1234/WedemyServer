@@ -79,7 +79,7 @@ public class CheckoutController {
 
         Result<Transaction> result = gateway.transaction().sale(transactionRequest);
 
-        // listen for Braintree Transaction Result
+        // listen for Transaction Result
         if (result.isSuccess()) {
             transactionId = result.getTarget().getId();
         } else if (result.getTransaction() != null) {
