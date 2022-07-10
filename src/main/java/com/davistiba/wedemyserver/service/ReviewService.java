@@ -5,7 +5,7 @@ import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.models.Review;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.CourseRepository;
-import com.davistiba.wedemyserver.repository.ReviewsRepository;
+import com.davistiba.wedemyserver.repository.ReviewRepository;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class ReviewService {
     private UserRepository userRepository;
 
     @Autowired
-    private ReviewsRepository reviewsRepository;
+    private ReviewRepository reviewRepository;
 
     /**
      * Insert new review.
@@ -35,14 +35,31 @@ public class ReviewService {
      * @param userId  userId
      */
     @Transactional
-    public void updateCourseRating(ReviewRequest request, Integer userId) {
+    public void addCourseRating(ReviewRequest request, Integer userId) {
         User user = userRepository.findById(userId).orElseThrow();
         Course course = courseRepository.findById(request.getCourseId()).orElseThrow();
         Review myReview = new Review(request.getRating(), request.getContent(), user, course);
-        reviewsRepository.save(myReview);
+        reviewRepository.save(myReview);
 
         //calculate and update average rating for course.
-        double avgRating = reviewsRepository.findAverageByCourseId(course.getId());
+        double avgRating = reviewRepository.findAverageByCourseId(course.getId());
+        course.setRating(BigDecimal.valueOf(avgRating).setScale(2, RoundingMode.DOWN));
+        courseRepository.save(course);
+    }
+
+    /**
+     * EDIT existing review, and modify AVG course rating
+     */
+    @Transactional
+    public void updateCourseRating(ReviewRequest request, Integer userId) {
+        Review myReview = reviewRepository.findById(request.getId()).orElseThrow();
+        Course course = courseRepository.findById(request.getCourseId()).orElseThrow();
+        myReview.setRating(request.getRating());
+        myReview.setContent(request.getContent());
+        reviewRepository.save(myReview);
+
+        //calculate and update average rating for course.
+        double avgRating = reviewRepository.findAverageByCourseId(course.getId());
         course.setRating(BigDecimal.valueOf(avgRating).setScale(2, RoundingMode.DOWN));
         courseRepository.save(course);
     }

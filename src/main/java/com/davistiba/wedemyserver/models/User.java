@@ -54,7 +54,7 @@ public class User implements UserDetails {
     @Transient
     @JsonProperty(access = Access.WRITE_ONLY)
     @NotBlank
-    @Size(min = 9)
+    @Size(min = 8)
     private String confirmPass;
 
     @Enumerated(EnumType.STRING)

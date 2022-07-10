@@ -18,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +58,7 @@ public class CheckoutController {
     @PostMapping(path = "/complete")
     @CacheEvict(value = "studentsummary", key = "#session.id")
     public ResponseEntity<MyCustomResponse> completePurchase(@Valid @RequestBody CheckoutRequest request,
-                                                             @NotNull HttpSession session) {
+                                                             HttpSession session) {
 
         String transactionId; // from Braintree
         Integer userId = MyUserDetailsService.getSessionUserId(session);

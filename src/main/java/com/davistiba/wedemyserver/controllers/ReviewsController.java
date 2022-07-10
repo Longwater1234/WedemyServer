@@ -4,7 +4,7 @@ import com.davistiba.wedemyserver.dto.ReviewDTO;
 import com.davistiba.wedemyserver.dto.ReviewRequest;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.Review;
-import com.davistiba.wedemyserver.repository.ReviewsRepository;
+import com.davistiba.wedemyserver.repository.ReviewRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import com.davistiba.wedemyserver.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +13,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping(path = "/reviews")
 public class ReviewsController {
 
     @Autowired
-    private ReviewsRepository reviewsRepository;
+    private ReviewRepository reviewRepository;
 
     @Autowired
     private ReviewService reviewService;
@@ -34,20 +34,33 @@ public class ReviewsController {
 
     @PostMapping(path = "/")
     @Secured(value = "ROLE_STUDENT")
-    public MyCustomResponse addCourseReview(@Valid @RequestBody ReviewRequest review, @NotNull HttpSession session) {
+    public MyCustomResponse addCourseReview(@Valid @RequestBody ReviewRequest review, HttpSession session) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
-            reviewService.updateCourseRating(review, userId);
+            reviewService.addCourseRating(review, userId);
             return new MyCustomResponse("Thanks for your review!");
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add review", e);
         }
     }
 
+    @PutMapping(path = "/")
+    @Secured(value = "ROLE_STUDENT")
+    public MyCustomResponse editCourseReview(@Valid @RequestBody ReviewRequest review, HttpSession session) {
+        try {
+            Integer userId = MyUserDetailsService.getSessionUserId(session);
+            reviewService.updateCourseRating(review, userId);
+            return new MyCustomResponse("Thanks for your review!");
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not edit review", e);
+        }
+    }
+
     @GetMapping(path = "/mine/c/{courseId}")
-    public Review getMyReviewOnCourse(@PathVariable Integer courseId, @NotNull HttpSession session) {
+    public ResponseEntity<Review> getMyReviewOnCourse(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        return reviewsRepository.findByUserIdAndCourseId(userId, courseId).orElse(null);
+        var review = reviewRepository.findByUserIdAndCourseId(userId, courseId).orElse(null);
+        return ResponseEntity.ok().body(review);
     }
 
     @GetMapping(path = "/course/{courseId}")
@@ -55,6 +68,6 @@ public class ReviewsController {
                                              @RequestParam(defaultValue = "createdAt") String sortBy,
                                              @PathVariable Integer courseId) {
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, sortBy);
-        return reviewsRepository.findByCourseId(courseId, pageable);
+        return reviewRepository.findByCourseId(courseId, pageable);
     }
 }

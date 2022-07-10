@@ -6,13 +6,13 @@ import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import com.davistiba.wedemyserver.service.ProfileService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
@@ -27,27 +27,47 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
+    private final ModelMapper modelMapper;
+
     @Autowired
     public ProfileController(UserRepository userRepository, ProfileService profileService) {
         this.userRepository = userRepository;
         this.profileService = profileService;
+        this.modelMapper = new ModelMapper();
     }
 
     @GetMapping(path = "/mine")
-    public UserDTO getUserById(@NotNull HttpSession session) {
+    public ResponseEntity<UserDTO> getUserById(@NotNull HttpSession session) {
         try {
             Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
-            return userRepository.findUserDTObyId(userId).orElseThrow();
+            UserDTO userDTO = userRepository.findUserDTObyId(userId).orElseThrow();
+            return ResponseEntity.ok().body(userDTO);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
         }
     }
 
+    @PutMapping(path = "/mine")
+    @Transactional
+    public ResponseEntity<UserDTO> editMyProfile(@RequestBody UserDTO userDTO, @NotNull HttpSession session) {
+        try {
+            Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+            User u = userRepository.findById(userId).orElseThrow();
+            u.setFullname(userDTO.getFullname()); // You may modify other properties
+            u.setConfirmPass("WHATEVER!");
+            User freshUser = userRepository.save(u);
+            UserDTO cleanUser = modelMapper.map(freshUser, UserDTO.class);
+            return ResponseEntity.ok(cleanUser);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not edit your profile", ex);
+        }
+    }
+
+
     @GetMapping(path = "/summary")
     @ResponseStatus(value = HttpStatus.OK)
     @Cacheable(value = "studentsummary", key = "#session.id")
     public List<StudentSummary> getUserSummary(@NotNull HttpSession session) {
-
         Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
         User user = userRepository.findById(userId).orElseThrow();
         return profileService.getUserSummaryList(user);
