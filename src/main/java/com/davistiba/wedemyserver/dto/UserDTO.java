@@ -15,5 +15,6 @@ public class UserDTO {
     private String email;
     private Instant createdAt;
 
-
+    public UserDTO() {
+    }
 }

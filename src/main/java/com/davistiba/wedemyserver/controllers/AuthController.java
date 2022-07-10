@@ -84,7 +84,6 @@ public class AuthController {
             User loggedInUser = userRepository.findByEmail(auth.getName()).orElseThrow();
             Integer userId = loggedInUser.getId();
             session.setAttribute(MyUserDetailsService.USERID, userId);
-
             //return response
             response.put("success", auth.isAuthenticated());
             response.put("message", "Logged in!");

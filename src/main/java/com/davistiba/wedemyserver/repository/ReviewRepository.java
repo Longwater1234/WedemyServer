@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ReviewsRepository extends PagingAndSortingRepository<Review, Integer> {
+public interface ReviewRepository extends PagingAndSortingRepository<Review, Integer> {
 
     @Query("SELECT r FROM Review r WHERE r.user.id = ?1 AND r.course.id = ?2")
     Optional<Review> findByUserIdAndCourseId(Integer userId, Integer courseId);
@@ -19,7 +19,6 @@ public interface ReviewsRepository extends PagingAndSortingRepository<Review, In
     @Query("SELECT new com.davistiba.wedemyserver.dto.ReviewDTO(r.id, r.content, r.rating, r.createdAt, u.fullname) " +
             "FROM Review r INNER JOIN User u on r.user.id = u.id WHERE r.course.id = ?1")
     Slice<ReviewDTO> findByCourseId(Integer courseId, Pageable pageable);
-
 
     @Query(value = "SELECT AVG(r.rating) from Review r where r.course.id = ?1")
     double findAverageByCourseId(Integer courseId);

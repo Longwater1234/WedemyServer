@@ -3,10 +3,7 @@ package com.davistiba.wedemyserver.dto;
 import lombok.Getter;
 import lombok.ToString;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 /**
  * REVIEW body sent from frontend
@@ -15,8 +12,11 @@ import javax.validation.constraints.Size;
 @ToString
 public class ReviewRequest {
 
+    Integer id;
+
     @NotNull
     @Min(value = 1, message = "rating cannot be below 1")
+    @Max(value = 5)
     private Integer rating;
 
     @Size(max = 300)
