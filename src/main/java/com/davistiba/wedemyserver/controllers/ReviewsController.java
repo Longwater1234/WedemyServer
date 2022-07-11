@@ -57,6 +57,7 @@ public class ReviewsController {
     }
 
     @GetMapping(path = "/mine/c/{courseId}")
+    @Secured(value = "ROLE_STUDENT")
     public ResponseEntity<Review> getMyReviewOnCourse(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         var review = reviewRepository.findByUserIdAndCourseId(userId, courseId).orElse(null);
