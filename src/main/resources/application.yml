@@ -10,7 +10,7 @@ logging:
 server:
   error:
     include-stacktrace: never
-  port: 9000
+  port: ${PORT}
   servlet:
     session:
       cookie:
