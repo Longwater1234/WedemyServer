@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //SESSION and CSRF
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and().sessionManagement().maximumSessions(1);
+                .and().sessionManagement().maximumSessions(2);
 
     }
 
