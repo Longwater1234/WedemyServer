@@ -27,6 +27,11 @@ public class WedemyserverApplication {
     public static void main(String[] args) {
         SpringApplication.run(WedemyserverApplication.class, args);
     }
+	
+    @Bean
+    public static ConfigureRedisAction configureRedisAction() {
+        return ConfigureRedisAction.NO_OP;
+    }
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
