@@ -1,4 +1,0 @@
-### 2022.03.07
-- Now using `Slice` instead of `Page` for Reviews
-- finally discovered `@OnDelete cascade` for ManyToOne associations
-- Added sorting for review

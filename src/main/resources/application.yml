@@ -10,7 +10,7 @@ logging:
 server:
   error:
     include-stacktrace: never
-  port: ${PORT}
+  port: 9000 # server port
   servlet:
     session:
       cookie:
@@ -37,7 +37,9 @@ spring:
     redis:
       time-to-live: PT30M #30minutes
   redis:
-    host: ${REDIS_TLS_URL}
+    host: localhost
+    port: 6379
+    password: ""
   security:
     oauth2:
       client:
