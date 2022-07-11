@@ -8,8 +8,7 @@ these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/conf
 
 ## Frontend & Live Demo
 
-Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) built using Vue 3 and Typescript. The demo link 
-is also inside Frontend repo.
+Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) built using Vue 3 and Typescript.
 
 ## Requirements
 
