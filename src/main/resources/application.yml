@@ -37,9 +37,7 @@ spring:
     redis:
       time-to-live: PT30M #30minutes
   redis:
-    host: localhost
-    port: 6379
-    password: ""
+    host: ${REDIS_TLS_URL}
   security:
     oauth2:
       client:
