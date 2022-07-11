@@ -6,6 +6,11 @@ httpOnly) for auth, _instead of_ stateless JWT Tokens. CSRF protection is ENABLE
 UserRole (enum) are stored in the same table. Maximum 2 *concurrent* login sessions per user. You can easily customize
 these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java).
 
+## Frontend & Live Demo
+
+Click for [Frontend Repo](https://github.com/Longwater1234/WedemyClient) built in Vue 3 and Typescript. View the live demo
+here.
+
 ## Requirements
 
 - Java 11 or higher
@@ -30,7 +35,7 @@ GOOGLE_CLIENT_SECRET=
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
-#...You may add DB passwords too...
+#...You may add DB credentials too...
 ```
 
 ## Important ⚠
