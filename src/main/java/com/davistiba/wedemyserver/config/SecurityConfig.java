@@ -54,7 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().oauth2Login().userInfoEndpoint().oidcUserService(googleOauthService)
                 .and().successHandler(successHandler)
                 .and().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/auth/register").permitAll()
                 .antMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
                 .antMatchers("/profile/**", "/user/**").hasAuthority("ROLE_STUDENT")

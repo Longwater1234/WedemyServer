@@ -17,7 +17,6 @@ server:
         http-only: true
         max-age: 10800s #3hours
         name: WD_SESSION
-        same-site: none
 spring:
   datasource:
     password: ${MYSQL_PASSWORD}
