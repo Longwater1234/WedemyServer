@@ -23,7 +23,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/auth")
-@CrossOrigin
 public class AuthController {
 
     private final UserRepository userRepository;
