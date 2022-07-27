@@ -44,12 +44,11 @@ public class ReviewsController {
         }
     }
 
-    @PutMapping(path = "/")
+    @PutMapping(path = "/id/{id}")
     @Secured(value = "ROLE_STUDENT")
-    public MyCustomResponse editCourseReview(@Valid @RequestBody ReviewRequest review, HttpSession session) {
+    public MyCustomResponse editCourseReview(@PathVariable Integer id, @Valid @RequestBody ReviewRequest review) {
         try {
-            Integer userId = MyUserDetailsService.getSessionUserId(session);
-            reviewService.updateCourseRating(review, userId);
+            reviewService.updateCourseRating(id, review);
             return new MyCustomResponse("Thanks for your review!");
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not edit review", e);

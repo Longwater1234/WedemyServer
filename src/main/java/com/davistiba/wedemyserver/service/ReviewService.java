@@ -51,8 +51,8 @@ public class ReviewService {
      * EDIT existing review, and modify AVG course rating
      */
     @Transactional
-    public void updateCourseRating(ReviewRequest request, Integer userId) {
-        Review myReview = reviewRepository.findById(request.getId()).orElseThrow();
+    public void updateCourseRating(Integer reviewId, ReviewRequest request) {
+        Review myReview = reviewRepository.findById(reviewId).orElseThrow();
         Course course = courseRepository.findById(request.getCourseId()).orElseThrow();
         myReview.setRating(request.getRating());
         myReview.setContent(request.getContent());

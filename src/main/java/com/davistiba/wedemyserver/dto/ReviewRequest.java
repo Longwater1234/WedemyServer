@@ -12,8 +12,6 @@ import javax.validation.constraints.*;
 @ToString
 public class ReviewRequest {
 
-    Integer id;
-
     @NotNull
     @Min(value = 1, message = "rating cannot be below 1")
     @Max(value = 5)
