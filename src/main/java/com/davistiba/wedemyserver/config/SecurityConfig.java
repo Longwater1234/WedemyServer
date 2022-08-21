@@ -12,13 +12,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
     @Bean
     public MyUserDetailsService userDetailsService() {
         return new MyUserDetailsService();
@@ -48,10 +49,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomOauthSuccessHandler successHandler;
 
+    @Autowired
+    private CaptchaFilter captchaFilter;
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().httpBasic()
-                .and().oauth2Login().userInfoEndpoint().oidcUserService(googleOauthService)
+                .and().addFilterAt(captchaFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login().userInfoEndpoint().oidcUserService(googleOauthService)
                 .and().successHandler(successHandler)
                 .and().authorizeRequests()
                 .antMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
