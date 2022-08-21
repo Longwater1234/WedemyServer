@@ -18,6 +18,7 @@ Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) bui
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Google Login_)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys.
 - (OPTIONAL) PayPal Business Account.
+- (OPTIONAL) HCaptcha Dev Account
 
 ### Environmental Variables
 
@@ -34,6 +35,9 @@ GOOGLE_CLIENT_SECRET=
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
+#Below are for HCaptcha
+HCAPTCHA_CLIENT_KEY=
+HCAPTCHA_SECRET_KEY=
 #...You may add DB credentials too...
 ```
 
