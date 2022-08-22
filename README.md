@@ -2,9 +2,11 @@
 
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With CreditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis, and Cookies (
-httpOnly) for auth, _instead of_ stateless JWT Tokens. CSRF protection is ENABLED. For simplicity, both UserDetails and
-UserRole (enum) are stored in the same table. Maximum 2 *concurrent* login sessions per user. You can easily customize
-these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java).
+httpOnly) for auth, _instead of_ stateless JWT Tokens. CSRF protection and Captcha protection (by HCaptcha) is ENABLED.
+For
+simplicity, both UserDetails and UserRole (enum) are stored in the same table. Maximum 2 *concurrent* login sessions per
+user. You can easily customize these settings
+in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java).
 
 ## Frontend & Live Demo
 
@@ -17,7 +19,7 @@ Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) bui
 - Redis Server 5.0+ (local or Cloud)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Google Login_)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys.
-- (OPTIONAL) PayPal Business Account.
+- (OPTIONAL) Free PayPal Business Account.
 - (OPTIONAL) HCaptcha Dev Account
 
 ### Environmental Variables

@@ -11,7 +11,6 @@ import org.springframework.core.env.StandardEnvironment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -23,18 +22,18 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 @Component
-//@WebFilter("/auth/register")
+@WebFilter(urlPatterns = "/auth/register")
 @Priority(1)
 public class CaptchaFilter extends GenericFilterBean {
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final Environment ENV = new StandardEnvironment();
-    private static final String TEST_SITE_KEY = "10000000-ffff-ffff-ffff-000000000001";
-    private static final String TEST_SECRET_KEY = "0x0000000000000000000000000000000000000000";
     private static final Logger logger = LoggerFactory.getLogger(CaptchaFilter.class);
     private final RestTemplate restTemplate = new RestTemplateBuilder().rootUri("https://hcaptcha.com").build();
 
@@ -48,18 +47,19 @@ public class CaptchaFilter extends GenericFilterBean {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
-        requestBody.add("secret", TEST_SECRET_KEY);
+        requestBody.add("secret", Objects.requireNonNull(ENV.getProperty("HCAPTCHA_SECRET_KEY")));
         requestBody.add("response", token);
         requestBody.add("remoteip", request.getRemoteAddr());
-        requestBody.add("sitekey", TEST_SITE_KEY);
+        requestBody.add("sitekey", Objects.requireNonNull(ENV.getProperty("HCAPTCHA_CLIENT_KEY")));
 
         var formEntity = new HttpEntity<>(requestBody, headers);
 
-        ResponseEntity<CaptchaResponse> responseEntity = restTemplate.postForEntity("/siteverify", formEntity, CaptchaResponse.class);
+        var responseEntity = restTemplate.postForEntity("/siteverify", formEntity, CaptchaResponse.class);
         CaptchaResponse captchaResponse = responseEntity.getBody();
         logger.info(captchaResponse.toString());
         if (captchaResponse.getSuccess()) {
@@ -69,8 +69,8 @@ public class CaptchaFilter extends GenericFilterBean {
 
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(400);
-        String responseObj = mapper.writeValueAsString(new MyCustomResponse(captchaResponse.getErrorCodes().toString(), false));
-        response.getWriter().println(responseObj);
+        String jsonRes = mapper.writeValueAsString(new MyCustomResponse(captchaResponse.getErrorCodes().toString(), false));
+        response.getWriter().println(jsonRes);
         response.getWriter().flush();
     }
 
