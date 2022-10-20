@@ -2,6 +2,7 @@ package com.davistiba.wedemyserver.repository;
 
 import com.davistiba.wedemyserver.models.Lesson;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,7 @@ import java.util.UUID;
 public interface LessonRepository extends CrudRepository<Lesson, Integer> {
 
     @Query(value = "SELECT s FROM Lesson s where s.course.id = ?1 ORDER BY s.position")
-    List<Lesson> getLessonsByCourseId(Integer courseId, Pageable pageable);
+    Slice<Lesson> getLessonsByCourseId(Integer courseId, Pageable pageable);
 
     @Query("SELECT s FROM Lesson s where s.course.id = ?1 and s.position = ?2")
     Optional<Lesson> findByCourseIdAndPosition(Integer courseId, Integer position);

@@ -20,7 +20,7 @@ server:
 spring:
   datasource:
     password: ${MYSQL_PASSWORD}
-    url: jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC?useSSL=false
+    url: jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC&useSSL=false
     username: root
   jpa:
     hibernate:
