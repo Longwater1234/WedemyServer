@@ -46,7 +46,7 @@ public class CheckoutService {
         List<Enrollment> enrollments = new ArrayList<>();
 
         //===== begin DB OPERATIONS ========
-        Sales savedSale = salesRepository.saveAndFlush(
+        Sales savedSale = salesRepository.save(
                 new Sales(transactionId, user, request.getTotalAmount(), request.getPaymentMethod()));
 
         for (Course course : courseList) {

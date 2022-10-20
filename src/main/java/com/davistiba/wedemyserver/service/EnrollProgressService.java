@@ -63,14 +63,14 @@ public class EnrollProgressService {
             enrollmentRepository.save(enrollment);
 
             //get next lesson
-            Integer courseId = status.getCourseId();
-            Integer nextPosition = progress.getLesson().getPosition() + 1;
+            int courseId = status.getCourseId();
+            int nextPosition = progress.getLesson().getPosition() + 1;
             return lessonRepository.findByCourseIdAndPosition(courseId, nextPosition).orElseThrow();
         }
 
         //OTHERWISE, simply RETURN NEXT.
-        Integer courseId = status.getCourseId();
-        Integer nextPosition = currentLesson.getPosition() + 1;
+        int courseId = status.getCourseId();
+        int nextPosition = currentLesson.getPosition() + 1;
         return lessonRepository.findByCourseIdAndPosition(courseId, nextPosition).orElseThrow();
 
     }

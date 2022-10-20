@@ -27,8 +27,8 @@ public interface LessonRepository extends CrudRepository<Lesson, Integer> {
 
     @Query(value = "SELECT BIN_TO_UUID(s.id) as id, s.lesson_name, s.position, TIME_FORMAT(SEC_TO_TIME(s.length_seconds), " +
             "'%i:%s') AS video_time, EXISTS(SELECT 1 FROM enroll_progress p WHERE p.lesson_id = s.id AND p.enrollment_id = ?1) " +
-            "AS isWatched FROM lessons s WHERE s.course_id = ?2 ORDER BY s.position", nativeQuery = true)
-    List<Map<String, Object>> getAllWatchedLessons(Integer enrollId, Integer courseId);
+            "AS is_watched FROM lessons s WHERE s.course_id = ?2 ORDER BY s.position", nativeQuery = true)
+    List<Map<String, Object>> getAllMyWatchedLessons(Integer enrollId, Integer courseId);
 
 
 }

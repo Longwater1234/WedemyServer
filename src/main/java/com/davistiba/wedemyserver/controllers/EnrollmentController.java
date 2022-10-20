@@ -65,7 +65,6 @@ public class EnrollmentController {
 
 
     @PostMapping(path = "/videolink/builder")
-    @Secured(value = "ROLE_STUDENT")
     public ResponseEntity<VideoResponse> getLessonVideoLink(@NotNull HttpSession session, @RequestBody @Valid VideoRequest request) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
@@ -84,7 +83,6 @@ public class EnrollmentController {
     }
 
     @GetMapping(path = "/resume/c/{courseId}")
-    @Secured(value = "ROLE_STUDENT")
     public Map<String, String> resumeMyCourse(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         var enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, courseId);
@@ -99,7 +97,6 @@ public class EnrollmentController {
 
 
     @PostMapping(path = "/watched")
-    @Secured(value = "ROLE_STUDENT")
     @CacheEvict(value = "studentsummary", key = "#session.id")
     public Map<String, String> updateWatchStatus(@RequestBody @Valid WatchStatus status, HttpSession session) {
         try {

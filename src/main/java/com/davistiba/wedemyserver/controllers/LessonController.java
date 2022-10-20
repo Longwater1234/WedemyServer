@@ -62,7 +62,7 @@ public class LessonController {
     @ResponseStatus(HttpStatus.OK)
     @Secured(value = "ROLE_STUDENT")
     public List<Map<String, Object>> getMyWatchedLessons(@PathVariable Integer courseId, @PathVariable Integer enrollId) {
-        return lessonRepository.getAllWatchedLessons(enrollId, courseId);
+        return lessonRepository.getAllMyWatchedLessons(enrollId, courseId);
     }
 
 
