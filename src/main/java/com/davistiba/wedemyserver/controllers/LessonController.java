@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.annotation.Secured;
@@ -35,7 +36,7 @@ public class LessonController {
 
     @GetMapping(path = "/course/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Lesson> getLessonsByCourseId(@PathVariable @NotNull Integer id, @RequestParam(defaultValue = "0") Integer page) {
+    public Slice<Lesson> getLessonsByCourseId(@PathVariable @NotNull Integer id, @RequestParam(defaultValue = "0") Integer page) {
         return lessonRepository.getLessonsByCourseId(id, PageRequest.of(page, 10));
     }
 
@@ -58,11 +59,11 @@ public class LessonController {
     }
 
 
-    @GetMapping(path = "/c/{courseId}/enroll/{enrollId}")
+    @GetMapping(path = "/c/{courseId}/eid/{enrollId}")
     @ResponseStatus(HttpStatus.OK)
     @Secured(value = "ROLE_STUDENT")
     public List<Map<String, Object>> getMyWatchedLessons(@PathVariable Integer courseId, @PathVariable Integer enrollId) {
-        return lessonRepository.getAllWatchedLessons(enrollId, courseId);
+        return lessonRepository.getAllMyWatchedLessons(enrollId, courseId);
     }
 
 

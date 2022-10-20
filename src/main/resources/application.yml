@@ -1,7 +1,7 @@
 #All entries in ${CURLY_BRACES} should be set as ENV variables, for security reasons.
 frontend:
   root:
-    url: http://localhost:8080 #replace with valid URL
+    url: http://localhost:8080 #TODO Replace with your frontend root URL
 logging:
   level:
     org:
@@ -20,11 +20,11 @@ server:
 spring:
   datasource:
     password: ${MYSQL_PASSWORD}
-    url: ${MYSQL_HOST}
-    username: ${MYSQL_USERNAME}
+    url: jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC&useSSL=false
+    username: root
   jpa:
     hibernate:
-      ddl-auto: update #change to `none` in production
+      ddl-auto: update #TODO change to `none` in production
     properties:
       hibernate:
         order_inserts: true

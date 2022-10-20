@@ -56,8 +56,7 @@ public class ProfileController {
             u.setFullname(userDTO.getFullname()); // You may modify other properties
             u.setConfirmPass("WHATEVER!");
             User freshUser = userRepository.save(u);
-            UserDTO cleanUser = modelMapper.map(freshUser, UserDTO.class);
-            return ResponseEntity.ok(cleanUser);
+            return ResponseEntity.ok().body(modelMapper.map(freshUser, UserDTO.class));
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not edit your profile", ex);
         }

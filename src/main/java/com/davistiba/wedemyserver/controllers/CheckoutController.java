@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 /*
- * THIS MODIFIED CODE TAKEN FROM THE SAMPLE PROJECT BY `BRAINTREE`
+ * THIS MODIFIED CODE TAKEN FROM THE OFFICIAL `Braintree` GitHub page
  * https://github.com/braintree/braintree_spring_example
  */
 @RestController

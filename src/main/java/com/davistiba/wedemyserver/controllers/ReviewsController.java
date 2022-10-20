@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping(path = "/reviews")
@@ -67,6 +68,9 @@ public class ReviewsController {
     public Slice<ReviewDTO> getCourseReviews(@RequestParam(defaultValue = "0") Integer page,
                                              @RequestParam(defaultValue = "createdAt") String sortBy,
                                              @PathVariable Integer courseId) {
+        if (!Arrays.asList("createdAt", "rating").contains(sortBy)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid 'sort' param");
+        }
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, sortBy);
         return reviewRepository.findByCourseId(courseId, pageable);
     }

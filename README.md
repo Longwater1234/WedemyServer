@@ -17,6 +17,7 @@ Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) bui
 - Redis Server 5.0+ (local or Cloud)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Google Login_)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys.
+- (OPTIONAL) MySQL Workbench.
 - (OPTIONAL) Free PayPal Business Account.
 
 ### Environmental Variables
