@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 @ToString
 public class EnrollmentDTO {
-    private Integer id;
+    private Long id;
     private BigDecimal progress;
     private String title;
     private String thumbUrl;
@@ -19,7 +19,7 @@ public class EnrollmentDTO {
     public EnrollmentDTO() {
     }
 
-    public EnrollmentDTO(Integer id, BigDecimal progress, String title, String thumbUrl, Integer courseId) {
+    public EnrollmentDTO(Long id, BigDecimal progress, String title, String thumbUrl, Integer courseId) {
         this.id = id;
         this.progress = progress;
         this.title = title;

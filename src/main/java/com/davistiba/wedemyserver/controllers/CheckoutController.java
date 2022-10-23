@@ -23,9 +23,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/*
- * THIS MODIFIED CODE TAKEN FROM THE OFFICIAL `Braintree` GitHub page
- * https://github.com/braintree/braintree_spring_example
+/**
+ * THIS MODIFIED CODE TAKEN FROM THE OFFICIAL Braintree
+ * <a href="https://github.com/braintree/braintree_spring_example">Github</a>
+ *
+ * @see <a href="https://developer.paypal.com/braintree/docs/start/hello-server/java">Braintree docs</a>
  */
 @RestController
 @RequestMapping(path = "/checkout")
@@ -68,7 +70,7 @@ public class CheckoutController {
         TransactionRequest transactionRequest = new TransactionRequest()
                 .amount(request.getTotalAmount())
                 .paymentMethodNonce(request.getNonce())
-                .billingAddress()  // <-- (OPTIONAL)
+                .billingAddress()  // <-- (OPTIONAL, see docs)
                 .firstName(user.getFullname())
                 .lastName(user.getEmail())
                 .done()

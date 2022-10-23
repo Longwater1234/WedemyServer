@@ -44,7 +44,7 @@ public class LessonController {
     @ResponseStatus(HttpStatus.CREATED)
     @Secured(value = "ROLE_ADMIN")
     @Async
-    public CompletableFuture<MyCustomResponse> addNewLessons(@RequestBody @NotEmpty List<Lesson> newLessons) {
+    public CompletableFuture<MyCustomResponse> createNewLessons(@RequestBody @NotEmpty List<Lesson> newLessons) {
         long startClock = System.nanoTime();
         final List<Lesson> mamas = new ArrayList<>();
         newLessons.forEach(lesson -> {
@@ -55,7 +55,7 @@ public class LessonController {
         });
         lessonRepository.saveAll(mamas);
         logger.info("totalTime: {} ms", (System.nanoTime() - startClock) / 1e6);
-        return CompletableFuture.completedFuture(new MyCustomResponse("All saved!", true));
+        return CompletableFuture.completedFuture(new MyCustomResponse("All saved!"));
     }
 
 

@@ -7,6 +7,7 @@ import com.davistiba.wedemyserver.repository.WishlistRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -53,7 +53,7 @@ public class WishlistController {
 
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)
-    public List<Course> getAllMyWishlistCourses(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
+    public Slice<Course> getAllMyWishlistCourses(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         return courseRepository.getCoursesWishlistByUser(userId, PageRequest.of(Math.abs(page), 10));
     }
@@ -61,7 +61,6 @@ public class WishlistController {
     @DeleteMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public MyCustomResponse removeWishlistByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
-
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         int ok = wishlistRepository.deleteByCourseIdAndUserId(courseId, userId);
         if (ok != 1) {

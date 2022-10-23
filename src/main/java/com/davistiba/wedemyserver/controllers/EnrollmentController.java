@@ -77,7 +77,7 @@ public class EnrollmentController {
             VideoResponse response = new VideoResponse(enrollment.get().getId(), currentLesson);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sorry, could not get lesson", e);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Failed! Reason: " + e.getMessage(), e);
         }
 
     }
@@ -110,7 +110,7 @@ public class EnrollmentController {
             response.put("nextLessonId", nextLesson.getId().toString());
             return response;
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update status", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update status: " + e.getMessage(), e);
         }
 
     }

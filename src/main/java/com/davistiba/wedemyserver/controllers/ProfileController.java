@@ -68,9 +68,8 @@ public class ProfileController {
     @Cacheable(value = "studentsummary", key = "#session.id")
     public List<StudentSummary> getUserSummary(@NotNull HttpSession session) {
         Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return profileService.getUserSummaryList(user);
-
     }
 
 }
