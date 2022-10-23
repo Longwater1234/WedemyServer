@@ -7,6 +7,7 @@ import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -48,9 +48,8 @@ public class CartController {
     @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Boolean> checkUserCartItem(@PathVariable @NotNull Integer courseId, HttpSession session) {
-
         Map<String, Boolean> response = new HashMap<>();
-        Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
         boolean isExist = cartRepository.checkIfCourseInCart(userId, courseId);
         response.put("inCart", isExist);
         return response;
@@ -59,15 +58,14 @@ public class CartController {
 
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)
-    public List<Course> getAllMyCartItems(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
-        Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+    public Slice<Course> getAllMyCartItems(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
         return courseRepository.getCoursesCartByUser(userId, PageRequest.of(Math.abs(page), 10));
     }
 
     @GetMapping(path = "/mine/count")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Integer> countMyCartItems(HttpSession session) {
-
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         Map<String, Integer> response = new HashMap<>();
         int cartCount = cartRepository.countCartByUserIdEquals(userId);

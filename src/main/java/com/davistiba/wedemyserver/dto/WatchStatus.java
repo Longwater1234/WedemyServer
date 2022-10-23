@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class WatchStatus {
     @NotNull
-    private Integer enrollId;
+    private Long enrollId;
     @NotNull
     private String currentLessonId;
     @NotNull

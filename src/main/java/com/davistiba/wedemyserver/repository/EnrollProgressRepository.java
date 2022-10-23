@@ -17,7 +17,7 @@ public interface EnrollProgressRepository extends CrudRepository<EnrollProgress,
     long countByEnrollmentId(Integer id);
 
     @Query("select e from EnrollProgress e where e.enrollment.id = ?1 and e.lesson.id = ?2")
-    Optional<EnrollProgress> findByEnrollIdAndLessonId(Integer enrollId, UUID lessonId);
+    Optional<EnrollProgress> findByEnrollIdAndLessonId(Long enrollId, UUID lessonId);
 
     @Query("select e from EnrollProgress e where e.enrollment.id = ?1 ORDER BY e.id DESC")
     List<EnrollProgress> findFirstByEnrollmentId(Integer enrollId, Pageable pageable);

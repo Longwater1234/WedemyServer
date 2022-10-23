@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface EnrollmentRepository extends CrudRepository<Enrollment, Integer> {
+public interface EnrollmentRepository extends CrudRepository<Enrollment, Long> {
     @Query("SELECT (COUNT(e) > 0) FROM Enrollment e WHERE e.user.id = ?1 AND e.course.id = ?2")
     boolean existsByUserIdAndCourseId(Integer userId, Integer courseId);
 

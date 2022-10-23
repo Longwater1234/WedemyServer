@@ -30,14 +30,12 @@ public class SalesController {
     public Slice<SalesDTO> getAllMyOwnedItems(@NotNull HttpSession session, @RequestParam(defaultValue = "0") Integer page) {
         Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "createdAt");
-        //TODO fix frontend
         return salesRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
     }
 
     @GetMapping(path = "/mine/{transactionId}")
     public Slice<OrderItemDTO> getItemsbyTransactionId(@PathVariable String transactionId,
                                                       @RequestParam(defaultValue = "0") Integer page) {
-        //TODO FIX FRONTEND
         return orderItemRepository.findByTransactionIdEquals(transactionId, PageRequest.of(page, 10));
     }
 

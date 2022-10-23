@@ -44,17 +44,17 @@ public class EnrollProgressService {
         Optional<EnrollProgress> enrollProgress = progressRepository.findByEnrollIdAndLessonId(status.getEnrollId(), lessonId);
 
         if (enrollProgress.isEmpty()) {
-            //INSERT into progress table
+            //MEANING: User hasn't ALREADY watched this
             EnrollProgress progress = progressRepository.save(new EnrollProgress(enrollment, currentLesson));
 
             //calculate percent progress
             long currentPosition = currentLesson.getPosition();
             long totalLessons = lessonRepository.countByCourseId(status.getCourseId());
-            double valDouble = (double) currentPosition / (double) totalLessons * 100.00;
-            boolean isCompleted = (valDouble / 100.00) == 1;
+            double progDouble = (double) currentPosition / (double) totalLessons * 100.00;
+            boolean isCompleted = (progDouble / 100.00) == 1;
 
             //update `Enrollments` table
-            BigDecimal progressPercent = BigDecimal.valueOf(valDouble).setScale(2, RoundingMode.FLOOR);
+            BigDecimal progressPercent = BigDecimal.valueOf(progDouble).setScale(2, RoundingMode.FLOOR);
             enrollment.setProgress(progressPercent);
             enrollment.setIsCompleted(isCompleted);
             if (!isCompleted) {
