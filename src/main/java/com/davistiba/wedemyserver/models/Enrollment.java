@@ -50,7 +50,7 @@ public class Enrollment {
 
     @ColumnDefault("0")
     @Max(100)
-    @Column(nullable = false, precision = 4, scale = 2)
+    @Column(nullable = false, precision = 6, scale = 2)
     private BigDecimal progress = BigDecimal.ZERO;
 
     @CreationTimestamp

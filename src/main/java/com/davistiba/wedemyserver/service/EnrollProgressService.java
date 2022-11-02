@@ -65,13 +65,13 @@ public class EnrollProgressService {
             //get next lesson
             int courseId = status.getCourseId();
             int nextPosition = progress.getLesson().getPosition() + 1;
-            return lessonRepository.findByCourseIdAndPosition(courseId, nextPosition).orElseThrow();
+            return lessonRepository.findByCourseIdAndPosition(courseId, nextPosition).orElse(null);
         }
 
         //OTHERWISE, simply RETURN NEXT.
         int courseId = status.getCourseId();
         int nextPosition = currentLesson.getPosition() + 1;
-        return lessonRepository.findByCourseIdAndPosition(courseId, nextPosition).orElseThrow();
+        return lessonRepository.findByCourseIdAndPosition(courseId, nextPosition).orElse(null);
 
     }
 

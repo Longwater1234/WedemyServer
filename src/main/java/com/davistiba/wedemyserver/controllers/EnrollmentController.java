@@ -105,9 +105,14 @@ public class EnrollmentController {
             Optional<Enrollment> enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, status.getCourseId());
             if (enrollment.isEmpty()) throw new Exception("You don't own this course");
             //get next Lesson
-            Lesson nextLesson = progressService.updateAndGetNextLesson(status, enrollment.get());
             Map<String, String> response = new HashMap<>();
-            response.put("nextLessonId", nextLesson.getId().toString());
+            Lesson nextLesson = progressService.updateAndGetNextLesson(status, enrollment.get());
+            if (nextLesson != null) {
+                response.put("nextLessonId", nextLesson.getId().toString());
+            } else {
+                response.put("nextLessonId", null);
+                response.put("message", "Bravo! You have completed the course!");
+            }
             return response;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update status: " + e.getMessage(), e);
