@@ -44,13 +44,13 @@ public class EnrollProgressService {
         Optional<EnrollProgress> enrollProgress = progressRepository.findByEnrollIdAndLessonId(status.getEnrollId(), lessonId);
 
         if (enrollProgress.isEmpty()) {
-            //MEANING: User hasn't ALREADY watched this
+            //means User hasn't ALREADY watched this
             EnrollProgress progress = progressRepository.save(new EnrollProgress(enrollment, currentLesson));
 
             //FIXME calculate percent progress
-            long currentPosition = currentLesson.getPosition();
+            long numWatched = progressRepository.countByEnrollmentId(enrollment.getId());
             long totalLessons = lessonRepository.countByCourseId(status.getCourseId());
-            double progDouble = (double) currentPosition / (double) totalLessons * 100.00;
+            double progDouble = (double) numWatched / (double) totalLessons * 100.00;
             boolean isCompleted = (progDouble / 100.00) == 1;
 
             //update `Enrollments` table
