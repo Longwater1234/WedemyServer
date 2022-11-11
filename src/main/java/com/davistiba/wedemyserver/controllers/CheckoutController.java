@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * THIS MODIFIED CODE TAKEN FROM THE OFFICIAL Braintree
- * <a href="https://github.com/braintree/braintree_spring_example">Github</a>
+ * THIS MODIFIED CODE TAKEN FROM THE OFFICIAL Braintree Github
+ * https://github.com/braintree/braintree_spring_example
  *
  * @see <a href="https://developer.paypal.com/braintree/docs/start/hello-server/java">Braintree docs</a>
  */
