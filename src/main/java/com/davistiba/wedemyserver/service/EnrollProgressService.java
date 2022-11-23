@@ -47,7 +47,6 @@ public class EnrollProgressService {
             //means User hasn't ALREADY watched this
             EnrollProgress progress = progressRepository.save(new EnrollProgress(enrollment, currentLesson));
 
-            //FIXME calculate percent progress
             long numWatched = progressRepository.countByEnrollmentId(enrollment.getId());
             long totalLessons = lessonRepository.countByCourseId(status.getCourseId());
             double progDouble = (double) numWatched / (double) totalLessons * 100.00;
