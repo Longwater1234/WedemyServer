@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface EnrollProgressRepository extends CrudRepository<EnrollProgress, Long> {
 
     @Query("select count(e) from EnrollProgress e where e.enrollment.id = ?1")
-    long countByEnrollmentId(Integer id);
+    long countByEnrollmentId(Long id);
 
     @Query("select e from EnrollProgress e where e.enrollment.id = ?1 and e.lesson.id = ?2")
     Optional<EnrollProgress> findByEnrollIdAndLessonId(Long enrollId, UUID lessonId);
