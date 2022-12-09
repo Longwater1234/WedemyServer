@@ -8,10 +8,9 @@ COPY src ./src
 RUN mvn clean -DskipTests package
 
 
-FROM eclipse-temurin:11-jre-alpine AS runner
+FROM eclipse-temurin:11-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/wedemyserver-0.0.1-SNAPSHOT.jar /app
 EXPOSE 9000
-# Change port as you wish above
-ENTRYPOINT ["java", "-jar", "wedemyserver-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "wedemyserver-0.0.1-SNAPSHOT.jar"]
 
