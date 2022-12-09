@@ -8,9 +8,11 @@ import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.service.CheckoutService;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,7 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "/checkout")
 @Secured(value = "ROLE_STUDENT")
+@SecurityRequirement(name = "wedemy")
 public class CheckoutController {
 
     private final BraintreeGateway gateway;
@@ -47,7 +50,7 @@ public class CheckoutController {
         this.checkoutService = checkoutService;
     }
 
-    @GetMapping(path = "/token")
+    @GetMapping(path = "/token", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public Map<String, String> getClientToken() {
         Map<String, String> response = new HashMap<>();

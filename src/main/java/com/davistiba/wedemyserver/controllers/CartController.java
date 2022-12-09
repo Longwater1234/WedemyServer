@@ -5,10 +5,12 @@ import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CartRepository;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,7 +23,8 @@ import java.util.Map;
 
 @RestController
 @Secured(value = "ROLE_STUDENT")
-@RequestMapping(path = "/cart")
+@RequestMapping(path = "/cart", produces = MediaType.APPLICATION_JSON_VALUE)
+@SecurityRequirement(name = "wedemy")
 public class CartController {
 
     @Autowired
@@ -62,6 +65,7 @@ public class CartController {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         return courseRepository.getCoursesCartByUser(userId, PageRequest.of(Math.abs(page), 10));
     }
+
 
     @GetMapping(path = "/mine/count")
     @ResponseStatus(HttpStatus.OK)

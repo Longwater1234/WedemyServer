@@ -121,19 +121,19 @@
             <version>3.18.0</version>
         </dependency>
 
-        <!--        UNCOMMENT THIS BLOCK FOR SWAGGER-UI-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springdoc</groupId>-->
-        <!--            <artifactId>springdoc-openapi-ui</artifactId>-->
-        <!--            <version>1.6.8</version>-->
-        <!--        </dependency>-->
+        <!--    SWAGGER-UI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.6.13</version>
+        </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.springdoc</groupId>-->
-        <!--            <artifactId>springdoc-openapi-security</artifactId>-->
-        <!--            <version>1.6.8</version>-->
-        <!--        </dependency>-->
-        <!--        UNCOMMENT ABOVE FOR SWAGGER-UI-->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-security</artifactId>
+            <version>1.6.13</version>
+        </dependency>
+        <!--    SWAGGER-UI above-->
 
         <dependency>
             <groupId>org.jetbrains</groupId>
