@@ -10,11 +10,13 @@ import com.davistiba.wedemyserver.repository.EnrollmentRepository;
 import com.davistiba.wedemyserver.repository.LessonRepository;
 import com.davistiba.wedemyserver.service.EnrollProgressService;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +28,9 @@ import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @RestController
-@RequestMapping(path = "/enroll")
+@RequestMapping(path = "/enroll", produces = MediaType.APPLICATION_JSON_VALUE)
 @Secured(value = {"ROLE_STUDENT", "ROLE_ADMIN"})
+@SecurityRequirement(name = "wedemy")
 public class EnrollmentController {
 
     @Autowired
@@ -79,7 +82,6 @@ public class EnrollmentController {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Failed! Reason: " + e.getMessage(), e);
         }
-
     }
 
     @GetMapping(path = "/resume/c/{courseId}")
@@ -96,11 +98,11 @@ public class EnrollmentController {
     }
 
 
-    @PostMapping(path = "/watched")
+    @PostMapping(path = "/watched", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(value = "studentsummary", key = "#session.id")
     public Map<String, String> updateWatchStatus(@RequestBody @Valid WatchStatus status, HttpSession session) {
         try {
-            //first, check if user owns course
+            //first, check if user OWNS course
             Integer userId = MyUserDetailsService.getSessionUserId(session);
             Optional<Enrollment> enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, status.getCourseId());
             if (enrollment.isEmpty()) throw new Exception("You don't own this course");

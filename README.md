@@ -8,13 +8,15 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 
 ## Frontend & Live Demo
 
-Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) built using Vue 3 and Typescript.
+Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) built using Vue 3 and Typescript. For
+Swagger UI (full API doc), visit http://localhost:{PORT}/swagger-ui.html, (where PORT = `server.port` in
+application.yml)
 
 ## Requirements
 
 - Java 11 or higher
 - MySQL 8.0.x
-- Redis Server 5.0+ (local or Cloud)
+- Redis Server 5.0+ (native / Cloud / Docker)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Google Login_)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys.
 - (OPTIONAL) MySQL Workbench.
@@ -35,7 +37,7 @@ GOOGLE_CLIENT_SECRET=
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
-#...You may add DB credentials too...
+#...You may include DB credentials too...
 ```
 
 ## Important ⚠
@@ -75,9 +77,9 @@ DB. To get QUICKLY STARTED:
 
 This project uses Redis for 2 main tasks: Caching, and Storing login sessions. You can download latest Redis (macOS &
 Linux) from https://redis.io/download. Windows users may download the latest native installer (.msi)
-from [this Github repo](https://github.com/tporadowski/redis/releases). Alternatively, you could run redis in Docker.
-If you prefer the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace
-redis credentials inside `application.yml` to match your running Redis instance.
+from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could run redis in Docker. If
+you prefer the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace redis
+credentials inside `application.yml` to match your running Redis instance.
 
 | Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI client: RedisInsight. Download it free from [here](https://redis.com/redis-enterprise/redis-insight/) |
 |---------|:---------------------------------------------------------------------|
@@ -85,8 +87,8 @@ redis credentials inside `application.yml` to match your running Redis instance.
 ## Payments Handling
 
 All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
-GooglePay, Venmo and many other methods. This project has been configured with Credit-Card and PayPal Checkout only,
-in SANDBOX (test) mode. Make sure you obtain a set of 3 API Keys from your own Braintree Dev Account and store
-them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials and examples,
-please check their well-written [official docs](https://developer.paypal.com/braintree/docs).
+GooglePay, Venmo and many other methods. This project has been configured with Credit-Card and PayPal Checkout only, in
+SANDBOX (test) mode. Make sure you obtain a set of 3 API Keys from your own Braintree Dev Account and store them as ENV
+variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials and examples, please check
+their well-written [official docs](https://developer.paypal.com/braintree/docs).
 

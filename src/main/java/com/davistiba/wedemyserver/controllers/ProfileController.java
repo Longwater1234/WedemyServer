@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/profile")
+@RequestMapping(path = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileController {
 
     private final UserRepository userRepository;
@@ -49,7 +50,7 @@ public class ProfileController {
 
     @PutMapping(path = "/mine")
     @Transactional
-    public ResponseEntity<UserDTO> editMyProfile(@RequestBody UserDTO userDTO, @NotNull HttpSession session) {
+    public ResponseEntity<UserDTO> editMyProfile(@RequestBody @NotNull UserDTO userDTO, @NotNull HttpSession session) {
         try {
             Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
             User u = userRepository.findById(userId).orElseThrow();

@@ -51,3 +51,6 @@ spring:
     store-type: redis
     redis:
       cleanup-cron: 0 1 * * * *
+springdoc:
+  swagger-ui:
+    enabled: true # ENABLE / DISABLE SWAGGER UI
