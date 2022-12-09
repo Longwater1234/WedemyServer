@@ -1,11 +1,16 @@
 # syntax=docker/dockerfile:1
-FROM eclipse-temurin:11-jdk-alpine AS build
+# Build and Run docker image with --tag "wedemy-server"
+FROM maven:3.8.6-eclipse-temurin-11-alpine AS build
 WORKDIR /app
-
 COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
+COPY pom.xml ./
 COPY src ./src
-RUN ./mvnw clean DskipTests package
+RUN mvn clean -DskipTests package
+
+
+FROM eclipse-temurin:11-jre-alpine as runner
+WORKDIR /app
+COPY --from=build /app/target/wedemyserver-0.0.1-SNAPSHOT.jar /app
 EXPOSE 9000
-CMD ["java", "-jar", "target/wedemyserver-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "wedemyserver-0.0.1-SNAPSHOT.jar"]
 
