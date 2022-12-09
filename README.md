@@ -9,7 +9,7 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 ## Frontend & Live Demo
 
 Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) built using Vue 3 and Typescript. For
-Swagger UI (full API doc), visit http://localhost:{PORT}/swagger-ui.html, (where PORT = `server.port` in
+Swagger UI (full API doc), visit http:// localhost:{PORT}/swagger-ui.html, (where PORT = `server.port` in
 application.yml)
 
 ## Requirements
