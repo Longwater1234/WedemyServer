@@ -8,14 +8,12 @@ in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConf
 
 ## Frontend & Live Demo
 
-Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) built using Vue 3 and Typescript. For
-Swagger UI (full API doc), visit http:// localhost:{PORT}/swagger-ui.html, (where PORT = `server.port` in
-application.yml)
+Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) built using Vue 3 and Typescript.
 
 ## Requirements
 
 - Java 11 or higher
-- MySQL 8.0.x
+- MySQL 8
 - Redis Server 5.0+ (native / Cloud / Docker)
 - [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Google Login_)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys.
