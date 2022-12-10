@@ -7,14 +7,12 @@ import com.davistiba.wedemyserver.models.Review;
 import com.davistiba.wedemyserver.repository.ReviewRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import com.davistiba.wedemyserver.service.ReviewService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +23,7 @@ import javax.validation.Valid;
 import java.util.Arrays;
 
 @RestController
-@RequestMapping(path = "/reviews", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/reviews")
 public class ReviewsController {
 
     @Autowired
@@ -37,7 +35,6 @@ public class ReviewsController {
 
     @PostMapping(path = "/")
     @Secured(value = "ROLE_STUDENT")
-    @SecurityRequirement(name = "wedemy")
     public MyCustomResponse addCourseReview(@Valid @RequestBody ReviewRequest review, HttpSession session) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
@@ -50,7 +47,6 @@ public class ReviewsController {
 
     @PutMapping(path = "/id/{id}")
     @Secured(value = "ROLE_STUDENT")
-    @SecurityRequirement(name = "wedemy")
     public MyCustomResponse editCourseReview(@PathVariable Integer id, @Valid @RequestBody ReviewRequest review) {
         try {
             reviewService.updateCourseRating(id, review);
@@ -67,7 +63,6 @@ public class ReviewsController {
         var review = reviewRepository.findByUserIdAndCourseId(userId, courseId).orElse(null);
         return ResponseEntity.ok().body(review);
     }
-
 
     @GetMapping(path = "/course/{courseId}")
     public Slice<ReviewDTO> getCourseReviews(@RequestParam(defaultValue = "0") Integer page,
