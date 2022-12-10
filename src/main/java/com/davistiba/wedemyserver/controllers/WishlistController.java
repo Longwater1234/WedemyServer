@@ -5,12 +5,10 @@ import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.WishlistRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -22,8 +20,7 @@ import java.util.Map;
 
 @RestController
 @Secured("ROLE_STUDENT")
-@RequestMapping(path = "/wishlist", produces = MediaType.APPLICATION_JSON_VALUE)
-@SecurityRequirement(name = "wedemy")
+@RequestMapping(path = "/wishlist")
 public class WishlistController {
 
     @Autowired
