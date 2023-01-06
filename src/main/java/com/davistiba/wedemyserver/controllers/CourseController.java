@@ -26,17 +26,18 @@ public class CourseController {
 
     @GetMapping(path = "/id/{id}")
     public Course getCourseById(@PathVariable @NotNull Integer id) {
-        try {
-            return courseRepository.findById(id).orElseThrow();
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No course of id " + id);
-        }
+        return courseRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "No course of id " + id));
     }
 
     @GetMapping(path = "/cat/{category}")
     @ResponseStatus(value = HttpStatus.OK)
     public List<Course> getCoursesByCategory(@PathVariable @NotBlank String category) {
-        return courseRepository.getCoursesByCategoryEquals(category);
+        var courseList = courseRepository.getCoursesByCategoryEquals(category);
+        if (courseList.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results for given category");
+        }
+        return courseList;
     }
 
     @GetMapping(path = "/top")
