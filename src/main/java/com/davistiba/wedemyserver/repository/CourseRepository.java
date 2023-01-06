@@ -23,7 +23,7 @@ public interface CourseRepository extends CrudRepository<Course, Integer> {
 
     List<Course> getCoursesByTitleContaining(@Param("title") String title);
 
-    @Query(value = "SELECT DISTINCT new com.davistiba.wedemyserver.dto.CategoryDTO(c.id, c.category) FROM Course c GROUP BY c.category")
+    @Query(value = "SELECT new com.davistiba.wedemyserver.dto.CategoryDTO(MAX(c.id), c.category) FROM Course c GROUP BY c.category")
     List<CategoryDTO> getAllDistinctCategories();
 
     List<Course> findCoursesByIdIn(Collection<Integer> ids);
