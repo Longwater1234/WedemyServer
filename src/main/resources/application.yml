@@ -24,7 +24,7 @@ spring:
     username: root
   jpa:
     hibernate:
-      ddl-auto: update #TODO change to `none` in production
+      ddl-auto: update #Change to `none` in production
     properties:
       hibernate:
         order_inserts: true

@@ -18,14 +18,14 @@ server:
         http-only: true
         max-age: 10800s #3hours
         name: WD_SESSION
-        same-site: none
+        same-site: lax
+        secure: true
 spring:
   datasource:
     password: ${MYSQL_PASSWORD}
     url: ${MYSQL_HOST}
     username: ${MYSQL_USERNAME}
   jpa:
-    defer-datasource-initialization: true
     hibernate:
       ddl-auto: none
     properties:
