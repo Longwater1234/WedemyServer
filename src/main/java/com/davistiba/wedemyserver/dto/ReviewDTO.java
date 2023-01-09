@@ -11,14 +11,14 @@ public class ReviewDTO {
     private Integer id;
     private String content;
     private Integer rating;
-    private Instant createdAt;
+    private Instant updatedAt;
     private String fullname;
 
-    public ReviewDTO(Integer id, String content, Integer rating, Instant createdAt, String fullname) {
+    public ReviewDTO(Integer id, String content, Integer rating, Instant updatedAt, String fullname) {
         this.id = id;
         this.content = content;
         this.rating = rating;
-        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.fullname = fullname;
     }
 
