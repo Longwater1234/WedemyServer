@@ -11,7 +11,7 @@ server:
   error:
     include-stacktrace: never
     include-message: always
-  port: ${SERVER_PORT}
+  port: ${PORT}
   servlet:
     session:
       cookie:
@@ -19,6 +19,7 @@ server:
         max-age: 10800s #3hours
         name: WD_SESSION
         same-site: lax
+        secure: true
 spring:
   datasource:
     password: ${MYSQL_PASSWORD}

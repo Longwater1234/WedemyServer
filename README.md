@@ -28,10 +28,10 @@ Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) bui
 
 ### Environmental Variables
 
-You MUST set these ENV variables on your System or Container before you launch this Springboot app. **💡TIP**: During dev/test, you
-can easily set them up within your IDE (⚠ will be LOCAL only): In either Eclipse or IntelliJ IDEA, in the top toolbar,
-find the **Run** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+) each key and
-its value, then click **Apply**.
+You MUST set these ENV variables on your System or Container before you launch this Springboot app. **💡TIP**: During
+dev/test, you can easily set them up within your IDE: In either Eclipse or IntelliJ IDEA, in the top toolbar, find
+the **Run** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+) each key and its
+value, then click **Apply**.
 
 ```shell
 #below are for Google OAuth
@@ -43,7 +43,6 @@ BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
 #... in production, REMEMBER to set this:
 SPRING_PROFILES_ACTIVE=prod
-SERVER_PORT=
 # ... for other properties, see application-prod.yml
 ```
 
@@ -94,4 +93,6 @@ their [official docs](https://developer.paypal.com/braintree/docs).
 
 ***
 
-[^1]: In production, for BROWSER clients, ensure both your Backend and Frontend share the same root domain (aka "Origin", see MDN docs), and `spring.session.cookie.Secure=true` otherwise Cookies will not persist in Client's browser, and Authentication will fail. Learn more: [WebDev](https://web.dev/samesite-cookies-explained/)  
+[^1]: In production, for BROWSER clients, ensure both your Backend and Frontend share the same root domain (aka "Origin"
+, see MDN docs), and `spring.session.cookie.Secure=true` otherwise Cookies will not persist in Client's browser. Learn
+more: [WebDev](https://web.dev/samesite-cookies-explained/)  
