@@ -2,7 +2,7 @@
 
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With CreditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis & Server-Side
-Cookies[^1] for auth,
+Cookies[^1] (see footnote) for auth,
 _instead of_ stateless JWT Tokens. For simplicity, both UserDetails and UserRole (enum) are stored in the same table.
 Maximum 2 *concurrent* login sessions per user. You can easily customize these settings
 in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java).
@@ -88,5 +88,5 @@ their [official docs](https://developer.paypal.com/braintree/docs).
 
 ***
 
-[^1]: In production, for BROWSER clients, ensure both your Backend and Frontend share the same root domain and set `session.cookie.Secure=true` (strictly https) otherwise Cookies will not persist in Client's browser. Learn
+[^1]: In production, for BROWSER clients, ensure both your Backend and Frontend share the same ROOT domain (same-site), and set `session.cookie.Secure=true` (strictly https), for Cookies to work properly. Otherwise, replace cookies with token X-AUTH-TOKEN, see SecurityConfig.java. Learn
 more: [WebDev](https://web.dev/samesite-cookies-explained/)  
