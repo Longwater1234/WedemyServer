@@ -2,16 +2,11 @@
 
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With CreditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis & Server-Side
-Cookies[^1] (httpOnly) for auth,
+Cookies[^1] for auth,
 _instead of_ stateless JWT Tokens. For simplicity, both UserDetails and UserRole (enum) are stored in the same table.
 Maximum 2 *concurrent* login sessions per user. You can easily customize these settings
 in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java).
 
-### A Note about Sessions
-
-By default, this app transfers session ID through server-side Cookies, with an expiry time, which is convenient for
-Browser clients. You may instead use special header _X-AUTH-TOKEN_; simply by uncommenting the block in SecurityConfig,
-linked above. Nevertheless, this token also expires according to property `session.cookie.max-age`
 
 ## Frontend & Live Demo
 
@@ -33,7 +28,7 @@ dev/test, you can easily set them up within your IDE: In either Eclipse or Intel
 the **Run** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+) each key and its
 value, then click **Apply**.
 
-```shell
+```bash
 #below are for Google OAuth
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
@@ -43,7 +38,7 @@ BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
 #... in production, REMEMBER to set this:
 SPRING_PROFILES_ACTIVE=prod
-# ... for other properties, see application-prod.yml
+# For others, see application-prod.yml
 ```
 
 ## Important ⚠
@@ -93,6 +88,5 @@ their [official docs](https://developer.paypal.com/braintree/docs).
 
 ***
 
-[^1]: In production, for BROWSER clients, ensure both your Backend and Frontend share the same root domain (aka "Origin"
-, see MDN docs), and `spring.session.cookie.Secure=true` otherwise Cookies will not persist in Client's browser. Learn
+[^1]: In production, for BROWSER clients, ensure both your Backend and Frontend share the same root domain and set `session.cookie.Secure=true` (strictly https) otherwise Cookies will not persist in Client's browser. Learn
 more: [WebDev](https://web.dev/samesite-cookies-explained/)  

@@ -11,5 +11,5 @@ FROM eclipse-temurin:11-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/wedemyserver-0.0.1-SNAPSHOT.jar /app
 EXPOSE 9000
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/urandom", "-jar", "wedemyserver-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "wedemyserver-0.0.1-SNAPSHOT.jar"]
 
