@@ -3,7 +3,7 @@
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With CreditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis & Server-Side
 Cookies[^1] (see footnote) for auth,
-_instead of_ stateless JWT Tokens. For simplicity, both UserDetails and UserRole (enum) are stored in the same table.
+_instead of_ stateless JWT Tokens. CSRF protection is enabled. For simplicity, both UserDetails and UserRole (enum) are stored in the same table.
 Maximum 2 *concurrent* login sessions per user. You can easily customize these settings
 in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java).
 
