@@ -1,7 +1,7 @@
 # WedemyServer
 
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With CreditCard and
-PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis & Server-Side
+PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis & Server-Side
 Cookies[^1] (see footnote) for auth,
 _instead of_ stateless JWT Tokens. CSRF protection is enabled. For simplicity, both UserDetails and UserRole (enum) are
 stored in the same table. Maximum 2 *concurrent* login sessions per user. You can easily customize these settings
@@ -37,7 +37,7 @@ BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
 #... in production, REMEMBER to set this:
 SPRING_PROFILES_ACTIVE=prod
-# For others, see application-prod.yml
+# For more, see application-prod.yml
 ```
 
 ## Important ⚠
@@ -58,6 +58,7 @@ for ALL Datetime fields**). Handle Timezone conversion on your Frontend! For you
 mysqldump file `data_wedemy.sql` inside [src/main/resources](src/main/resources/data_wedemy.sql) which contains sample
 data for some tables. Please take a look at the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
 
+- CREATE new schema called `wedemy` with charset utf8mb4.
 - To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
   parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
    ```properties
