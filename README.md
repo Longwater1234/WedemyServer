@@ -37,29 +37,29 @@ BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
 #... in production, REMEMBER to set this:
 SPRING_PROFILES_ACTIVE=prod
-# For more, see application-prod.yml
+# For others, see application-prod.yml
 ```
 
 ## Important ⚠
 
 Please examine the file [application.yml](src/main/resources/application.yml) inside src/main/resources/ folder. Place
-all your necessary Spring Application properties there. Notice property `frontend.root.url`; replace value with yours to
-avoid CORS error. But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY** ❌. I
-suggest store them as Environmental Variables instead (see above), then either declare them
-as `property.name = ${ENV_KEY_NAME}`, OR call directly in your code as shown
+all your necessary Spring Application properties there. Notice property `frontend.root.url`; replace value with yours.
+But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY**❌ . I suggest store them as
+Environmental Variables instead (see above), then either declare them as `property.name = ${ENV_KEY_NAME}`, OR call
+directly in your source code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
 ## Databases Used
 
 ### MySQL 8.0
 
-This is the primary database. All DateTimes are stored and queried in UTC only❗ (**Hint: USE `java.time.Instant` as Type
-for ALL Datetime fields**). Handle Timezone conversion on your Frontend! For your convenience, I have included a
-mysqldump file `data_wedemy.sql` inside [src/main/resources](src/main/resources/data_wedemy.sql) which contains sample
-data for some tables. Please take a look at the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
+This is the primary database. All DateTimes are stored and queried in UTC only. (**Hint: USE `java.time.Instant` as Type
+for all Datetime fields**). Handle Timezone conversion on your Frontend! For your convenience, I have included a
+mysqldump file [data_wedemy.sql](src/main/resources/data_wedemy.sql) which contains sample data for testing. Take a look
+at the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
 
 - CREATE new schema called `wedemy` with charset utf8mb4.
-- To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
+- To maintain consistent time-zone (UTC) with your Java app, ensure your MySQL connection URL has
   parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
    ```properties
    spring.datasource.url=jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC
@@ -88,7 +88,7 @@ their [official docs](https://developer.paypal.com/braintree/docs).
 
 ***
 
-[^1]: In production, for BROWSER clients, ensure both your Backend and Frontend share the same ROOT domain (same-site),
-and set `session.cookie.Secure=true` (strictly https), for Cookies to work properly. For other REST clients, you may
-replace cookies with token X-AUTH-TOKEN, see SecurityConfig.java. Learn
+[^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same ROOT domain (same-site
+policy), and set `session.cookie.Secure=true` (strictly https), for Cookies to work properly. For other REST clients,
+you may replace cookies with special session Header X-AUTH-TOKEN; see SecurityConfig.java. Learn
 more: [WebDev](https://web.dev/samesite-cookies-explained/)  

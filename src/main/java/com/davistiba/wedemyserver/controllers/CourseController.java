@@ -4,7 +4,6 @@ import com.davistiba.wedemyserver.dto.CategoryDTO;
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,9 +41,10 @@ public class CourseController {
 
     @GetMapping(path = "/top")
     @ResponseStatus(value = HttpStatus.OK)
-    @Cacheable(value = "courses")
-    public List<Course> getAllTopCourses() {
-        return courseRepository.getTop6ByRatingGreaterThanEqual(BigDecimal.valueOf(4.5));
+    public ResponseEntity<List<Course>> getAllTopCourses() {
+        var courseList = courseRepository.getTop6ByRatingGreaterThanEqual(BigDecimal.valueOf(4.5));
+        CacheControl cc = CacheControl.maxAge(60, TimeUnit.MINUTES).cachePublic();
+        return ResponseEntity.ok().cacheControl(cc).body(courseList);
     }
 
 
