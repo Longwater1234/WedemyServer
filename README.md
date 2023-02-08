@@ -5,19 +5,19 @@ PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, 
 Cookies[^1] (see footnote) for auth,
 _instead of_ stateless JWT Tokens. CSRF protection is enabled. For simplicity, both UserDetails and UserRole (enum) are
 stored in the same table. Maximum 2 *concurrent* login sessions per user. You can easily customize these settings
-in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java).
+in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the app runs on port 9000
 
 ## Frontend & Live Demo
 
-Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) built using Vue 3 and Typescript.
+Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) built using Vue 3 and Typescript. 
 
 ## Requirements
 
 - Java 11 or higher
 - MySQL 8
 - Redis Server 5.0+ (native / Cloud / Docker)
-- [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for _Google Login_)
-- [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys.
+- [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for Google Login)
+- [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys. (for Payments)
 - (OPTIONAL) Free PayPal Business Account.
 
 ### Environmental Variables
@@ -37,30 +37,24 @@ BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
 #... in production, REMEMBER to set this:
 SPRING_PROFILES_ACTIVE=prod
-# For others, see application-prod.yml
 ```
 
 ## Important ⚠
 
-Please examine the file [application.yml](src/main/resources/application.yml) inside src/main/resources/ folder. Place
-all your necessary Spring Application properties there. Notice property `frontend.root.url`; replace value with yours.
+Please examine the files [application.yml](src/main/resources/application.yml) (default), and [application-prod.yml](src/main/resources/application-prod.yml) (meant for *production*). Replace all the necessary Spring Application properties with yours.
 But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY**❌ . I suggest store them as
-Environmental Variables instead (see above), then either declare them as `property.name = ${ENV_KEY_NAME}`, OR call
-directly in your source code as shown
+Environmental Variables instead (see above), then either declare them as `property.name = ${ENV_KEY_NAME}`, OR refer them directly in your source code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
 ## Databases Used
 
 ### MySQL 8.0
 
-This is the primary database. All DateTimes are stored and queried in UTC only. (**Hint: USE `java.time.Instant` as Type
-for all Datetime fields**). Handle Timezone conversion on your Frontend! For your convenience, I have included a
-mysqldump file [data_wedemy.sql](src/main/resources/data_wedemy.sql) which contains sample data for testing. Take a look
-at the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
+This is the primary database. All DateTimes are stored and queried in UTC only. (**Hint: USE `java.time.Instant` as Type for all Datetime fields**). Handle timezone conversion on your Frontend! For your convenience, I have included a
+mysqldump file [data_wedemy.sql](src/main/resources/data_wedemy.sql) which contains sample data for testing. Also, here is the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
 
-- CREATE new schema called `wedemy` with charset utf8mb4.
-- To maintain consistent time-zone (UTC) with your Java app, ensure your MySQL connection URL has
-  parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
+- CREATE new schema called `wedemy` (any name is OK), with charset utf8mb4.
+- To maintain consistent time-zone (UTC) with your Java app, ensure your MySQL connection URL has parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
    ```properties
    spring.datasource.url=jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC
    # OR, use this
@@ -71,8 +65,7 @@ at the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
 
 This project uses Redis for 2 main tasks: Caching, and Storing login sessions. You can download latest Redis (macOS &
 Linux) from https://redis.io/download. Windows users may download the latest native installer (.msi)
-from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could run redis in Docker. If
-you prefer the Cloud instead, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace redis
+from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could run redis in Docker. Another option, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace redis
 credentials inside `application.yml` to match your running Redis instance.
 
 | Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI client: RedisInsight. Download it free from [here](https://redis.com/redis-enterprise/redis-insight/) |
@@ -88,7 +81,4 @@ their [official docs](https://developer.paypal.com/braintree/docs).
 
 ***
 
-[^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same ROOT domain (same-site
-policy), and set `session.cookie.Secure=true` (strictly https), for Cookies to work properly. For other REST clients,
-you may replace cookies with special session Header X-AUTH-TOKEN; see SecurityConfig.java. Learn
-more: [WebDev](https://web.dev/samesite-cookies-explained/)  
+[^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same ROOT domain (same-site policy), and set `session.cookie.Secure=true` (strictly https), for Cookies to work properly. Learn more at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you may replace cookies with special Header X-AUTH-TOKEN; see SecurityConfig.java. 

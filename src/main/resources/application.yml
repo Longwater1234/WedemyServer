@@ -1,7 +1,8 @@
-#All entries in ${CURLY_BRACES} should be set as ENV variables, for security reasons.
+# All entries in ${CURLY_BRACES} should be set as ENV variables, for security reasons.
+# Read official docs https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html
 frontend:
   root:
-    url: http://localhost:3000 #TODO Replace with your frontend root URL
+    url: http://localhost:3000 #TODO Replace If you have frontend webpage
 logging:
   level:
     org:
@@ -10,12 +11,12 @@ logging:
 server:
   error:
     include-stacktrace: never
-  port: 9000 # server port
+  port: 9000 # Server port for this app
   servlet:
     session:
       cookie:
         http-only: true
-        max-age: 10800s #3hours
+        max-age: PT3H #3hours
         name: WD_SESSION
 spring:
   datasource:
@@ -24,7 +25,7 @@ spring:
     username: root
   jpa:
     hibernate:
-      ddl-auto: update #Change to `none` in production
+      ddl-auto: update
     properties:
       hibernate:
         order_inserts: true
@@ -50,4 +51,4 @@ spring:
   session:
     store-type: redis
     redis:
-      cleanup-cron: 0 1 * * * *
+      cleanup-cron: 0 */3 * * *
