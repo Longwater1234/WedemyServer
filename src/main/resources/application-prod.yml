@@ -1,7 +1,8 @@
-#All entries in ${CURLY_BRACES} should be set as ENV variables, for security reasons.
+# All entries in ${CURLY_BRACES} should be set as ENV variables, for security reasons.
+# Read official docs https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html
 frontend:
   root:
-    url: ${FRONTEND_ROOT_URL} #replace with valid URL
+    url: ${FRONTEND_ROOT_URL} #TODO Replace if you have frontend Webpage
 logging:
   level:
     org:
@@ -10,13 +11,13 @@ logging:
 server:
   error:
     include-stacktrace: never
-    include-message: always
-  port: ${PORT}
+    include-message: never
+  port: ${PORT} # Auto-filled. Refer docs of your Cloud host
   servlet:
     session:
       cookie:
         http-only: true
-        max-age: 10800s #3hours
+        max-age: PT12H #12hours
         name: WD_SESSION
         same-site: lax
         secure: true
@@ -38,11 +39,12 @@ spring:
   cache:
     type: redis
     redis:
-      time-to-live: PT30M #30minutes
+      time-to-live: PT60M #60 minutes
   redis:
     host: ${REDIS_HOST}
     password: ${REDIS_PASSWORD}
     port: ${REDIS_PORT}
+    # url: ${REDIS_URL} # Optional, just in case.
   security:
     oauth2:
       client:
@@ -53,4 +55,4 @@ spring:
   session:
     store-type: redis
     redis:
-      cleanup-cron: 0 1 * * * *
+      cleanup-cron: 00 */12 * * *
