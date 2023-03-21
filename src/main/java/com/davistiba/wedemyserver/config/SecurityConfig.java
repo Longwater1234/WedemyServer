@@ -1,28 +1,25 @@
 package com.davistiba.wedemyserver.config;
 
 import com.davistiba.wedemyserver.service.CustomOAuthUserService;
-import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Bean
-    public MyUserDetailsService userDetailsService() {
-        return new MyUserDetailsService();
-    }
+public class SecurityConfig {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -48,29 +45,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomOauthSuccessHandler successHandler;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    @Order(1)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().httpBasic()
                 .and().oauth2Login().userInfoEndpoint().oidcUserService(googleOauthService)
                 .and().successHandler(successHandler)
-                .and().authorizeRequests()
-                .antMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
-                .antMatchers("/profile/**", "/user/**").hasAuthority("ROLE_STUDENT")
-                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                .anyRequest().authenticated();
+                .and().authorizeHttpRequests((authz) ->
+                        authz.antMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
+                                .antMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
+                                .antMatchers("/profile/**", "/user/**").hasAuthority("ROLE_STUDENT")
+                                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                                .anyRequest().authenticated());
 
         //SESSION and CSRF
-        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and().sessionManagement().maximumSessions(2);
+        return http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and().sessionManagement(session -> session.maximumSessions(1)).build();
 
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService())
-                .passwordEncoder(passwordEncoder());
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }
+
 
 }
 

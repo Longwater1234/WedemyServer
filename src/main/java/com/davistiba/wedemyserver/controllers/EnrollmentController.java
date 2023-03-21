@@ -72,8 +72,8 @@ public class EnrollmentController {
             if (enrollment.isEmpty()) {
                 throw new Exception("You don't own this course");
             }
-            UUID lessonId = UUID.fromString(request.getLessonId());
-            Lesson currentLesson = lessonRepository.findLessonById(lessonId).orElseThrow();
+            String lessonId = request.getLessonId();
+            Lesson currentLesson = lessonRepository.findById(lessonId).orElseThrow();
             VideoResponse response = new VideoResponse(enrollment.get().getId(), currentLesson);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
