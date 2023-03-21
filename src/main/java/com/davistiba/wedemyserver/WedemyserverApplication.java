@@ -42,7 +42,8 @@ public class WedemyserverApplication {
                 registry.addMapping("/**")
                         .allowCredentials(true)
                         .exposedHeaders("*")
-                        .allowedOrigins(Objects.requireNonNull(FRONTEND_URL))
+                        .maxAge(3600L)
+                        .allowedOriginPatterns("http://localhost/:[*]", Objects.requireNonNull(FRONTEND_URL))
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };
