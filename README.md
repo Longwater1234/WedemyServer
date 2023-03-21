@@ -41,11 +41,11 @@ SPRING_PROFILES_ACTIVE=prod
 
 ## Important ⚠
 
-Please examine the file [application.yml](src/main/resources/application.yml) inside src/main/resources/ folder. Place
-all your necessary Spring Application properties there. Notice property `frontend.root.url`; replace value with yours.
-But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN THERE DIRECTLY**❌ . I suggest store them as
-Environmental Variables instead (see above), then either declare them as `property.name = ${ENV_KEY_NAME}`, OR call
-directly in your source code as shown
+Please examine the files [application.yml](src/main/resources/application.yml) (default),
+and [application-prod.yml](src/main/resources/application-prod.yml) (meant for *production*). Replace all the necessary
+Spring Application properties with yours. But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN
+THERE DIRECTLY**❌ . I suggest store them as Environmental Variables instead (see above), then either declare them
+as `property.name = ${ENV_KEY_NAME}`, OR refer them directly in your source code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
 ## Extras
@@ -62,6 +62,7 @@ Handle timezone conversion on your Frontend!
    # OR, use this
    spring.jpa.properties.hibernate.jdbc.time_zone=UTC
    ```
+- View the [API documentation](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentation) for this project.
 - Download Redis: [MacOS & Linux](https://redis.io/download) | Windows
   (.msi) [installer](https://github.com/tporadowski/redis/releases)
 - Official Redis GUI client for all platforms. [RedisInsight](https://redis.com/redis-enterprise/redis-insight/)
