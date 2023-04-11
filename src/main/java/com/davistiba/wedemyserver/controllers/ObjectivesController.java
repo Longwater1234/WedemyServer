@@ -43,8 +43,6 @@ public class ObjectivesController {
 
     @GetMapping(value = "/course/{courseId}")
     public List<CourseObjective> getCourseObjectives(@PathVariable Integer courseId) {
-        var objList = objectiveRepository.getCourseObjectivesByCourseId(courseId);
-        if (objList.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No data!");
-        return objList;
+        return objectiveRepository.getCourseObjectivesByCourseId(courseId);
     }
 }

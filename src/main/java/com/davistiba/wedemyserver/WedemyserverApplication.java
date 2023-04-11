@@ -4,7 +4,6 @@
 
 package com.davistiba.wedemyserver;
 
-
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -43,7 +42,7 @@ public class WedemyserverApplication {
                         .allowCredentials(true)
                         .exposedHeaders("*")
                         .maxAge(3600L)
-                        .allowedOriginPatterns("http://localhost/:[*]", Objects.requireNonNull(FRONTEND_URL))
+                        .allowedOriginPatterns("http://localhost:[*]", Objects.requireNonNull(FRONTEND_URL))
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };
