@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     /*
     IF YOU DON'T WANT TO USE _COOKIES_ FOR SESSIONS, UNCOMMENT THIS BLOCK BELOW TO USE a SPECIAL HEADER
-    "X-AUTH-TOKEN" INSTEAD. BUT YOU WILL ALSO NEED TO *MANUALLY* CONFIGURE YOUR FRONTEND TO STORE
+    "X-AUTH-TOKEN" (expires too) INSTEAD. BUT YOU WILL ALSO NEED TO *MANUALLY* CONFIGURE YOUR FRONTEND TO STORE
     AND RE-USE THIS TOKEN AFTER SUCCESSFUL LOGIN.
      */
     /*----------------------------------------------------
@@ -60,12 +60,12 @@ public class SecurityConfig {
 
         //SESSION and CSRF
         return http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and().sessionManagement(session -> session.maximumSessions(1)).build();
-
+                .and().sessionManagement(session -> session.maximumSessions(2)).build();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        //this will automatically inject our custom userDetailsService
         return authConfig.getAuthenticationManager();
     }
 
