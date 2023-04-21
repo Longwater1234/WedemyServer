@@ -13,7 +13,7 @@
     <artifactId>wedemyserver</artifactId>
     <version>1.2</version>
     <name>wedemyserver</name>
-    <description>Wedemy project in Spring Boot</description>
+    <description>Wedemy clone, backend server in Spring Boot</description>
     <url>https://github.com/longwater1234/WedemyServer</url>
 
     <properties>
@@ -163,7 +163,7 @@
                             <artifactId>annotations</artifactId>
                         </exclude>
                     </excludes>
-                    <finalName>wedemyserver</finalName>
+                    <finalName>${project.name}</finalName>
                 </configuration>
             </plugin>
         </plugins>
