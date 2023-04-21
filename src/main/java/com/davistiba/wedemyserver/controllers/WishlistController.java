@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
 @RestController
@@ -33,20 +33,17 @@ public class WishlistController {
     @PostMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.CREATED)
     public MyCustomResponse addNewWishlist(@PathVariable Integer courseId, HttpSession session) {
-
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         int count = wishlistRepository.saveByCourseIdAndUserId(courseId, userId);
-        return new MyCustomResponse(String.format("Added %d to Wishlist", count));
+        return new MyCustomResponse(String.format("Added %d item to Wishlist", count));
     }
 
     @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Boolean> checkUserLikedCourse(@PathVariable @NotNull Integer courseId, HttpSession session) {
-
-        Map<String, Boolean> response = new HashMap<>();
         Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
         boolean isExist = wishlistRepository.checkIfCourseInWishlist(userId, courseId);
-        response.put("inWishlist", isExist);
+        Map<String, Boolean> response = Collections.singletonMap("inWishlist", isExist);
         return response;
     }
 

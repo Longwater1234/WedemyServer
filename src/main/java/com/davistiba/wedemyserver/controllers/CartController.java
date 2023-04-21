@@ -16,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -48,10 +47,9 @@ public class CartController {
     @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Boolean> checkUserCartItem(@PathVariable @NotNull Integer courseId, HttpSession session) {
-        Map<String, Boolean> response = new HashMap<>();
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         boolean isExist = cartRepository.checkIfCourseInCart(userId, courseId);
-        response.put("inCart", isExist);
+        Map<String, Boolean> response = Collections.singletonMap("inCart", isExist);
         return response;
     }
 
@@ -65,18 +63,16 @@ public class CartController {
 
     @GetMapping(path = "/mine/count")
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, Integer> countMyCartItems(HttpSession session) {
+    public Map<String, Long> countMyCartItems(HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        Map<String, Integer> response = new HashMap<>();
-        int cartCount = cartRepository.countCartByUserIdEquals(userId);
-        response.put("cartCount", cartCount);
+        long cartCount = cartRepository.countCartByUserIdEquals(userId);
+        Map<String, Long> response = Collections.singletonMap("cartCount", cartCount);
         return response;
     }
 
     @DeleteMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public MyCustomResponse removeCartByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
-
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         int ok = cartRepository.deleteAllByUserIdAndCoursesIn(userId, Collections.singleton(courseId));
         if (ok != 1) {

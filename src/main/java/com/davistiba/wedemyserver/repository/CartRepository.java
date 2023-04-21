@@ -27,7 +27,7 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     boolean checkIfCourseInCart(Integer userId, Integer courseId);
 
     @Query(value = "SELECT COUNT(c) FROM Cart c WHERE c.user.id = ?1")
-    Integer countCartByUserIdEquals(Integer userId);
+    long countCartByUserIdEquals(Integer userId);
 
 
 }
