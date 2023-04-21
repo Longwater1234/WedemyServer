@@ -10,9 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface LessonRepository extends CrudRepository<Lesson, String> {
+public interface LessonRepository extends CrudRepository<Lesson, UUID> {
 
     @Query(value = "SELECT s FROM Lesson s where s.course.id = ?1 ORDER BY s.position")
     Slice<Lesson> getLessonsByCourseId(Integer courseId, Pageable pageable);

@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class EnrollProgressService {
@@ -38,7 +39,7 @@ public class EnrollProgressService {
      */
     @Transactional
     public Lesson updateAndGetNextLesson(@NotNull WatchStatus status, Enrollment enrollment) {
-        String lessonId = status.getCurrentLessonId();
+        UUID lessonId = UUID.fromString(status.getCurrentLessonId());
         Lesson currentLesson = lessonRepository.findById(lessonId).orElseThrow();
         Optional<EnrollProgress> enrollProgress = progressRepository.findByEnrollIdAndLessonId(status.getEnrollId(), lessonId);
 

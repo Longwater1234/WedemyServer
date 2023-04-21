@@ -42,7 +42,7 @@ public class EnrollmentController {
     @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Boolean> checkEnrollStatus(@PathVariable @NotNull Integer courseId, HttpSession session) {
-        Map<String, Boolean> response = new HashMap<>();
+        Map<String, Boolean> response = new HashMap<>(1);
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         boolean isOwned = enrollmentRepository.existsByUserIdAndCourseId(userId, courseId);
         response.put("isOwned", isOwned);
@@ -72,7 +72,7 @@ public class EnrollmentController {
             if (enrollment.isEmpty()) {
                 throw new Exception("You don't own this course");
             }
-            String lessonId = request.getLessonId();
+            UUID lessonId = UUID.fromString(request.getLessonId());
             Lesson currentLesson = lessonRepository.findById(lessonId).orElseThrow();
             VideoResponse response = new VideoResponse(enrollment.get().getId(), currentLesson);
             return ResponseEntity.ok().body(response);
