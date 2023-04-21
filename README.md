@@ -27,7 +27,7 @@ Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) bui
 ### Environmental Variables
 
 You MUST set these ENV variables on your System or Container before you launch this Springboot app. **💡TIP**: During
-dev/test, you can easily set them up within your IDE: In either Eclipse or IntelliJ IDEA, in the top toolbar, find
+dev, you can easily set them up within your IDE: In either Eclipse or IntelliJ IDEA, in the top toolbar, find
 the **Run** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+) each key and its
 value, then click **Apply**.
 
@@ -39,7 +39,7 @@ GOOGLE_CLIENT_SECRET=
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
-#... in production, REMEMBER to set this:
+#... for production, you SHOULD set this:
 SPRING_PROFILES_ACTIVE=prod
 ```
 
