@@ -13,14 +13,15 @@ port 9000
 
 ## Frontend & Live Demo
 
-Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) built using Vue 3 and Typescript.
+Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and demo built using Vue 3 and Typescript.
 
 ## Requirements
 
 - Java 11 or higher
 - MySQL 8
 - Redis Server 5.0+ (native / Cloud / Docker)
-- [Google OAuth Credentials](https://console.developers.google.com/apis/credentials) (for Google Login)
+- [Google OAuth Credentials](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) (for Google
+  Login)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys. (for Payments)
 - (OPTIONAL) Free PayPal Business Account.
 
