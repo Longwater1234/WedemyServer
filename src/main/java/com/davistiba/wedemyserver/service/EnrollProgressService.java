@@ -61,6 +61,9 @@ public class EnrollProgressService {
             }
             enrollmentRepository.save(enrollment);
 
+            if (isCompleted) {
+                return null;
+            }
             //get next lesson
             int courseId = status.getCourseId();
             int nextPosition = progress.getLesson().getPosition() + 1;
