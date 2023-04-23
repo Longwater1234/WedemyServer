@@ -12,6 +12,5 @@ WORKDIR /app
 COPY --from=build /app/target/wedemyserver.jar /app
 EXPOSE 9000
 ENV SPRING_PROFILES_ACTIVE=prod
-# Pass other ENV from args, OR external text file.
-# see https://docs.docker.com/engine/reference/commandline/run/#env
+# Pass other ENV from 'docker run' args, see https://docs.docker.com/engine/reference/commandline/run/#env
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "wedemyserver.jar"]
