@@ -12,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +41,7 @@ public class CourseController {
     @GetMapping(path = "/top")
     @ResponseStatus(value = HttpStatus.OK)
     public ResponseEntity<List<Course>> getAllTopCourses() {
-        var courseList = courseRepository.getTop6ByRatingGreaterThanEqual(BigDecimal.valueOf(4.5));
+        var courseList = courseRepository.getTop6CoursesByIsFeatured(true);
         CacheControl cc = CacheControl.maxAge(60, TimeUnit.MINUTES).cachePublic();
         return ResponseEntity.ok().cacheControl(cc).body(courseList);
     }

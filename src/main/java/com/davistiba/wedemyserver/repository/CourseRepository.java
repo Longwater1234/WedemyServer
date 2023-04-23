@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public interface CourseRepository extends CrudRepository<Course, Integer> {
 
     List<Course> getCoursesByCategoryEquals(@NotBlank String category);
 
-    List<Course> getTop6ByRatingGreaterThanEqual(BigDecimal rating);
+    List<Course> getTop6CoursesByIsFeatured(Boolean isFeatured);
 
     List<Course> getCoursesByTitleContaining(@Param("title") String title);
 

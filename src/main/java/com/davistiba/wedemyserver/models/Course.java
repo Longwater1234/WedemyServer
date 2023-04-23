@@ -61,6 +61,10 @@ public class Course implements Serializable {
     @Min(1)
     private BigDecimal price;
 
+    @ColumnDefault(value = "FALSE")
+    @Column(nullable = false)
+    private Boolean isFeatured = false;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
