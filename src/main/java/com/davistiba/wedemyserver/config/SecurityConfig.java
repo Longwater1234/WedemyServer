@@ -28,13 +28,14 @@ public class SecurityConfig {
 
 
     /*
-    IF YOU DON'T WANT TO USE _COOKIES_ FOR SESSIONS, UNCOMMENT THIS BLOCK BELOW TO USE a SPECIAL HEADER
+    IF YOU DON'T WANT TO USE _COOKIES_ FOR SESSIONS, SIMPLY UNCOMMENT THIS BLOCK BELOW TO USE a SPECIAL HEADER
     "X-AUTH-TOKEN" (expires too) INSTEAD. BUT YOU WILL ALSO NEED TO *MANUALLY* CONFIGURE YOUR FRONTEND TO STORE
     AND RE-USE THIS TOKEN AFTER SUCCESSFUL LOGIN.
      */
     /*----------------------------------------------------
       @Bean
       public HttpSessionIdResolver sessionIdResolver() {
+          //SET EXPIRE TIME IN application.yml, similar to cookies:: `session.cookie.max-age`
           return HeaderHttpSessionIdResolver.xAuthToken();
       }
     //----------------------------------------------------*/
@@ -58,14 +59,13 @@ public class SecurityConfig {
                                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                                 .anyRequest().authenticated());
 
-        //SESSION and CSRF
+        //SESSION and CSRF (you may disable CSRF)
         return http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and().sessionManagement(session -> session.maximumSessions(2)).build();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        //this will automatically inject our custom userDetailsService
         return authConfig.getAuthenticationManager();
     }
 

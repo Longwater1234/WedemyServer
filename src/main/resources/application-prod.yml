@@ -11,8 +11,8 @@ logging:
 server:
   error:
     include-stacktrace: never
-    include-message: never
-  port: ${PORT} # Auto-filled. Refer docs of your Cloud host
+    include-message: always
+  port: ${PORT} # Autofilled by most Cloud PaaS. Refer official docs of your Host.
   servlet:
     session:
       cookie:
@@ -44,7 +44,7 @@ spring:
     host: ${REDIS_HOST}
     password: ${REDIS_PASSWORD}
     port: ${REDIS_PORT}
-    # url: ${REDIS_URL} # Optional, just in case.
+    # url: ${REDIS_URL} # Optional. Full URL. Will override "host, password, port" above
   security:
     oauth2:
       client:
