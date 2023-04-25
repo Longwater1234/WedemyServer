@@ -5,9 +5,8 @@
 
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With CreditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis & Server-Side
-Cookies[^1] (see footnote) for auth,
-_instead of_ stateless JWT Tokens. CSRF protection is enabled. For simplicity, both UserDetails and UserRole (enum) are
-stored in the same table. Maximum 2 *concurrent* login sessions per user. You can easily customize these settings
+Cookies[^1] (see footnote) for auth, _instead of_ stateless JWT Tokens. CSRF protection is enabled. Maximum 2
+*concurrent* login sessions per user. You can easily customize these settings
 in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the app runs on
 port 9000
 
@@ -49,7 +48,7 @@ SPRING_PROFILES_ACTIVE=prod
 Please examine the files [application.yml](src/main/resources/application.yml) (default),
 and [application-prod.yml](src/main/resources/application-prod.yml) (meant for *production*). Replace all the necessary
 Spring Application properties with yours. But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN
-THERE DIRECTLY**❌ . I suggest store them as Environmental Variables instead (see above), then either declare them
+THERE DIRECTLY**❌ . It's safer to store them as Environmental Variables instead (see above), then either declare them
 as `property.name = ${ENV_KEY_NAME}`, OR refer them directly in your source code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
@@ -59,8 +58,8 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 This is the primary database. All DateTimes are stored and queried in UTC only. (**Hint: USE `java.time.Instant` as Type
 for all Datetime fields**). Handle timezone conversion on your Frontend! For your convenience, I have included a
-mysqldump file [data_wedemy.sql](src/main/resources/data_wedemy.sql) which contains sample data for testing. Also, here
-is the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
+mysqldump file [data_wedemy.sql](src/main/resources/data_wedemy.sql) which contains sample data for testing. Also, take
+a look at the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
 
 - CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`.
 - To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
@@ -80,13 +79,13 @@ Another option, you could try Redis Cloud at: https://redis.com/try-free/. Remem
 inside `application.yml` to match your running Redis instance.
 
 | Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI client: RedisInsight. Download it free from [here](https://redis.com/redis-enterprise/redis-insight/) |
-|---------|:---------------------------------------------------------------------|
+|--------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 
 ## Payments Handling
 
 All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
-GooglePay, Venmo and many other methods. This project has been configured with Credit-Card and PayPal Checkout only, in
-SANDBOX (Dev) mode. Make sure you obtain a set of 3 API Keys from your own Braintree Dev Account and store them as ENV
+GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only. **No payment info
+is stored locally**. Make sure you obtain a set of 3 API Keys from your own Braintree Dev Account and store them as ENV
 variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials and examples, please check
 their [official docs](https://developer.paypal.com/braintree/docs).
 
@@ -94,13 +93,13 @@ their [official docs](https://developer.paypal.com/braintree/docs).
 
 This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. You can either
 use the [Dockerfile](Dockerfile) provided, or natively as a pure Java app. Popular PaaS for Java apps include:
-Heroku, AWS ElasticBeanstalk, Google App Engine, Azure Web Apps. The following **may require** a Dockerfile: _Dokku,
+Heroku, AWS ElasticBeanstalk, Google App Engine, Azure Web Apps. The following only work with Dockerfile: _Dokku,
 Railway, Render.com, Fly.io_. Please note, you may also need a **separate** MySQL & Redis instance!
 
 
 ***
 
 [^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same ROOT domain (same-site
-policy), and set `session.cookie.Secure=true` (strictly https), for Cookies to work properly. Learn more
-at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you may replace cookies with special Header
-X-AUTH-TOKEN; see file SecurityConfig.java. 
+policy), AND set `session.cookie.Secure=true` (strictly https) for Cookies (session + CSRF) to work properly. Learn
+more at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you may disable CSRF & replace Cookies
+entirely with a special Header X-AUTH-TOKEN (by Spring; expires too); see file SecurityConfig.java. 
