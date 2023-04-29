@@ -15,8 +15,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Objects;
-
 @SpringBootApplication
 @EnableCaching
 @EnableTransactionManagement
@@ -42,7 +40,7 @@ public class WedemyserverApplication {
                         .allowCredentials(true)
                         .exposedHeaders("*")
                         .maxAge(3600L)
-                        .allowedOriginPatterns("http://localhost:[*]", Objects.requireNonNull(FRONTEND_URL))
+                        .allowedOriginPatterns("http://localhost:[*]", FRONTEND_URL)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };
