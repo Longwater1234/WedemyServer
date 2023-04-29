@@ -39,7 +39,7 @@ public class AuthController {
     @PostMapping(path = "/register")
     public ResponseEntity<MyCustomResponse> addNewUser(@RequestBody @Valid User user) {
         if (!user.getPassword().equals(user.getConfirmPass()))
-            throw new ResponseStatusException(HttpStatus.valueOf(422), "Passwords dont match");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Passwords don't match");
 
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -47,36 +47,37 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.CREATED).body(new MyCustomResponse("Registered! Welcome"));
         } catch (Exception ex) {
             if (ex instanceof DataIntegrityViolationException) {
-                throw new ResponseStatusException(HttpStatus.valueOf(409), "Account already exists");
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Account already exists");
             }
-            throw new ResponseStatusException(HttpStatus.valueOf(400), ex.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
         }
     }
 
 
     @GetMapping(path = "/statuslogin")
-    public ResponseEntity<Map<String, Object>> checkLoginStatus(Authentication auth,
-                                                                @AuthenticationPrincipal OAuth2User oAuth2User) {
+    public ResponseEntity<Map<String, Object>> checkLoginStatus(Authentication auth, /* username+pass */
+                                                                @AuthenticationPrincipal OAuth2User oAuth2User /* Google */) {
         Map<String, Object> response = new HashMap<>();
-
+        String fullname = "";
+        boolean loggedIn = false;
         if (oAuth2User != null) {
-            response.put("user", oAuth2User.getAttribute("name"));
-            response.put("loggedIn", true);
-
+            fullname = oAuth2User.getAttribute("name");
+            loggedIn = true;
         } else if (auth != null) {
-            response.put("user", auth.getPrincipal());
-            response.put("loggedIn", auth.isAuthenticated());
-        } else {
-            response.put("user", "");
-            response.put("loggedIn", false);
+            User u = (User) auth.getPrincipal();
+            fullname = u.getFullname();
+            loggedIn = auth.isAuthenticated();
         }
+        response.put("fullname", fullname);
+        response.put("loggedIn", loggedIn);
         return ResponseEntity.ok().body(response);
     }
 
+
     @PostMapping(path = "/login")
     @Secured(value = "ROLE_STUDENT")
-    // this actually runs AFTER successful basicAuth login
-    public ResponseEntity<Object> realBasicAuthEntry(HttpSession session, Authentication auth) {
+    // Basic Auth [username, password] login should target this.
+    public ResponseEntity<Map<String, Object>> realBasicAuthEntry(HttpSession session, Authentication auth) {
         Map<String, Object> response = new HashMap<>();
         try {
             User loggedInUser = userRepository.findByEmail(auth.getName()).orElseThrow();
