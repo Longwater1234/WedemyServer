@@ -20,7 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Arrays;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(path = "/reviews")
@@ -60,15 +60,15 @@ public class ReviewsController {
     @Secured(value = "ROLE_STUDENT")
     public ResponseEntity<Review> getMyReviewOnCourse(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        var review = reviewRepository.findByUserIdAndCourseId(userId, courseId).orElse(null);
-        return ResponseEntity.ok().body(review);
+        var review = reviewRepository.findByUserIdAndCourseId(userId, courseId);
+        return ResponseEntity.of(review);
     }
 
     @GetMapping(path = "/course/{courseId}")
     public Slice<ReviewDTO> getCourseReviews(@RequestParam(defaultValue = "0") Integer page,
                                              @RequestParam(defaultValue = "createdAt") String sortBy,
                                              @PathVariable Integer courseId) {
-        if (!Arrays.asList("createdAt", "rating").contains(sortBy)) {
+        if (Stream.of("createdAt", "rating").noneMatch(sortBy::equalsIgnoreCase)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid 'sort' param");
         }
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, sortBy);
