@@ -48,7 +48,7 @@ public class Course implements Serializable {
     private String category;
 
     @ColumnDefault("0.0")
-    @Column(precision = 4, scale = 2, nullable = false)
+    @Column(precision = 6, scale = 2, nullable = false)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private BigDecimal rating;
 

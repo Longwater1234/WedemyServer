@@ -23,9 +23,8 @@ public class CourseController {
     private CourseRepository courseRepository;
 
     @GetMapping(path = "/id/{id}")
-    public Course getCourseById(@PathVariable @NotNull Integer id) {
-        return courseRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "No course of id " + id));
+    public ResponseEntity<Course> getCourseById(@PathVariable @NotNull Integer id) {
+        return ResponseEntity.of(courseRepository.findById(id));
     }
 
     @GetMapping(path = "/cat/{category}")
