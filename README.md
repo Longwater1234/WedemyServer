@@ -5,8 +5,8 @@
 
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With CreditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis & Server-Side
-Cookies[^1] (see footnote) for auth, _instead of_ stateless JWT Tokens. CSRF protection is enabled. Maximum 2
-*concurrent* login sessions per user. You can easily customize these settings
+cookies[^1] (see footnote) for auth, _instead of_ stateless JWT Tokens. CSRF protection is enabled. Maximum 2
+_concurrent_ login sessions per user. You can easily customize these settings
 in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the app runs on
 port 9000
 
@@ -27,9 +27,9 @@ Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and
 ### Environmental Variables
 
 You MUST set these ENV variables on your System or Container before you launch this Springboot app. **💡TIP**: During
-dev, you can easily set them up within your IDE: In either Eclipse or IntelliJ IDEA, in the top toolbar, find
-the **Run** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+) each key and its
-value, then click **Apply**.
+dev/test, you can pass them via `args`, OR store inside your IDE: e.g. In either Eclipse or IntelliJ IDEA, in the top
+toolbar, find the **"Run"** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+)
+each key and its value, then click **Apply**.
 
 ```bash
 #below are for Google OAuth
@@ -46,7 +46,7 @@ SPRING_PROFILES_ACTIVE=prod
 ## Important ⚠
 
 Please examine the files [application.yml](src/main/resources/application.yml) (default),
-and [application-prod.yml](src/main/resources/application-prod.yml) (meant for *production*). Replace all the necessary
+and [application-prod.yml](src/main/resources/application-prod.yml) (meant for _production_). Replace all the necessary
 Spring Application properties with yours. But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN
 THERE DIRECTLY**❌ . It's safer to store them as Environmental Variables instead (see above), then either declare them
 as `property.name = ${ENV_KEY_NAME}`, OR refer them directly in your source code as shown
@@ -64,11 +64,11 @@ a look at the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
 - CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`.
 - To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
   parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
-   ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC
-   # OR, use this
-   spring.jpa.properties.hibernate.jdbc.time_zone=UTC
-   ```
+  ```properties
+  spring.datasource.url=jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC
+  # OR, set this
+  spring.jpa.properties.hibernate.jdbc.time_zone=UTC
+  ```
 
 ### Redis v5.0 (or higher)
 
@@ -85,21 +85,20 @@ inside `application.yml` to match your running Redis instance.
 
 All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
 GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only. **No payment info
-is stored locally**. Make sure you obtain a set of 3 API Keys from your own Braintree Dev Account and store them as ENV
-variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials and examples, please check
-their [official docs](https://developer.paypal.com/braintree/docs).
+is stored locally, except TransactionID**. Make sure you obtain a set of 3 API Keys from your own Braintree Dev Account
+and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials, please
+check their [official docs](https://developer.paypal.com/braintree/docs).
 
 ## Deploying your App 🚀
 
 This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. You can either
 use the [Dockerfile](Dockerfile) provided, or natively as a pure Java app. Popular PaaS for Java apps include:
-Heroku, AWS ElasticBeanstalk, Google App Engine, Azure Web Apps. The following only work with Dockerfile: _Dokku,
+Heroku, AWS ElasticBeanstalk, Google App Engine, Azure Web Apps. The following may **require** a Dockerfile: _Dokku,
 Railway, Render.com, Fly.io_. Please note, you may also need a **separate** MySQL & Redis instance!
 
+---
 
-***
-
-[^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same ROOT domain (same-site
-policy), AND set `session.cookie.Secure=true` (strictly https) for Cookies (session + CSRF) to work properly. Learn
-more at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you may disable CSRF & replace Cookies
-entirely with a special Header X-AUTH-TOKEN (by Spring; expires too); see file SecurityConfig.java. 
+[^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same _root_ domain (same-site
+policy), AND set `session.cookie.Secure=true` (strictly https) for session cookies to work properly. Learn
+more at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you may replace Cookies **entirely** with
+special Header X-AUTH-TOKEN (by Spring; expires too). See file SecurityConfig.java.
