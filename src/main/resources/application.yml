@@ -1,7 +1,7 @@
 #All entries in ${CURLY_BRACES} should be set as ENV variables, for security reasons.
 frontend:
   root:
-    url: http://localhost:8080 #TODO Replace with your frontend root URL
+    url: http://localhost:3000 #TODO Replace with your frontend root URL / empty string
 logging:
   level:
     org:
@@ -51,3 +51,5 @@ spring:
     store-type: redis
     redis:
       cleanup-cron: 0 1 * * * *
+  jackson:
+    date-format: "yyyy-MM-dd HH:mm:ss"

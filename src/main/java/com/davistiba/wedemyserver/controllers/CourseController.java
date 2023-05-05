@@ -45,7 +45,6 @@ public class CourseController {
         return ResponseEntity.ok().cacheControl(cc).body(courseList);
     }
 
-
     @GetMapping(path = "/categories")
     @ResponseStatus(value = HttpStatus.OK)
     public ResponseEntity<List<CategoryDTO>> getCategoryListDistinct() {
