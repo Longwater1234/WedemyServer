@@ -89,8 +89,14 @@ public class EnrollmentController {
         if (enrollment.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't own this course");
         }
-        UUID currentLessonId = progressService.getNextLesson(enrollment.get()).getId();
-        Map<String, String> response = Collections.singletonMap("lessonId", currentLessonId.toString());
+        Optional<Lesson> nextLesson = progressService.getNextLesson(enrollment.get());
+        Map<String, String> response = new HashMap<>(2);
+        if (nextLesson.isPresent()) {
+            response.put("nextLessonId", String.valueOf(nextLesson.get().getId()));
+        } else {
+            response.put("nextLessonId", null);
+            response.put("message", "Bravo! You have completed the course!");
+        }
         return response;
     }
 
@@ -105,9 +111,9 @@ public class EnrollmentController {
             if (enrollment.isEmpty()) throw new Exception("You don't own this course");
             //get next Lesson
             Map<String, String> response = new HashMap<>(2);
-            Lesson nextLesson = progressService.updateAndGetNextLesson(status, enrollment.get());
-            if (nextLesson != null) {
-                response.put("nextLessonId", nextLesson.getId().toString());
+            Optional<Lesson> nextLesson = progressService.updateAndGetNextLesson(status, enrollment.get());
+            if (nextLesson.isPresent()) {
+                response.put("nextLessonId", String.valueOf(nextLesson.get().getId()));
             } else {
                 response.put("nextLessonId", null);
                 response.put("message", "Bravo! You have completed the course!");

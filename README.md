@@ -84,10 +84,10 @@ inside `application.yml` to match your running Redis instance.
 ## Payments Handling
 
 All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
-GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only. **No payment info
-is stored locally, except TransactionID**. Make sure you obtain a set of 3 API Keys from your own Braintree Dev Account
-and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For Braintree tutorials, please
-check their [official docs](https://developer.paypal.com/braintree/docs).
+GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only, in _Sandbox_
+mode. **No payment info is stored locally, except TransactionID**. Make sure you obtain a set of 3 API Keys from your
+own Braintree Dev Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For
+Braintree tutorials, please check their [official docs](https://developer.paypal.com/braintree/docs).
 
 ## Deploying your App 🚀
 
