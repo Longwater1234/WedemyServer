@@ -92,9 +92,10 @@ public class EnrollmentController {
         Optional<Lesson> nextLesson = progressService.getNextLesson(enrollment.get());
         Map<String, String> response = new HashMap<>(2);
         if (nextLesson.isPresent()) {
-            response.put("nextLessonId", String.valueOf(nextLesson.get().getId()));
+            response.put("lessonId", String.valueOf(nextLesson.get().getId()));
         } else {
-            response.put("nextLessonId", null);
+            //FIXME this is Cancer! dont return NULL. If course is completed, return LAST lesson.
+            response.put("lessonId", null);
             response.put("message", "Bravo! You have completed the course!");
         }
         return response;
@@ -102,7 +103,7 @@ public class EnrollmentController {
 
 
     @PostMapping(path = "/watched")
-    @CacheEvict(value = "studentsummary", key = "#session.id")
+    @CacheEvict(value = "student-summary", key = "#session.id")
     public Map<String, String> updateWatchStatus(@RequestBody @Valid WatchStatus status, HttpSession session) {
         try {
             //first, check if user owns course

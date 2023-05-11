@@ -80,7 +80,6 @@ public class EnrollProgressService {
      * @param enrollment current
      * @return next lessonId
      */
-    @Transactional
     public Optional<Lesson> getNextLesson(@NotNull Enrollment enrollment) {
         Integer nextPosition = enrollment.getNextPosition();
         Integer courseId = enrollment.getCourse().getId();

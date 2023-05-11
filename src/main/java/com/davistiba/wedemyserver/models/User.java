@@ -69,7 +69,7 @@ public class User implements UserDetails {
     private UserRole userRole = UserRole.ROLE_STUDENT;
 
     @CreationTimestamp
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "DEFAULT CURRENT_TIMESTAMP")
     @JsonProperty(access = Access.READ_ONLY)
     private Instant createdAt;
 

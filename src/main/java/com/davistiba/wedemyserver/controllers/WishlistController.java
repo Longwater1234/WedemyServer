@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -42,8 +43,8 @@ public class WishlistController {
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Boolean> checkUserLikedCourse(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
-        boolean isExist = wishlistRepository.checkIfCourseInWishlist(userId, courseId);
-        Map<String, Boolean> response = Collections.singletonMap("inWishlist", isExist);
+        boolean inWishlist = wishlistRepository.checkIfExistWishlistNative(userId, courseId) > 0;
+        Map<String, Boolean> response = Collections.singletonMap("inWishlist", inWishlist);
         return response;
     }
 
@@ -57,13 +58,13 @@ public class WishlistController {
 
     @DeleteMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public MyCustomResponse removeWishlistByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
+    public ResponseEntity<MyCustomResponse> removeWishlistByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        int ok = wishlistRepository.deleteByCourseIdAndUserId(courseId, userId);
-        if (ok != 1) {
+        int deletedCount = wishlistRepository.deleteByCourseIdAndUserId(courseId, userId);
+        if (deletedCount != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from wishlist");
         }
-        return new MyCustomResponse("Removed from Wishlist, course " + courseId);
+        return ResponseEntity.ok(new MyCustomResponse("Removed from Wishlist, course " + courseId));
     }
 
 }

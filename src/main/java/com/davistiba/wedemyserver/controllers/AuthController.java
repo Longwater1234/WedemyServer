@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.models.CustomOAuthUser;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
@@ -12,7 +13,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -55,13 +55,14 @@ public class AuthController {
 
 
     @GetMapping(path = "/statuslogin")
+    //TODO FIX THIS MESS. SIMPLY RETURN 'TRUE'
     public ResponseEntity<Map<String, Object>> checkLoginStatus(Authentication auth, /* username+pass */
-                                                                @AuthenticationPrincipal OAuth2User oAuth2User /* Google */) {
+                                                                @AuthenticationPrincipal CustomOAuthUser oAuth2User /* Google */) {
         Map<String, Object> response = new HashMap<>();
         String fullname = "";
         boolean loggedIn = false;
         if (oAuth2User != null) {
-            fullname = oAuth2User.getAttribute("name");
+            fullname = oAuth2User.getUsername();
             loggedIn = true;
         } else if (auth != null) {
             User u = (User) auth.getPrincipal();
@@ -80,6 +81,7 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> realBasicAuthEntry(HttpSession session, Authentication auth) {
         Map<String, Object> response = new HashMap<>();
         try {
+            //FIXME CHANGE THIS SHIT TO RETURN {userDto}
             User loggedInUser = userRepository.findByEmail(auth.getName()).orElseThrow();
             Integer userId = loggedInUser.getId();
             session.setAttribute(MyUserDetailsService.USERID, userId);

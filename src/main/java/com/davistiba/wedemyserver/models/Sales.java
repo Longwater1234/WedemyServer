@@ -43,7 +43,7 @@ public class Sales {
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "DEFAULT CURRENT_TIMESTAMP")
     private Instant createdAt;
 
 
