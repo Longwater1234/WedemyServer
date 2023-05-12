@@ -38,7 +38,7 @@ public class EnrollProgressService {
      * @return next Lesson
      */
     @Transactional
-    public Lesson updateAndGetNextLesson(@NotNull WatchStatus status, Enrollment enrollment) {
+    public Optional<Lesson> updateAndGetNextLesson(@NotNull WatchStatus status, Enrollment enrollment) {
         UUID lessonId = UUID.fromString(status.getCurrentLessonId());
         Lesson currentLesson = lessonRepository.findById(lessonId).orElseThrow();
         Optional<EnrollProgress> enrollProgress = progressRepository.findByEnrollIdAndLessonId(status.getEnrollId(), lessonId);
@@ -62,18 +62,14 @@ public class EnrollProgressService {
             enrollmentRepository.save(enrollment);
 
             if (isCompleted) {
-                return null;
+                return Optional.empty();
             }
             //get next lesson
-            int courseId = status.getCourseId();
-            int nextPosition = progress.getLesson().getPosition() + 1;
-            return lessonRepository.findByCourseIdAndPosition(courseId, nextPosition).orElse(null);
+            return this.getNextLesson(enrollment);
         }
 
         //OTHERWISE, simply RETURN NEXT.
-        int courseId = status.getCourseId();
-        int nextPosition = currentLesson.getPosition() + 1;
-        return lessonRepository.findByCourseIdAndPosition(courseId, nextPosition).orElse(null);
+        return this.getNextLesson(enrollment);
 
     }
 
@@ -84,9 +80,12 @@ public class EnrollProgressService {
      * @param enrollment current
      * @return next lessonId
      */
-    public Lesson getNextLesson(@NotNull Enrollment enrollment) {
+    public Optional<Lesson> getNextLesson(@NotNull Enrollment enrollment) {
         Integer nextPosition = enrollment.getNextPosition();
-        return lessonRepository.findByCourseIdAndPosition(enrollment.getCourse().getId(), nextPosition).orElseThrow();
+        Integer courseId = enrollment.getCourse().getId();
+        //FIXME GET ACTUAL LAST WATCHED (IN ORDER). IF 1,2,10 --> NEXT SHOULD BE 3
+        Optional<Lesson> next = lessonRepository.findByCourseIdAndPosition(courseId, nextPosition);
+        return next.or(() -> lessonRepository.findByCourseIdAndPosition(courseId, nextPosition - 1));
     }
 
 }

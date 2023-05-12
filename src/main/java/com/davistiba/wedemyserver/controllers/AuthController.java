@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.dto.UserDTO;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
@@ -55,6 +56,7 @@ public class AuthController {
 
 
     @GetMapping(path = "/statuslogin")
+    //TODO FIX THIS MESS. SIMPLY RETURN 'TRUE'
     public ResponseEntity<Map<String, Object>> checkLoginStatus(Authentication auth, /* username+pass */
                                                                 @AuthenticationPrincipal OAuth2User oAuth2User /* Google */) {
         Map<String, Object> response = new HashMap<>();
@@ -76,16 +78,17 @@ public class AuthController {
 
     @PostMapping(path = "/login")
     @Secured(value = "ROLE_STUDENT")
-    // Basic Auth [username, password] login should target this.
+    // Basic Auth login should target this endpoint.
     public ResponseEntity<Map<String, Object>> realBasicAuthEntry(HttpSession session, Authentication auth) {
         Map<String, Object> response = new HashMap<>();
         try {
-            User loggedInUser = userRepository.findByEmail(auth.getName()).orElseThrow();
+            UserDTO loggedInUser = userRepository.findUserDTObyEmail(auth.getName()).orElseThrow();
             Integer userId = loggedInUser.getId();
             session.setAttribute(MyUserDetailsService.USERID, userId);
             //return response
             response.put("success", auth.isAuthenticated());
             response.put("message", "Logged in!");
+            response.put("userInfo", loggedInUser);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());

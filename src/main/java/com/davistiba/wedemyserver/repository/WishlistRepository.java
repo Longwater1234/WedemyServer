@@ -11,7 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
     @Query(value = "SELECT (COUNT(w) > 0) FROM Wishlist w WHERE w.user.id = ?1 AND w.course.id = ?2")
-    boolean checkIfCourseInWishlist(Integer userId, Integer courseId);
+    boolean checkIfCourseInWishlist(Integer userId, Integer courseId); // SLOW QUERY.
+
+    @Query(value = "SELECT EXISTS(SELECT 1 FROM wishlist w WHERE w.user_id = ?1 AND w.course_id = ?2)", nativeQuery = true)
+    long checkIfExistWishlistNative(Integer userId, Integer courseId);
 
     @Modifying
     @Transactional

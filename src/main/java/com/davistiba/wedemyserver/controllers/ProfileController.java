@@ -65,7 +65,7 @@ public class ProfileController {
 
     @GetMapping(path = "/summary")
     @ResponseStatus(value = HttpStatus.OK)
-    @Cacheable(value = "studentsummary", key = "#session.id")
+    @Cacheable(value = "student-summary", key = "#session.id")
     public List<StudentSummary> getUserSummary(@NotNull HttpSession session) {
         Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
         User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

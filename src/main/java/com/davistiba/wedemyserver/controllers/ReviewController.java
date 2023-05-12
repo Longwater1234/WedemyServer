@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(path = "/reviews")
-public class ReviewsController {
+public class ReviewController {
 
     @Autowired
     private ReviewRepository reviewRepository;
@@ -60,8 +60,8 @@ public class ReviewsController {
     @Secured(value = "ROLE_STUDENT")
     public ResponseEntity<Review> getMyReviewOnCourse(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        var review = reviewRepository.findByUserIdAndCourseId(userId, courseId);
-        return ResponseEntity.of(review);
+        var reviewOptional = reviewRepository.findByUserIdAndCourseId(userId, courseId);
+        return ResponseEntity.of(reviewOptional);
     }
 
     @GetMapping(path = "/course/{courseId}")
