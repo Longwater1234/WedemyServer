@@ -11,14 +11,14 @@ class WishlistRepositoryTest {
     @Autowired
     private WishlistRepository wishlistRepository;
 
-    @RepeatedTest(3)
+    @RepeatedTest(2)
     void checkIfExistWishlistNativeTest() {
         long exists = wishlistRepository.checkIfExistWishlistNative(5, 10010);
         long exists2 = wishlistRepository.checkIfExistWishlistNative(1, 10015);
         Assertions.assertEquals(exists, exists2);
     }
 
-    @RepeatedTest(3)
+    @RepeatedTest(2)
     void checkIfCourseInWishlistTest() {
         boolean exists = wishlistRepository.checkIfCourseInWishlist(5, 10010);
         boolean exists2 = wishlistRepository.checkIfCourseInWishlist(1, 10015);

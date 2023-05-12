@@ -3,9 +3,9 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Longwater1234/WedemyServer/graphs/commit-activity)
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyServer)](https://github.com/Longwater1234/WedemyServer/blob/master/LICENSE)
 
-(Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With CreditCard and
-PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis & Server-Side
-cookies[^1] (see footnote) for auth, _instead of_ stateless JWT Tokens. CSRF protection is enabled. Maximum 2
+(Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With creditCard and
+PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis with "server-side"
+cookies[^1] (**see footnote) for auth, _instead of_ stateless JWT Tokens. CSRF protection is enabled. Maximum 2
 _concurrent_ login sessions per user. You can easily customize these settings
 in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the app runs on
 port 9000
@@ -17,7 +17,7 @@ Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and
 ## Requirements
 
 - Java 11 or higher
-- MySQL 8
+- MySQL 8.0
 - Redis Server 5.0+ (native / Cloud / Docker)
 - [Google OAuth Credentials](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) (for Google
   Login)
@@ -98,7 +98,7 @@ Railway, Render.com, Fly.io_. Please note, you may also need a **separate** MySQ
 
 ---
 
-[^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same _root_ domain (same-site
-policy), AND set `session.cookie.Secure=true` (strictly https) for session cookies to work properly. Learn
-more at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you may replace Cookies **entirely** with
+[^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same _ROOT_ domain (same-site
+policy), AND set `session.cookie.Secure=true` (strictly https) for session Cookies to work properly. Learn
+more at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you can replace Cookies **entirely** with
 special Header X-AUTH-TOKEN (by Spring; expires too). See file SecurityConfig.java.

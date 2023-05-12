@@ -74,8 +74,8 @@ public class CartController {
     @ResponseStatus(HttpStatus.OK)
     public MyCustomResponse removeCartByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        int ok = cartRepository.deleteAllByUserIdAndCoursesIn(userId, Collections.singleton(courseId));
-        if (ok != 1) {
+        int deletedCount = cartRepository.deleteByUserIdAndCoursesIn(userId, Collections.singleton(courseId));
+        if (deletedCount != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from cart");
         }
         return new MyCustomResponse("Removed from Cart, course " + courseId);

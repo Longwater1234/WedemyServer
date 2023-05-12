@@ -69,7 +69,7 @@ public class User implements UserDetails {
     private UserRole userRole = UserRole.ROLE_STUDENT;
 
     @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = false)
     @JsonProperty(access = Access.READ_ONLY)
     private Instant createdAt;
 
@@ -117,7 +117,7 @@ public class User implements UserDetails {
     }
 
     public String getUserRole() {
-        return userRole.toString();
+        return String.valueOf(userRole);
     }
 
     @Override
@@ -133,12 +133,4 @@ public class User implements UserDetails {
         return getClass().hashCode();
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", fullname='" + fullname + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
 }
