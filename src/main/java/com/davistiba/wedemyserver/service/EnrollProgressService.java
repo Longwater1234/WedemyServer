@@ -83,7 +83,7 @@ public class EnrollProgressService {
     public Optional<Lesson> getNextLesson(@NotNull Enrollment enrollment) {
         Integer nextPosition = enrollment.getNextPosition();
         Integer courseId = enrollment.getCourse().getId();
-        //FIXME GET (MIN watched) + 1
+        //FIXME GET ACTUAL LAST WATCHED (IN ORDER). IF 1,2,10 --> NEXT SHOULD BE 3
         Optional<Lesson> next = lessonRepository.findByCourseIdAndPosition(courseId, nextPosition);
         return next.or(() -> lessonRepository.findByCourseIdAndPosition(courseId, nextPosition - 1));
     }

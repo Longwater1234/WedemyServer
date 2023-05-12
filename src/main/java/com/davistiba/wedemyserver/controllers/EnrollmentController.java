@@ -90,15 +90,10 @@ public class EnrollmentController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't own this course");
         }
         Optional<Lesson> nextLesson = progressService.getNextLesson(enrollment.get());
-        Map<String, String> response = new HashMap<>(2);
         if (nextLesson.isPresent()) {
-            response.put("lessonId", String.valueOf(nextLesson.get().getId()));
-        } else {
-            //FIXME this is Cancer! dont return NULL. If course is completed, return LAST lesson.
-            response.put("lessonId", null);
-            response.put("message", "Bravo! You have completed the course!");
+            return Collections.singletonMap("lessonId", String.valueOf(nextLesson.get().getId()));
         }
-        return response;
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not get lesson!");
     }
 
 

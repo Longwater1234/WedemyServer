@@ -38,7 +38,7 @@ public class Wishlist {
 
     @CreationTimestamp
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @Column(nullable = false, columnDefinition = "DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = false)
     private Instant createdAt;
 
     @Override
