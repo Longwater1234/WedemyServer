@@ -16,4 +16,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query("SELECT new com.davistiba.wedemyserver.dto.UserDTO(id, fullname, email, createdAt) FROM User WHERE id = ?1")
     Optional<UserDTO> findUserDTObyId(Integer id);
 
+    @Query("SELECT new com.davistiba.wedemyserver.dto.UserDTO(id, fullname, email, createdAt) FROM User WHERE email = ?1")
+    Optional<UserDTO> findUserDTObyEmail(String email);
+
 }

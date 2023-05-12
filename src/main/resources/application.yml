@@ -1,7 +1,7 @@
 #All entries in ${CURLY_BRACES} should be set as ENV variables, for security reasons.
 frontend:
   root:
-    url: http://localhost:3000 #TODO Replace with your frontend root URL / empty string
+    url: http://localhost:5173/  #TODO Replace with your frontend root URL / empty string
 logging:
   level:
     org:
