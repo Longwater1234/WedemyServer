@@ -26,14 +26,12 @@ public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
 
     private final ObjectMapper objectMapper;
 
-    private final AuthenticationSuccessHandler successHandler;
-
     @Autowired
     public CustomLoginHandler(AuthenticationManager authManager, AuthenticationSuccessHandler successHandler) {
         super(authManager);
         this.setFilterProcessesUrl("/auth/login");
+        this.setAuthenticationSuccessHandler(successHandler);
         this.objectMapper = new JsonMapper();
-        this.successHandler = successHandler;
     }
 
     @Override
@@ -44,7 +42,6 @@ public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
             String password = loginRequest.getPassword();
             String email = loginRequest.getEmail();
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(email, password);
-            this.setAuthenticationSuccessHandler(successHandler);
             return this.getAuthenticationManager().authenticate(auth);
         } catch (Exception e) {
             logger.error("Login error:" + e.getMessage());
