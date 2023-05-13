@@ -59,7 +59,8 @@ public class SecurityConfig {
                                 .antMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
                                 .antMatchers("/profile/**", "/user/**").hasAuthority("ROLE_STUDENT")
                                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                                .anyRequest().authenticated()).apply(new MyCustomFilterSetup());
+                                .anyRequest().authenticated())
+                .apply(new MyCustomFilterSetup());
 
         //SESSION and CSRF (you may disable CSRF)
         return http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
