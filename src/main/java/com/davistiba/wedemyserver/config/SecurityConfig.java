@@ -1,6 +1,7 @@
 package com.davistiba.wedemyserver.config;
 
 import com.davistiba.wedemyserver.service.CustomOAuthUserService;
+import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +12,10 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
@@ -44,7 +47,10 @@ public class SecurityConfig {
     private CustomOAuthUserService googleOauthService;
 
     @Autowired
-    private CustomOauthSuccessHandler successHandler;
+    private CustomAuthSuccessHandler successHandler;
+
+    @Autowired
+    private MyUserDetailsService userDetailsService;
 
     @Bean
     @Order(1)
@@ -57,15 +63,15 @@ public class SecurityConfig {
                                 .antMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
                                 .antMatchers("/profile/**", "/user/**").hasAuthority("ROLE_STUDENT")
                                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                                .anyRequest().authenticated());
+                                .anyRequest().authenticated()).apply(new MyCustomFilterSetup());
 
         //SESSION and CSRF (you may disable CSRF)
         return http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and().sessionManagement(session -> session.maximumSessions(2)).build();
+                .and().sessionManagement(s -> s.maximumSessions(2).maxSessionsPreventsLogin(true)).build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+    public AuthenticationManager authManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 
@@ -74,6 +80,12 @@ public class SecurityConfig {
         return new HttpSessionEventPublisher();
     }
 
-
+    public class MyCustomFilterSetup extends AbstractHttpConfigurer<MyCustomFilterSetup, HttpSecurity> {
+        @Override
+        public void configure(HttpSecurity http) throws Exception {
+            AuthenticationManager authManager = http.getSharedObject(AuthenticationManager.class);
+            http.addFilterAt(new CustomLoginHandler(authManager, successHandler), UsernamePasswordAuthenticationFilter.class);
+        }
+    }
 }
 

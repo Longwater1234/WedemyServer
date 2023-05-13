@@ -1,15 +1,12 @@
 package com.davistiba.wedemyserver.controllers;
 
-import com.davistiba.wedemyserver.dto.UserDTO;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
-import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,7 +14,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,24 +72,24 @@ public class AuthController {
     }
 
 
-    @PostMapping(path = "/login")
-    @Secured(value = "ROLE_STUDENT")
-    // Basic Auth login should target this endpoint.
-    public ResponseEntity<Map<String, Object>> realBasicAuthEntry(HttpSession session, Authentication auth) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            UserDTO loggedInUser = userRepository.findUserDTObyEmail(auth.getName()).orElseThrow();
-            Integer userId = loggedInUser.getId();
-            session.setAttribute(MyUserDetailsService.USERID, userId);
-            //return response
-            response.put("success", auth.isAuthenticated());
-            response.put("message", "Logged in!");
-            response.put("userInfo", loggedInUser);
-            return ResponseEntity.ok().body(response);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-        }
-    }
+//    @PostMapping(path = "/login")
+//    @Secured(value = "ROLE_STUDENT")
+//    // Basic Auth login should target this endpoint.
+//    public ResponseEntity<Map<String, Object>> realBasicAuthEntry(HttpSession session, Authentication auth) {
+//        Map<String, Object> response = new HashMap<>();
+//        try {
+//            UserDTO loggedInUser = userRepository.findUserDTObyEmail(auth.getName()).orElseThrow();
+//            Integer userId = loggedInUser.getId();
+//            session.setAttribute(MyUserDetailsService.USERID, userId);
+//            //return response
+//            response.put("success", auth.isAuthenticated());
+//            response.put("message", "Logged in!");
+//            response.put("userInfo", loggedInUser);
+//            return ResponseEntity.ok().body(response);
+//        } catch (Exception e) {
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+//        }
+//    }
 
 
 }
