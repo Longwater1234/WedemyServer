@@ -55,4 +55,5 @@ public class CustomOAuthUser extends User implements OidcUser, Serializable {
         return oidcUser.getAttribute("email");
     }
 
+
 }

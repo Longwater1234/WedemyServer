@@ -9,8 +9,10 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.annotation.WebFilter;
@@ -22,15 +24,18 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 @WebFilter(filterName = "CustomLoginHandler")
-public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
+public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public CustomLoginHandler(AuthenticationManager authManager, AuthenticationSuccessHandler successHandler) {
+    public CustomLoginFilter(AuthenticationManager authManager, AuthenticationSuccessHandler successHandler) {
         super(authManager);
         this.setFilterProcessesUrl("/auth/login");
         this.setAuthenticationSuccessHandler(successHandler);
+        var strategy = new ConcurrentSessionControlAuthenticationStrategy(new SessionRegistryImpl());
+        strategy.setMaximumSessions(2);
+        this.setSessionAuthenticationStrategy(strategy);
         this.objectMapper = new JsonMapper();
     }
 

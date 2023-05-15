@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -50,11 +50,10 @@ public class AuthController {
         }
     }
 
-
     @GetMapping(path = "/statuslogin")
     //TODO FIX THIS MESS. SIMPLY RETURN 'TRUE'
     public ResponseEntity<Map<String, Object>> checkLoginStatus(Authentication auth, /* username+pass */
-                                                                @AuthenticationPrincipal OAuth2User oAuth2User /* Google */) {
+                                                                @AuthenticationPrincipal OidcUser oAuth2User /* Google */) {
         Map<String, Object> response = new HashMap<>();
         String fullname = "";
         boolean loggedIn = false;
@@ -70,26 +69,5 @@ public class AuthController {
         response.put("loggedIn", loggedIn);
         return ResponseEntity.ok().body(response);
     }
-
-
-//    @PostMapping(path = "/login")
-//    @Secured(value = "ROLE_STUDENT")
-//    // Basic Auth login should target this endpoint.
-//    public ResponseEntity<Map<String, Object>> realBasicAuthEntry(HttpSession session, Authentication auth) {
-//        Map<String, Object> response = new HashMap<>();
-//        try {
-//            UserDTO loggedInUser = userRepository.findUserDTObyEmail(auth.getName()).orElseThrow();
-//            Integer userId = loggedInUser.getId();
-//            session.setAttribute(MyUserDetailsService.USERID, userId);
-//            //return response
-//            response.put("success", auth.isAuthenticated());
-//            response.put("message", "Logged in!");
-//            response.put("userInfo", loggedInUser);
-//            return ResponseEntity.ok().body(response);
-//        } catch (Exception e) {
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-//        }
-//    }
-
 
 }

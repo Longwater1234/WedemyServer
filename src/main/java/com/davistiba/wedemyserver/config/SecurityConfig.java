@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @Configuration
@@ -63,8 +62,8 @@ public class SecurityConfig {
                 .apply(new MyCustomFilterSetup());
 
         //SESSION and CSRF (you may disable CSRF)
-        return http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and().sessionManagement(s -> s.maximumSessions(2).maxSessionsPreventsLogin(true)).build();
+        return http.csrf().disable()
+                .sessionManagement(s -> s.maximumSessions(2)).build();
     }
 
     @Bean
@@ -81,7 +80,7 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authManager = http.getSharedObject(AuthenticationManager.class);
-            http.addFilterAt(new CustomLoginHandler(authManager, successHandler), UsernamePasswordAuthenticationFilter.class);
+            http.addFilterAt(new CustomLoginFilter(authManager, successHandler), UsernamePasswordAuthenticationFilter.class);
         }
     }
 }

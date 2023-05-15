@@ -92,7 +92,7 @@ Braintree tutorials, please check their [official docs](https://developer.paypal
 ## Deploying your App 🚀
 
 This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. You can either
-use the [Dockerfile](Dockerfile) provided, or natively as a pure Java app. Popular PaaS for Java apps include:
+use the [Dockerfile](Dockerfile) provided, or natively as a pure Java app. Popular PaaS with CI/CD for Java include:
 Heroku, AWS ElasticBeanstalk, Google App Engine, Azure Web Apps. The following may **require** a Dockerfile: _Dokku,
 Railway, Render.com, Fly.io_. Please note, you may also need a **separate** MySQL & Redis instance!
 
