@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.models.CustomOAuthUser;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -51,9 +51,9 @@ public class AuthController {
     }
 
     @GetMapping(path = "/statuslogin")
-    //TODO FIX THIS MESS. SIMPLY RETURN 'TRUE'
+    //TODO FIX THIS MESS. SIMPLY RETURN 'TRUE' and userDto
     public ResponseEntity<Map<String, Object>> checkLoginStatus(Authentication auth, /* username+pass */
-                                                                @AuthenticationPrincipal OidcUser oAuth2User /* Google */) {
+                                                                @AuthenticationPrincipal CustomOAuthUser oAuth2User /* Google */) {
         Map<String, Object> response = new HashMap<>();
         String fullname = "";
         boolean loggedIn = false;

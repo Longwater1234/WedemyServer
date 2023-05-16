@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+
 @Repository
 public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
@@ -18,8 +20,8 @@ public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM Wishlist w WHERE w.course.id = ?1 AND w.user.id = ?2")
-    Integer deleteByCourseIdAndUserId(Integer courseId, Integer userId);
+    @Query(value = "DELETE FROM Wishlist w where w.user.id = ?1 and w.course.id in ?2")
+    Integer deleteByUserIdAndCoursesIn(Integer userId, Collection<Integer> courseId);
 
     @Modifying
     @Transactional

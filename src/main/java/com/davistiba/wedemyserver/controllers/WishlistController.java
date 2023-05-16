@@ -60,7 +60,7 @@ public class WishlistController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<MyCustomResponse> removeWishlistByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        int deletedCount = wishlistRepository.deleteByCourseIdAndUserId(courseId, userId);
+        int deletedCount = wishlistRepository.deleteByUserIdAndCoursesIn(userId, Collections.singletonList(courseId));
         if (deletedCount != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from wishlist");
         }

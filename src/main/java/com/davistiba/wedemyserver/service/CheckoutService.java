@@ -21,6 +21,9 @@ public class CheckoutService {
     private CartRepository cartRepository;
 
     @Autowired
+    private WishlistRepository wishlistRepository;
+
+    @Autowired
     private CourseRepository courseRepository;
 
     @Autowired
@@ -60,6 +63,7 @@ public class CheckoutService {
         orderItemRepository.saveAll(orderItemList);
         enrollmentRepository.saveAll(enrollments);
         cartRepository.deleteByUserIdAndCoursesIn(user.getId(), request.getCourses());
+        wishlistRepository.deleteByUserIdAndCoursesIn(user.getId(), request.getCourses());
         //-----------------------------------------------
         return new MyCustomResponse("Successfully paid USD " + request.getTotalAmount());
 
