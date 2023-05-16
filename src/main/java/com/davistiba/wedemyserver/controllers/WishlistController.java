@@ -51,9 +51,10 @@ public class WishlistController {
 
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)
+    //TODO, RETURN PAGE ! FOR PAGINATION
     public Slice<Course> getAllMyWishlistCourses(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        return courseRepository.getCoursesWishlistByUser(userId, PageRequest.of(Math.abs(page), 10));
+        return courseRepository.getCoursesWishlistByUser(userId, PageRequest.of(Math.abs(page), 5));
     }
 
     @DeleteMapping(path = "/course/{courseId}")

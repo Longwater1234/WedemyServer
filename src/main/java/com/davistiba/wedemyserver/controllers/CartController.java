@@ -56,6 +56,7 @@ public class CartController {
 
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)
+    //TODO, RETURN PAGE ! FOR PAGINATION
     public Slice<Course> getAllMyCartItems(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         return courseRepository.getCoursesCartByUser(userId, PageRequest.of(Math.abs(page), 10));
