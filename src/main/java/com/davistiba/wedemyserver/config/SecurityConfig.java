@@ -63,7 +63,7 @@ public class SecurityConfig {
 
         //SESSION and CSRF (you may disable CSRF)
         return http.csrf().disable()
-                .sessionManagement(s -> s.maximumSessions(2)).build();
+                .sessionManagement(s -> s.maximumSessions(2).and().sessionFixation().newSession()).build();
     }
 
     @Bean

@@ -68,5 +68,4 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
         response.getWriter().flush();
     }
 
-
 }
