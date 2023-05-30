@@ -6,8 +6,8 @@ import com.davistiba.wedemyserver.repository.CartRepository;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Map;
 
@@ -56,10 +57,17 @@ public class CartController {
 
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)
-    //TODO, RETURN PAGE ! FOR PAGINATION
-    public Slice<Course> getAllMyCartItems(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
+    public Page<Course> getAllMyCartItems(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        return courseRepository.getCoursesCartByUser(userId, PageRequest.of(Math.abs(page), 10));
+        return courseRepository.getCoursesCartByUser(userId, PageRequest.of(Math.abs(page), 5));
+    }
+
+    @GetMapping(path = "/mine/bill")
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, BigDecimal> getMyCartBill(HttpSession session) {
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
+        BigDecimal totalPrice = cartRepository.getTotalBillForCart(userId);
+        return Collections.singletonMap("totalPrice", totalPrice);
     }
 
     @GetMapping(path = "/mine/count")

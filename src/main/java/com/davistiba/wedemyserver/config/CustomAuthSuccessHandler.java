@@ -67,6 +67,4 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
         response.getWriter().println(jsonMapper.writeValueAsString(authResponse));
         response.getWriter().flush();
     }
-
-
 }

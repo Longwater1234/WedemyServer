@@ -65,6 +65,7 @@ public class SecurityConfig {
 
         //SESSION and CSRF (you may disable CSRF)
         return http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .ignoringAntMatchers("/oauth2/**", "/auth/**")
                 .and().sessionManagement(s -> s.maximumSessions(2)).build();
     }
 

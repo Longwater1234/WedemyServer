@@ -6,8 +6,8 @@ import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.WishlistRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -51,8 +51,7 @@ public class WishlistController {
 
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)
-    //TODO, RETURN PAGE ! FOR PAGINATION
-    public Slice<Course> getAllMyWishlistCourses(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
+    public Page<Course> getAllMyWishlistCourses(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         return courseRepository.getCoursesWishlistByUser(userId, PageRequest.of(Math.abs(page), 5));
     }
