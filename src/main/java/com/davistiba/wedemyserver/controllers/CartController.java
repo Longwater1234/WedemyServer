@@ -66,7 +66,7 @@ public class CartController {
     @ResponseStatus(HttpStatus.OK)
     public Map<String, BigDecimal> getMyCartBill(HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        BigDecimal totalPrice = cartRepository.getTotalBillForCart(userId);
+        BigDecimal totalPrice = cartRepository.getTotalBillForUser(userId);
         return Collections.singletonMap("totalPrice", totalPrice);
     }
 

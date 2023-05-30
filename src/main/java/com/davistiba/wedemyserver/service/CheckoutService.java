@@ -45,6 +45,7 @@ public class CheckoutService {
                                                     User user) {
 
         List<OrderItem> orderItemList = new ArrayList<>();
+        //FIXME just get all courses in Cart, dont depend on Request.getId()
         List<Course> courseList = courseRepository.findCoursesByIdIn(request.getCourses());
         List<Enrollment> enrollments = new ArrayList<>();
 
