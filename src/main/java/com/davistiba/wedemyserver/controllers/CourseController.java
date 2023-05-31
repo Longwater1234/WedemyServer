@@ -6,6 +6,7 @@ import com.davistiba.wedemyserver.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping(path = "/courses")
+@RequestMapping(path = "/courses", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CourseController {
 
     @Autowired

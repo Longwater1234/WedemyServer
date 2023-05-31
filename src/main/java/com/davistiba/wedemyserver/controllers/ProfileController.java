@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/profile")
+@RequestMapping(path = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileController {
 
     private final UserRepository userRepository;
@@ -53,7 +54,7 @@ public class ProfileController {
         try {
             Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
             User u = userRepository.findById(userId).orElseThrow();
-            u.setFullname(userDTO.getFullname()); // You may modify other properties
+            u.setFullname(userDTO.getFullname()); // You may modify other fields
             u.setConfirmPass("WHATEVER!");
             User freshUser = userRepository.save(u);
             return ResponseEntity.ok().body(modelMapper.map(freshUser, UserDTO.class));
