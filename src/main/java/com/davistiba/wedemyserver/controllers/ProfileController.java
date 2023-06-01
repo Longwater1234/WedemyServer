@@ -54,7 +54,8 @@ public class ProfileController {
         try {
             Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
             User u = userRepository.findById(userId).orElseThrow();
-            u.setFullname(userDTO.getFullname()); // You may modify other fields
+            u.setFullname(userDTO.getFullname());
+            // You may modify other fields
             u.setConfirmPass("WHATEVER!");
             User freshUser = userRepository.save(u);
             return ResponseEntity.ok().body(modelMapper.map(freshUser, UserDTO.class));
