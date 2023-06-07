@@ -24,12 +24,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 @WebFilter(filterName = "CustomLoginHandler")
-public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
+public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
 
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public CustomLoginFilter(AuthenticationManager authManager, AuthenticationSuccessHandler successHandler) {
+    public CustomLoginHandler(AuthenticationManager authManager, AuthenticationSuccessHandler successHandler) {
         super(authManager);
         this.setFilterProcessesUrl("/auth/login");
         this.setAuthenticationSuccessHandler(successHandler);

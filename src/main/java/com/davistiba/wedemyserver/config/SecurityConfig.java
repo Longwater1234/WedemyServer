@@ -83,7 +83,7 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authManager = http.getSharedObject(AuthenticationManager.class);
-            http.addFilterAt(new CustomLoginFilter(authManager, successHandler), UsernamePasswordAuthenticationFilter.class);
+            http.addFilterAt(new CustomLoginHandler(authManager, successHandler), UsernamePasswordAuthenticationFilter.class);
         }
     }
 }
