@@ -17,6 +17,7 @@ public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
     @Query(value = "SELECT EXISTS(SELECT 1 FROM wishlist w WHERE w.user_id = ?1 AND w.course_id = ?2)", nativeQuery = true)
     int checkIfExistWishlistNative(Integer userId, Integer courseId);
+    //UNFORTUNATELY, IT RETURNS NUMBER, NOT BOOLEAN.
 
     @Modifying
     @Transactional

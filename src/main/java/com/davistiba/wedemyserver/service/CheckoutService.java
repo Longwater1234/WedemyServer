@@ -71,6 +71,5 @@ public class CheckoutService {
         wishlistRepository.deleteByUserIdAndCoursesIn(user.getId(), courseIds);
         //-----------------------------------------------
         return new MyCustomResponse("Successfully paid USD " + request.getTotalAmount());
-
     }
 }

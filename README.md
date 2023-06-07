@@ -17,7 +17,7 @@ Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and
 ## Requirements
 
 - Java 11 or higher
-- MySQL 8
+- MySQL 8.0
 - Redis Server 6.0+ (native / Cloud / Docker)
 - [Google OAuth Credentials](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) (for Google
   Login)

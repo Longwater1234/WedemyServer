@@ -24,7 +24,8 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     Integer deleteByUserIdAndCoursesIn(Integer userId, Collection<Integer> courseId);
 
     @Query(value = "SELECT EXISTS(SELECT 1 from cart c where c.user_id = ?1 and c.course_id = ?2)", nativeQuery = true)
-    long checkIfCourseInCart(Integer userId, Integer courseId);
+    int checkIfCourseInCart(Integer userId, Integer courseId);
+    //UNFORTUNATELY, IT RETURNS NUMBER, NOT BOOLEAN.
 
     @Query(value = "SELECT COUNT(c) FROM Cart c WHERE c.user.id = ?1")
     long countCartByUserIdEquals(Integer userId);

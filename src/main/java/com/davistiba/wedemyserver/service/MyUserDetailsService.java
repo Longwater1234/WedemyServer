@@ -48,7 +48,7 @@ public class MyUserDetailsService implements UserDetailsService {
             User newUser = new User();
             newUser.setFullname(m.getName());
             newUser.setEmail(m.getEmail());
-            newUser.setConfirmPass("WHATEVER!"); //<-- doesn't matter for G-login
+            newUser.setConfirmPass("WHATEVER!"); //<-- anything, but not NULL
             newUser.setAuthProvider(AuthProvider.GOOGLE);
             newUser.setUserRole(UserRole.ROLE_STUDENT);
 
