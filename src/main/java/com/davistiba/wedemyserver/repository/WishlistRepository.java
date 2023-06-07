@@ -7,19 +7,21 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+
 @Repository
 public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
     @Query(value = "SELECT (COUNT(w) > 0) FROM Wishlist w WHERE w.user.id = ?1 AND w.course.id = ?2")
-    boolean checkIfCourseInWishlist(Integer userId, Integer courseId); // SLOW QUERY.
+    boolean checkIfCourseInWishlist(Integer userId, Integer courseId); // SLOWER FOR BIG TABLES.
 
     @Query(value = "SELECT EXISTS(SELECT 1 FROM wishlist w WHERE w.user_id = ?1 AND w.course_id = ?2)", nativeQuery = true)
-    long checkIfExistWishlistNative(Integer userId, Integer courseId);
+    int checkIfExistWishlistNative(Integer userId, Integer courseId);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM Wishlist w WHERE w.course.id = ?1 AND w.user.id = ?2")
-    Integer deleteByCourseIdAndUserId(Integer courseId, Integer userId);
+    @Query(value = "DELETE FROM Wishlist w where w.user.id = ?1 and w.course.id in ?2")
+    Integer deleteByUserIdAndCoursesIn(Integer userId, Collection<Integer> courseId);
 
     @Modifying
     @Transactional

@@ -11,6 +11,7 @@ import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ import java.util.Map;
  * https://github.com/braintree/braintree_spring_example
  */
 @RestController
-@RequestMapping(path = "/checkout")
+@RequestMapping(path = "/checkout", produces = MediaType.APPLICATION_JSON_VALUE)
 @Secured(value = "ROLE_STUDENT")
 public class CheckoutController {
 
@@ -56,7 +57,7 @@ public class CheckoutController {
 
 
     @PostMapping(path = "/complete")
-    @CacheEvict(value = "studentsummary", key = "#session.id")
+    @CacheEvict(value = "student-summary", key = "#session.id")
     public ResponseEntity<MyCustomResponse> completePurchase(@Valid @RequestBody CheckoutRequest request,
                                                              HttpSession session) {
 

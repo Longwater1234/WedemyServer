@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.config;
 
+import com.davistiba.wedemyserver.models.UserRole;
 import com.davistiba.wedemyserver.service.CustomOAuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @Configuration
@@ -56,14 +58,15 @@ public class SecurityConfig {
                 .and().authorizeHttpRequests((authz) ->
                         authz.antMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
                                 .antMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
-                                .antMatchers("/profile/**", "/user/**").hasAuthority("ROLE_STUDENT")
-                                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                                .antMatchers("/profile/**", "/user/**").hasAuthority(UserRole.ROLE_STUDENT.name())
+                                .antMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.name())
                                 .anyRequest().authenticated())
                 .apply(new MyCustomFilterSetup());
 
         //SESSION and CSRF (you may disable CSRF)
-        return http.csrf().disable()
-                .sessionManagement(s -> s.maximumSessions(2).and().sessionFixation().newSession()).build();
+        return http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .ignoringAntMatchers("/oauth2/**", "/auth/**")
+                .and().sessionManagement(s -> s.maximumSessions(2)).build();
     }
 
     @Bean
@@ -80,7 +83,7 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authManager = http.getSharedObject(AuthenticationManager.class);
-            http.addFilterAt(new CustomLoginFilter(authManager, successHandler), UsernamePasswordAuthenticationFilter.class);
+            http.addFilterAt(new CustomLoginHandler(authManager, successHandler), UsernamePasswordAuthenticationFilter.class);
         }
     }
 }

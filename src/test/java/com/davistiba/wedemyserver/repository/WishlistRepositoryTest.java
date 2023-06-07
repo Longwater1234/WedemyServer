@@ -11,18 +11,16 @@ class WishlistRepositoryTest {
     @Autowired
     private WishlistRepository wishlistRepository;
 
-    @RepeatedTest(2)
+    @RepeatedTest(5)
     void checkIfExistWishlistNativeTest() {
-        long exists = wishlistRepository.checkIfExistWishlistNative(5, 10010);
-        long exists2 = wishlistRepository.checkIfExistWishlistNative(1, 10015);
-        Assertions.assertEquals(exists, exists2);
+        int exists = wishlistRepository.checkIfExistWishlistNative(9, 10015);
+        Assertions.assertEquals(1, exists);
     }
 
-    @RepeatedTest(2)
+    @RepeatedTest(5)
     void checkIfCourseInWishlistTest() {
-        boolean exists = wishlistRepository.checkIfCourseInWishlist(5, 10010);
-        boolean exists2 = wishlistRepository.checkIfCourseInWishlist(1, 10015);
-        Assertions.assertEquals(exists, exists2);
+        boolean exists = wishlistRepository.checkIfCourseInWishlist(9, 10015);
+        Assertions.assertTrue(exists);
     }
 
 }

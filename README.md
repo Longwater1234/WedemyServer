@@ -17,8 +17,8 @@ Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and
 ## Requirements
 
 - Java 11 or higher
-- MySQL 8.0
-- Redis Server 5.0+ (native / Cloud / Docker)
+- MySQL 8
+- Redis Server 6.0+ (native / Cloud / Docker)
 - [Google OAuth Credentials](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) (for Google
   Login)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys. (for Payments)
@@ -70,7 +70,7 @@ a look at the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
   spring.jpa.properties.hibernate.jdbc.time_zone=UTC
   ```
 
-### Redis v5.0 (or higher)
+### Redis v6.0 (or higher)
 
 This project uses Redis for 2 main tasks: Caching, and Storing login sessions. You can download latest Redis (macOS &
 Linux) from https://redis.io/download. Windows users may download the latest native installer (.msi)
@@ -85,8 +85,8 @@ inside `application.yml` to match your running Redis instance.
 
 All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
 GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only, in _Sandbox_
-mode. **No payment info is stored locally, except TransactionID**. Make sure you obtain a set of 3 API Keys from your
-own Braintree Dev Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For
+(DEV) mode. **No payment info is stored locally**. Make sure you obtain a set of 3 API Keys from your own Braintree Dev
+Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For
 Braintree tutorials, please check their [official docs](https://developer.paypal.com/braintree/docs).
 
 ## Deploying your App 🚀

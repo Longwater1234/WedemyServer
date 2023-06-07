@@ -29,5 +29,6 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     @Query(value = "SELECT COUNT(c) FROM Cart c WHERE c.user.id = ?1")
     long countCartByUserIdEquals(Integer userId);
 
-
+    @Query(value = "SELECT SUM(c.price) FROM Cart c where c.user.id = ?1")
+    BigDecimal getTotalBillForUser(Integer userId);
 }
