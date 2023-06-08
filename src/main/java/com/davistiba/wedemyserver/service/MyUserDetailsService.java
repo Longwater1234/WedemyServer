@@ -6,7 +6,6 @@ import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.models.UserRole;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,7 +21,6 @@ import java.util.Optional;
 public class MyUserDetailsService implements UserDetailsService {
 
     public static final String USERID = "USER_ID";
-    private static final String SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
 
     @Autowired
     private UserRepository userRepository;
@@ -61,21 +59,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
     }
 
-
-    /**
-     * Custom method to get User details from SESSION STORE (redis)
-     *
-     * @param session loggedIn session
-     * @return USER object
-     */
-    public static User getSessionUserInfo(@NotNull HttpSession session) {
-        SecurityContext context = (SecurityContext) session.getAttribute(SECURITY_CONTEXT);
-        Object principal = context.getAuthentication().getPrincipal();
-        if (principal instanceof CustomOAuthUser) {
-            return (CustomOAuthUser) principal;
-        }
-        return (User) principal;
-    }
 
     /**
      * Just return the user_id saved in Redis Store
