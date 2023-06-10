@@ -17,6 +17,10 @@ public class MyCustomResponse {
         this.success = true;
     }
 
+    public static MyCustomResponse fail(String message) {
+        return new MyCustomResponse(message, false);
+    }
+
     public String getMessage() {
         return message;
     }

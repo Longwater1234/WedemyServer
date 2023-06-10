@@ -4,6 +4,8 @@ import com.davistiba.wedemyserver.dto.CategoryDTO;
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -57,11 +59,11 @@ public class CourseController {
 
     @GetMapping(path = "/search")
     @ResponseStatus(value = HttpStatus.OK)
-    public List<Course> searchForCourseByTitle(@RequestParam(defaultValue = "") @NotBlank String title) {
-        if (title.length() < 4) {
+    public Slice<Course> searchForCourseByTitle(@RequestParam(defaultValue = "") @NotBlank String title,
+                                                @RequestParam(defaultValue = "0") Integer page) {
+        if (title.length() < 3) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Search query too short");
         }
-        return courseRepository.getCoursesByTitleContaining(title);
-
+        return courseRepository.getCoursesByTitleContaining(title, PageRequest.of(page, 10));
     }
 }

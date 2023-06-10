@@ -31,7 +31,6 @@ public class CartController {
     @Autowired
     private CourseRepository courseRepository;
 
-
     @PostMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.CREATED)
     public MyCustomResponse addSingleItem(HttpSession session, @PathVariable Integer courseId) {
@@ -60,7 +59,7 @@ public class CartController {
     @ResponseStatus(HttpStatus.OK)
     public Page<Course> getAllMyCartItems(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        return courseRepository.getCoursesCartByUser(userId, PageRequest.of(Math.abs(page), 5));
+        return courseRepository.getCartListByUser(userId, PageRequest.of(Math.abs(page), 5));
     }
 
     @GetMapping(path = "/mine/bill")

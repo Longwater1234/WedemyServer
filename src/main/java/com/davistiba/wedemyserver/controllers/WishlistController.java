@@ -54,7 +54,7 @@ public class WishlistController {
     @ResponseStatus(HttpStatus.OK)
     public Page<Course> getMyWishlistPaged(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        return courseRepository.getCoursesWishlistByUser(userId, PageRequest.of(Math.abs(page), 5));
+        return courseRepository.getWishlistByUser(userId, PageRequest.of(Math.abs(page), 5));
     }
 
     @DeleteMapping(path = "/course/{courseId}")

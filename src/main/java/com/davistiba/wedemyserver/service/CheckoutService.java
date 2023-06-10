@@ -49,7 +49,7 @@ public class CheckoutService {
 
         List<OrderItem> orderItemList = new ArrayList<>();
         List<Enrollment> enrollments = new ArrayList<>();
-        Page<Course> coursePage = courseRepository.getCoursesCartByUser(user.getId(), Pageable.unpaged());
+        Page<Course> coursePage = courseRepository.getCartListByUser(user.getId(), Pageable.unpaged());
 
         //===== begin DB OPERATIONS ========
         Sales savedSale = salesRepository.save(
