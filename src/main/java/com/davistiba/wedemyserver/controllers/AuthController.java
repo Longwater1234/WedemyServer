@@ -4,6 +4,7 @@ import com.davistiba.wedemyserver.models.CustomOAuthUser;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -27,10 +28,13 @@ public class AuthController {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
+    private final ModelMapper modelMapper;
+
     @Autowired
     public AuthController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.modelMapper = new ModelMapper();
     }
 
 
@@ -71,4 +75,30 @@ public class AuthController {
         return ResponseEntity.ok().body(response);
     }
 
+    /*
+
+     @GetMapping("/status-login")
+    public ResponseEntity<UserDto> getStatusLogin(Authentication authentication) {
+    Object principal = authentication.getPrincipal();
+
+    if (principal instanceof CustomOAuthUser) {
+        CustomOAuthUser customOAuthUser = (CustomOAuthUser) principal;
+        UserDto userDto = new UserDto();
+        userDto.setId(customOAuthUser.getId());
+        userDto.setName(customOAuthUser.getName());
+        userDto.setEmail(customOAuthUser.getEmail());
+        return ResponseEntity.ok(userDto);
+    } else if (principal instanceof User) {
+        User user = (User) principal;
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setName(user.getUsername());
+        userDto.setEmail(user.getEmail());
+        return ResponseEntity.ok(userDto);
+    } else {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+    }
+
+     */
 }
