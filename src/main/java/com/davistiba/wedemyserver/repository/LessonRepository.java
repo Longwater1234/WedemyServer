@@ -1,6 +1,7 @@
 package com.davistiba.wedemyserver.repository;
 
 import com.davistiba.wedemyserver.models.Lesson;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.Query;
@@ -25,13 +26,17 @@ public interface LessonRepository extends CrudRepository<Lesson, UUID> {
     long countByCourseId(Integer id);
 
     @Query(value = "SELECT BIN_TO_UUID(s.id) as id, s.lesson_name, s.position, TIME_FORMAT(SEC_TO_TIME(s.length_seconds), " +
-            "'%i:%s') AS video_time, EXISTS(SELECT 1 FROM enroll_progress p WHERE p.lesson_id = s.id AND p.enrollment_id = ?1) " +
+            "'%i:%s') AS video_time, EXISTS(SELECT 1 FROM enroll_progress ep WHERE ep.lesson_id = s.id AND ep.enrollment_id = ?1) " +
             "AS is_watched FROM lessons s WHERE s.course_id = ?2 ORDER BY s.position", nativeQuery = true)
     List<Map<String, Object>> getAllMyWatchedLessons(Integer enrollId, Integer courseId);
 
-    @Query(value = "SELECT l.* FROM lessons l " +
-            "LEFT JOIN enroll_progress ep ON l.id = ep.lesson_id AND ep.enrollment_id = :enrollmentId " +
-            "WHERE ep.lesson_id IS NULL AND l.course_id = :courseId " +
-            "ORDER BY l.position LIMIT 1", nativeQuery = true)
-    Optional<Lesson> getFirstNotWatchedByCourseId(Long enrollmentId, Integer courseId);
+    @Query(value = "SELECT l FROM Lesson l LEFT JOIN EnrollProgress ep ON l.id = ep.lesson.id " +
+            "AND ep.enrollment.id = :enrollmentId WHERE ep.lesson.id IS NULL AND l.course.id = :courseId " +
+            "ORDER BY l.position")
+    List<Lesson> getAllNotWatchedByCourseId(Long enrollmentId, Integer courseId, Pageable pageable);
+
+    //just get single one, the first
+    default Lesson getFirstNotWatchedByCourseId(Long enrollmentId, Integer courseId) {
+        return getAllNotWatchedByCourseId(enrollmentId, courseId, PageRequest.ofSize(1)).get(0);
+    }
 }
