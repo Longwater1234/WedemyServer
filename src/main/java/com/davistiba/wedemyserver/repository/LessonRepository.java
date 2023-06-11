@@ -29,5 +29,8 @@ public interface LessonRepository extends CrudRepository<Lesson, UUID> {
             "AS is_watched FROM lessons s WHERE s.course_id = ?2 ORDER BY s.position", nativeQuery = true)
     List<Map<String, Object>> getAllMyWatchedLessons(Integer enrollId, Integer courseId);
 
-
+    @Query(value = "SELECT l FROM Lesson AS l LEFT JOIN EnrollProgress AS ep ON l.id = ep.lesson.id " +
+            "AND ep.enrollment.id = :enrollmentId WHERE ep.lesson.id IS NULL AND l.course.id = :courseId " +
+            "ORDER BY l.position")
+    List<Lesson> getFirstNotWatchedByCourseId(Long enrollmentId, Integer courseId);
 }
