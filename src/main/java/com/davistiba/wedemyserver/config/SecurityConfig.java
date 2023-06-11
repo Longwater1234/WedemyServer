@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -52,8 +53,8 @@ public class SecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().and().httpBasic()
-                .and().oauth2Login().userInfoEndpoint().oidcUserService(googleOauthService)
+        http.cors().and().httpBasic(Customizer.withDefaults())
+                .oauth2Login().userInfoEndpoint().oidcUserService(googleOauthService)
                 .and().successHandler(successHandler)
                 .and().authorizeHttpRequests((authz) ->
                         authz.antMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()

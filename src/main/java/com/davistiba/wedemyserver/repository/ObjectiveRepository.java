@@ -11,5 +11,4 @@ public interface ObjectiveRepository extends CrudRepository<CourseObjective, Int
 
     List<CourseObjective> getCourseObjectivesByCourseId(Integer course_id);
 
-//    List<CourseRepository> findDistinctBy()
 }

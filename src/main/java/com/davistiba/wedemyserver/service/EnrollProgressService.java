@@ -45,7 +45,7 @@ public class EnrollProgressService {
 
         if (enrollProgress.isEmpty()) {
             //means User has NOT ALREADY watched this
-            EnrollProgress progress = progressRepository.save(new EnrollProgress(enrollment, currentLesson));
+            progressRepository.save(new EnrollProgress(enrollment, currentLesson));
 
             long numWatched = progressRepository.countByEnrollmentId(enrollment.getId());
             long totalLessons = lessonRepository.countByCourseId(status.getCourseId());
@@ -58,6 +58,9 @@ public class EnrollProgressService {
             enrollment.setIsCompleted(isCompleted);
             if (!isCompleted) {
                 enrollment.setNextPosition(currentLesson.getPosition() + 1);
+            } else {
+                //reset to 1
+                enrollment.setNextPosition(1);
             }
             enrollmentRepository.save(enrollment);
 
@@ -83,7 +86,7 @@ public class EnrollProgressService {
     public Optional<Lesson> getNextLesson(@NotNull Enrollment enrollment) {
         Integer nextPosition = enrollment.getNextPosition();
         Integer courseId = enrollment.getCourse().getId();
-        //FIXME GET ACTUAL LAST WATCHED (IN ORDER). IF 1,2,10 --> NEXT SHOULD BE 3
+        //FIXME GET ACTUAL LAST WATCHED (IN ORDER). IF 1,2,10 done --> NEXT SHOULD BE 3
         Optional<Lesson> next = lessonRepository.findByCourseIdAndPosition(courseId, nextPosition);
         return next.or(() -> lessonRepository.findByCourseIdAndPosition(courseId, nextPosition - 1));
     }

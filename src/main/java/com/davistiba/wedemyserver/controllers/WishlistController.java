@@ -45,8 +45,7 @@ public class WishlistController {
     public Map<String, Boolean> checkUserLikedCourse(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
         boolean inWishlist = wishlistRepository.checkIfExistWishlistNative(userId, courseId) > 0;
-        Map<String, Boolean> response = Collections.singletonMap("inWishlist", inWishlist);
-        return response;
+        return Collections.singletonMap("inWishlist", inWishlist);
     }
 
 
