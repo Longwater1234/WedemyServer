@@ -28,12 +28,12 @@ public class LessonController {
         return lessonRepository.getLessonsByCourseId(id, PageRequest.of(page, 10));
     }
 
-    @GetMapping(path = "/c/{courseId}/eid/{enrollId}")
+    @GetMapping(path = "/c/{courseId}/e/{enrollId}")
     @ResponseStatus(HttpStatus.OK)
     @Secured(value = "ROLE_STUDENT")
-    public List<Map<String, Object>> getMyWatchedLessons(@PathVariable Integer courseId,
-                                                         @PathVariable Integer enrollId) {
-        return lessonRepository.getAllMyWatchedLessons(enrollId, courseId);
+    public List<Map<String, Object>> getAllMyLessonsInEnrollment(@PathVariable Integer courseId,
+                                                                 @PathVariable Long enrollId) {
+        return lessonRepository.getWatchStatusListByEnrollment(enrollId, courseId);
     }
 
 }
