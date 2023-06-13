@@ -59,15 +59,9 @@ public class EnrollProgressService {
             if (!isCompleted) {
                 enrollment.setNextPosition(currentLesson.getPosition() + 1);
             } else {
-                //reset to 1
-                enrollment.setNextPosition(1);
+                enrollment.setNextPosition(1); //reset to 1
             }
             enrollmentRepository.save(enrollment);
-
-            if (isCompleted) {
-                return Optional.empty();
-            }
-            //get next lesson
             return this.getNextLesson(enrollment);
         }
 
@@ -86,9 +80,8 @@ public class EnrollProgressService {
     public Optional<Lesson> getNextLesson(@NotNull Enrollment enrollment) {
         Integer nextPosition = enrollment.getNextPosition();
         Integer courseId = enrollment.getCourse().getId();
-        //FIXME GET ACTUAL LAST WATCHED (IN ORDER). IF 1,2,10 done --> NEXT SHOULD BE 3
-        Optional<Lesson> next = lessonRepository.findByCourseIdAndPosition(courseId, nextPosition);
-        return next.or(() -> lessonRepository.findByCourseIdAndPosition(courseId, nextPosition - 1));
+        Optional<Lesson> next = lessonRepository.getFirstNotWatchedByCourseId(enrollment.getId(), courseId);
+        return next.or(() -> lessonRepository.findByCourseIdAndPosition(courseId, nextPosition));
     }
 
 }

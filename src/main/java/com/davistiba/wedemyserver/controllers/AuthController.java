@@ -56,7 +56,7 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/statuslogin")
+    @GetMapping("/status")
     public ResponseEntity<Map<String, Object>> getStatusLogin(@AuthenticationPrincipal CustomOAuthUser customOAuthUser,
                                                               @AuthenticationPrincipal User user) {
         if (customOAuthUser != null) {

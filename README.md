@@ -4,11 +4,11 @@
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyServer)](https://github.com/Longwater1234/WedemyServer/blob/master/LICENSE)
 
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With creditCard and
-PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis with "server-side"
-cookies[^1] (**see footnote) for auth, _instead of_ stateless JWT Tokens. CSRF protection is enabled. Maximum 2
+PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis for auth _instead
+of_ stateless JWT Tokens. CSRF protection is enabled. Maximum 2
 _concurrent_ login sessions per user. You can easily customize these settings
 in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the app runs on
-port 9000
+port 9000.
 
 ## Frontend & Live Demo
 
@@ -27,7 +27,7 @@ Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and
 ### Environmental Variables
 
 You MUST set these ENV variables on your System or Container before you launch this Springboot app. **💡TIP**: During
-dev/test, you can pass them via `args`, OR store inside your IDE: e.g. In either Eclipse or IntelliJ IDEA, in the top
+dev/test, you can pass them via `args`, OR store inside your IDE: e.g. In either Eclipse or IntelliJ IDE, in the top
 toolbar, find the **"Run"** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+)
 each key and its value, then click **Apply**.
 
@@ -48,8 +48,8 @@ SPRING_PROFILES_ACTIVE=prod
 Please examine the files [application.yml](src/main/resources/application.yml) (default),
 and [application-prod.yml](src/main/resources/application-prod.yml) (meant for _production_). Replace all the necessary
 Spring Application properties with yours. But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN
-THERE DIRECTLY**❌ . It's safer to store them as Environmental Variables instead (see above), then either declare them
-as `property.name = ${ENV_KEY_NAME}`, OR refer them directly in your source code as shown
+THERE DIRECTLY**❌ . It's safer to store them as Environmental Variables instead (see previous section), then either
+declare them as `property.name = ${ENV_KEY_NAME}`, OR _refer_ them directly in your source code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
 ## Databases Used
@@ -74,9 +74,9 @@ a look at the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
 
 This project uses Redis for 2 main tasks: Caching, and Storing login sessions. You can download latest Redis (macOS &
 Linux) from https://redis.io/download. Windows users may download the latest native installer (.msi)
-from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could run redis in Docker.
+from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could get its Docker image.
 Another option, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace redis credentials
-inside `application.yml` to match your running Redis instance.
+inside `application.yml` (or ENV variables) to match your running Redis instance.
 
 | Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI client: RedisInsight. Download it free from [here](https://redis.com/redis-enterprise/redis-insight/) |
 |--------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -85,9 +85,9 @@ inside `application.yml` to match your running Redis instance.
 
 All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
 GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only, in _Sandbox_
-(DEV) mode. **No payment info is stored locally**. Make sure you obtain a set of 3 API Keys from your own Braintree Dev
-Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`. For
-Braintree tutorials, please check their [official docs](https://developer.paypal.com/braintree/docs).
+(DEV) mode. **No payment info is stored locally, except transactionID**. Make sure you obtain a set of 3 API Keys from
+your own Braintree Dev Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`.
+For Braintree tutorials and samples, please check their [official docs](https://developer.paypal.com/braintree/docs).
 
 ## Deploying your App 🚀
 
@@ -98,7 +98,8 @@ Railway, Render.com, Fly.io_. Please note, you may also need a **separate** MySQ
 
 ---
 
-[^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same _ROOT_ domain (same-site
+[^1]:
+In production, for Browser clients, ensure both your Backend and Frontend share the same _ROOT_ domain (same-site
 policy), AND set `session.cookie.Secure=true` (strictly https) for session Cookies to work properly. Learn
 more at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you can replace Cookies **entirely** with
 special Header X-AUTH-TOKEN (by Spring; expires too). See file SecurityConfig.java.
