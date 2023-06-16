@@ -21,6 +21,9 @@ server:
         name: WD_SESSION
         same-site: lax
         secure: true
+    encoding:
+      charset: UTF-8
+      force: true
 spring:
   datasource:
     password: ${MYSQL_PASSWORD}
@@ -58,3 +61,6 @@ spring:
       cleanup-cron: 00 */12 * * *
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
+#springdoc:
+#  swagger-ui:
+#    enabled: false #For safety

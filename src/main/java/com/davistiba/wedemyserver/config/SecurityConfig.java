@@ -60,6 +60,7 @@ public class SecurityConfig {
                         authz.antMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
                                 .antMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
                                 .antMatchers("/profile/**", "/user/**").hasAuthority(UserRole.ROLE_STUDENT.name())
+                                .antMatchers(HttpMethod.GET, "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
                                 .antMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.name())
                                 .anyRequest().authenticated())
                 .apply(new MyCustomFilterSetup());

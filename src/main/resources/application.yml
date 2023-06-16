@@ -17,6 +17,9 @@ server:
         http-only: true
         max-age: 10800s #3hours
         name: WD_SESSION
+    encoding:
+      charset: UTF-8
+      force: true
 spring:
   datasource:
     password: ${MYSQL_PASSWORD}

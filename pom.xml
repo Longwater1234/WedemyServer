@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.11</version>
+        <version>2.7.12</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.davistiba</groupId>
@@ -137,18 +137,18 @@
             <version>3.21.0</version>
         </dependency>
 
-        <!--        UNCOMMENT THIS BLOCK FOR SWAGGER -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springdoc</groupId>-->
-        <!--            <artifactId>springdoc-openapi-ui</artifactId>-->
-        <!--            <version>1.6.8</version>-->
-        <!--        </dependency>-->
+        <!--        UNCOMMENT THIS BLOCK TO ENABLE SWAGGER -->
+        <!--        <dependency>
+                    <groupId>org.springdoc</groupId>
+                    <artifactId>springdoc-openapi-ui</artifactId>
+                    <version>1.7.0</version>
+                </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.springdoc</groupId>-->
-        <!--            <artifactId>springdoc-openapi-security</artifactId>-->
-        <!--            <version>1.6.8</version>-->
-        <!--        </dependency>-->
+                <dependency>
+                    <groupId>org.springdoc</groupId>
+                    <artifactId>springdoc-openapi-security</artifactId>
+                    <version>1.7.0</version>
+                </dependency>-->
         <!--        UNCOMMENT ABOVE FOR SWAGGER-UI-->
 
         <dependency>

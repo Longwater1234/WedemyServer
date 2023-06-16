@@ -53,13 +53,13 @@ public class EnrollProgressService {
             boolean isCompleted = (progDouble / 100.00) == 1;
 
             //update `Enrollments` table
-            BigDecimal progressPercent = BigDecimal.valueOf(progDouble).setScale(2, RoundingMode.FLOOR);
+            BigDecimal progressPercent = BigDecimal.valueOf(progDouble).setScale(2, RoundingMode.HALF_UP);
             enrollment.setProgress(progressPercent);
             enrollment.setIsCompleted(isCompleted);
             if (!isCompleted) {
                 enrollment.setNextPosition(currentLesson.getPosition() + 1);
             } else {
-                enrollment.setNextPosition(1); //reset to 1
+                enrollment.setNextPosition(1); //All done? reset to 1
             }
             enrollmentRepository.save(enrollment);
             return this.getNextLesson(enrollment);
@@ -67,7 +67,6 @@ public class EnrollProgressService {
 
         //OTHERWISE, simply RETURN NEXT.
         return this.getNextLesson(enrollment);
-
     }
 
 

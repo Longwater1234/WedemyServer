@@ -66,7 +66,8 @@ public class EnrollmentController {
 
 
     @PostMapping(path = "/videolink/builder")
-    public ResponseEntity<VideoResponse> getLessonVideoLink(@NotNull HttpSession session, @RequestBody @Valid VideoRequest request) {
+    public ResponseEntity<VideoResponse> getLessonVideoLink(@NotNull HttpSession session,
+                                                            @RequestBody @Valid VideoRequest request) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
             Optional<Enrollment> enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, request.getCourseId());

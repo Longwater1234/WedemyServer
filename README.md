@@ -5,14 +5,20 @@
 
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With creditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis for auth _instead
-of_ stateless JWT Tokens. CSRF protection is enabled. Maximum 2
-_concurrent_ login sessions per user. You can easily customize these settings
+of_ stateless JWT Tokens. CSRF protection is enabled. You can easily customize these settings
 in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the app runs on
 port 9000.
+
+### Disclaimer ⚠
+
+> Wedemy is an open-source project developed for learning purposes only. It is NOT associated with or endorsed
+> by Udemy, Inc. Any resemblance to Udemy or its services is purely inspirational. Please note that Wedemy does not
+> offer any certifications or guarantees similar to those provided by Udemy Inc.
 
 ## Frontend & Live Demo
 
 Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and demo built using Vue 3 and Typescript.
+However, you can still use any frontend-stack with this project. See the API Doc for this project on the Wiki page.
 
 ## Requirements
 
@@ -32,15 +38,17 @@ toolbar, find the **"Run"** menu > **Edit/Run Configuration** > **Environment** 
 each key and its value, then click **Apply**.
 
 ```bash
-#below are for Google OAuth
+MYSQL_PASSWORD=
+# below are for Google OAuth
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
-#below are for Braintree Payments
+# below are for Braintree Payments
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
-#... for production, you SHOULD set this:
+#... for production, you SHOULD set these:
 SPRING_PROFILES_ACTIVE=prod
+PORT={#depends on your Cloud/local host}
 ```
 
 ## Important ⚠
@@ -48,7 +56,7 @@ SPRING_PROFILES_ACTIVE=prod
 Please examine the files [application.yml](src/main/resources/application.yml) (default),
 and [application-prod.yml](src/main/resources/application-prod.yml) (meant for _production_). Replace all the necessary
 Spring Application properties with yours. But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN
-THERE DIRECTLY**❌ . It's safer to store them as Environmental Variables instead (see previous section), then either
+THERE DIRECTLY**❌ . It's safer to store them as Environmental Variables instead (see section above), then either
 declare them as `property.name = ${ENV_KEY_NAME}`, OR _refer_ them directly in your source code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
