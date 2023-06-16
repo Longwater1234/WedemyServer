@@ -15,6 +15,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @RestController
-@RequestMapping(path = "/enroll")
+@RequestMapping(path = "/enroll", produces = MediaType.APPLICATION_JSON_VALUE)
 @Secured(value = {"ROLE_STUDENT", "ROLE_ADMIN"})
 public class EnrollmentController {
 
@@ -65,7 +66,8 @@ public class EnrollmentController {
 
 
     @PostMapping(path = "/videolink/builder")
-    public ResponseEntity<VideoResponse> getLessonVideoLink(@NotNull HttpSession session, @RequestBody @Valid VideoRequest request) {
+    public ResponseEntity<VideoResponse> getLessonVideoLink(@NotNull HttpSession session,
+                                                            @RequestBody @Valid VideoRequest request) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
             Optional<Enrollment> enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, request.getCourseId());

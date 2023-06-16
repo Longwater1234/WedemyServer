@@ -21,6 +21,6 @@ public interface ReviewRepository extends PagingAndSortingRepository<Review, Int
     Slice<ReviewDTO> findByCourseId(Integer courseId, Pageable pageable);
 
     @Query(value = "SELECT AVG(r.rating) from Review r where r.course.id = ?1")
-    double findAverageByCourseId(Integer courseId);
+    double getAverageByCourseId(Integer courseId);
 
 }

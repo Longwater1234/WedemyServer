@@ -16,18 +16,20 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO cart(created_at, course_id, user_id, price) VALUES (UTC_TIMESTAMP(), ?, ?, ?)", nativeQuery = true)
-    Integer addToCartCustom(Integer courseId, Integer userId, BigDecimal price);
+    int addToCartCustom(Integer courseId, Integer userId, BigDecimal price);
 
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM Cart c where c.user.id = ?1 and c.course.id in ?2")
-    Integer deleteByUserIdAndCoursesIn(Integer userId, Collection<Integer> courseId);
+    int deleteByUserIdAndCoursesIn(Integer userId, Collection<Integer> courseId);
 
     @Query(value = "SELECT EXISTS(SELECT 1 from cart c where c.user_id = ?1 and c.course_id = ?2)", nativeQuery = true)
-    long checkIfCourseInCart(Integer userId, Integer courseId);
+    int checkIfCourseInCart(Integer userId, Integer courseId);
+    //FASTER, BUT UNFORTUNATELY IT RETURNS NUMBER (MySQL), NOT BOOLEAN.
 
     @Query(value = "SELECT COUNT(c) FROM Cart c WHERE c.user.id = ?1")
     long countCartByUserIdEquals(Integer userId);
 
-
+    @Query(value = "SELECT SUM(c.price) FROM Cart c where c.user.id = ?1")
+    BigDecimal getTotalBillForUser(Integer userId);
 }

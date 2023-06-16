@@ -6,9 +6,10 @@ import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.WishlistRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 @RestController
 @Secured("ROLE_STUDENT")
-@RequestMapping(path = "/wishlist")
+@RequestMapping(path = "/wishlist", produces = MediaType.APPLICATION_JSON_VALUE)
 public class WishlistController {
 
     @Autowired
@@ -44,23 +45,22 @@ public class WishlistController {
     public Map<String, Boolean> checkUserLikedCourse(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
         boolean inWishlist = wishlistRepository.checkIfExistWishlistNative(userId, courseId) > 0;
-        Map<String, Boolean> response = Collections.singletonMap("inWishlist", inWishlist);
-        return response;
+        return Collections.singletonMap("inWishlist", inWishlist);
     }
 
 
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)
-    public Slice<Course> getAllMyWishlistCourses(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
+    public Page<Course> getMyWishlistPaged(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        return courseRepository.getCoursesWishlistByUser(userId, PageRequest.of(Math.abs(page), 10));
+        return courseRepository.getWishlistByUser(userId, PageRequest.of(Math.abs(page), 5));
     }
 
     @DeleteMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<MyCustomResponse> removeWishlistByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        int deletedCount = wishlistRepository.deleteByCourseIdAndUserId(courseId, userId);
+        int deletedCount = wishlistRepository.deleteByUserIdAndCoursesIn(userId, Collections.singletonList(courseId));
         if (deletedCount != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from wishlist");
         }

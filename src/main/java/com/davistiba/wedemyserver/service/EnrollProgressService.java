@@ -45,7 +45,7 @@ public class EnrollProgressService {
 
         if (enrollProgress.isEmpty()) {
             //means User has NOT ALREADY watched this
-            EnrollProgress progress = progressRepository.save(new EnrollProgress(enrollment, currentLesson));
+            progressRepository.save(new EnrollProgress(enrollment, currentLesson));
 
             long numWatched = progressRepository.countByEnrollmentId(enrollment.getId());
             long totalLessons = lessonRepository.countByCourseId(status.getCourseId());
@@ -53,24 +53,20 @@ public class EnrollProgressService {
             boolean isCompleted = (progDouble / 100.00) == 1;
 
             //update `Enrollments` table
-            BigDecimal progressPercent = BigDecimal.valueOf(progDouble).setScale(2, RoundingMode.FLOOR);
+            BigDecimal progressPercent = BigDecimal.valueOf(progDouble).setScale(2, RoundingMode.HALF_UP);
             enrollment.setProgress(progressPercent);
             enrollment.setIsCompleted(isCompleted);
             if (!isCompleted) {
                 enrollment.setNextPosition(currentLesson.getPosition() + 1);
+            } else {
+                enrollment.setNextPosition(1); //All done? reset to 1
             }
             enrollmentRepository.save(enrollment);
-
-            if (isCompleted) {
-                return Optional.empty();
-            }
-            //get next lesson
             return this.getNextLesson(enrollment);
         }
 
         //OTHERWISE, simply RETURN NEXT.
         return this.getNextLesson(enrollment);
-
     }
 
 
@@ -83,9 +79,8 @@ public class EnrollProgressService {
     public Optional<Lesson> getNextLesson(@NotNull Enrollment enrollment) {
         Integer nextPosition = enrollment.getNextPosition();
         Integer courseId = enrollment.getCourse().getId();
-        //FIXME GET ACTUAL LAST WATCHED (IN ORDER). IF 1,2,10 --> NEXT SHOULD BE 3
-        Optional<Lesson> next = lessonRepository.findByCourseIdAndPosition(courseId, nextPosition);
-        return next.or(() -> lessonRepository.findByCourseIdAndPosition(courseId, nextPosition - 1));
+        Optional<Lesson> next = lessonRepository.getFirstNotWatchedByCourseId(enrollment.getId(), courseId);
+        return next.or(() -> lessonRepository.findByCourseIdAndPosition(courseId, nextPosition));
     }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ import javax.validation.Valid;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping(path = "/reviews")
+@RequestMapping(path = "/reviews", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ReviewController {
 
     @Autowired

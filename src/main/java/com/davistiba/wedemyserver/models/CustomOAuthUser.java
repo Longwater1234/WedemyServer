@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * [NOT A TABLE]
- * custom Object for GoogleLogin User details
+ * Ccustom Object for GoogleLogin User details
  */
 public class CustomOAuthUser extends User implements OidcUser, Serializable {
 
@@ -42,6 +42,11 @@ public class CustomOAuthUser extends User implements OidcUser, Serializable {
 
     @Override
     public String getUsername() {
+        return oidcUser.getAttribute("email");
+    }
+
+    @Override
+    public String getFullname() {
         return oidcUser.getAttribute("name");
     }
 
@@ -54,5 +59,6 @@ public class CustomOAuthUser extends User implements OidcUser, Serializable {
     public String getEmail() {
         return oidcUser.getAttribute("email");
     }
+
 
 }

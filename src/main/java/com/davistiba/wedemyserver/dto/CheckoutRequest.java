@@ -8,7 +8,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 /**
  * NOT A TABLE.
@@ -24,9 +23,6 @@ public class CheckoutRequest {
     @NotNull
     @Min(1)
     private BigDecimal totalAmount;
-
-    @NotEmpty
-    private ArrayList<Integer> courses;
 
     @NotEmpty
     private String paymentMethod;
