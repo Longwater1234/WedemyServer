@@ -18,7 +18,8 @@ port 9000.
 ## Frontend & Live Demo
 
 Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and demo built using Vue 3 and Typescript.
-However, you can still use any frontend-stack with this project. See the API Doc for this project on the Wiki page.
+However, you can still use any frontend-stack with this project. See the [aPI Docs](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentation) 
+for this project.
 
 ## Requirements
 
