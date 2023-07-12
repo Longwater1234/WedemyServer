@@ -5,12 +5,11 @@
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyServer)](https://github.com/Longwater1234/WedemyServer/blob/master/LICENSE)
 [![Static Badge](https://img.shields.io/badge/reference-help.md-orange)](HELP.md)
 
-
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With creditCard and
-PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis and session cookies[^1] (or Header tokens) for auth _instead
-of_ stateless JWT Tokens. CSRF protection is enabled. You can easily customize these settings
-in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the app runs on
-port 9000.
+PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via cookies[^1] or
+sessionID Headers) for auth _instead of_ stateless JWT Tokens. CSRF protection is enabled. You can easily customize
+these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the
+app runs on port 9000.
 
 ### Disclaimer ⚠
 
@@ -21,8 +20,8 @@ port 9000.
 ## Frontend & Live Demo
 
 Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and demo built using Vue 3 and Typescript.
-However, you can still use any frontend-stack with this project. See the [API Docs]
-for this project.
+However, you can still use any frontend-stack with this project. See
+the [API Docs](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentation) for this project.
 
 ## Requirements
 
@@ -50,9 +49,9 @@ GOOGLE_CLIENT_SECRET=
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
-#... for production, you SHOULD set these:
+# for production, you SHOULD set these:
 SPRING_PROFILES_ACTIVE=prod
-PORT={#depends on your Cloud/local host}
+PORT=#(depends on your Cloud/local host)
 ```
 
 ## Important ⚠
@@ -70,8 +69,8 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 This is the primary database. All DateTimes are stored and queried in UTC only. (**Hint: USE `java.time.Instant` as Type
 for all Datetime fields**). Handle timezone conversion on your Frontend! For your convenience, I have included a
-mysqldump file [data_wedemy.sql](src/main/resources/data_wedemy.sql) which contains sample data for testing. Also, take
-a look at the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
+mysqldump file [data_wedemy.sql](src/main/resources/data_wedemy.sql) which contains sample data for testing. You may
+take a look at the [ERD diagram](src/main/resources/wedemy_erd.png).
 
 - CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`.
 - To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
@@ -86,9 +85,9 @@ a look at the [ERD diagram](src/main/resources/wedemy_erd.png) of this DB.
 
 This project uses Redis for 2 main tasks: Caching, and Storing login sessions. You can download latest Redis (macOS &
 Linux) from https://redis.io/download. Windows users may download the latest native installer (.msi)
-from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could get its Docker image.
-Another option, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace redis credentials
-inside `application.yml` (or ENV variables) to match your running Redis instance.
+from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could pull its Docker image.
+Another option, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace Redis credentials
+inside `application.yml` (or ENV variables).
 
 | Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI client: RedisInsight. Download it free from [here](https://redis.com/redis-enterprise/redis-insight/) |
 |--------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|
