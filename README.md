@@ -1,7 +1,10 @@
 # WedemyServer
 
+[![Static Badge](https://img.shields.io/badge/API_docs-latest-red)](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentation)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Longwater1234/WedemyServer/graphs/commit-activity)
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyServer)](https://github.com/Longwater1234/WedemyServer/blob/master/LICENSE)
+[![Static Badge](https://img.shields.io/badge/reference-help.md-orange)](HELP.md)
+
 
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With creditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis for auth _instead
@@ -18,7 +21,7 @@ port 9000.
 ## Frontend & Live Demo
 
 Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and demo built using Vue 3 and Typescript.
-However, you can still use any frontend-stack with this project. See the [API Docs](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentation) 
+However, you can still use any frontend-stack with this project. See the [API Docs]
 for this project.
 
 ## Requirements
