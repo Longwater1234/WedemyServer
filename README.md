@@ -7,7 +7,7 @@
 
 
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With creditCard and
-PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis for auth _instead
+PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security, Spring Session Redis and session cookies[^1] (or Header tokens) for auth _instead
 of_ stateless JWT Tokens. CSRF protection is enabled. You can easily customize these settings
 in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the app runs on
 port 9000.
@@ -110,8 +110,7 @@ Railway, Render.com, Fly.io_. Please note, you may also need a **separate** MySQ
 
 ---
 
-[^1]:
-In production, for Browser clients, ensure both your Backend and Frontend share the same _ROOT_ domain (same-site
+[^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same _ROOT_ domain (same-site
 policy), AND set `session.cookie.Secure=true` (strictly https) for session Cookies to work properly. Learn
 more at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you can replace Cookies **entirely** with
 special Header X-AUTH-TOKEN (by Spring; expires too). See file SecurityConfig.java.
