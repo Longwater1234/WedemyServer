@@ -73,6 +73,7 @@ for all Datetime fields**). Handle timezone conversion on your Frontend! For you
 the [ERD diagram](src/main/resources/wedemy_erd.png).
 
 - CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`.
+- If possible, create a separate user in your MySQL (other than "_root_") and grant it full privileges ONLY to the "wedemy" db.
 - To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
   parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
   ```properties
