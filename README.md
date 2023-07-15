@@ -6,8 +6,8 @@
 [![Static Badge](https://img.shields.io/badge/reference-help.md-orange)](HELP.md)
 
 (Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With creditCard and
-PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via cookies[^1] or
-sessionID Headers) for auth _instead of_ stateless JWT Tokens. CSRF protection is enabled. You can easily customize
+PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via cookies[^1]
+or sessionID Headers) for auth, instead of stateless JWT Tokens. CSRF protection is enabled. You can easily customize
 these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the
 app runs on port 9000.
 
@@ -27,7 +27,7 @@ the [API Docs](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentat
 
 - Java 11 or higher
 - MySQL 8.0
-- Redis Server 6.0+ (native / Cloud / Docker)
+- Redis Server v6.0+ (native / Cloud / Docker)
 - [Google OAuth Credentials](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) (for Google
   Login)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys. (for Payments)
@@ -49,7 +49,7 @@ GOOGLE_CLIENT_SECRET=
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
-# for production, you SHOULD set these:
+# for production, you should also set these:
 SPRING_PROFILES_ACTIVE=prod
 PORT=#(depends on your Cloud/local host)
 ```
@@ -58,9 +58,9 @@ PORT=#(depends on your Cloud/local host)
 
 Please examine the files [application.yml](src/main/resources/application.yml) (default),
 and [application-prod.yml](src/main/resources/application-prod.yml) (meant for _production_). Replace all the necessary
-Spring Application properties with yours. But for _sensitive_ info (like Passwords or API Keys), **DON'T PASTE THEM IN
+Spring Application properties with yours. But for sensitive info (like Passwords or API Keys), **DON'T PASTE THEM IN
 THERE DIRECTLY**❌ . It's safer to store them as Environmental Variables instead (see section above), then either
-declare them as `property.name = ${ENV_KEY_NAME}`, OR _refer_ them directly in your source code as shown
+declare them as `property.name = ${ENV_KEY_NAME}`, OR refer them directly in your source code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
 ## Databases Used
@@ -69,8 +69,8 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 This is the primary database. All DateTimes are stored and queried in UTC only. (**Hint: USE `java.time.Instant` as Type
 for all Datetime fields**). Handle timezone conversion on your Frontend! For your convenience, I have included a
-mysqldump file [data_wedemy.sql](src/main/resources/data_wedemy.sql) which contains sample data for testing. You may
-take a look at the [ERD diagram](src/main/resources/wedemy_erd.png).
+[mysqldump file](src/main/resources/data_wedemy.sql) which contains sample data for testing. You may take a look at
+the [ERD diagram](src/main/resources/wedemy_erd.png).
 
 - CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`.
 - To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
@@ -87,16 +87,16 @@ This project uses Redis for 2 main tasks: Caching, and Storing login sessions. Y
 Linux) from https://redis.io/download. Windows users may download the latest native installer (.msi)
 from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could pull its Docker image.
 Another option, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace Redis credentials
-inside `application.yml` (or ENV variables).
+inside application.yml (or in your ENV variables).
 
-| Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI client: RedisInsight. Download it free from [here](https://redis.com/redis-enterprise/redis-insight/) |
-|--------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI client: RedisInsight. Download it free [here](https://redis.com/redis-enterprise/redis-insight/) |
+|--------|:------------------------------------------------------------------------------------------------------------------------------------------------------|
 
 ## Payments Handling
 
 All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
 GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only, in _Sandbox_
-(DEV) mode. **No payment info is stored locally, except transactionID**. Make sure you obtain a set of 3 API Keys from
+(DEV) mode: **No actual money is deducted at Checkout**. Make sure you obtain a set of 3 API Keys from
 your own Braintree Dev Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`.
 For Braintree tutorials and samples, please check their [official docs](https://developer.paypal.com/braintree/docs).
 
@@ -110,6 +110,6 @@ Railway, Render.com, Fly.io_. Please note, you may also need a **separate** MySQ
 ---
 
 [^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same _ROOT_ domain (same-site
-policy), AND set `session.cookie.Secure=true` (strictly https) for session Cookies to work properly. Learn
+policy), AND set property `session.cookie.Secure=true` (strictly https) for Session Cookies to work properly. Learn
 more at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you can replace Cookies **entirely** with
 special Header X-AUTH-TOKEN (by Spring; expires too). See file SecurityConfig.java.

@@ -27,4 +27,5 @@ The following guides illustrate how to use some features concretely:
 * [Securing a Web Application](https://spring.io/guides/gs/securing-web/)
 * [Spring Boot and OAuth2](https://spring.io/guides/tutorials/spring-boot-oauth2/)
 * [Validation](https://spring.io/guides/gs/validating-form-input/)
+* [Braintree Payments setup](https://developer.paypal.com/braintree/docs/start/hello-server/java)
 
