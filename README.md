@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyServer)](https://github.com/Longwater1234/WedemyServer/blob/master/LICENSE)
 [![Static Badge](https://img.shields.io/badge/reference-help.md-orange)](HELP.md)
 
-(Backend repo). Clone of Udemy, an e-learning platform, built using Springboot + Vue 3 + Typescript. With creditCard and
+(Backend repo). Clone of Udemy, an e-learning platform, built using SpringBoot + Vue 3 + Typescript. With CreditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via cookies[^1]
 or sessionID Headers) for auth, instead of stateless JWT Tokens. CSRF protection is enabled. You can easily customize
 these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the
@@ -19,8 +19,8 @@ app runs on port 9000.
 
 ## Frontend & Live Demo
 
-Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and demo built using Vue 3 and Typescript.
-However, you can still use any frontend-stack with this project. See
+Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and live Demo built using Vue 3, Vite and
+Typescript. However, you can still use any frontend stack with this project. See
 the [API Docs](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentation) for this project.
 
 ## Requirements
@@ -72,8 +72,9 @@ for all Datetime fields**). Handle timezone conversion on your Frontend! For you
 [mysqldump file](src/main/resources/data_wedemy.sql) which contains sample data for testing. You may take a look at
 the [ERD diagram](src/main/resources/wedemy_erd.png).
 
-- CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`.
-- If possible, create a separate user in your MySQL (other than "_root_") and grant it full privileges ONLY to the "wedemy" db.
+- CREATE new schema called `wedemy` (any name is OK), with charset `utf8mb4`.
+- If possible, create a separate user in your MySQL (other than "_root_") and grant it full privileges ONLY to the  "
+  wedemy" db.
 - To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
   parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
   ```properties
@@ -87,7 +88,7 @@ the [ERD diagram](src/main/resources/wedemy_erd.png).
 This project uses Redis for 2 main tasks: Caching, and Storing login sessions. You can download latest Redis (macOS &
 Linux) from https://redis.io/download. Windows users may download the latest native installer (.msi)
 from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could pull its Docker image.
-Another option, you could try Redis Cloud at: https://redis.com/try-free/. Remember to replace Redis credentials
+Another option you could try is Redis Cloud at: https://redis.com/try-free/. Remember to replace Redis credentials
 inside application.yml (or in your ENV variables).
 
 | Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI client: RedisInsight. Download it free [here](https://redis.com/redis-enterprise/redis-insight/) |

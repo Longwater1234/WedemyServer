@@ -69,7 +69,7 @@ public class CheckoutController {
         TransactionRequest transactionRequest = new TransactionRequest()
                 .amount(request.getTotalAmount())
                 .paymentMethodNonce(request.getNonce())
-                .billingAddress()  // <-- (OPTIONAL, see docs)
+                .billingAddress()  // <-- (OPTIONAL, see official docs)
                 .firstName(user.getFullname())
                 .lastName(user.getEmail())
                 .done()
