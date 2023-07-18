@@ -51,7 +51,7 @@ BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
 # for production, you should also set these:
 SPRING_PROFILES_ACTIVE=prod
-PORT=#(depends on your Cloud/local host)
+PORT=#(depends on your hosting)
 ```
 
 ## Important ⚠
