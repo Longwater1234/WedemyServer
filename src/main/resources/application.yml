@@ -53,6 +53,6 @@ spring:
   session:
     store-type: redis
     redis:
-      cleanup-cron: 0 0 23 * * *
+      cleanup-cron: 0 0 * * * *
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
