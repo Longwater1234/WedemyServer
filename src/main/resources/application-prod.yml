@@ -47,7 +47,7 @@ spring:
     host: ${REDIS_HOST}
     password: ${REDIS_PASSWORD}
     port: ${REDIS_PORT}
-    # url: ${REDIS_URL} # Optional. Full URL. Will override "host, password, port" above
+    # url: ${REDIS_URL} #Optional. Full URi. Will override [host, password, port] above
   security:
     oauth2:
       client:
@@ -58,9 +58,10 @@ spring:
   session:
     store-type: redis
     redis:
-      cleanup-cron: 00 */12 * * *
+      cleanup-cron: 0 0 23 * * *
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
+# SWAGGER-UI
 #springdoc:
 #  swagger-ui:
 #    enabled: false #For safety
