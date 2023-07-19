@@ -40,7 +40,7 @@ public class ProfileController {
     @GetMapping(path = "/mine")
     public ResponseEntity<UserDTO> getUserById(@NotNull HttpSession session) {
         try {
-            Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+            Integer userId = MyUserDetailsService.getSessionUserId(session);
             UserDTO userDTO = userRepository.findUserDTObyId(userId).orElseThrow();
             return ResponseEntity.ok().body(userDTO);
         } catch (Exception ex) {
@@ -52,7 +52,7 @@ public class ProfileController {
     @Transactional
     public ResponseEntity<UserDTO> editMyProfile(@RequestBody UserDTO userDTO, @NotNull HttpSession session) {
         try {
-            Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+            Integer userId = MyUserDetailsService.getSessionUserId(session);
             User u = userRepository.findById(userId).orElseThrow();
             u.setFullname(userDTO.getFullname());
             // You may modify other fields
@@ -69,7 +69,7 @@ public class ProfileController {
     @ResponseStatus(value = HttpStatus.OK)
     @Cacheable(value = "student-summary", key = "#session.id")
     public List<StudentSummary> getUserSummary(@NotNull HttpSession session) {
-        Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
         User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return profileService.getUserSummaryList(user);
     }

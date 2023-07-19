@@ -26,7 +26,7 @@ public interface EnrollmentRepository extends CrudRepository<Enrollment, Long> {
     @Query("SELECT new com.davistiba.wedemyserver.dto.EnrollmentDTO(e.id, e.progress, c.title, c.thumbUrl, c.id) FROM Enrollment e " +
             "INNER JOIN Course c ON e.course.id = c.id WHERE e.user.id = ?1 ORDER BY e.id DESC")
     List<EnrollmentDTO> findByUserId(Integer userId, Pageable pageable);
-    
+
     @Query(value = "SELECT e FROM Enrollment e WHERE e.user.id = ?1 AND e.course.id = ?2")
     Optional<Enrollment> getByUserIdAndCourseId(Integer userId, Integer courseId);
 
