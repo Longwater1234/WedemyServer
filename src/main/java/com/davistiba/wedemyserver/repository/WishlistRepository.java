@@ -13,11 +13,12 @@ import java.util.Collection;
 public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
     @Query(value = "SELECT (COUNT(w) > 0) FROM Wishlist w WHERE w.user.id = ?1 AND w.course.id = ?2")
-    boolean checkIfCourseInWishlist(Integer userId, Integer courseId); // SLOWER FOR BIGGER TABLES.
+    boolean checkIfCourseInWishlist(Integer userId, Integer courseId);
+    //^MUCH SLOWER FOR BIGGER TABLES.
 
     @Query(value = "SELECT EXISTS(SELECT 1 FROM wishlist w WHERE w.user_id = ?1 AND w.course_id = ?2)", nativeQuery = true)
     int checkIfExistWishlistNative(Integer userId, Integer courseId);
-    //FASTER, BUT UNFORTUNATELY RETURNS INT, NOT BOOLEAN.
+    //^FASTER, BUT RETURNS int (1 | 0), NOT BOOLEAN.
 
     @Modifying
     @Transactional

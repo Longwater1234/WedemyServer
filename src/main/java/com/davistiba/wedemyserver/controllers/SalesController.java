@@ -29,7 +29,7 @@ public class SalesController {
 
     @GetMapping(path = "/mine")
     public Slice<SalesDTO> getAllMyOwnedItems(@NotNull HttpSession session, @RequestParam(defaultValue = "0") Integer page) {
-        Integer userId = (Integer) session.getAttribute(MyUserDetailsService.USERID);
+        Integer userId = MyUserDetailsService.getSessionUserId(session);
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "createdAt");
         return salesRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
     }
