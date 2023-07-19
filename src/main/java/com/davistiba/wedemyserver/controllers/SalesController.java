@@ -26,7 +26,6 @@ public class SalesController {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
-
     @GetMapping(path = "/mine")
     public Slice<SalesDTO> getAllMyOwnedItems(@NotNull HttpSession session, @RequestParam(defaultValue = "0") Integer page) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
