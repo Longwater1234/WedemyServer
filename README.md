@@ -11,12 +11,6 @@ or sessionID Headers) for auth, instead of stateless JWT Tokens. CSRF protection
 these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the
 app runs on port 9000.
 
-### Disclaimer ⚠
-
-> Wedemy is an open-source project developed for learning purposes only. It is NOT associated with or endorsed
-> by Udemy, Inc. Any resemblance to Udemy or its services is purely inspirational. Please note that Wedemy does not
-> offer any certifications or guarantees similar to those provided by Udemy Inc.
-
 ## Frontend & Live Demo
 
 Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and live Demo built using Vue 3, Vite and
@@ -27,7 +21,7 @@ the [API Docs](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentat
 
 - Java 11 or higher
 - MySQL 8.0
-- Redis Server v6.0+
+- Redis Server (latest stable)
 - [Google OAuth Credentials](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) (for Google
   Login)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys. (for Payments)
@@ -111,6 +105,12 @@ This App can be easily deployed within few minutes, straight from GitHub to your
 use the [Dockerfile](Dockerfile) provided, or natively as a pure Java app. Popular PaaS with CI/CD for Java include:
 Heroku, AWS ElasticBeanstalk, Google App Engine, Azure Web Apps. The following may **require** a Dockerfile: _Dokku,
 Railway, Render.com, Fly.io_. Please note, you may also need a **separate** MySQL & Redis instance!
+
+
+### Disclaimer ⚠
+
+> Wedemy is an open-source project developed for learning purposes only. It is NOT associated with or endorsed
+> by Udemy, Inc. Any resemblance to Udemy or its services is purely inspirational.
 
 ---
 
