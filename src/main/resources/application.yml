@@ -1,4 +1,5 @@
-#All entries in ${CURLY_BRACES} should be set as ENV variables, for security reasons.
+# All entries in ${CURLY_BRACES} should be set as ENV variables, for security reasons.
+# Learn more: https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html
 frontend:
   root:
     url: http://localhost:5173/  #TODO Replace with your frontend root URL / empty string
@@ -27,7 +28,7 @@ spring:
     username: root
   jpa:
     hibernate:
-      ddl-auto: update #Change to `none` in production
+      ddl-auto: update #You may chnage to `NONE` in production
     properties:
       hibernate:
         order_inserts: true

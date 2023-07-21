@@ -27,7 +27,7 @@ the [API Docs](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentat
 
 - Java 11 or higher
 - MySQL 8.0
-- Redis Server v6.0+ (native / Cloud / Docker)
+- Redis Server v6.0+
 - [Google OAuth Credentials](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) (for Google
   Login)
 - [Braintree Developer](https://developer.paypal.com/braintree/docs) Account + API Keys. (for Payments)
@@ -35,10 +35,11 @@ the [API Docs](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentat
 
 ### Environmental Variables
 
-You MUST set these ENV variables on your System or Container before you launch this Springboot app. **💡TIP**: During
+You MUST set these ENV variables on your System or Container before you launch this SpringBoot app. **💡TIP**: During
 dev/test, you can pass them via `args`, OR store inside your IDE: e.g. In either Eclipse or IntelliJ IDE, in the top
 toolbar, find the **"Run"** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+)
-each key and its value, then click **Apply**.
+each key and its value, then click **Apply**. If using Docker CLI, follow this quick
+[official guide.](https://docs.docker.com/engine/reference/commandline/run/#env)
 
 ```bash
 MYSQL_PASSWORD=
@@ -49,9 +50,11 @@ GOOGLE_CLIENT_SECRET=
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
-# for production, you should also set these:
+# For production, you SHOULD include these:
 SPRING_PROFILES_ACTIVE=prod
-PORT=#(depends on your hosting)
+PORT=#(server port for Spring)
+
+# ... SEE MORE IN application-prod.yml
 ```
 
 ## Important ⚠
@@ -73,10 +76,10 @@ for all Datetime fields**). Handle timezone conversion on your Frontend! For you
 the [ERD diagram](src/main/resources/wedemy_erd.png).
 
 - CREATE new schema called `wedemy` (any name is OK), with charset `utf8mb4`.
-- If possible, create a separate user in your MySQL (other than "_root_") and grant it full privileges ONLY to the  "
-  wedemy" db.
+- All tables and indexes will be auto-created by SpringBoot on the very-first launch, if missing.
 - To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
   parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
+  
   ```properties
   spring.datasource.url=jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC
   # OR, set this
@@ -87,12 +90,12 @@ the [ERD diagram](src/main/resources/wedemy_erd.png).
 
 This project uses Redis for 2 main tasks: Caching, and Storing login sessions. You can download latest Redis (macOS &
 Linux) from https://redis.io/download. Windows users may download the latest native installer (.msi)
-from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could pull its Docker image.
+from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could pull its official Docker image.
 Another option you could try is Redis Cloud at: https://redis.com/try-free/. Remember to replace Redis credentials
 inside application.yml (or in your ENV variables).
 
 | Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI client: RedisInsight. Download it free [here](https://redis.com/redis-enterprise/redis-insight/) |
-|--------|:------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------ |:----------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 ## Payments Handling
 
