@@ -68,7 +68,7 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 ## Databases Used
 
-### MySQL 8.0
+### MySQL 8.0.x
 
 This is the primary database. All DateTimes are stored and queried in UTC only. (**Hint: USE `java.time.Instant` as Type
 for all Datetime fields**). Handle timezone conversion on your Frontend! For your convenience, I have included a
@@ -101,7 +101,7 @@ inside application.yml (or in your ENV variables).
 
 All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
 GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only, in _Sandbox_
-(DEV) mode: **No actual money is deducted at Checkout**. Make sure you obtain a set of 3 API Keys from
+(Dev) mode: **No actual money is deducted at Checkout**. Make sure you obtain a set of 3 API Keys from
 your own Braintree Dev Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`.
 For Braintree tutorials and samples, please check their [official docs](https://developer.paypal.com/braintree/docs).
 
