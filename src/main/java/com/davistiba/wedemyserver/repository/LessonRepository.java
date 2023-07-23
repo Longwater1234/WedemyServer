@@ -36,7 +36,7 @@ public interface LessonRepository extends CrudRepository<Lesson, UUID> {
     List<Lesson> getAllNotWatchedByEnrollmentId(Long enrollmentId, Integer courseId, Pageable pageable);
 
     //just the first one
-    default Optional<Lesson> getFirstNotWatchedByCourseId(Long enrollmentId, Integer courseId) {
+    default Optional<Lesson> getFirstNotWatchedInEnrollment(Long enrollmentId, Integer courseId) {
         var lessonList = getAllNotWatchedByEnrollmentId(enrollmentId, courseId, PageRequest.ofSize(1));
         return lessonList.isEmpty() ? Optional.empty() : Optional.of(lessonList.get(0));
     }

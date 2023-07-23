@@ -47,8 +47,6 @@ BT_PRIVATE_KEY=
 # For production, you SHOULD include these:
 SPRING_PROFILES_ACTIVE=prod
 PORT=#(server port for Spring)
-
-# ... SEE MORE IN application-prod.yml
 ```
 
 ## Important ⚠
