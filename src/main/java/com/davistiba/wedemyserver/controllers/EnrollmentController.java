@@ -92,10 +92,10 @@ public class EnrollmentController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't own this course");
         }
         Optional<Lesson> nextLesson = progressService.getNextLesson(enrollment.get());
-        if (nextLesson.isPresent()) {
-            return Collections.singletonMap("lessonId", String.valueOf(nextLesson.get().getId()));
+        if (nextLesson.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not get lesson!");
         }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not get lesson!");
+        return Collections.singletonMap("lessonId", String.valueOf(nextLesson.get().getId()));
     }
 
 

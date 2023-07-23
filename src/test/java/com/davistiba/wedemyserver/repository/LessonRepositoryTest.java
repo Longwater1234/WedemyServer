@@ -19,7 +19,7 @@ class LessonRepositoryTest {
 
     @RepeatedTest(3)
     void getFirstNotWatchedByCourseId_Test() {
-        Optional<Lesson> optionalLesson = lessonRepository.getFirstNotWatchedByCourseId(2L, 10012);
+        Optional<Lesson> optionalLesson = lessonRepository.getFirstNotWatchedInEnrollment(2L, 10012);
         Assertions.assertTrue(optionalLesson.isPresent());
     }
 
