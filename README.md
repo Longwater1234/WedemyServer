@@ -64,11 +64,11 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 This is the primary database. All DateTimes are stored and queried in UTC only. (**Hint: USE `java.time.Instant` as Type
 for all Datetime fields**). Handle timezone conversion on your Frontend! For your convenience, I have included a
-[mysqldump file](src/main/resources/data_wedemy.sql) which contains sample data for testing. You may take a look at
+[mysqldump file](src/main/resources/data_wedemy.sql) which contains sample data for testing. You may also take a look at
 the [ERD diagram](src/main/resources/wedemy_erd.png).
 
 - CREATE new schema called `wedemy` (any name is OK), with charset `utf8mb4`.
-- All tables and indexes will be auto-created by SpringBoot on the very-first launch, if missing.
+- All tables and indexes will be auto-created by SpringBoot on the very-first launch, if missing. (Can be disabled.)
 - To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
   parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
   
