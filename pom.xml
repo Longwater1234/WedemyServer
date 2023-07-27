@@ -137,18 +137,18 @@
             <version>3.25.0</version>
         </dependency>
 
-        <!--        UNCOMMENT THIS BLOCK TO ENABLE SWAGGER -->
-        <!--        <dependency>
-                    <groupId>org.springdoc</groupId>
-                    <artifactId>springdoc-openapi-ui</artifactId>
-                    <version>1.7.0</version>
-                </dependency>
+        <!--        UNCOMMENT TO ENABLE SWAGGER -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.7.0</version>
+        </dependency>
 
-                <dependency>
-                    <groupId>org.springdoc</groupId>
-                    <artifactId>springdoc-openapi-security</artifactId>
-                    <version>1.7.0</version>
-                </dependency>-->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-security</artifactId>
+            <version>1.7.0</version>
+        </dependency>
         <!--        UNCOMMENT ABOVE FOR SWAGGER-UI-->
 
         <dependency>

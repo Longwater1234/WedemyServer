@@ -10,6 +10,7 @@ import com.davistiba.wedemyserver.repository.EnrollmentRepository;
 import com.davistiba.wedemyserver.repository.LessonRepository;
 import com.davistiba.wedemyserver.service.EnrollProgressService;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +30,8 @@ import java.util.*;
 @RestController
 @RequestMapping(path = "/enroll", produces = MediaType.APPLICATION_JSON_VALUE)
 @Secured(value = {"ROLE_STUDENT", "ROLE_ADMIN"})
+@SecurityRequirement(name = "cookieAuth")
+@SecurityRequirement(name = "sessionKey")
 public class EnrollmentController {
 
     @Autowired

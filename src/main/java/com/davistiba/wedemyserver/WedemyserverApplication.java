@@ -8,6 +8,11 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +21,6 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.session.data.redis.config.ConfigureRedisAction;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -24,7 +28,9 @@ import java.time.format.DateTimeFormatter;
 
 @SpringBootApplication
 @EnableCaching
-@EnableTransactionManagement
+@SecurityScheme(name = "cookieAuth", paramName = "WD_SESSION", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.COOKIE)
+@SecurityScheme(name = "sessionKey", paramName = "X-AUTH-TOKEN", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER)
+@OpenAPIDefinition(info = @Info(title = "Wedemy Server", version = "1.2.0"))
 public class WedemyserverApplication {
     @Value(value = "${frontend.root.url}")
     private String FRONTEND_URL;

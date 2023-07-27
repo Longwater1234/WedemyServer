@@ -2,6 +2,7 @@ package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.repository.LessonRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -31,6 +32,8 @@ public class LessonController {
     @GetMapping(path = "/c/{courseId}/e/{enrollId}")
     @ResponseStatus(HttpStatus.OK)
     @Secured(value = "ROLE_STUDENT")
+    @SecurityRequirement(name = "cookieAuth")
+    @SecurityRequirement(name = "sessionKey")
     public List<Map<String, Object>> getAllMyLessonsInEnrollment(@PathVariable Integer courseId,
                                                                  @PathVariable Long enrollId) {
         return lessonRepository.getWatchStatusListByEnrollment(enrollId, courseId);

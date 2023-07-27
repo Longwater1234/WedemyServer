@@ -61,7 +61,7 @@ spring:
       cleanup-cron: 0 0 23 * * *
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
-# SWAGGER-UI
-#springdoc:
-#  swagger-ui:
-#    enabled: false #For safety
+## ENABLE SWAGGER-UI
+springdoc:
+  swagger-ui:
+    enabled: false # OFF for safety

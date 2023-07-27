@@ -5,6 +5,7 @@ import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CartRepository;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,8 @@ import java.util.Map;
 @RestController
 @Secured(value = "ROLE_STUDENT")
 @RequestMapping(path = "/cart", produces = MediaType.APPLICATION_JSON_VALUE)
+@SecurityRequirement(name = "cookieAuth")
+@SecurityRequirement(name = "sessionKey")
 public class CartController {
 
     @Autowired

@@ -7,6 +7,7 @@ import com.davistiba.wedemyserver.models.Review;
 import com.davistiba.wedemyserver.repository.ReviewRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import com.davistiba.wedemyserver.service.ReviewService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,8 @@ public class ReviewController {
 
     @PostMapping(path = "/")
     @Secured(value = "ROLE_STUDENT")
+    @SecurityRequirement(name = "cookieAuth")
+    @SecurityRequirement(name = "sessionKey")
     public MyCustomResponse addCourseReview(@Valid @RequestBody ReviewRequest review, HttpSession session) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
@@ -48,6 +51,8 @@ public class ReviewController {
 
     @PutMapping(path = "/id/{id}")
     @Secured(value = "ROLE_STUDENT")
+    @SecurityRequirement(name = "cookieAuth")
+    @SecurityRequirement(name = "sessionKey")
     public MyCustomResponse editCourseReview(@PathVariable Integer id, @Valid @RequestBody ReviewRequest review) {
         try {
             reviewService.updateCourseRating(id, review);
@@ -59,6 +64,8 @@ public class ReviewController {
 
     @GetMapping(path = "/mine/c/{courseId}")
     @Secured(value = "ROLE_STUDENT")
+    @SecurityRequirement(name = "cookieAuth")
+    @SecurityRequirement(name = "sessionKey")
     public ResponseEntity<Review> getMyReviewOnCourse(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         var reviewOptional = reviewRepository.findByUserIdAndCourseId(userId, courseId);
