@@ -64,7 +64,7 @@ public class SecurityConfig {
                                 .antMatchers(HttpMethod.GET, "/wedemy-api-docs.json").permitAll()
                                 .antMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.name())
                                 .anyRequest().authenticated())
-                .apply(new MyCustomFilterSetup());
+                .apply(new MyCustomFilterSetup(successHandler));
 
         //SESSION and CSRF (you may disable CSRF)
         return http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
@@ -82,11 +82,17 @@ public class SecurityConfig {
         return new HttpSessionEventPublisher();
     }
 
-    public class MyCustomFilterSetup extends AbstractHttpConfigurer<MyCustomFilterSetup, HttpSecurity> {
+    public static class MyCustomFilterSetup extends AbstractHttpConfigurer<MyCustomFilterSetup, HttpSecurity> {
+        private final CustomAuthSuccessHandler customAuthSuccessHandler;
+
+        public MyCustomFilterSetup(CustomAuthSuccessHandler successHandler) {
+            this.customAuthSuccessHandler = successHandler;
+        }
+
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authManager = http.getSharedObject(AuthenticationManager.class);
-            http.addFilterAt(new CustomLoginHandler(authManager, successHandler), UsernamePasswordAuthenticationFilter.class);
+            http.addFilterAt(new CustomLoginHandler(authManager, customAuthSuccessHandler), UsernamePasswordAuthenticationFilter.class);
         }
     }
 }
