@@ -1,6 +1,6 @@
 # WedemyServer
 
-[![Static Badge](https://img.shields.io/badge/API_docs-v1.2-red)](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentation)
+[![Static Badge](https://img.shields.io/badge/API_docs-v1.+2-red)](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentation)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Longwater1234/WedemyServer/graphs/commit-activity)
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyServer)](https://github.com/Longwater1234/WedemyServer/blob/master/LICENSE)
 [![Static Badge](https://img.shields.io/badge/reference-help.md-orange)](HELP.md)
