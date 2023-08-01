@@ -82,6 +82,7 @@ public class SecurityConfig {
         return new HttpSessionEventPublisher();
     }
 
+
     public static class MyCustomFilterSetup extends AbstractHttpConfigurer<MyCustomFilterSetup, HttpSecurity> {
         private final CustomAuthSuccessHandler customAuthSuccessHandler;
 

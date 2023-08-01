@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.dto.LessonDTO;
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.repository.LessonRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -12,6 +13,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.AbstractList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,4 +41,24 @@ public class LessonController {
         return lessonRepository.getWatchStatusListByEnrollment(enrollId, courseId);
     }
 
+
+    @GetMapping(path = "/caca/{courseId}/e/{enrollId}")
+    @ResponseStatus(HttpStatus.OK)
+    @Secured(value = "ROLE_STUDENT")
+    @SecurityRequirement(name = "cookieAuth")
+    @SecurityRequirement(name = "sessionKey")
+    public List<LessonDTO> getMyLessonsInEnrollment(@PathVariable Integer courseId,
+                                                    @PathVariable Long enrollId) {
+        return new AbstractList<>() {
+            @Override
+            public LessonDTO get(int index) {
+                return null;
+            }
+
+            @Override
+            public int size() {
+                return 0;
+            }
+        };
+    }
 }
