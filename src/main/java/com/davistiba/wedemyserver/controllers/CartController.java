@@ -95,7 +95,7 @@ public class CartController {
         if (deletedCount != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from cart");
         }
-        return ResponseEntity.ok().body(new MyCustomResponse("Removed from Cart, course " + courseId));
+        return ResponseEntity.ok(new MyCustomResponse("Removed from Cart, course " + courseId));
     }
 
 
