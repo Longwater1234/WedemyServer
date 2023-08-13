@@ -5,6 +5,8 @@ import com.davistiba.wedemyserver.dto.VideoRequest;
 import com.davistiba.wedemyserver.dto.VideoResponse;
 import com.davistiba.wedemyserver.dto.WatchStatus;
 import com.davistiba.wedemyserver.fakes.EnrollStatus;
+import com.davistiba.wedemyserver.fakes.MyNextLesson;
+import com.davistiba.wedemyserver.fakes.WatchResponse;
 import com.davistiba.wedemyserver.models.Enrollment;
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
@@ -89,7 +91,7 @@ public class EnrollmentController {
     }
 
     @GetMapping(path = "/resume/c/{courseId}")
-    public Map<String, String> resumeMyCourse(@PathVariable Integer courseId, HttpSession session) {
+    public ResponseEntity<MyNextLesson> resumeMyCourse(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         var enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, courseId);
         if (enrollment.isEmpty()) {
@@ -99,13 +101,13 @@ public class EnrollmentController {
         if (nextLesson.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not get lesson!");
         }
-        return Collections.singletonMap("lessonId", String.valueOf(nextLesson.get().getId()));
+        return ResponseEntity.ok(new MyNextLesson());
     }
 
 
     @PostMapping(path = "/watched")
     @CacheEvict(value = "student-summary", key = "#session.id")
-    public Map<String, String> updateWatchStatus(@RequestBody @Valid WatchStatus status, HttpSession session) {
+    public ResponseEntity<WatchResponse> updateWatchStatus(@RequestBody @Valid WatchStatus status, HttpSession session) {
         try {
             //first, check if user owns course
             Integer userId = MyUserDetailsService.getSessionUserId(session);
@@ -120,7 +122,7 @@ public class EnrollmentController {
                 response.put("nextLessonId", null);
                 response.put("message", "Bravo! You have completed the course!");
             }
-            return response;
+            return ResponseEntity.ok(new WatchResponse());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update status: " + e.getMessage(), e);
         }
