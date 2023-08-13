@@ -3,6 +3,7 @@ package com.davistiba.wedemyserver.controllers;
 import com.braintreegateway.*;
 import com.davistiba.wedemyserver.config.BraintreeConfig;
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
+import com.davistiba.wedemyserver.fakes.PaymentToken;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
@@ -51,11 +52,11 @@ public class CheckoutController {
 
     @GetMapping(path = "/token")
     @ResponseStatus(value = HttpStatus.OK)
-    public Map<String, String> getClientToken() {
+    public ResponseEntity<PaymentToken> getClientToken() {
         Map<String, String> response = new HashMap<>(1);
         String clientToken = gateway.clientToken().generate();
-        response.put("clientToken", clientToken);
-        return response;
+//        response.put("clientToken", clientToken);
+        return ResponseEntity.ok(new PaymentToken());
     }
 
 

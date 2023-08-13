@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.fakes.ItemWishlistStatus;
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CourseRepository;
@@ -19,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
-import java.util.Map;
 
 @RestController
 @Secured("ROLE_STUDENT")
@@ -37,18 +37,19 @@ public class WishlistController {
 
     @PostMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public MyCustomResponse addNewWishlist(@PathVariable Integer courseId, HttpSession session) {
+    public ResponseEntity<MyCustomResponse> addNewWishlist(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         int count = wishlistRepository.saveByCourseIdAndUserId(courseId, userId);
-        return new MyCustomResponse(String.format("Added %d item to Wishlist", count));
+        return ResponseEntity.ok().body(new MyCustomResponse(String.format("Added %d item to Wishlist", count)));
     }
 
     @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, Boolean> checkUserLikedCourse(@PathVariable @NotNull Integer courseId, HttpSession session) {
+    public ResponseEntity<ItemWishlistStatus> checkUserLikedCourse(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         boolean inWishlist = wishlistRepository.checkIfExistWishlistNative(userId, courseId) > 0;
-        return Collections.singletonMap("inWishlist", inWishlist);
+//        return Collections.singletonMap("inWishlist", inWishlist);
+        return ResponseEntity.ok(new ItemWishlistStatus());
     }
 
     @GetMapping(path = "/mine")

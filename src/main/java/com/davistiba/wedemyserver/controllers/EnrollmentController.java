@@ -4,6 +4,7 @@ import com.davistiba.wedemyserver.dto.EnrollmentDTO;
 import com.davistiba.wedemyserver.dto.VideoRequest;
 import com.davistiba.wedemyserver.dto.VideoResponse;
 import com.davistiba.wedemyserver.dto.WatchStatus;
+import com.davistiba.wedemyserver.fakes.EnrollStatus;
 import com.davistiba.wedemyserver.models.Enrollment;
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
@@ -45,12 +46,12 @@ public class EnrollmentController {
 
     @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, Boolean> checkEnrollStatus(@PathVariable @NotNull Integer courseId, HttpSession session) {
+    public ResponseEntity<EnrollStatus> checkEnrollStatus(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Map<String, Boolean> response = new HashMap<>(1);
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         boolean isOwned = enrollmentRepository.existsByUserIdAndCourseId(userId, courseId);
-        response.put("isOwned", isOwned);
-        return response;
+//        response.put("isOwned", isOwned);
+        return ResponseEntity.ok(new EnrollStatus());
     }
 
     @GetMapping(path = "/progress/summary")
