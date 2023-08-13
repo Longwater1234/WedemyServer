@@ -16,7 +16,6 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.session.data.redis.config.ConfigureRedisAction;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -24,7 +23,6 @@ import java.time.format.DateTimeFormatter;
 
 @SpringBootApplication
 @EnableCaching
-@EnableTransactionManagement
 public class WedemyserverApplication {
     @Value(value = "${frontend.root.url}")
     private String FRONTEND_URL;

@@ -39,5 +39,4 @@ public class SalesController {
         return orderItemRepository.findByTransactionIdEquals(transactionId, PageRequest.of(page, 10));
     }
 
-
 }

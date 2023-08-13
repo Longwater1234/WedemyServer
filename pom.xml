@@ -137,7 +137,7 @@
             <version>3.25.0</version>
         </dependency>
 
-        <!--        UNCOMMENT THIS BLOCK TO ENABLE SWAGGER -->
+        <!--        UNCOMMENT TO ENABLE SWAGGER -->
         <!--        <dependency>
                     <groupId>org.springdoc</groupId>
                     <artifactId>springdoc-openapi-ui</artifactId>
@@ -160,12 +160,30 @@
         </dependency>
     </dependencies>
 
+    <!--    FOR CHINA REGION, FASTEST MAVEN MIRROR-->
+    <!--
+        <repositories>
+            <repository>
+                <id>aliyunmaven</id>
+                <name>aliyunmaven</name>
+                <url>https://maven.aliyun.com/repository/public</url>
+            </repository>
+        </repositories>
+
+        <pluginRepositories>
+            <pluginRepository>
+                <id>aliyunmaven</id>
+                <name>aliyunmaven</name>
+                <url>https://maven.aliyun.com/repository/public</url>
+            </pluginRepository>
+        </pluginRepositories>
+    -->
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${project.parent.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>

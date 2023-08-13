@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.dto.LoginStatus;
 import com.davistiba.wedemyserver.dto.UserDTO;
 import com.davistiba.wedemyserver.models.CustomOAuthUser;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
@@ -18,9 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,14 +55,14 @@ public class AuthController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<Map<String, Object>> getStatusLogin(@AuthenticationPrincipal CustomOAuthUser customOAuthUser,
-                                                              @AuthenticationPrincipal User user) {
+    public ResponseEntity<LoginStatus> getStatusLogin(@AuthenticationPrincipal CustomOAuthUser customOAuthUser,
+                                                      @AuthenticationPrincipal User user) {
         if (customOAuthUser != null) {
             return convertToDto(customOAuthUser);
         } else if (user != null) {
             return convertToDto(user);
         } else {
-            return ResponseEntity.ok().body(Collections.singletonMap("loggedIn", false));
+            return ResponseEntity.ok().body(new LoginStatus());
         }
     }
 
@@ -74,12 +72,9 @@ public class AuthController {
      * @param user logged in user
      * @return user's current state
      */
-    private ResponseEntity<Map<String, Object>> convertToDto(@NotNull User user) {
+    private ResponseEntity<LoginStatus> convertToDto(@NotNull User user) {
         UserDTO userDto = modelMapper.map(user, UserDTO.class);
-        Map<String, Object> result = new HashMap<>();
-        result.put("loggedIn", true);
-        result.put("userInfo", userDto);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok().body(new LoginStatus(true, userDto));
     }
 
 }

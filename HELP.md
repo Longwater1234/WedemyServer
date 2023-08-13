@@ -29,4 +29,5 @@ The following guides illustrate how to use some features concretely:
 * [Spring Boot and OAuth2](https://spring.io/guides/tutorials/spring-boot-oauth2/)
 * [Validation](https://spring.io/guides/gs/validating-form-input/)
 * [Braintree Payments](https://developer.paypal.com/braintree/docs/start/hello-server/java)
+* [JPA Buddy](https://jpa-buddy.com/) - ✨ useful extension for IntelliJ Ultimate IDE, when working with JPA + Hibernate 
 

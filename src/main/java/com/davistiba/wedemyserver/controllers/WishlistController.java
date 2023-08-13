@@ -34,10 +34,10 @@ public class WishlistController {
 
     @PostMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public MyCustomResponse addNewWishlist(@PathVariable Integer courseId, HttpSession session) {
+    public ResponseEntity<MyCustomResponse> addNewWishlist(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         int count = wishlistRepository.saveByCourseIdAndUserId(courseId, userId);
-        return new MyCustomResponse(String.format("Added %d item to Wishlist", count));
+        return ResponseEntity.ok(new MyCustomResponse(String.format("Added %d item to Wishlist", count)));
     }
 
     @GetMapping(path = "/status/c/{courseId}")

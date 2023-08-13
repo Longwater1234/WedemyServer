@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,12 +34,12 @@ public class CartController {
 
     @PostMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public MyCustomResponse addSingleItem(HttpSession session, @PathVariable Integer courseId) {
+    public ResponseEntity<MyCustomResponse> addSingleItem(HttpSession session, @PathVariable Integer courseId) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
             Course course = courseRepository.findById(courseId).orElseThrow();
             int count = cartRepository.addToCartCustom(course.getId(), userId, course.getPrice());
-            return new MyCustomResponse(String.format("Added %d item to Cart", count));
+            return ResponseEntity.ok(new MyCustomResponse(String.format("Added %d item to Cart", count)));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add to cart", e);
         }
@@ -81,13 +82,14 @@ public class CartController {
 
     @DeleteMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public MyCustomResponse removeCartByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
+    public ResponseEntity<MyCustomResponse> removeCartByCourseId(@PathVariable @NotNull Integer courseId,
+                                                                 HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         int deletedCount = cartRepository.deleteByUserIdAndCoursesIn(userId, Collections.singleton(courseId));
         if (deletedCount != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from cart");
         }
-        return new MyCustomResponse("Removed from Cart, course " + courseId);
+        return ResponseEntity.ok(new MyCustomResponse("Removed from Cart, course " + courseId));
     }
 
 
