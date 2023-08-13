@@ -1,14 +1,10 @@
 package com.davistiba.wedemyserver.controllers;
 
-import com.davistiba.wedemyserver.fakes.CartBill;
-import com.davistiba.wedemyserver.fakes.CartCount;
-import com.davistiba.wedemyserver.fakes.ItemCartStatus;
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CartRepository;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,8 +24,6 @@ import java.util.Map;
 @RestController
 @Secured(value = "ROLE_STUDENT")
 @RequestMapping(path = "/cart", produces = MediaType.APPLICATION_JSON_VALUE)
-@SecurityRequirement(name = "cookieAuth")
-@SecurityRequirement(name = "sessionKey")
 public class CartController {
 
     @Autowired
@@ -54,11 +48,11 @@ public class CartController {
 
     @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ItemCartStatus> checkUserCartItem(@PathVariable @NotNull Integer courseId, HttpSession session) {
+    public Map<String, Boolean> checkUserCartItem(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         boolean inCart = cartRepository.checkIfCourseInCart(userId, courseId) > 0;
         Map<String, Boolean> response = Collections.singletonMap("inCart", inCart);
-        return ResponseEntity.ok(new ItemCartStatus());
+        return response;
     }
 
 
@@ -71,19 +65,19 @@ public class CartController {
 
     @GetMapping(path = "/mine/bill")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<CartBill> getMyCartBill(HttpSession session) {
+    public Map<String, BigDecimal> getMyCartBill(HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         BigDecimal totalPrice = cartRepository.getTotalBillForUser(userId);
-        return ResponseEntity.ok(new CartBill());
+        return Collections.singletonMap("totalPrice", totalPrice);
     }
 
     @GetMapping(path = "/mine/count")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<CartCount> countMyCartItems(HttpSession session) {
+    public Map<String, Long> countMyCartItems(HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         long cartCount = cartRepository.countCartByUserIdEquals(userId);
         Map<String, Long> response = Collections.singletonMap("cartCount", cartCount);
-        return ResponseEntity.ok(new CartCount());
+        return response;
     }
 
     @DeleteMapping(path = "/course/{courseId}")

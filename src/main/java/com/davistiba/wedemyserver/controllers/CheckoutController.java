@@ -3,13 +3,11 @@ package com.davistiba.wedemyserver.controllers;
 import com.braintreegateway.*;
 import com.davistiba.wedemyserver.config.BraintreeConfig;
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
-import com.davistiba.wedemyserver.fakes.PaymentToken;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.service.CheckoutService;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
@@ -33,8 +31,6 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "/checkout", produces = MediaType.APPLICATION_JSON_VALUE)
 @Secured(value = "ROLE_STUDENT")
-@SecurityRequirement(name = "cookieAuth")
-@SecurityRequirement(name = "sessionKey")
 public class CheckoutController {
 
     private final BraintreeGateway gateway;
@@ -52,11 +48,11 @@ public class CheckoutController {
 
     @GetMapping(path = "/token")
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<PaymentToken> getClientToken() {
+    public Map<String, String> getClientToken() {
         Map<String, String> response = new HashMap<>(1);
         String clientToken = gateway.clientToken().generate();
-//        response.put("clientToken", clientToken);
-        return ResponseEntity.ok(new PaymentToken());
+        response.put("clientToken", clientToken);
+        return response;
     }
 
 
@@ -105,6 +101,5 @@ public class CheckoutController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not complete purchase", e);
         }
     }
-
 
 }

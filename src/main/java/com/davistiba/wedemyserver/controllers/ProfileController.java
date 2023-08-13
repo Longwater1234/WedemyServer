@@ -6,7 +6,6 @@ import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import com.davistiba.wedemyserver.service.ProfileService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,8 +22,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
-@SecurityRequirement(name = "cookieAuth")
-@SecurityRequirement(name = "sessionKey")
 public class ProfileController {
 
     private final UserRepository userRepository;

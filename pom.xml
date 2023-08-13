@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -137,17 +138,17 @@
         </dependency>
 
         <!--        UNCOMMENT TO ENABLE SWAGGER -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.7.0</version>
-        </dependency>
+        <!--        <dependency>
+                    <groupId>org.springdoc</groupId>
+                    <artifactId>springdoc-openapi-ui</artifactId>
+                    <version>1.7.0</version>
+                </dependency>
 
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-security</artifactId>
-            <version>1.7.0</version>
-        </dependency>
+                <dependency>
+                    <groupId>org.springdoc</groupId>
+                    <artifactId>springdoc-openapi-security</artifactId>
+                    <version>1.7.0</version>
+                </dependency>-->
         <!--        UNCOMMENT ABOVE FOR SWAGGER-UI-->
 
         <dependency>
@@ -159,24 +160,24 @@
         </dependency>
     </dependencies>
 
-<!--    FOR PACIFIC ASIAN REGION-->
-<!--
-    <repositories>
-        <repository>
-            <id>aliyunmaven</id>
-            <name>aliyunmaven</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </repository>
-    </repositories>
+    <!--    FOR CHINA REGION, FASTEST MAVEN MIRROR-->
+    <!--
+        <repositories>
+            <repository>
+                <id>aliyunmaven</id>
+                <name>aliyunmaven</name>
+                <url>https://maven.aliyun.com/repository/public</url>
+            </repository>
+        </repositories>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>aliyunmaven</id>
-            <name>aliyunmaven</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </pluginRepository>
-    </pluginRepositories>
--->
+        <pluginRepositories>
+            <pluginRepository>
+                <id>aliyunmaven</id>
+                <name>aliyunmaven</name>
+                <url>https://maven.aliyun.com/repository/public</url>
+            </pluginRepository>
+        </pluginRepositories>
+    -->
 
     <build>
         <plugins>

@@ -61,7 +61,6 @@ public class SecurityConfig {
                                 .antMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
                                 .antMatchers("/profile/**", "/user/**").hasAuthority(UserRole.ROLE_STUDENT.name())
                                 .antMatchers(HttpMethod.GET, "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
-                                .antMatchers(HttpMethod.GET, "/wedemy-api-docs.json").permitAll()
                                 .antMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.name())
                                 .anyRequest().authenticated())
                 .apply(new MyCustomFilterSetup(successHandler));

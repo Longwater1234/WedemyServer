@@ -4,16 +4,12 @@ import com.davistiba.wedemyserver.dto.EnrollmentDTO;
 import com.davistiba.wedemyserver.dto.VideoRequest;
 import com.davistiba.wedemyserver.dto.VideoResponse;
 import com.davistiba.wedemyserver.dto.WatchStatus;
-import com.davistiba.wedemyserver.fakes.EnrollStatus;
-import com.davistiba.wedemyserver.fakes.MyNextLesson;
-import com.davistiba.wedemyserver.fakes.WatchResponse;
 import com.davistiba.wedemyserver.models.Enrollment;
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
 import com.davistiba.wedemyserver.repository.LessonRepository;
 import com.davistiba.wedemyserver.service.EnrollProgressService;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.PageRequest;
@@ -33,8 +29,6 @@ import java.util.*;
 @RestController
 @RequestMapping(path = "/enroll", produces = MediaType.APPLICATION_JSON_VALUE)
 @Secured(value = {"ROLE_STUDENT", "ROLE_ADMIN"})
-@SecurityRequirement(name = "cookieAuth")
-@SecurityRequirement(name = "sessionKey")
 public class EnrollmentController {
 
     @Autowired
@@ -48,12 +42,12 @@ public class EnrollmentController {
 
     @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<EnrollStatus> checkEnrollStatus(@PathVariable @NotNull Integer courseId, HttpSession session) {
+    public Map<String, Boolean> checkEnrollStatus(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Map<String, Boolean> response = new HashMap<>(1);
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         boolean isOwned = enrollmentRepository.existsByUserIdAndCourseId(userId, courseId);
-//        response.put("isOwned", isOwned);
-        return ResponseEntity.ok(new EnrollStatus());
+        response.put("isOwned", isOwned);
+        return response;
     }
 
     @GetMapping(path = "/progress/summary")
@@ -91,7 +85,7 @@ public class EnrollmentController {
     }
 
     @GetMapping(path = "/resume/c/{courseId}")
-    public ResponseEntity<MyNextLesson> resumeMyCourse(@PathVariable Integer courseId, HttpSession session) {
+    public Map<String, String> resumeMyCourse(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         var enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, courseId);
         if (enrollment.isEmpty()) {
@@ -101,13 +95,13 @@ public class EnrollmentController {
         if (nextLesson.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not get lesson!");
         }
-        return ResponseEntity.ok(new MyNextLesson());
+        return Collections.singletonMap("lessonId", String.valueOf(nextLesson.get().getId()));
     }
 
 
     @PostMapping(path = "/watched")
     @CacheEvict(value = "student-summary", key = "#session.id")
-    public ResponseEntity<WatchResponse> updateWatchStatus(@RequestBody @Valid WatchStatus status, HttpSession session) {
+    public Map<String, String> updateWatchStatus(@RequestBody @Valid WatchStatus status, HttpSession session) {
         try {
             //first, check if user owns course
             Integer userId = MyUserDetailsService.getSessionUserId(session);
@@ -122,7 +116,7 @@ public class EnrollmentController {
                 response.put("nextLessonId", null);
                 response.put("message", "Bravo! You have completed the course!");
             }
-            return ResponseEntity.ok(new WatchResponse());
+            return response;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update status: " + e.getMessage(), e);
         }
