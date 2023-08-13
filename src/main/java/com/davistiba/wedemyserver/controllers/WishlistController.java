@@ -51,7 +51,6 @@ public class WishlistController {
         return Collections.singletonMap("inWishlist", inWishlist);
     }
 
-
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)
     public Page<Course> getMyWishlistPaged(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
