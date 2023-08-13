@@ -53,10 +53,10 @@ public class ReviewController {
     @Secured(value = "ROLE_STUDENT")
     @SecurityRequirement(name = "cookieAuth")
     @SecurityRequirement(name = "sessionKey")
-    public MyCustomResponse editCourseReview(@PathVariable Integer id, @Valid @RequestBody ReviewRequest review) {
+    public ResponseEntity<MyCustomResponse> editCourseReview(@PathVariable Integer id, @Valid @RequestBody ReviewRequest review) {
         try {
             reviewService.updateCourseRating(id, review);
-            return new MyCustomResponse("Thanks for your review!");
+            return ResponseEntity.ok().body(new MyCustomResponse("Thanks for your review!"));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not edit review", e);
         }
