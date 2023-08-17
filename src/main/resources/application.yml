@@ -57,5 +57,5 @@ spring:
       cleanup-cron: 0 0 * * * *
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
-springdoc:
-  show-login-endpoint: true
+#springdoc:
+#  show-login-endpoint: true

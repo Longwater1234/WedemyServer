@@ -15,7 +15,7 @@ app runs on port 9000.
 
 Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and live Demo built using Vue 3, Vite and
 Typescript. However, you can still use any frontend stack with this project. See
-the [API Docs](https://github.com/Longwater1234/WedemyServer/wiki/API-Documentation) for this project.
+the [API Docs](https://longwater1234.github.io/WedemyServer/) for this project.
 
 ## Requirements
 

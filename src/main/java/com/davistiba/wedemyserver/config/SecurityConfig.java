@@ -82,7 +82,7 @@ public class SecurityConfig {
     }
 
 
-    public static class MyCustomFilterSetup extends AbstractHttpConfigurer<MyCustomFilterSetup, HttpSecurity> {
+    static class MyCustomFilterSetup extends AbstractHttpConfigurer<MyCustomFilterSetup, HttpSecurity> {
         private final CustomAuthSuccessHandler customAuthSuccessHandler;
 
         public MyCustomFilterSetup(CustomAuthSuccessHandler successHandler) {
