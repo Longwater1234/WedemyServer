@@ -77,12 +77,4 @@ public class Review {
         return getClass().hashCode();
     }
 
-    @Override
-    public String toString() {
-        return "Review{" +
-                "id=" + id +
-                ", rating=" + rating +
-                ", content='" + content + '\'' +
-                '}';
-    }
 }

@@ -36,11 +36,11 @@ public class ReviewController {
 
     @PostMapping(path = "/")
     @Secured(value = "ROLE_STUDENT")
-    public MyCustomResponse addCourseReview(@Valid @RequestBody ReviewRequest review, HttpSession session) {
+    public ResponseEntity<MyCustomResponse> addCourseReview(@Valid @RequestBody ReviewRequest review, HttpSession session) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
             reviewService.addCourseRating(review, userId);
-            return new MyCustomResponse("Thanks for your review!");
+            return ResponseEntity.ok().body(new MyCustomResponse("Thanks for your review!"));
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add review", e);
         }
@@ -48,7 +48,8 @@ public class ReviewController {
 
     @PutMapping(path = "/id/{id}")
     @Secured(value = "ROLE_STUDENT")
-    public ResponseEntity<MyCustomResponse> editCourseReview(@PathVariable Integer id, @Valid @RequestBody ReviewRequest review) {
+    public ResponseEntity<MyCustomResponse> editCourseReview(@PathVariable Integer id,
+                                                             @Valid @RequestBody ReviewRequest review) {
         try {
             reviewService.updateCourseRating(id, review);
             return ResponseEntity.ok().body(new MyCustomResponse("Thanks for your review!"));
@@ -69,7 +70,7 @@ public class ReviewController {
     public Slice<ReviewDTO> getCourseReviews(@RequestParam(defaultValue = "0") Integer page,
                                              @RequestParam(defaultValue = "createdAt") String sortBy,
                                              @PathVariable Integer courseId) {
-        if (Stream.of("createdAt", "rating").noneMatch(sortBy::equalsIgnoreCase)) {
+        if (Stream.of("createdAt", "rating").noneMatch(sortBy::equals)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid 'sort' param");
         }
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, sortBy);
