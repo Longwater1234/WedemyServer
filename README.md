@@ -61,15 +61,15 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 ## Quick Start 🚀
 
-Verify you have the requirements listed above, and both your DB's are up and running. Git clone this repo. Navigate into
-this project root. Using your terminal or powershell, execute the commands below:
+Verify you have the requirements listed above, and both your DB's (MySQL & Redis) are up and running. Git clone this repo. Navigate into
+this project root. Using your terminal, execute the commands below:
 
   ```bash
   ./mvnw clean package
   java -jar target/wedemyserver.jar
   ```
 
-If you did set everything correctly (including the ENV variables above) the app should start and be available at
+If you did everything correctly (including setting the ENV variables above) the app should start and be available at
 http://localhost:9000 . Alternatively, you can build the docker image using the provided [Dockerfile](Dockerfile)
 
 ## Databases Used
