@@ -44,9 +44,9 @@ GOOGLE_CLIENT_SECRET=
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
-# For production, you SHOULD include these:
+# For production, set this:
 SPRING_PROFILES_ACTIVE=prod
-PORT=#(server port for Spring)
+PORT=#{server port for Spring}
 ```
 
 ## Important ⚠
@@ -58,6 +58,20 @@ THERE DIRECTLY**❌ . It's safer to store them as Environmental Variables instea
 declare them as `property.name = ${ENV_KEY_NAME}`, OR refer them directly in your source code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
+
+## Quick Start 🚀
+
+Verify you have the requirements listed above, and both your DB's (MySQL & Redis) are up and running. Git clone this repo. Navigate into
+this project root. Using your terminal, execute the commands below:
+
+  ```bash
+  ./mvnw clean package
+  java -jar target/wedemyserver.jar
+  ```
+
+If you did everything correctly (including setting the ENV variables above) the app should start and be available at
+http://localhost:9000 . Alternatively, you can build the docker image using the provided [Dockerfile](Dockerfile)
+
 ## Databases Used
 
 ### MySQL 8.0.x
@@ -68,10 +82,9 @@ for all Datetime fields**). Handle timezone conversion on your Frontend! For you
 the [ERD diagram](src/main/resources/wedemy_erd.png).
 
 - CREATE new schema called `wedemy` (any name is OK), with charset `utf8mb4`.
-- All tables and indexes will be auto-created by SpringBoot on the very-first launch, if missing. (Can be disabled.)
 - To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
   parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
-  
+
   ```properties
   spring.datasource.url=jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC
   # OR, set this
@@ -82,12 +95,14 @@ the [ERD diagram](src/main/resources/wedemy_erd.png).
 
 This project uses Redis for 2 main tasks: Caching, and Storing login sessions. You can download latest Redis (macOS &
 Linux) from https://redis.io/download. Windows users may download the latest native installer (.msi)
-from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could pull its official Docker image.
+from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could pull its official
+Docker image.
 Another option you could try is Redis Cloud at: https://redis.com/try-free/. Remember to replace Redis credentials
 inside application.yml (or in your ENV variables).
 
 | Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI client: RedisInsight. Download it free [here](https://redis.com/redis-enterprise/redis-insight/) |
-| ------ |:----------------------------------------------------------------------------------------------------------------------------------------------------- |
+|--------|:------------------------------------------------------------------------------------------------------------------------------------------------------|
+
 
 ## Payments Handling
 
@@ -96,19 +111,6 @@ GooglePay, Venmo and many other methods. This project implements Credit-Card and
 (Dev) mode: **No actual money is deducted at Checkout**. Make sure you obtain a set of 3 API Keys from
 your own Braintree Dev Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`.
 For Braintree tutorials and samples, please check their [official docs](https://developer.paypal.com/braintree/docs).
-
-## Deploying your App 🚀
-
-This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. You can either
-use the [Dockerfile](Dockerfile) provided, or natively as a pure Java app. Popular PaaS with CI/CD for Java include:
-Heroku, AWS ElasticBeanstalk, Google App Engine, Azure Web Apps. The following may **require** a Dockerfile: _Dokku,
-Railway, Render.com, Fly.io_. Please note, you may also need a **separate** MySQL & Redis instance!
-
-
-### Disclaimer ⚠
-
-> Wedemy is an open-source project developed for learning purposes only. It is NOT associated with or endorsed
-> by Udemy, Inc. Any resemblance to Udemy or its services is purely inspirational.
 
 ---
 
