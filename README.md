@@ -35,7 +35,7 @@ toolbar, find the **"Run"** menu > **Edit/Run Configuration** > **Environment** 
 each key and its value, then click **Apply**. If using Docker CLI, follow this quick
 [official guide.](https://docs.docker.com/engine/reference/commandline/run/#env)
 
-```bash
+```properties
 MYSQL_PASSWORD=
 # below are for Google OAuth
 GOOGLE_CLIENT_ID=
