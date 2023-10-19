@@ -39,7 +39,8 @@ This is the primary database. All DateTimes are stored and queried in UTC only. 
 for all Datetime fields**). Handle timezone conversion on your Frontend! For your convenience, I have included a
 [mysqldump file](src/main/resources/data_wedemy.sql) which contains sample data for testing. 
 
-- CREATE new db called `wedemy` (any name is OK), with charset `utf8mb4`.
+- CREATE new schema called `wedemy` (any name is OK), with charset `utf8mb4`.
+- Springboot will create all tables and indexes automatically on the Very First launch.
 - To maintain consistent time-zone (UTC) with your Java server, ensure your JDBC connection URL has
   parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
 
@@ -48,6 +49,9 @@ for all Datetime fields**). Handle timezone conversion on your Frontend! For you
   # OR, set this
   spring.jpa.properties.hibernate.jdbc.time_zone=UTC
   ```
+Here is the ERD Diagram for MySQL Db used in the project:
+
+![ERD diagram](src/main/resources/wedemy_erd.png).
 
 ### Redis v6.0 (or higher)
 

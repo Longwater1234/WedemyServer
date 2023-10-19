@@ -1,6 +1,5 @@
 # syntax=docker/dockerfile:1
 # Build and Run docker image with --tag e.g. "wedemyserver"
-# Please do NOT hardcode your app Secrets here.
 FROM maven:3-eclipse-temurin-11-alpine AS build
 WORKDIR /app
 COPY pom.xml ./

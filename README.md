@@ -8,8 +8,7 @@
 (Backend repo). Clone of Udemy, an e-learning platform, built using SpringBoot + Vue 3 + Typescript. With CreditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via cookies[^1]
 or sessionID Headers) for auth, instead of stateless JWT Tokens. CSRF protection is enabled. You can easily customize
-these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the
-app runs on port 9000.
+these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the app runs on port 9000.
 
 ## Frontend & Live Demo
 
@@ -29,7 +28,7 @@ the [API Docs](https://longwater1234.github.io/WedemyServer/) for this project.
 
 ### Environmental Variables
 
-You MUST set these ENV variables on your System or Container before you launch this SpringBoot app. **💡TIP**: During
+You MUST set these variables on your Local or Cloud ENV before you launch this SpringBoot app. **💡TIP**: During
 dev/test, you can pass them via `args`, OR store inside your IDE: e.g. In either Eclipse or IntelliJ IDE, in the top
 toolbar, find the **"Run"** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+)
 each key and its value, then click **Apply**. If using Docker CLI, follow this quick
@@ -58,34 +57,41 @@ THERE DIRECTLY**❌ . It's safer to store them as Environmental Variables instea
 declare them as `property.name = ${ENV_KEY_NAME}`, OR refer them directly in your source code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
+## Database Setup
+
+Read carefully the instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis (_TODO: ADD spring
+will auto-create tables_)
+
 ## Quick Start 🚀
 
-#### Natively as executable JAR
+### With Maven (natively)
 
-I assume you have requirements listed above. And you have properly set ENV variables. Using your terminal at project
-root, execute the commands below:
+I assume you have requirements listed above. And both your DB's are running. Using your terminal, execute the commands
+below. That's it! Server will be available at http://localhost:9000
 
-  ```bash
-  ./mvnw clean package
-  java -jar target/wedemyserver.jar
-  ```
+```bash
+./mvnw clean package
+java -jar target/wedemyserver.jar
+```
 
-#### With Docker
+### With Docker
 
-You may need to set up MySQL & Redis separately. Then, create an `.env` file at root of this project. Fill in
-your ENV variables as shown above. Then run the commands:
+I have attached [Dockerfile](Dockerfile) for the Java server only. You will need to set up MySQL & Redis
+separately. First build the image in your terminal:
 
 ```bash
   docker build -t wedemy-server .
-  docker run -d -p9000:9000 --env-file ".your-env-file" --rm wedemy-server
 ```
 
-## Database Setup
+If using Docker Desktop (latest), before starting the container, simply fill in the ENV Variables in the GUI directly:
 
-Read carefully the instructions in [HELP.md](HELP.md#database-setup-info). Here is the ERD Diagram for the project:
+![docker_env_gui](src/main/resources/docker_env.PNG)
 
-![ERD diagram](src/main/resources/wedemy_erd.png).
+Otherwise, you may use your terminal to start the container:
 
+```bash
+ docker run --name "wedemy" -d -p 9000:9000 wedemy-server
+```
 
 ## Payments Handling
 
@@ -95,7 +101,7 @@ GooglePay, Venmo and many other methods. This project implements Credit-Card and
 your own Braintree Dev Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`.
 For Braintree tutorials and samples, please check their [official docs](https://developer.paypal.com/braintree/docs).
 
-## License 
+## License
 
 [MIT License](LICENSE)
 

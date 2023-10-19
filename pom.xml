@@ -161,7 +161,7 @@
     </dependencies>
 
     <!--    FOR CHINA REGION, FASTEST MAVEN MIRROR-->
-    <!--
+
         <repositories>
             <repository>
                 <id>aliyunmaven</id>
@@ -177,7 +177,7 @@
                 <url>https://maven.aliyun.com/repository/public</url>
             </pluginRepository>
         </pluginRepositories>
-    -->
+
 
     <build>
         <plugins>
