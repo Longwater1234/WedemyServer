@@ -8,8 +8,7 @@
 (Backend repo). Clone of Udemy, an e-learning platform, built using SpringBoot + Vue 3 + Typescript. With CreditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via cookies[^1]
 or sessionID Headers) for auth, instead of stateless JWT Tokens. CSRF protection is enabled. You can easily customize
-these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the
-app runs on port 9000.
+these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the app runs on port 9000.
 
 ## Frontend & Live Demo
 
@@ -29,7 +28,7 @@ the [API Docs](https://longwater1234.github.io/WedemyServer/) for this project.
 
 ### Environmental Variables
 
-You MUST set these ENV variables on your System or Container before you launch this SpringBoot app. **💡TIP**: During
+You MUST set these variables on your Local or Cloud ENV before you launch this SpringBoot app. **💡TIP**: During
 dev/test, you can pass them via `args`, OR store inside your IDE: e.g. In either Eclipse or IntelliJ IDE, in the top
 toolbar, find the **"Run"** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+)
 each key and its value, then click **Apply**. If using Docker CLI, follow this quick
@@ -44,9 +43,9 @@ GOOGLE_CLIENT_SECRET=
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
-# For production, set this:
+# For production, set these:
 SPRING_PROFILES_ACTIVE=prod
-PORT=#{server port for Spring}
+PORT=#{for Spring server}
 ```
 
 ## Important ⚠
@@ -58,51 +57,41 @@ THERE DIRECTLY**❌ . It's safer to store them as Environmental Variables instea
 declare them as `property.name = ${ENV_KEY_NAME}`, OR refer them directly in your source code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
+## Database Setup
+
+Read carefully the instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis (_TODO: ADD spring
+will auto-create tables_)
 
 ## Quick Start 🚀
 
-Verify you have the requirements listed above, and both your DB's (MySQL & Redis) are up and running. Git clone this repo. Navigate into
-this project root. Using your terminal, execute the commands below:
+### With Maven (natively)
 
-  ```bash
-  ./mvnw clean package
-  java -jar target/wedemyserver.jar
-  ```
+I assume you have requirements listed above. And both your DB's are running. Using your terminal, execute the commands
+below. That's it! Server will be available at http://localhost:9000
 
-If you did everything correctly (including setting the ENV variables above) the app should start and be available at
-http://localhost:9000 . Alternatively, you can build the docker image using the provided [Dockerfile](Dockerfile)
+```bash
+./mvnw clean package
+java -jar target/wedemyserver.jar
+```
 
-## Databases Used
+### With Docker
 
-### MySQL 8.0.x
+I have attached [Dockerfile](Dockerfile) for the Java server only. You will need to set up MySQL & Redis
+separately. First build the image in your terminal:
 
-This is the primary database. All DateTimes are stored and queried in UTC only. (**Hint: USE `java.time.Instant` as Type
-for all Datetime fields**). Handle timezone conversion on your Frontend! For your convenience, I have included a
-[mysqldump file](src/main/resources/data_wedemy.sql) which contains sample data for testing. You may also take a look at
-the [ERD diagram](src/main/resources/wedemy_erd.png).
+```bash
+  docker build -t wedemy-server .
+```
 
-- CREATE new schema called `wedemy` (any name is OK), with charset `utf8mb4`.
-- To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
-  parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
+If using Docker Desktop (latest), before starting the container, simply fill in the ENV Variables in the GUI directly:
 
-  ```properties
-  spring.datasource.url=jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC
-  # OR, set this
-  spring.jpa.properties.hibernate.jdbc.time_zone=UTC
-  ```
+![docker_env_gui](src/main/resources/docker_env.PNG)
 
-### Redis v6.0 (or higher)
+Otherwise, you may use your terminal to start the container:
 
-This project uses Redis for 2 main tasks: Caching, and Storing login sessions. You can download latest Redis (macOS &
-Linux) from https://redis.io/download. Windows users may download the latest native installer (.msi)
-from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could pull its official
-Docker image.
-Another option you could try is Redis Cloud at: https://redis.com/try-free/. Remember to replace Redis credentials
-inside application.yml (or in your ENV variables).
-
-| Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI client: RedisInsight. Download it free [here](https://redis.com/redis-enterprise/redis-insight/) |
-|--------|:------------------------------------------------------------------------------------------------------------------------------------------------------|
-
+```bash
+ docker run --name "wedemy" -d -p 9000:9000 wedemy-server
+```
 
 ## Payments Handling
 
@@ -111,6 +100,10 @@ GooglePay, Venmo and many other methods. This project implements Credit-Card and
 (Dev) mode: **No actual money is deducted at Checkout**. Make sure you obtain a set of 3 API Keys from
 your own Braintree Dev Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`.
 For Braintree tutorials and samples, please check their [official docs](https://developer.paypal.com/braintree/docs).
+
+## License
+
+[MIT License](LICENSE)
 
 ---
 

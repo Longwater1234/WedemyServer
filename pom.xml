@@ -160,23 +160,23 @@
         </dependency>
     </dependencies>
 
-    <!--    FOR CHINA REGION, FASTEST MAVEN MIRROR-->
+    <!--    If located in MAINLAND CHINA, UNCOMMENT THIS BLOCK -->
     <!--
-        <repositories>
-            <repository>
-                <id>aliyunmaven</id>
-                <name>aliyunmaven</name>
-                <url>https://maven.aliyun.com/repository/public</url>
-            </repository>
-        </repositories>
+            <repositories>
+                <repository>
+                    <id>aliyunmaven</id>
+                    <name>aliyunmaven</name>
+                    <url>https://maven.aliyun.com/repository/public</url>
+                </repository>
+            </repositories>
 
-        <pluginRepositories>
-            <pluginRepository>
-                <id>aliyunmaven</id>
-                <name>aliyunmaven</name>
-                <url>https://maven.aliyun.com/repository/public</url>
-            </pluginRepository>
-        </pluginRepositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>aliyunmaven</id>
+                    <name>aliyunmaven</name>
+                    <url>https://maven.aliyun.com/repository/public</url>
+                </pluginRepository>
+            </pluginRepositories>
     -->
 
     <build>
@@ -195,7 +195,7 @@
                             <artifactId>annotations</artifactId>
                         </exclude>
                     </excludes>
-                    <finalName>${project.name}</finalName>
+                    <finalName>${project.artifactId}</finalName>
                 </configuration>
             </plugin>
         </plugins>
