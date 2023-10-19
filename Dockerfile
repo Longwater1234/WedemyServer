@@ -8,7 +8,7 @@ COPY src ./src
 RUN mvn clean -DskipTests package
 
 
-FROM eclipse-temurin:11-jre-alpine
+FROM eclipse-temurin:11-jre-alpine AS runner
 WORKDIR /app
 COPY --from=build /app/target/wedemyserver.jar /app
 EXPOSE 9000

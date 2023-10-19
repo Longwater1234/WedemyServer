@@ -44,9 +44,9 @@ GOOGLE_CLIENT_SECRET=
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
-# For production, set this:
+# For production, set these:
 SPRING_PROFILES_ACTIVE=prod
-PORT=#{server port for Spring}
+PORT=#{for Spring server}
 ```
 
 ## Important ⚠
@@ -58,50 +58,33 @@ THERE DIRECTLY**❌ . It's safer to store them as Environmental Variables instea
 declare them as `property.name = ${ENV_KEY_NAME}`, OR refer them directly in your source code as shown
 in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeConfig.java).
 
-
 ## Quick Start 🚀
 
-Verify you have the requirements listed above, and both your DB's (MySQL & Redis) are up and running. Git clone this repo. Navigate into
-this project root. Using your terminal, execute the commands below:
+#### Natively as executable JAR
+
+I assume you have requirements listed above. And you have properly set ENV variables. Using your terminal at project
+root, execute the commands below:
 
   ```bash
   ./mvnw clean package
   java -jar target/wedemyserver.jar
   ```
 
-If you did everything correctly (including setting the ENV variables above) the app should start and be available at
-http://localhost:9000 . Alternatively, you can build the docker image using the provided [Dockerfile](Dockerfile)
+#### With Docker
 
-## Databases Used
+You may need to set up MySQL & Redis separately. Then, create an `.env` file at root of this project. Fill in
+your ENV variables as shown above. Then run the commands:
 
-### MySQL 8.0.x
+```bash
+  docker build -t wedemy-server .
+  docker run -d -p9000:9000 --env-file ".your-env-file" --rm wedemy-server
+```
 
-This is the primary database. All DateTimes are stored and queried in UTC only. (**Hint: USE `java.time.Instant` as Type
-for all Datetime fields**). Handle timezone conversion on your Frontend! For your convenience, I have included a
-[mysqldump file](src/main/resources/data_wedemy.sql) which contains sample data for testing. You may also take a look at
-the [ERD diagram](src/main/resources/wedemy_erd.png).
+## Database Setup
 
-- CREATE new schema called `wedemy` (any name is OK), with charset `utf8mb4`.
-- To maintain consistent time-zone (UTC) with your Java app, ensure your JDBC connection URL has
-  parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use UTC_TIMESTAMP() or UTC_DATE().
+Read carefully the instructions in [HELP.md](HELP.md#database-setup-info). Here is the ERD Diagram for the project:
 
-  ```properties
-  spring.datasource.url=jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC
-  # OR, set this
-  spring.jpa.properties.hibernate.jdbc.time_zone=UTC
-  ```
-
-### Redis v6.0 (or higher)
-
-This project uses Redis for 2 main tasks: Caching, and Storing login sessions. You can download latest Redis (macOS &
-Linux) from https://redis.io/download. Windows users may download the latest native installer (.msi)
-from [this GitHub repo](https://github.com/tporadowski/redis/releases). Alternatively, you could pull its official
-Docker image.
-Another option you could try is Redis Cloud at: https://redis.com/try-free/. Remember to replace Redis credentials
-inside application.yml (or in your ENV variables).
-
-| Tip 💡 | Redis now has an OFFICIAL cross-platform desktop GUI client: RedisInsight. Download it free [here](https://redis.com/redis-enterprise/redis-insight/) |
-|--------|:------------------------------------------------------------------------------------------------------------------------------------------------------|
+![ERD diagram](src/main/resources/wedemy_erd.png).
 
 
 ## Payments Handling
@@ -111,6 +94,10 @@ GooglePay, Venmo and many other methods. This project implements Credit-Card and
 (Dev) mode: **No actual money is deducted at Checkout**. Make sure you obtain a set of 3 API Keys from
 your own Braintree Dev Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`.
 For Braintree tutorials and samples, please check their [official docs](https://developer.paypal.com/braintree/docs).
+
+## License 
+
+[MIT License](LICENSE)
 
 ---
 

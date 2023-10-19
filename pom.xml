@@ -195,7 +195,7 @@
                             <artifactId>annotations</artifactId>
                         </exclude>
                     </excludes>
-                    <finalName>${project.name}</finalName>
+                    <finalName>${project.artifactId}</finalName>
                 </configuration>
             </plugin>
         </plugins>

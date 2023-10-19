@@ -32,3 +32,5 @@ build/
 .vscode/*
 !.vscode/settings.json
 
+## Env file
+.env
