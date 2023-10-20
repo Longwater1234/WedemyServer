@@ -59,8 +59,7 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 ## Database Setup
 
-Read carefully the instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis (_TODO: ADD spring
-will auto-create tables_)
+Read carefully the instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis.
 
 ## Quick Start 🚀
 
@@ -87,10 +86,10 @@ If using Docker Desktop (latest), before starting the container, simply fill in 
 
 ![docker_env_gui](src/main/resources/docker_env.PNG)
 
-Otherwise, you may use your terminal to start the container:
+Otherwise, you may use your terminal to start the container. See official docs for setting ENV using Docker CLI.
 
 ```bash
- docker run --name "wedemy" -d -p 9000:9000 wedemy-server
+ docker run --name "wedemy" -d -p9000:9000 --env-file ".env" wedemy-server
 ```
 
 ## Payments Handling
