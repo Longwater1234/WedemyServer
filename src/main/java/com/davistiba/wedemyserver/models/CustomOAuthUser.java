@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * [NOT A TABLE]
- * Ccustom Object for GoogleLogin User details
+ * Custom Object for GoogleLogin User details
  */
 public class CustomOAuthUser extends User implements OidcUser, Serializable {
 

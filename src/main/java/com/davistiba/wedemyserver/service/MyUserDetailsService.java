@@ -35,7 +35,7 @@ public class MyUserDetailsService implements UserDetailsService {
      * Checks if Google-User exists in dB. If not, register as new user.
      * Else just login with new Session.
      *
-     * @param oidcUser authenticated User
+     * @param oidcUser User logged in by Google
      * @param session  logged-in session
      */
     public void processOAuthPostLogin(OidcUser oidcUser, HttpSession session) {

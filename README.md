@@ -8,7 +8,8 @@
 (Backend repo). Clone of Udemy, an e-learning platform, built using SpringBoot + Vue 3 + Typescript. With CreditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via cookies[^1]
 or sessionID Headers) for auth, instead of stateless JWT Tokens. CSRF protection is enabled. You can easily customize
-these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the app runs on port 9000.
+these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the
+app runs on port 9000.
 
 ## Frontend & Live Demo
 
@@ -19,7 +20,7 @@ the [API Docs](https://longwater1234.github.io/WedemyServer/) for this project.
 ## Requirements
 
 - Java 11 or higher
-- MySQL 8.0
+- MySQL 8.0.x
 - Redis Server (latest stable)
 - [Google OAuth Credentials](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) (for Google
   Login)
@@ -31,7 +32,7 @@ the [API Docs](https://longwater1234.github.io/WedemyServer/) for this project.
 You MUST set these variables on your Local or Cloud ENV before you launch this SpringBoot app. **💡TIP**: During
 dev/test, you can pass them via `args`, OR store inside your IDE: e.g. In either Eclipse or IntelliJ IDE, in the top
 toolbar, find the **"Run"** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+)
-each key and its value, then click **Apply**. If using Docker CLI, follow this quick
+each key and its value, then click **Apply**. **If using Docker CLI**, follow this quick
 [official guide.](https://docs.docker.com/engine/reference/commandline/run/#env)
 
 ```properties
@@ -75,18 +76,19 @@ java -jar target/wedemyserver.jar
 
 ### With Docker
 
-I have attached [Dockerfile](Dockerfile) for the Java server only. You will need to set up MySQL & Redis
+I have attached [Dockerfile](Dockerfile) only for the Springboot server. You will need to set up MySQL & Redis
 separately. First build the image in your terminal:
 
 ```bash
   docker build -t wedemy-server .
 ```
 
-If using Docker Desktop (latest), before starting the container, simply fill in the ENV Variables in the GUI directly:
+If using Docker Desktop (latest), before starting the container, click "Actions" button, then fill in the ENV Variables
+in the GUI directly:
 
 ![docker_env_gui](src/main/resources/docker_env.PNG)
 
-Otherwise, you may use your terminal to start the container. See official docs for setting ENV using Docker CLI.
+Otherwise, you may use your terminal to start the container. _See official docs for setting ENV using Docker CLI_.
 
 ```bash
  docker run --name "wedemy" -d -p9000:9000 --env-file ".env" wedemy-server
