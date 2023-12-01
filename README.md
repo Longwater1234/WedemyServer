@@ -82,7 +82,7 @@ separately. First build the image in your terminal:
   docker build -t wedemy-server .
 ```
 
-If using Docker Desktop (latest), before starting the container, simply fill in the ENV Variables in the GUI directly:
+If using Docker Desktop (latest), before starting the container, click "Actions" button > fill in the ENV Variables in the GUI directly:
 
 ![docker_env_gui](src/main/resources/docker_env.PNG)
 
@@ -91,6 +91,10 @@ Otherwise, you may use your terminal to start the container. See official docs f
 ```bash
  docker run --name "wedemy" -d -p9000:9000 --env-file ".env" wedemy-server
 ```
+
+## Deploying to Production 🌏 
+
+You can deploy this app within few minutes, directly from Github to your Cloud Platform of choice. Please view the Wiki (TODO: add link here) for guide.
 
 ## Payments Handling
 
