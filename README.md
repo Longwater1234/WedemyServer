@@ -94,7 +94,7 @@ See [screenshot](src/main/resources/docker_env.PNG)
 This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. You can either
 use the [Dockerfile](Dockerfile) provided, or natively as a pure Java app. Popular PaaS with CI/CD for Java
 include: Heroku, AWS ElasticBeanstalk, Google App Engine, Azure Web Apps. The following may **require** a Dockerfile:
-Dokku, Railway, Render.com, Fly.io. Please note, you may also need a **separate** MySQL & Redis instance!
+Dokku, Railway, Render.com, Fly.io. Please note, you will also need a **separate** MySQL & Redis instance!
 
 ## Payments Handling
 
