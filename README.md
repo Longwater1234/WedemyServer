@@ -8,7 +8,8 @@
 (Backend repo). Clone of Udemy, an e-learning platform, built using SpringBoot + Vue 3 + Typescript. With CreditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via cookies[^1]
 or sessionID Headers) for auth, instead of stateless JWT Tokens. CSRF protection is enabled. You can easily customize
-these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the app runs on port 9000.
+these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the
+app runs on port 9000.
 
 ## Frontend & Live Demo
 
@@ -59,7 +60,7 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 ## Database Setup
 
-Read carefully the instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis.
+Follow carefully the instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis.
 
 ## Quick Start 🚀
 
@@ -75,22 +76,25 @@ java -jar target/wedemyserver.jar
 
 ### With Docker
 
-I have attached [Dockerfile](Dockerfile) for the Java server only. You will need to set up MySQL & Redis
-separately. First build the image in your terminal:
+I have attached [Dockerfile](Dockerfile) for the Spring server only. You will need to set up MySQL & Redis
+separately. Refer to official Docker docs on how to pass Env variables.
 
 ```bash
+  # Build image
   docker build -t wedemy-server .
+  # Start container
+  docker run --name "wedemy" -d -p9000:9000 wedemy-server
 ```
 
-If using Docker Desktop (latest), before starting the container, simply fill in the ENV Variables in the GUI directly:
+Tip💡 : If using Docker Desktop (latest), before starting container, you can fill in the ENV vars in the GUI directly.
+See [screenshot](src/main/resources/docker_env.PNG)
 
-![docker_env_gui](src/main/resources/docker_env.PNG)
+## Deploying your App 🌍
 
-Otherwise, you may use your terminal to start the container. See official docs for setting ENV using Docker CLI.
-
-```bash
- docker run --name "wedemy" -d -p9000:9000 --env-file ".env" wedemy-server
-```
+This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. You can either
+use the [Dockerfile](Dockerfile) provided, or natively as a pure Java app. Popular PaaS with CI/CD for Java
+include: Heroku, AWS ElasticBeanstalk, Google App Engine, Azure Web Apps. The following may **require** a Dockerfile:
+Dokku, Railway, Render.com, Fly.io. Please note, you may also need a **separate** MySQL & Redis instance!
 
 ## Payments Handling
 
