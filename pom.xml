@@ -134,7 +134,7 @@
         <dependency>
             <groupId>com.braintreepayments.gateway</groupId>
             <artifactId>braintree-java</artifactId>
-            <version>3.30.0</version>
+            <version>3.32.0</version>
         </dependency>
 
         <!--        UNCOMMENT TO ENABLE SWAGGER -->
