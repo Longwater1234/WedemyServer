@@ -23,7 +23,7 @@ public class ProfileService {
      * Custom service to return a Student's summary
      */
     public List<StudentSummary> getUserSummaryList(@NotNull User user) {
-        List<StudentSummary> summaryList = new ArrayList<>();
+        List<StudentSummary> summaryList = new ArrayList<>(3);
         long owned = enrollmentRepository.countEnrollmentByUser(user);
         StudentSummary s1 = new StudentSummary(SummaryTitle.OWNING, owned, "courses");
         summaryList.add(s1);
@@ -33,6 +33,12 @@ public class ProfileService {
         summaryList.add(s2);
 
         Duration duration = Duration.between(Instant.now(), user.getCreatedAt()).abs();
+        StudentSummary s3 = this.getMembershipTime(duration);
+        summaryList.add(s3);
+        return summaryList;
+    }
+
+    private StudentSummary getMembershipTime(Duration duration) {
         final long numberDays = duration.toDays();
 
         long result = 0;
@@ -49,8 +55,6 @@ public class ProfileService {
             units = "year(s) ago";
         }
 
-        StudentSummary s3 = new StudentSummary(SummaryTitle.JOINED, result, units);
-        summaryList.add(s3);
-        return summaryList;
+        return new StudentSummary(SummaryTitle.JOINED, result, units);
     }
 }

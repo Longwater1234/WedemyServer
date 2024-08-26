@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -30,6 +31,7 @@ public class ObjectivesController {
 
     @PostMapping(value = "/")
     @Secured(value = "ROLE_ADMIN")
+    @Transactional
     public ResponseEntity<MyCustomResponse> addNewObjectives(@RequestBody @Valid ObjectivesDTO objDTO) {
         List<String> objectives = objDTO.getObjectives();
         try {

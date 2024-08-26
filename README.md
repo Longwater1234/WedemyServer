@@ -19,8 +19,8 @@ the [API Docs](https://longwater1234.github.io/WedemyServer/) for this project.
 
 ## Requirements
 
-- Java 11 or higher
-- MySQL 8.0
+- JDK 11 or newer
+- MySQL 8.0.x or newer (NOT compatible with MariaDB)
 - Redis Server (latest stable)
 - [Google OAuth Credentials](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) (for Google
   Login)
@@ -60,13 +60,14 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 ## Database Setup
 
-Follow carefully the instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis.
+Using any MySQL client, CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`. Then follow
+carefully the rest of instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis.
 
 ## Quick Start 🚀
 
 ### With Maven (natively)
 
-I assume you have requirements listed above. And both your DB's are running. Using your terminal, execute the commands
+I assume you have requirements listed above. And both your Dbs are running. Using your terminal, execute the commands
 below. That's it! Server will be available at http://localhost:9000
 
 ```bash
