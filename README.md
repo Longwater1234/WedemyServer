@@ -20,7 +20,7 @@ the [API Docs](https://longwater1234.github.io/WedemyServer/) for this project.
 ## Requirements
 
 - JDK 11 or newer
-- MySQL 8.0.x or newer (NOT compatible with MariaDB)
+- MySQL 8.0 or newer (NOT compatible with MariaDB)
 - Redis Server (latest stable)
 - [Google OAuth Credentials](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) (for Google
   Login)
@@ -67,7 +67,7 @@ carefully the rest of instructions in [HELP.md](HELP.md#database-setup-info), fo
 
 ### With Maven (natively)
 
-I assume you have requirements listed above. And both your Dbs are running. Using your terminal, execute the commands
+Assuming you have requirements listed above, and both your Dbs are running. Using your Terminal, execute the commands
 below. That's it! Server will be available at http://localhost:9000
 
 ```bash
@@ -81,9 +81,7 @@ I have attached [Dockerfile](Dockerfile) for the Spring server only. You will ne
 separately. Refer to official Docker docs on how to pass Env variables.
 
 ```bash
-  # Build image
   docker build -t wedemy-server .
-  # Start container
   docker run --name "wedemy" -d -p9000:9000 wedemy-server
 ```
 
@@ -93,7 +91,7 @@ See [screenshot](src/main/resources/docker_env.PNG)
 ## Deploying your App 🌍
 
 This App can be easily deployed within few minutes, straight from GitHub to your Cloud PaaS of choice. You can either
-use the [Dockerfile](Dockerfile) provided, or natively as a pure Java app. Popular PaaS with CI/CD for Java
+use the [Dockerfile](Dockerfile) provided, or as a pure Java app. Popular PaaS with CI/CD for Java
 include: Heroku, AWS ElasticBeanstalk, Google App Engine, Azure Web Apps. The following may **require** a Dockerfile:
 Dokku, Railway, Render.com, Fly.io. Please note, you will also need a **separate** MySQL & Redis instance!
 
