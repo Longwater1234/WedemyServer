@@ -5,6 +5,8 @@ import com.davistiba.wedemyserver.models.CustomOAuthUser;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.models.UserRole;
 import com.davistiba.wedemyserver.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,8 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
-import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 

@@ -2,6 +2,7 @@ package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.repository.LessonRepository;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -10,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 

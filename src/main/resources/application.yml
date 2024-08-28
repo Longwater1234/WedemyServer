@@ -52,9 +52,9 @@ spring:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
   session:
-    store-type: redis
     redis:
       cleanup-cron: 0 0 * * * *
+      repository-type: indexed
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
 #springdoc:

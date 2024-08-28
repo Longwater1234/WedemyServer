@@ -1,9 +1,8 @@
 package com.davistiba.wedemyserver.dto;
 
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.ToString;
-
-import javax.validation.constraints.*;
 
 /**
  * REVIEW body sent from frontend

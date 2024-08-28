@@ -1,9 +1,8 @@
 package com.davistiba.wedemyserver.dto;
 
 import com.davistiba.wedemyserver.models.Lesson;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-
-import javax.validation.constraints.NotNull;
 
 @Getter
 public class VideoResponse {
