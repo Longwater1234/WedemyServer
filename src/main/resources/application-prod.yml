@@ -43,11 +43,7 @@ spring:
     type: redis
     redis:
       time-to-live: PT60M #60 minutes
-  redis:
-    host: ${REDIS_HOST}
-    password: ${REDIS_PASSWORD}
-    port: ${REDIS_PORT}
-    # url: ${REDIS_URL} #Optional. Full URi. Will override [host, password, port] above
+
   security:
     oauth2:
       client:
@@ -61,7 +57,14 @@ spring:
       repository-type: indexed
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
-## ENABLE SWAGGER-UI (disable in PROD)
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      password: ${REDIS_PASSWORD}
+      port: ${REDIS_PORT}
+      # url: ${REDIS_URL} # Optional. Full Uri. Will override [host, password, port] above
+
+## DISABLE SWAGGER-UI in PROD
 #springdoc:
 #  swagger-ui:
 #    enabled: false

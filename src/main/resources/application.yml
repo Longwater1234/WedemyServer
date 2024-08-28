@@ -40,10 +40,7 @@ spring:
     type: redis
     redis:
       time-to-live: PT30M #30minutes
-  redis:
-    host: localhost
-    port: 6379
-    password: ""
+
   security:
     oauth2:
       client:
@@ -57,5 +54,11 @@ spring:
       repository-type: indexed
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ""
+      # url: ${REDIS_URL} # Optional. Full Uri. Will override [host, password, port] above
 #springdoc:
 #  show-login-endpoint: true

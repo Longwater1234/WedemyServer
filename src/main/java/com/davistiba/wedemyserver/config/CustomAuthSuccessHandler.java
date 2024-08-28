@@ -44,9 +44,8 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication auth) throws IOException, ServletException {
-        if (auth.getPrincipal() instanceof OidcUser) {
+        if (auth.getPrincipal() instanceof OidcUser oidcUser) {
             //if Google Login
-            OidcUser oidcUser = (OidcUser) auth.getPrincipal();
             myUserDetailsService.processOAuthPostLogin(oidcUser, request.getSession());
             response.sendRedirect(FRONTEND_URL);
             return;
