@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -34,6 +35,7 @@ public class CartController {
 
     @PostMapping(path = "/course/{courseId}")
     @ResponseStatus(HttpStatus.CREATED)
+    @Transactional
     public ResponseEntity<MyCustomResponse> addSingleItem(HttpSession session, @PathVariable Integer courseId) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);

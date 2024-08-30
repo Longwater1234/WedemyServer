@@ -25,7 +25,7 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
 
     @Query(value = "SELECT EXISTS(SELECT 1 from cart c where c.user_id = ?1 and c.course_id = ?2)", nativeQuery = true)
     int checkIfCourseInCart(Integer userId, Integer courseId);
-    //FASTER, BUT UNFORTUNATELY IT RETURNS int (MySQL), NOT BOOLEAN.
+    //^FASTER, BUT UNFORTUNATELY IT RETURNS int (MySQL), NOT BOOLEAN.
 
     @Query(value = "SELECT COUNT(c) FROM Cart c WHERE c.user.id = ?1")
     long countCartByUserIdEquals(Integer userId);
