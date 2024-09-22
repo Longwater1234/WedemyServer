@@ -31,7 +31,7 @@ spring:
     username: ${MYSQL_USERNAME}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: update  #You may change to `NONE`
     properties:
       hibernate:
         order_inserts: true

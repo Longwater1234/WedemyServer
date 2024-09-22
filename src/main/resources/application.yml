@@ -28,7 +28,7 @@ spring:
     username: root
   jpa:
     hibernate:
-      ddl-auto: update #You may chnage to `NONE` in production
+      ddl-auto: update
     properties:
       hibernate:
         order_inserts: true
