@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.service;
 
+import com.davistiba.wedemyserver.config.MainUserDetails;
 import com.davistiba.wedemyserver.models.AuthProvider;
 import com.davistiba.wedemyserver.models.CustomOAuthUser;
 import com.davistiba.wedemyserver.models.User;
@@ -27,8 +28,9 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username)
+        var user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+        return new MainUserDetails(user);
     }
 
     /**
@@ -47,6 +49,7 @@ public class MyUserDetailsService implements UserDetailsService {
             newUser.setFullname(m.getName());
             newUser.setEmail(m.getEmail());
             newUser.setConfirmPass("WHATEVER!"); //<-- anything, but not NULL
+            newUser.setEnabled(true);
             newUser.setAuthProvider(AuthProvider.GOOGLE);
             newUser.setUserRole(UserRole.ROLE_STUDENT);
 

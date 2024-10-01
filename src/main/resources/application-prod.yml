@@ -36,7 +36,7 @@ spring:
       hibernate:
         order_inserts: true
         order_updates: true
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
         jdbc:
           batch-size: 20
   cache:

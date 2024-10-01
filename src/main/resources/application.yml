@@ -18,6 +18,7 @@ server:
         http-only: true
         max-age: 10800s #3hours
         name: WD_SESSION
+        same-site: lax
     encoding:
       charset: UTF-8
       force: true
@@ -33,7 +34,7 @@ spring:
       hibernate:
         order_inserts: true
         order_updates: true
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
         jdbc:
           batch-size: 20
   cache:

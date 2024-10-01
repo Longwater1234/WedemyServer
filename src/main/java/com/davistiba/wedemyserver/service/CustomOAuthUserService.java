@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomOAuthUserService extends OidcUserService {
+
     @Override
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
         OidcUser oidcUser = super.loadUser(userRequest);

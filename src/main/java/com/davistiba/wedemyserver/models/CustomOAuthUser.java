@@ -1,10 +1,15 @@
 package com.davistiba.wedemyserver.models;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
+import java.io.Serial;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -13,6 +18,7 @@ import java.util.Map;
  */
 public class CustomOAuthUser extends User implements OidcUser, Serializable {
 
+    @Serial
     private static final long serialVersionUID = -8362892628832016809L;
     private final OidcUser oidcUser;
 
@@ -41,8 +47,9 @@ public class CustomOAuthUser extends User implements OidcUser, Serializable {
     }
 
     @Override
-    public String getUsername() {
-        return oidcUser.getAttribute("email");
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(super.getUserRole());
+        return Collections.singletonList(authority);
     }
 
     @Override
