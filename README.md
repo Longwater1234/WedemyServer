@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyServer)](https://github.com/Longwater1234/WedemyServer/blob/master/LICENSE)
 [![Static Badge](https://img.shields.io/badge/reference-help.md-orange)](HELP.md)
 
-(Backend repo). Clone of Udemy, an e-learning platform, built using SpringBoot + Vue 3 + Typescript. With CreditCard and
+(Backend repo). Clone of Udemy, an e-learning platform, built using SpringBoot 3 + Vue 3 + Typescript. With CreditCard and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via cookies[^1]
 or sessionID Headers) for auth, instead of stateless JWT Tokens. CSRF protection is enabled. You can easily customize
 these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the

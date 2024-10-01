@@ -1,7 +1,6 @@
 package com.davistiba.wedemyserver.config;
 
 import com.davistiba.wedemyserver.dto.UserDTO;
-import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -50,8 +49,8 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
             response.sendRedirect(FRONTEND_URL);
             return;
         }
-        User loggedInUser = (User) auth.getPrincipal();
-        UserDTO userInfo = modelMapper.map(loggedInUser, UserDTO.class);
+        MainUserDetails loggedInUser = (MainUserDetails) auth.getPrincipal();
+        UserDTO userInfo = modelMapper.map(loggedInUser.getUser(), UserDTO.class);
 
         request.getSession().setAttribute(MyUserDetailsService.USERID, userInfo.getId());
         Map<String, Object> authResponse = new HashMap<>();
