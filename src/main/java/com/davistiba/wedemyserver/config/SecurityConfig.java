@@ -5,6 +5,7 @@ import com.davistiba.wedemyserver.service.CustomOAuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,8 +54,10 @@ public class SecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors(Customizer.withDefaults()).httpBasic(Customizer.withDefaults())
+        return http.cors(Customizer.withDefaults()).httpBasic(Customizer.withDefaults())
                 .oauth2Login(x -> x.userInfoEndpoint(config -> config.oidcUserService(googleOauthService)).successHandler(successHandler))
+                .csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringRequestMatchers("/oauth2/**", "/auth/**"))
+                .sessionManagement(s -> s.maximumSessions(2))
                 .authorizeHttpRequests((authz) ->
                         authz.requestMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
@@ -63,13 +66,17 @@ public class SecurityConfig {
                                 .requestMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.name())
                                 .anyRequest().authenticated())
                 .with(new MyCustomFilterSetup(successHandler), x -> {
-                });
+                }).build();
+    }
 
-        //SESSION and CSRF (you may disable CSRF entirely)
-        return http.csrf(config -> {
-            config.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-            config.ignoringRequestMatchers("/oauth2/**", "/auth/**");
-        }).sessionManagement(s -> s.maximumSessions(2)).build();
+    @Bean
+    @Order(1)
+    @Profile(value = "debug")
+    public SecurityFilterChain securityFilterChainDebug(HttpSecurity http) throws Exception {
+        // Disable CSRF and Allow all paths
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(c -> c.anyRequest().permitAll());
+        return http.build();
     }
 
     @Bean
