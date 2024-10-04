@@ -23,6 +23,8 @@ server:
       charset: UTF-8
       force: true
 spring:
+  application:
+    name: wedemy-server
   datasource:
     password: ${MYSQL_PASSWORD}
     url: jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC&rewriteBatchedStatements=true

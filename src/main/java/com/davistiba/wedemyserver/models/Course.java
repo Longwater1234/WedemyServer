@@ -13,6 +13,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.URL;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -25,6 +26,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class Course implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -2540907171719494221L;
 
     @Id

@@ -32,6 +32,7 @@ public class WedemyserverApplication {
     }
 
     @Bean
+    // important for Heroku
     public static ConfigureRedisAction configureRedisAction() {
         return ConfigureRedisAction.NO_OP;
     }

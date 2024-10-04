@@ -25,6 +25,8 @@ server:
       charset: UTF-8
       force: true
 spring:
+  application:
+    name: wedemy-server
   datasource:
     password: ${MYSQL_PASSWORD}
     url: ${MYSQL_HOST}
