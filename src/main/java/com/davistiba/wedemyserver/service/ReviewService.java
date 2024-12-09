@@ -28,7 +28,7 @@ public class ReviewService {
 
     /**
      * Insert new review.
-     * Then, calculate and update AVG rating for course.
+     * Then, re-calculate and update AVG rating for course.
      * All in single DB transaction
      *
      * @param request from frontend
@@ -48,7 +48,7 @@ public class ReviewService {
     }
 
     /**
-     * EDIT existing review, and modify AVG course rating
+     * UPDATE existing review, and modify AVG course rating
      */
     @Transactional
     public void updateCourseRating(Integer reviewId, ReviewRequest request) {

@@ -46,14 +46,14 @@ public class CheckoutService {
     public MyCustomResponse processCheckoutDatabase(String transactionId,
                                                     @NotNull CheckoutRequest request,
                                                     User user) {
-
-        List<OrderItem> orderItemList = new ArrayList<>();
-        List<Enrollment> enrollments = new ArrayList<>();
         Page<Course> coursePage = courseRepository.getCartListByUser(user.getId(), Pageable.unpaged());
 
         //===== begin DB OPERATIONS ========
         Sales savedSale = salesRepository.save(
                 new Sales(transactionId, user, request.getTotalAmount(), request.getPaymentMethod()));
+
+        ArrayList<OrderItem> orderItemList = new ArrayList<>(coursePage.getTotalPages());
+        ArrayList<Enrollment> enrollments = new ArrayList<>(coursePage.getTotalPages());
 
         coursePage.get().forEach(course -> {
             OrderItem o = new OrderItem(savedSale, course);
@@ -63,7 +63,7 @@ public class CheckoutService {
             enrollments.add(e);
         });
 
-        List<Integer> courseIds = coursePage.get().map(Course::getId).collect(Collectors.toUnmodifiableList());
+        List<Integer> courseIds = coursePage.get().map(Course::getId).toList();
 
         orderItemRepository.saveAll(orderItemList);
         enrollmentRepository.saveAll(enrollments);
