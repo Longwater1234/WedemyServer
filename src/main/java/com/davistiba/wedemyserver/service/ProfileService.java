@@ -23,7 +23,7 @@ public class ProfileService {
      * Custom service to return a Student's summary
      */
     public List<StudentSummary> getUserSummaryList(@NotNull User user) {
-        List<StudentSummary> summaryList = new ArrayList<>(3);
+        ArrayList<StudentSummary> summaryList = new ArrayList<>(3);
         long owned = enrollmentRepository.countEnrollmentByUser(user);
         StudentSummary s1 = new StudentSummary(SummaryTitle.OWNING, owned, "courses");
         summaryList.add(s1);
