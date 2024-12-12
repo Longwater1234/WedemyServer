@@ -78,7 +78,7 @@ java -jar target/wedemyserver.jar
 
 ### With Docker
 
-I have attached [Dockerfile](Dockerfile) for the Springboot server only (slim image). You will need to set up MySQL &
+I have attached [Dockerfile](Dockerfile) for the Springboot server only. You will need to set up MySQL &
 Redis separately. Refer to official Docker docs on how to pass ENV variables listed above.
 
 ```bash
