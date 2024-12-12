@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * [NOT A TABLE]
@@ -67,5 +68,17 @@ public class CustomOAuthUser extends User implements OidcUser, Serializable {
         return oidcUser.getAttribute("email");
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        CustomOAuthUser that = (CustomOAuthUser) o;
+        return Objects.equals(oidcUser.getEmail(), that.oidcUser.getEmail());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), oidcUser);
+    }
 }
