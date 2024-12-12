@@ -1,8 +1,7 @@
 package com.davistiba.wedemyserver.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * This is for updating watchStatus on currentLessonId, and requesting next lesson

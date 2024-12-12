@@ -7,6 +7,8 @@ import com.davistiba.wedemyserver.models.Review;
 import com.davistiba.wedemyserver.repository.ReviewRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import com.davistiba.wedemyserver.service.ReviewService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +21,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.util.stream.Stream;
 
 @RestController

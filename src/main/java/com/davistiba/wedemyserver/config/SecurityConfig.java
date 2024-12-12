@@ -5,12 +5,13 @@ import com.davistiba.wedemyserver.service.CustomOAuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,7 +23,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity(jsr250Enabled = true, securedEnabled = true)
 public class SecurityConfig {
 
     @Bean
@@ -53,22 +54,29 @@ public class SecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().and().httpBasic(Customizer.withDefaults())
-                .oauth2Login().userInfoEndpoint().oidcUserService(googleOauthService)
-                .and().successHandler(successHandler)
-                .and().authorizeHttpRequests((authz) ->
-                        authz.antMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
-                                .antMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
-                                .antMatchers("/profile/**", "/user/**").hasAuthority(UserRole.ROLE_STUDENT.name())
-                                .antMatchers(HttpMethod.GET, "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
-                                .antMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.name())
+        return http.cors(Customizer.withDefaults()).httpBasic(Customizer.withDefaults())
+                .oauth2Login(x -> x.userInfoEndpoint(config -> config.oidcUserService(googleOauthService)).successHandler(successHandler))
+                .csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringRequestMatchers("/oauth2/**", "/auth/**"))
+                .sessionManagement(s -> s.maximumSessions(2))
+                .authorizeHttpRequests((authz) ->
+                        authz.requestMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
+                                .requestMatchers("/profile/**", "/user/**").hasAuthority(UserRole.ROLE_STUDENT.name())
+                                .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
+                                .requestMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.name())
                                 .anyRequest().authenticated())
-                .apply(new MyCustomFilterSetup(successHandler));
+                .with(new MyCustomFilterSetup(successHandler), x -> {
+                }).build();
+    }
 
-        //SESSION and CSRF (you may disable CSRF)
-        return http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringAntMatchers("/oauth2/**", "/auth/**")
-                .and().sessionManagement(s -> s.maximumSessions(2)).build();
+    @Bean
+    @Order(1)
+    @Profile(value = "debug")
+    public SecurityFilterChain securityFilterChainDebug(HttpSecurity http) throws Exception {
+        // Disable CSRF and Allow all paths
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(c -> c.anyRequest().permitAll());
+        return http.build();
     }
 
     @Bean

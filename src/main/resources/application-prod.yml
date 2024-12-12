@@ -25,29 +25,27 @@ server:
       charset: UTF-8
       force: true
 spring:
+  application:
+    name: wedemy-server
   datasource:
     password: ${MYSQL_PASSWORD}
     url: ${MYSQL_HOST}
     username: ${MYSQL_USERNAME}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: update  #You may change to `NONE`
     properties:
       hibernate:
         order_inserts: true
         order_updates: true
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
         jdbc:
           batch-size: 20
   cache:
     type: redis
     redis:
       time-to-live: PT60M #60 minutes
-  redis:
-    host: ${REDIS_HOST}
-    password: ${REDIS_PASSWORD}
-    port: ${REDIS_PORT}
-    # url: ${REDIS_URL} #Optional. Full URi. Will override [host, password, port] above
+
   security:
     oauth2:
       client:
@@ -56,12 +54,19 @@ spring:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
   session:
-    store-type: redis
     redis:
       cleanup-cron: 0 0 23 * * *
+      repository-type: indexed
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
-## ENABLE SWAGGER-UI (disable in PROD)
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      password: ${REDIS_PASSWORD}
+      port: ${REDIS_PORT}
+      # url: ${REDIS_URL} # Optional. Full Uri. Will override [host, password, port] above
+
+## DISABLE SWAGGER-UI in PROD
 #springdoc:
 #  swagger-ui:
 #    enabled: false

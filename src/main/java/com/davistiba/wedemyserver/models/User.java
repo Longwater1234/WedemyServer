@@ -3,23 +3,18 @@ package com.davistiba.wedemyserver.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.Instant;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 
 @Entity
@@ -27,8 +22,9 @@ import java.util.Objects;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class User implements UserDetails {
+public class User implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -1352733651057286866L;
 
     @Id
@@ -63,6 +59,10 @@ public class User implements UserDetails {
     @JsonIgnore
     private AuthProvider authProvider = AuthProvider.LOCAL;
 
+    @ColumnDefault(value = "TRUE")
+    @NotNull
+    private Boolean enabled;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum('ROLE_STUDENT', 'ROLE_ADMIN') DEFAULT 'ROLE_STUDENT'", nullable = false)
     @JsonIgnore
@@ -73,48 +73,6 @@ public class User implements UserDetails {
     @JsonProperty(access = Access.READ_ONLY)
     private Instant createdAt;
 
-    @Override
-    @JsonIgnore
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(this.getUserRole());
-        return Collections.singletonList(authority);
-    }
-
-    @Override
-    @JsonIgnore
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    @JsonIgnore
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isEnabled() {
-        return true;
-    }
 
     public String getUserRole() {
         return String.valueOf(userRole);

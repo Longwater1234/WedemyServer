@@ -4,10 +4,10 @@ import com.davistiba.wedemyserver.dto.StudentSummary;
 import com.davistiba.wedemyserver.models.SummaryTitle;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class ProfileService {
      * Custom service to return a Student's summary
      */
     public List<StudentSummary> getUserSummaryList(@NotNull User user) {
-        List<StudentSummary> summaryList = new ArrayList<>(3);
+        ArrayList<StudentSummary> summaryList = new ArrayList<>(3);
         long owned = enrollmentRepository.countEnrollmentByUser(user);
         StudentSummary s1 = new StudentSummary(SummaryTitle.OWNING, owned, "courses");
         summaryList.add(s1);

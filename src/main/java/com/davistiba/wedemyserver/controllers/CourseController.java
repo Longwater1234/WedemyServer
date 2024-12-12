@@ -3,6 +3,8 @@ package com.davistiba.wedemyserver.controllers;
 import com.davistiba.wedemyserver.dto.CategoryDTO;
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.repository.CourseRepository;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -13,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 

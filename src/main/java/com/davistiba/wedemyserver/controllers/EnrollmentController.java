@@ -10,6 +10,9 @@ import com.davistiba.wedemyserver.repository.EnrollmentRepository;
 import com.davistiba.wedemyserver.repository.LessonRepository;
 import com.davistiba.wedemyserver.service.EnrollProgressService;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +24,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @RestController
