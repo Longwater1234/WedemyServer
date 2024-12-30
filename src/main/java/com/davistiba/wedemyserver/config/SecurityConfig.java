@@ -57,7 +57,7 @@ public class SecurityConfig {
         return http.cors(Customizer.withDefaults()).httpBasic(Customizer.withDefaults())
                 .oauth2Login(x -> x.userInfoEndpoint(config -> config.oidcUserService(googleOauthService)).successHandler(successHandler))
                 .csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringRequestMatchers("/oauth2/**", "/auth/**"))
-                .sessionManagement(s -> s.maximumSessions(2))
+                .sessionManagement(s -> s.sessionConcurrency(c -> c.maximumSessions(2)))
                 .authorizeHttpRequests((authz) ->
                         authz.requestMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
@@ -90,6 +90,9 @@ public class SecurityConfig {
     }
 
 
+    /**
+     * add custom filter for Auth
+     */
     static class MyCustomFilterSetup extends AbstractHttpConfigurer<MyCustomFilterSetup, HttpSecurity> {
         private final CustomAuthSuccessHandler customAuthSuccessHandler;
 
