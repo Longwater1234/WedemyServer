@@ -62,8 +62,8 @@ public class CheckoutController {
                                                              HttpSession session) {
 
         String transactionId; // from Braintree
-        Integer userId = MyUserDetailsService.getSessionUserId(session);
-        User user = userRepository.findById(userId).orElseThrow();
+        final Integer userId = MyUserDetailsService.getSessionUserId(session);
+        final User user = userRepository.findById(userId).orElseThrow();
 
         // try to create Braintree transaction
         TransactionRequest transactionRequest = new TransactionRequest()
@@ -77,7 +77,7 @@ public class CheckoutController {
                 .submitForSettlement(true)
                 .done();
 
-        Result<Transaction> result = gateway.transaction().sale(transactionRequest);
+        com.braintreegateway.Result<Transaction> result = gateway.transaction().sale(transactionRequest);
 
         // listen for Transaction Result
         if (result.isSuccess()) {
@@ -85,8 +85,8 @@ public class CheckoutController {
         } else if (result.getTransaction() != null) {
             transactionId = result.getTransaction().getId();
         } else {
-            //Oops! FAIL ☹
-            List<String> errorList = new ArrayList<>();
+            //☹ Oops! FAILED, so return errors
+            ArrayList<String> errorList = new ArrayList<>();
             for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
                 errorList.add(error.getMessage());
             }
@@ -94,12 +94,8 @@ public class CheckoutController {
         }
 
         //OK, ALL IS GOOD! let's finally wrap everything up.
-        try {
-            MyCustomResponse response = checkoutService.processCheckoutDatabase(transactionId, request, user);
-            return ResponseEntity.ok().body(response);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not complete purchase", e);
-        }
+        MyCustomResponse response = checkoutService.processCheckoutDatabase(transactionId, request, user);
+        return ResponseEntity.ok().body(response);
     }
 
 }

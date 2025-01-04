@@ -24,9 +24,11 @@ public class CheckoutRequest {
     @Min(1)
     private BigDecimal totalAmount;
 
+    /**
+     * "ApplePayCard" | "CreditCard" | "AndroidPayCard" | "PayPalAccount" | "VenmoAccount"
+     */
     @NotEmpty
     private String paymentMethod;
-    // "ApplePayCard" | "CreditCard" | "AndroidPayCard" | "PayPalAccount" | "VenmoAccount"
 
     public CheckoutRequest() {
     }

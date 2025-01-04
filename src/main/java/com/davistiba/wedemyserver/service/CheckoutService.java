@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +43,10 @@ public class CheckoutService {
      * Insert each item to OrderItems.
      * Then insert each distinct item to Enrollment table.
      * Finally, clear Cart of current user.
+     *
+     * @param transactionId from Braintree, after payment success
+     * @param request       from frontend.
+     * @param user          the current student
      */
     @Transactional
     public MyCustomResponse processCheckoutDatabase(String transactionId,
@@ -64,7 +70,6 @@ public class CheckoutService {
         });
 
         List<Integer> courseIds = coursePage.get().map(Course::getId).toList();
-
         orderItemRepository.saveAll(orderItemList);
         enrollmentRepository.saveAll(enrollments);
         cartRepository.deleteByUserIdAndCoursesIn(user.getId(), courseIds);

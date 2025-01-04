@@ -15,7 +15,7 @@ import java.util.Objects;
 
 /**
  * [NOT A TABLE]
- * Custom Object for GoogleLogin User details
+ * Stores GoogleLogin User details
  */
 public class CustomOAuthUser extends User implements OidcUser, Serializable {
 
@@ -72,13 +72,12 @@ public class CustomOAuthUser extends User implements OidcUser, Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         CustomOAuthUser that = (CustomOAuthUser) o;
         return Objects.equals(oidcUser.getEmail(), that.oidcUser.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), oidcUser);
+        return Objects.hash(oidcUser.getEmail(), oidcUser.getEmail());
     }
 }
