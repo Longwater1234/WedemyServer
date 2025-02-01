@@ -1,6 +1,8 @@
 package com.davistiba.wedemyserver.repository;
 
 import com.davistiba.wedemyserver.models.Lesson;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.RepeatedTest;
@@ -17,15 +19,16 @@ class LessonRepositoryTest {
     @Autowired
     private LessonRepository lessonRepository;
 
-    @RepeatedTest(3)
+    @Test
     void getFirstNotWatchedByCourseId_Test() {
         Optional<Lesson> optionalLesson = lessonRepository.getFirstNotWatchedInEnrollment(2L, 10012);
         Assertions.assertTrue(optionalLesson.isPresent());
     }
 
     @Test
-    void getAllMyWatchedLessons_Test() {
+    void getAllMyWatchedLessons_Test() throws JsonProcessingException {
         var lessonList = lessonRepository.getWatchStatusListByEnrollment(2L, 10013);
+        System.out.println(new JsonMapper().writeValueAsString(lessonList));
         Assertions.assertEquals(10, lessonList.size());
     }
 }

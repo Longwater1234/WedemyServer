@@ -62,7 +62,8 @@ public class CartController {
 
     @GetMapping(path = "/mine")
     @Validated
-    public Page<Course> getAllMyCartItems(@RequestParam(defaultValue = "0") @Min(0) Integer page, HttpSession session) {
+    public Page<Course> getAllMyCartItems(@RequestParam(defaultValue = "0") @Min(0) Integer page,
+                                          HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         return courseRepository.getCartListByUser(userId, PageRequest.of(Math.abs(page), 5));
     }
