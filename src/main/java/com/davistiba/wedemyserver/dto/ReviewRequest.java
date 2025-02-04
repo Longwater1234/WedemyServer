@@ -8,7 +8,6 @@ import lombok.ToString;
  * REVIEW body sent from frontend
  */
 @Getter
-@ToString
 public class ReviewRequest {
 
     @NotNull

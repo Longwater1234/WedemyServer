@@ -60,9 +60,9 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 ## Database Setup
 
-Using any MySQL client, CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`. Then follow
+Using any MySQL client, CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`. Then, follow
 carefully instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis. We recommend NOT to use
-`root` account in prod for Db; create new user account with fewer privileges.
+`root` account in production for Db. Create new MySQL user account with fewer privileges.
 
 ## Quick Start 🚀
 

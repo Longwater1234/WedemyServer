@@ -2,12 +2,18 @@ package com.davistiba.wedemyserver.repository;
 
 import com.davistiba.wedemyserver.dto.EnrollmentDTO;
 import com.davistiba.wedemyserver.models.Enrollment;
+import com.davistiba.wedemyserver.models.OrderItem;
 import com.davistiba.wedemyserver.models.User;
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,4 +33,14 @@ public interface EnrollmentRepository extends CrudRepository<Enrollment, Long> {
     @Query(value = "SELECT e FROM Enrollment e WHERE e.user.id = ?1 AND e.course.id = ?2")
     Optional<Enrollment> getByUserIdAndCourseId(Integer userId, Integer courseId);
 
+    @Transactional
+    default void batchInsert(@NotEmpty List<Enrollment> enrollments, JdbcTemplate jdbcTemplate) {
+        jdbcTemplate.batchUpdate("INSERT INTO enrollments (created_at, course_id, user_id) VALUES (?, ?, ?)", enrollments,
+                100, (ps, enrollment) -> {
+                    int col = 1;
+                    ps.setDate(col++, new Date(Instant.now().toEpochMilli()));
+                    ps.setInt(col++, enrollment.getCourse().getId());
+                    ps.setInt(col++, enrollment.getUser().getId());
+                });
+    }
 }

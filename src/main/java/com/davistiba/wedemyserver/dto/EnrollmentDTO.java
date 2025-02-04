@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 
 @Getter
 @EqualsAndHashCode
-@ToString
 public class EnrollmentDTO {
     private Long id;
     private BigDecimal progress;

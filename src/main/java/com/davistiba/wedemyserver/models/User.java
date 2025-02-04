@@ -40,7 +40,7 @@ public class User implements Serializable {
 
     @Column(nullable = false, unique = true)
     @Email
-    @Pattern(regexp = "(^[0-9A-Za-z][_%\\.\\-\\+]+@[\\w]+\\.[\\w]\\S+\\w)$", message = "Invalid email!")
+   // @Pattern(regexp = "(^[0-9A-Za-z][_%\\.\\-\\+]+@[\\w]+\\.[\\w]\\S+\\w)$", message = "Invalid email!")
     @NotBlank
     private String email;
 

@@ -3,6 +3,7 @@ package com.davistiba.wedemyserver.controllers;
 import com.davistiba.wedemyserver.dto.LessonDTO;
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.repository.LessonRepository;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +26,7 @@ public class LessonController {
     @GetMapping(path = "/course/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Slice<Lesson> getLessonsByCourseId(@PathVariable @NotNull Integer id,
-                                              @RequestParam(defaultValue = "0") Integer page) {
+                                              @RequestParam(defaultValue = "0") @Min(0) Integer page) {
         return lessonRepository.getLessonsByCourseId(id, PageRequest.of(page, 10));
     }
 

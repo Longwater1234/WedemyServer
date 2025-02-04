@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.math.BigDecimal;
@@ -14,8 +15,7 @@ import java.math.BigDecimal;
  * This is the payload sent from Frontend at Checkout
  */
 @Getter
-@ToString
-@EqualsAndHashCode
+@RequiredArgsConstructor
 public class CheckoutRequest {
     @NotEmpty
     private String nonce;
@@ -30,7 +30,5 @@ public class CheckoutRequest {
     @NotEmpty
     private String paymentMethod;
 
-    public CheckoutRequest() {
-    }
 
 }

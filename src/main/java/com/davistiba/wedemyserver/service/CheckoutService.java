@@ -7,13 +7,11 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +34,10 @@ public class CheckoutService {
 
     @Autowired
     private SalesRepository salesRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
 
     /**
      * Process all courses in Cart.
@@ -69,9 +71,9 @@ public class CheckoutService {
             enrollments.add(e);
         });
 
-        List<Integer> courseIds = coursePage.get().map(Course::getId).toList();
-        orderItemRepository.saveAll(orderItemList);
-        enrollmentRepository.saveAll(enrollments);
+        Set<Integer> courseIds = coursePage.get().map(Course::getId).collect(Collectors.toSet());
+        orderItemRepository.batchInsert(orderItemList, this.jdbcTemplate);
+        enrollmentRepository.batchInsert(enrollments, this.jdbcTemplate);
         cartRepository.deleteByUserIdAndCoursesIn(user.getId(), courseIds);
         wishlistRepository.deleteByUserIdAndCoursesIn(user.getId(), courseIds);
         //-----------------------------------------------

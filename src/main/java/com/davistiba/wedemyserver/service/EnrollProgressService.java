@@ -77,8 +77,8 @@ public class EnrollProgressService {
      * @return next lessonId
      */
     public Optional<Lesson> getNextLesson(@NotNull Enrollment enrollment) {
-        Integer nextPosition = enrollment.getNextPosition();
-        Integer courseId = enrollment.getCourse().getId();
+        final Integer nextPosition = enrollment.getNextPosition();
+        final Integer courseId = enrollment.getCourse().getId();
         Optional<Lesson> next = lessonRepository.getFirstNotWatchedInEnrollment(enrollment.getId(), courseId);
         return next.or(() -> lessonRepository.findByCourseIdAndPosition(courseId, nextPosition));
     }

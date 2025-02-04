@@ -26,9 +26,8 @@ class LessonRepositoryTest {
     }
 
     @Test
-    void getAllMyWatchedLessons_Test() throws JsonProcessingException {
+    void getAllMyWatchedLessons_Test() {
         var lessonList = lessonRepository.getWatchStatusListByEnrollment(2L, 10013);
-        System.out.println(new JsonMapper().writeValueAsString(lessonList));
         Assertions.assertEquals(10, lessonList.size());
     }
 }

@@ -8,6 +8,8 @@ logging:
     org:
       hibernate:
         SQL: debug
+      springframework:
+        jdbc.core: debug
 server:
   error:
     include-stacktrace: never

@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 
 @Getter
 @RequiredArgsConstructor
-@ToString
 public class OrderItemDTO {
     private Long id;
     private String title;
