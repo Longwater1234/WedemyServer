@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.dto.LessonDTO;
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.repository.LessonRepository;
 import jakarta.validation.constraints.NotNull;
@@ -31,8 +32,8 @@ public class LessonController {
     @GetMapping(path = "/c/{courseId}/e/{enrollId}")
     @ResponseStatus(HttpStatus.OK)
     @Secured(value = "ROLE_STUDENT")
-    public List<Map<String, Object>> getAllMyLessonsInEnrollment(@PathVariable Integer courseId,
-                                                                 @PathVariable Long enrollId) {
+    public List<LessonDTO> getAllMyLessonsInEnrollment(@PathVariable Integer courseId,
+                                                       @PathVariable Long enrollId) {
         return lessonRepository.getWatchStatusListByEnrollment(enrollId, courseId);
     }
 

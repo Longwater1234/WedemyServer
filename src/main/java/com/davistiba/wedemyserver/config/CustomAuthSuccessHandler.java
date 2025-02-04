@@ -33,8 +33,8 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
     private String FRONTEND_URL;
 
     @Autowired
-    public CustomAuthSuccessHandler(MyUserDetailsService myUserDetailsService) {
-        this.myUserDetailsService = myUserDetailsService;
+    public CustomAuthSuccessHandler(MyUserDetailsService userDetailsService) {
+        this.myUserDetailsService = userDetailsService;
         this.jsonMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         this.modelMapper = new ModelMapper();
     }

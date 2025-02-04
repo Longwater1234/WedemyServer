@@ -6,6 +6,8 @@ import com.davistiba.wedemyserver.repository.CartRepository;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -49,7 +52,6 @@ public class CartController {
     }
 
     @GetMapping(path = "/status/c/{courseId}")
-    @ResponseStatus(HttpStatus.OK)
     public Map<String, Boolean> checkUserCartItem(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         boolean inCart = cartRepository.checkIfCourseInCart(userId, courseId) > 0;
@@ -59,14 +61,14 @@ public class CartController {
 
 
     @GetMapping(path = "/mine")
-    @ResponseStatus(HttpStatus.OK)
-    public Page<Course> getAllMyCartItems(@RequestParam(defaultValue = "0") Integer page, HttpSession session) {
+    @Validated
+    public Page<Course> getAllMyCartItems(@RequestParam(defaultValue = "0") @Min(0) Integer page,
+                                          HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         return courseRepository.getCartListByUser(userId, PageRequest.of(Math.abs(page), 5));
     }
 
     @GetMapping(path = "/mine/bill")
-    @ResponseStatus(HttpStatus.OK)
     public Map<String, BigDecimal> getMyCartBill(HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         BigDecimal totalPrice = cartRepository.getTotalBillForUser(userId);
@@ -74,7 +76,6 @@ public class CartController {
     }
 
     @GetMapping(path = "/mine/count")
-    @ResponseStatus(HttpStatus.OK)
     public Map<String, Long> countMyCartItems(HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         long cartCount = cartRepository.countCartByUserIdEquals(userId);
@@ -83,7 +84,6 @@ public class CartController {
     }
 
     @DeleteMapping(path = "/course/{courseId}")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<MyCustomResponse> removeCartByCourseId(@PathVariable @NotNull Integer courseId,
                                                                  HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);

@@ -106,8 +106,8 @@ public class EnrollmentController {
             //first, check if user owns course
             Integer userId = MyUserDetailsService.getSessionUserId(session);
             Optional<Enrollment> enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, status.getCourseId());
-            if (enrollment.isEmpty()) throw new Exception("You don't own this course");
-            //get next Lesson
+            if (enrollment.isEmpty()) throw new IllegalStateException("You don't own this course");
+            // get next Lesson
             Map<String, String> response = new HashMap<>(2);
             Optional<Lesson> nextLesson = progressService.updateAndGetNextLesson(status, enrollment.get());
             if (nextLesson.isPresent()) {

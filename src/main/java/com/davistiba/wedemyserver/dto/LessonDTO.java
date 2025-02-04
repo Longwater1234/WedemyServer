@@ -1,14 +1,18 @@
 package com.davistiba.wedemyserver.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+/**
+ * Used for complex native SQL query, see LessonRepository
+ */
+public interface LessonDTO {
+    String getId();
 
-@Getter
-@Setter
-public class LessonDTO {
-    private String id;
-    private String lessonName;
-    private Integer position;
-    private Boolean isWatched;
-    private Integer videoTime;
+    String getLessonName();
+
+    Integer getPosition();
+
+    // MySQL uses int for Boolean
+    Integer getIsWatched();
+
+    // text format "mm:ss"
+    String getVideoTime();
 }

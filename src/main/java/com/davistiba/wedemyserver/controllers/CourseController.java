@@ -31,9 +31,9 @@ public class CourseController {
     }
 
     @GetMapping(path = "/cat/{category}")
-    @ResponseStatus(value = HttpStatus.OK)
     public List<Course> getCoursesByCategory(@PathVariable @NotBlank String category) {
         var courseList = courseRepository.getCoursesByCategoryEquals(category);
+        //FIXME maybe just return empty array?
         if (courseList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results for given category");
         }
@@ -41,7 +41,6 @@ public class CourseController {
     }
 
     @GetMapping(path = "/top")
-    @ResponseStatus(value = HttpStatus.OK)
     public ResponseEntity<List<Course>> getAllTopCourses() {
         var courseList = courseRepository.getTop6CoursesByIsFeatured(true);
         CacheControl cc = CacheControl.maxAge(60, TimeUnit.MINUTES).cachePublic();
@@ -49,7 +48,6 @@ public class CourseController {
     }
 
     @GetMapping(path = "/categories")
-    @ResponseStatus(value = HttpStatus.OK)
     public ResponseEntity<List<CategoryDTO>> getCategoryListDistinct() {
         var categoryDTO = courseRepository.getAllDistinctCategories();
         CacheControl cc = CacheControl.maxAge(60, TimeUnit.MINUTES).cachePublic();
@@ -58,7 +56,6 @@ public class CourseController {
 
 
     @GetMapping(path = "/search")
-    @ResponseStatus(value = HttpStatus.OK)
     public Slice<Course> searchForCourseByTitle(@RequestParam(defaultValue = "") @NotBlank String title,
                                                 @RequestParam(defaultValue = "0") Integer page) {
         if (title.length() < 3) {

@@ -23,8 +23,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class Sales {
     @Id
-    @Column(name = "transaction_id", nullable = false, length = 20)
+    @Column(name = "transaction_id", nullable = false, length = 30)
     private String transactionId;
+    //^ from Braintree Payments
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -45,7 +46,6 @@ public class Sales {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(nullable = false)
     private Instant createdAt;
-
 
     public Sales(String transactionId, User user, BigDecimal totalPaid, String paymentMethod) {
         this.transactionId = transactionId;
