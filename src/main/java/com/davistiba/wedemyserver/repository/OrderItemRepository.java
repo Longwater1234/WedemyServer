@@ -21,7 +21,7 @@ public interface OrderItemRepository extends CrudRepository<OrderItem, Long> {
     Slice<OrderItemDTO> findByTransactionIdEquals(String transactionId, Pageable pageable);
 
     @Transactional
-    default void batchInsert(@NotEmpty List<OrderItem> orderItemList, JdbcTemplate jdbcTemplate) {
+    default void batchInsert(@NotEmpty List<OrderItem> orderItemList, final JdbcTemplate jdbcTemplate) {
         jdbcTemplate.batchUpdate("INSERT INTO order_items (course_id, transaction_id) VALUES (?, ?)", orderItemList,
                 100, (ps, orderItem) -> {
                     int col = 1;

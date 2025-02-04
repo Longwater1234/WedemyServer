@@ -53,7 +53,6 @@ class UserRepositoryTest {
     @Test
     @Transactional
     public void batchInsertTest_JDBC() {
-
         ArrayList<User> userList = getUserList();
 
         log.info("starting");
@@ -73,7 +72,7 @@ class UserRepositoryTest {
 
     @Test
     @Transactional
-    // slower 6x than above method
+    // SLOW 6x than previous JDBC method
     public void batchInsertTest_JPA() {
         ArrayList<User> userList = getUserList();
         log.info("========== starting saveAll JPA =============");

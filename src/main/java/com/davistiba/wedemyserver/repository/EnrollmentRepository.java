@@ -34,7 +34,7 @@ public interface EnrollmentRepository extends CrudRepository<Enrollment, Long> {
     Optional<Enrollment> getByUserIdAndCourseId(Integer userId, Integer courseId);
 
     @Transactional
-    default void batchInsert(@NotEmpty List<Enrollment> enrollments, JdbcTemplate jdbcTemplate) {
+    default void batchInsert(@NotEmpty List<Enrollment> enrollments, final JdbcTemplate jdbcTemplate) {
         jdbcTemplate.batchUpdate("INSERT INTO enrollments (created_at, course_id, user_id) VALUES (?, ?, ?)", enrollments,
                 100, (ps, enrollment) -> {
                     int col = 1;
