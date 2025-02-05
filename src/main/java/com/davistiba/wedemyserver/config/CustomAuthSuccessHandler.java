@@ -49,8 +49,8 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
             response.sendRedirect(FRONTEND_URL);
             return;
         }
-        MainUserDetails loggedInUser = (MainUserDetails) auth.getPrincipal();
-        UserDTO userInfo = modelMapper.map(loggedInUser.getUser(), UserDTO.class);
+        MainUserDetails userDetails = (MainUserDetails) auth.getPrincipal();
+        UserDTO userInfo = modelMapper.map(userDetails.getUser(), UserDTO.class);
 
         request.getSession().setAttribute(MyUserDetailsService.USERID, userInfo.getId());
         Map<String, Object> authResponse = new HashMap<>();
