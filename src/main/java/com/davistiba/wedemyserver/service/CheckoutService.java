@@ -51,9 +51,9 @@ public class CheckoutService {
      * @param user          the current student
      */
     @Transactional
-    public MyCustomResponse processCheckoutDatabase(String transactionId,
+    public MyCustomResponse processCheckoutDatabase(final String transactionId,
                                                     @NotNull CheckoutRequest request,
-                                                    User user) {
+                                                    final User user) {
         Page<Course> coursePage = courseRepository.getCartListByUser(user.getId(), Pageable.unpaged());
 
         //===== begin DB OPERATIONS ========
