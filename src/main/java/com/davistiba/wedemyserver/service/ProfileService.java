@@ -38,7 +38,7 @@ public class ProfileService {
         return summaryList;
     }
 
-    private StudentSummary getMembershipTime(Duration duration) {
+    private StudentSummary getMembershipTime(final Duration duration) {
         final long numberDays = duration.toDays();
 
         long result = 0;
