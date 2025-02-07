@@ -1,7 +1,7 @@
 package com.davistiba.wedemyserver.config;
 
 import com.davistiba.wedemyserver.models.UserRole;
-import com.davistiba.wedemyserver.service.CustomOAuthUserService;
+import com.davistiba.wedemyserver.service.GoogleOAuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,7 +46,7 @@ public class SecurityConfig {
     //----------------------------------------------------*/
 
     @Autowired
-    private CustomOAuthUserService googleOauthService;
+    private GoogleOAuthUserService googleOauthService;
 
     @Autowired
     private CustomAuthSuccessHandler successHandler;
