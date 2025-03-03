@@ -51,9 +51,9 @@ for all Datetime fields**). Handle timezone conversion on your Frontend! For you
   # OR, set this
   spring.jpa.properties.hibernate.jdbc.time_zone=UTC
   ```
-  
-- To execute bulk inserts, you need to use `jdbcTemplate.batchUpdate` method. Bulk inserts do NOT work with `saveAll()`
-   generated IDENTITY primary key! See example at `src/test/../repository/UserRepositoryTest.java`
+
+- To enable bulk inserts, you need to use `jdbcTemplate::batchUpdate` method, instead of JPA's `saveAll()` method. Also,
+  you need to set `rewriteBatchedStatements=true` in JDBC url.
 
 Here is the ERD Diagram for MySQL Db used in the project:
 

@@ -47,6 +47,9 @@ BT_PRIVATE_KEY=
 # For production, set these:
 SPRING_PROFILES_ACTIVE=prod
 PORT=#{for Spring server}
+# below are from your HCaptcha dashboard
+HCAPTCHA_SECRET_KEY=
+HCAPTCHA_CLIENT_KEY=
 ```
 
 ## Important ⚠
@@ -66,7 +69,7 @@ carefully instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL
 
 ## Quick Start 🚀
 
-### With Maven (natively)
+### With Maven (directly)
 
 Assuming you have requirements listed above, and both your Dbs are running. Using your Terminal, execute the commands
 below. That's it! Server will be available at http://localhost:9000
