@@ -42,7 +42,7 @@ for all Datetime fields**). Handle timezone conversion on your Frontend! For you
 [mysqldump file](src/main/resources/data_wedemy.sql) which contains sample data for testing.
 
 - CREATE new schema called `wedemy` (any name is OK), with charset `utf8mb4`.
-- Springboot will create all tables and indexes automatically on the very First launch, if `hibernate.ddl-auto=true`
+- SpringBoot will create all tables and indexes automatically on the very First launch, if `hibernate.ddl-auto=update`
 - To maintain consistent time-zone (UTC) with your Java server, ensure your JDBC connection URL has
   parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use `UTC_TIMESTAMP()` or `UTC_DATE()`.
 
@@ -52,7 +52,7 @@ for all Datetime fields**). Handle timezone conversion on your Frontend! For you
   spring.jpa.properties.hibernate.jdbc.time_zone=UTC
   ```
 
-- To enable bulk inserts, you need to use `jdbcTemplate::batchUpdate` method, instead of JPA's `saveAll()` method. Also,
+- To execute bulk inserts, you need to use `jdbcTemplate::batchUpdate` method, instead of JPA's `saveAll()` method. Also,
   you need to set `rewriteBatchedStatements=true` in JDBC url.
 
 Here is the ERD Diagram for MySQL Db used in the project:

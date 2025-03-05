@@ -30,7 +30,7 @@ public interface EnrollmentRepository extends CrudRepository<Enrollment, Long> {
     List<EnrollmentDTO> findByUserId(Integer userId, Pageable pageable);
 
     @Query(value = "SELECT e FROM Enrollment e WHERE e.user.id = ?1 AND e.course.id = ?2")
-    Optional<Enrollment> getByUserIdAndCourseId(Integer userId, Integer courseId);
+    Optional<Enrollment> getOneByUserIdAndCourseId(Integer userId, Integer courseId);
 
     @Transactional
     default void batchInsert(@NotEmpty List<Enrollment> enrollments, final JdbcTemplate jdbcTemplate) {

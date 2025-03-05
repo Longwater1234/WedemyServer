@@ -30,7 +30,7 @@ public class CourseObjective {
     @Size(max = 200)
     private String objective;
 
-    public CourseObjective(Course course, @Size(max = 200) String objective) {
+    public CourseObjective(Course course, String objective) {
         super();
         this.course = course;
         this.objective = objective;

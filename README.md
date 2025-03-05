@@ -65,8 +65,8 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 ## Database Setup
 
 Using any MySQL client, CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`. Then, follow
-carefully instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis. We recommend NOT to use
-`root` account in production for Db. Create new MySQL user account with fewer privileges.
+carefully instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis. It's recommended NOT to use
+`root` account in production for the db. Create new MySQL user account with fewer privileges.
 
 ## Quick Start 🚀
 
@@ -86,7 +86,7 @@ I have attached [Dockerfile](Dockerfile) for the Springboot server only. You wil
 Redis separately. Refer to official Docker docs on how to pass ENV variables listed above.
 
 ```bash
-  docker build -t wedemyserver .
+  docker build -t wedemyserver ./
   docker run --name "wedemy" -d -p9000:9000 wedemyserver
 ```
 
@@ -103,7 +103,7 @@ Dokku, Railway, Render.com, Fly.io. Please note, you will also need a **separate
 
 ## Payments Handling
 
-All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
+All payments are securely handled by **Braintree Payments** (owned by PayPal), which supports cards, PayPal, Apple Pay,
 GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only, in _Sandbox_
 (Dev) mode: **No actual money is deducted at Checkout**. Make sure you obtain a set of 3 API Keys from
 your own Braintree Dev Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`.
