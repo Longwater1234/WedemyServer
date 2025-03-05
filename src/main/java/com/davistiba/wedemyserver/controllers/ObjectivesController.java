@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +38,8 @@ public class ObjectivesController {
     @Transactional
     public ResponseEntity<MyCustomResponse> addNewObjectives(@RequestBody @Valid ObjectivesDTO objDTO) {
         List<String> objectives = objDTO.getObjectives();
-        final Course course = courseRepository.findById(objDTO.getCourseId()).orElseThrow();
+        final Course course = courseRepository.findById(objDTO.getCourseId()).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course does not exist!"));
         List<CourseObjective> coList = objectives.stream().map(o -> new CourseObjective(course, o)).collect(Collectors.toList());
         objectiveRepository.batchInsert(coList, this.jdbcTemplate);
         return ResponseEntity.status(HttpStatus.CREATED).body(new MyCustomResponse("All saved!"));
