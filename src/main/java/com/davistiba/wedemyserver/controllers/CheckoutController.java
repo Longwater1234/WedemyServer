@@ -1,7 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
 import com.braintreegateway.*;
-import com.davistiba.wedemyserver.config.BraintreeConfig;
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
@@ -21,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

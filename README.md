@@ -5,7 +5,8 @@
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyServer)](https://github.com/Longwater1234/WedemyServer/blob/master/LICENSE)
 [![Static Badge](https://img.shields.io/badge/reference-help.md-orange)](HELP.md)
 
-(Backend repo). Clone of Udemy, an e-learning platform, built using SpringBoot 3 + Vue 3 + Typescript. With CreditCard and
+(Backend repo). Clone of Udemy, an e-learning platform, built using SpringBoot 3 + Vue 3 + Typescript. With CreditCard
+and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via cookies[^1]
 or sessionID Headers) for auth, instead of stateless JWT Tokens. CSRF protection is enabled. You can easily customize
 these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the
@@ -17,7 +18,7 @@ Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and
 Typescript. However, you may use any other frontend stack with this project. See
 the [OpenAPI Docs](https://longwater1234.github.io/WedemyServer/) for this project.
 
-## Minimum Requirements
+## Requirements
 
 - Java 17 or newer
 - MySQL 8.0.x or newer
@@ -114,7 +115,8 @@ For Braintree tutorials and samples, please check their [official docs](https://
 
 ---
 
-[^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same _ROOT_ domain (same-site
+[^1]:
+In production, for Browser clients, ensure both your Backend and Frontend share the same _ROOT_ domain (same-site
 policy), AND set property `session.cookie.Secure=true` (strictly https) for Session Cookies to work properly. Learn
 more at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you can replace Cookies **entirely** with
 special Header X-AUTH-TOKEN (by Spring; expires too). See file SecurityConfig.java.

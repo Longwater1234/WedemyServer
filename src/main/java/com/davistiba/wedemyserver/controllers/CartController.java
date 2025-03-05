@@ -6,7 +6,6 @@ import com.davistiba.wedemyserver.repository.CartRepository;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;

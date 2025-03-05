@@ -14,7 +14,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/lessons", produces = MediaType.APPLICATION_JSON_VALUE)

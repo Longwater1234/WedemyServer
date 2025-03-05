@@ -2,7 +2,6 @@ package com.davistiba.wedemyserver.repository;
 
 import com.davistiba.wedemyserver.dto.EnrollmentDTO;
 import com.davistiba.wedemyserver.models.Enrollment;
-import com.davistiba.wedemyserver.models.OrderItem;
 import com.davistiba.wedemyserver.models.User;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotEmpty;
