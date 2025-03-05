@@ -5,7 +5,8 @@
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyServer)](https://github.com/Longwater1234/WedemyServer/blob/master/LICENSE)
 [![Static Badge](https://img.shields.io/badge/reference-help.md-orange)](HELP.md)
 
-(Backend repo). Clone of Udemy, an e-learning platform, built using SpringBoot 3 + Vue 3 + Typescript. With CreditCard and
+(Backend repo). Clone of Udemy, an e-learning platform, built using SpringBoot 3 + Vue 3 + Typescript. With CreditCard
+and
 PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via cookies[^1]
 or sessionID Headers) for auth, instead of stateless JWT Tokens. CSRF protection is enabled. You can easily customize
 these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the
@@ -17,7 +18,7 @@ Click to view [Frontend Repo](https://github.com/Longwater1234/WedemyClient) and
 Typescript. However, you may use any other frontend stack with this project. See
 the [OpenAPI Docs](https://longwater1234.github.io/WedemyServer/) for this project.
 
-## Minimum Requirements
+## Requirements
 
 - Java 17 or newer
 - MySQL 8.0.x or newer
@@ -47,6 +48,9 @@ BT_PRIVATE_KEY=
 # For production, set these:
 SPRING_PROFILES_ACTIVE=prod
 PORT=#{for Spring server}
+# below are from your HCaptcha dashboard
+HCAPTCHA_SECRET_KEY=
+HCAPTCHA_CLIENT_KEY=
 ```
 
 ## Important ⚠
@@ -60,13 +64,13 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 ## Database Setup
 
-Using any MySQL client, CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`. Then follow
-carefully instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis. We recommend NOT to use
-`root` account in prod for Db; create new user account with fewer privileges.
+Using any MySQL client, CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`. Then, follow
+carefully instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis. It's recommended NOT to use
+`root` account in production for the db. Create new MySQL user account with fewer privileges.
 
 ## Quick Start 🚀
 
-### With Maven (natively)
+### With Maven (directly)
 
 Assuming you have requirements listed above, and both your Dbs are running. Using your Terminal, execute the commands
 below. That's it! Server will be available at http://localhost:9000
@@ -82,7 +86,7 @@ I have attached [Dockerfile](Dockerfile) for the Springboot server only. You wil
 Redis separately. Refer to official Docker docs on how to pass ENV variables listed above.
 
 ```bash
-  docker build -t wedemyserver .
+  docker build -t wedemyserver ./
   docker run --name "wedemy" -d -p9000:9000 wedemyserver
 ```
 
@@ -99,7 +103,7 @@ Dokku, Railway, Render.com, Fly.io. Please note, you will also need a **separate
 
 ## Payments Handling
 
-All payments are securely handled by **Braintree Payments** (owned by PayPal), which also supports cards, Apple Pay,
+All payments are securely handled by **Braintree Payments** (owned by PayPal), which supports cards, PayPal, Apple Pay,
 GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only, in _Sandbox_
 (Dev) mode: **No actual money is deducted at Checkout**. Make sure you obtain a set of 3 API Keys from
 your own Braintree Dev Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`.
@@ -111,7 +115,8 @@ For Braintree tutorials and samples, please check their [official docs](https://
 
 ---
 
-[^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same _ROOT_ domain (same-site
+[^1]:
+In production, for Browser clients, ensure both your Backend and Frontend share the same _ROOT_ domain (same-site
 policy), AND set property `session.cookie.Secure=true` (strictly https) for Session Cookies to work properly. Learn
 more at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you can replace Cookies **entirely** with
 special Header X-AUTH-TOKEN (by Spring; expires too). See file SecurityConfig.java.

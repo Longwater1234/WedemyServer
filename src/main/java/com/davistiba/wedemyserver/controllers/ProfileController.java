@@ -55,8 +55,8 @@ public class ProfileController {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
             User u = userRepository.findById(userId).orElseThrow();
             u.setFullname(userDTO.getFullname());
-            // You may modify other fields
-            u.setConfirmPass("WHATEVER!");
+            // You may modify other fields...
+            u.setConfirmPass("WHATEVER!"); // <-- cannot be NULL
             User freshUser = userRepository.save(u);
             return ResponseEntity.ok().body(modelMapper.map(freshUser, UserDTO.class));
         } catch (Exception ex) {
@@ -66,7 +66,6 @@ public class ProfileController {
 
 
     @GetMapping(path = "/summary")
-    @ResponseStatus(value = HttpStatus.OK)
     @Cacheable(value = "student-summary", key = "#session.id")
     public List<StudentSummary> getUserSummary(@NotNull HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);

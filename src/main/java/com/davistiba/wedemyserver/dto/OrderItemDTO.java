@@ -2,13 +2,11 @@ package com.davistiba.wedemyserver.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 import java.math.BigDecimal;
 
 @Getter
 @RequiredArgsConstructor
-@ToString
 public class OrderItemDTO {
     private Long id;
     private String title;

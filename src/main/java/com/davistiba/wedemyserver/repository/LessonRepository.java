@@ -10,7 +10,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,7 +23,7 @@ public interface LessonRepository extends CrudRepository<Lesson, UUID> {
     Optional<Lesson> findByCourseIdAndPosition(Integer courseId, Integer position);
 
     @Query("SELECT count(s) from Lesson s where s.course.id = ?1")
-    long countByCourseId(int id);
+    int countByCourseId(int id);
 
     @Query(value = "SELECT BIN_TO_UUID(s.id) as id, s.lesson_name as lessonName, s.position as `position`, TIME_FORMAT(SEC_TO_TIME(s.length_seconds), " +
             "'%i:%s') AS videoTime, EXISTS(SELECT 1 FROM enroll_progress ep WHERE ep.lesson_id = s.id AND ep.enrollment_id = ?1) " +

@@ -57,7 +57,7 @@ public class MyUserDetailsService implements UserDetailsService {
             session.setAttribute(USERID, newUser.getId());
             return;
         }
-        Integer userId = existUser.get().getId();
+        final int userId = existUser.get().getId();
         session.setAttribute(USERID, userId);
 
     }

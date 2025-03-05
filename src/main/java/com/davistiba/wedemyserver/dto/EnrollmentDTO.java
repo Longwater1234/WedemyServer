@@ -2,13 +2,11 @@ package com.davistiba.wedemyserver.dto;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.math.BigDecimal;
 
 @Getter
 @EqualsAndHashCode
-@ToString
 public class EnrollmentDTO {
     private Long id;
     private BigDecimal progress;

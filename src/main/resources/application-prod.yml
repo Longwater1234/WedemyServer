@@ -33,7 +33,7 @@ spring:
     username: ${MYSQL_USERNAME}
   jpa:
     hibernate:
-      ddl-auto: update  #You may change to `NONE`
+      ddl-auto: update  # You may change to `NONE`, after very first launch
     properties:
       hibernate:
         order_inserts: true
@@ -64,7 +64,7 @@ spring:
       host: ${REDIS_HOST}
       password: ${REDIS_PASSWORD}
       port: ${REDIS_PORT}
-      # url: ${REDIS_URL} # Optional. Full Uri. Will override [host, password, port] above
+      # url: ${REDIS_URL}  #// Optional. Full Uri. Will override [host, password, port] above
 
 ## DISABLE SWAGGER-UI in PROD
 #springdoc:

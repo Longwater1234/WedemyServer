@@ -1,7 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
 import com.braintreegateway.*;
-import com.davistiba.wedemyserver.config.BraintreeConfig;
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
@@ -21,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,7 +40,7 @@ public class CheckoutController {
     @Autowired
     public CheckoutController(BraintreeGateway gateway, CheckoutService checkoutService, UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.gateway = BraintreeConfig.getGateway();
+        this.gateway = gateway;
         this.checkoutService = checkoutService;
     }
 
@@ -61,7 +59,6 @@ public class CheckoutController {
     public ResponseEntity<MyCustomResponse> completePurchase(@Valid @RequestBody CheckoutRequest request,
                                                              HttpSession session) {
 
-        String transactionId; // from Braintree
         final Integer userId = MyUserDetailsService.getSessionUserId(session);
         final User user = userRepository.findById(userId).orElseThrow();
 
@@ -78,7 +75,16 @@ public class CheckoutController {
                 .done();
 
         com.braintreegateway.Result<Transaction> result = gateway.transaction().sale(transactionRequest);
+        final String transactionId = getTransactionId(result);
 
+        //OK, ALL IS GOOD! let's write to database.
+        MyCustomResponse response = checkoutService.processCheckoutDatabase(transactionId, request, user);
+        return ResponseEntity.ok().body(response);
+    }
+
+
+    private static String getTransactionId(Result<Transaction> result) {
+        String transactionId; // from Braintree
         // listen for Transaction Result
         if (result.isSuccess()) {
             transactionId = result.getTarget().getId();
@@ -92,10 +98,7 @@ public class CheckoutController {
             }
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorList.toString());
         }
-
-        //OK, ALL IS GOOD! let's finally wrap everything up.
-        MyCustomResponse response = checkoutService.processCheckoutDatabase(transactionId, request, user);
-        return ResponseEntity.ok().body(response);
+        return transactionId;
     }
 
 }

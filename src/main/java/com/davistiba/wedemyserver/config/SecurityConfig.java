@@ -1,7 +1,7 @@
 package com.davistiba.wedemyserver.config;
 
 import com.davistiba.wedemyserver.models.UserRole;
-import com.davistiba.wedemyserver.service.CustomOAuthUserService;
+import com.davistiba.wedemyserver.service.GoogleOAuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,7 +46,7 @@ public class SecurityConfig {
     //----------------------------------------------------*/
 
     @Autowired
-    private CustomOAuthUserService googleOauthService;
+    private GoogleOAuthUserService googleOauthService;
 
     @Autowired
     private CustomAuthSuccessHandler successHandler;
@@ -54,7 +54,7 @@ public class SecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.cors(Customizer.withDefaults()).httpBasic(Customizer.withDefaults())
+        return http.cors(Customizer.withDefaults()).formLogin(Customizer.withDefaults())
                 .oauth2Login(x -> x.userInfoEndpoint(config -> config.oidcUserService(googleOauthService)).successHandler(successHandler))
                 .csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringRequestMatchers("/oauth2/**", "/auth/**"))
                 .sessionManagement(s -> s.sessionConcurrency(c -> c.maximumSessions(2)))
@@ -104,6 +104,7 @@ public class SecurityConfig {
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authManager = http.getSharedObject(AuthenticationManager.class);
             http.addFilterAt(new CustomLoginHandler(authManager, customAuthSuccessHandler), UsernamePasswordAuthenticationFilter.class);
+            http.addFilterBefore(new HCaptchaFilter(), CustomLoginHandler.class);
         }
     }
 }

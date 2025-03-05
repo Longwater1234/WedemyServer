@@ -2,13 +2,11 @@ package com.davistiba.wedemyserver.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.Getter;
-import lombok.ToString;
 
 /**
  * REVIEW body sent from frontend
  */
 @Getter
-@ToString
 public class ReviewRequest {
 
     @NotNull

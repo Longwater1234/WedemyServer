@@ -47,10 +47,10 @@ public class EnrollProgressService {
             //means User has NOT ALREADY watched this
             progressRepository.save(new EnrollProgress(enrollment, currentLesson));
 
-            long numWatched = progressRepository.countByEnrollmentId(enrollment.getId());
-            long totalLessons = lessonRepository.countByCourseId(status.getCourseId());
+            int numWatched = progressRepository.countByEnrollmentId(enrollment.getId());
+            int totalLessons = lessonRepository.countByCourseId(status.getCourseId());
             double percentVal = (double) numWatched / (double) totalLessons * 100.00;
-            boolean isCompleted = (percentVal / 100.00) == 1;
+            final boolean isCompleted = (percentVal / 100.00) == 1;
 
             //update `Enrollments` table
             BigDecimal progressPercent = BigDecimal.valueOf(percentVal).setScale(2, RoundingMode.HALF_UP);
@@ -77,8 +77,8 @@ public class EnrollProgressService {
      * @return next lessonId
      */
     public Optional<Lesson> getNextLesson(@NotNull Enrollment enrollment) {
-        Integer nextPosition = enrollment.getNextPosition();
-        Integer courseId = enrollment.getCourse().getId();
+        final Integer nextPosition = enrollment.getNextPosition();
+        final Integer courseId = enrollment.getCourse().getId();
         Optional<Lesson> next = lessonRepository.getFirstNotWatchedInEnrollment(enrollment.getId(), courseId);
         return next.or(() -> lessonRepository.findByCourseIdAndPosition(courseId, nextPosition));
     }
