@@ -39,7 +39,7 @@ The following guides illustrate how to use some features concretely:
 
 This is the primary database. All DateTimes are stored and queried in UTC only. (**Hint: USE `java.time.Instant` as Type
 for all Datetime fields**). Handle timezone conversion on your Frontend! For your convenience, I have included a
-[mysqldump file](src/main/resources/data.sql) which contains sample data for testing.
+[mysqldump file](src/main/resources/data_wedemy.sql) which contains sample data for testing.
 
 - CREATE new schema called `wedemy` (any name is OK), with charset `utf8mb4`.
 - SpringBoot will create all tables and indexes automatically on the very First launch, if `hibernate.ddl-auto=update`
