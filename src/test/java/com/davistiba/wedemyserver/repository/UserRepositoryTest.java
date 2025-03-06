@@ -4,7 +4,10 @@ import com.davistiba.wedemyserver.models.AuthProvider;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.models.UserRole;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,11 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Slf4j
@@ -36,7 +35,6 @@ class UserRepositoryTest {
 
     static ArrayList<User> getUserList() {
         ArrayList<User> userList = new ArrayList<>(100);
-
         for (int i = 0; i < 100; i++) {
             User user = new User();
             user.setFullname("hello_" + ThreadLocalRandom.current().nextInt(999));
@@ -54,7 +52,6 @@ class UserRepositoryTest {
     @Transactional
     public void batchInsertTest_JDBC() {
         ArrayList<User> userList = getUserList();
-
         log.info("starting");
         jdbcTemplate.batchUpdate("INSERT INTO users (fullname, email, enabled, auth_provider, user_role, created_at) " +
                 "VALUES (?, ? , ? , ?, ?, ?)", userList, 100, (ps, argument) -> {
@@ -72,11 +69,12 @@ class UserRepositoryTest {
 
     @Test
     @Transactional
-    // SLOW 6x than previous JDBC method
+    // SLOWER 6x than previous JDBC method
     public void batchInsertTest_JPA() {
         ArrayList<User> userList = getUserList();
         log.info("========== starting saveAll JPA =============");
         userRepository.saveAll(userList);
         log.info("ENDING");
     }
+
 }
