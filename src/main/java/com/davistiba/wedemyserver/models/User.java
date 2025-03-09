@@ -34,7 +34,6 @@ public class User implements Serializable {
 
     @Column(nullable = false, length = 100)
     @Size(max = 100)
-    @Pattern(regexp = "^[ a-zA-Z0-9_.'\\-]+?", message = "Invalid characters in name")
     @NotBlank
     private String fullname;
 
@@ -61,7 +60,7 @@ public class User implements Serializable {
 
     @ColumnDefault(value = "TRUE")
     @NotNull
-    private Boolean enabled;
+    private Boolean enabled = true;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum('ROLE_STUDENT', 'ROLE_ADMIN') DEFAULT 'ROLE_STUDENT'", nullable = false)
@@ -72,7 +71,6 @@ public class User implements Serializable {
     @Column(nullable = false)
     @JsonProperty(access = Access.READ_ONLY)
     private Instant createdAt;
-
 
     public String getUserRole() {
         return String.valueOf(userRole);

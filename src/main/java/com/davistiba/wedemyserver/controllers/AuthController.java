@@ -2,6 +2,7 @@ package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.config.MainUserDetails;
 import com.davistiba.wedemyserver.dto.LoginStatus;
+import com.davistiba.wedemyserver.dto.RegisterRequest;
 import com.davistiba.wedemyserver.dto.UserDTO;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
@@ -37,11 +38,12 @@ public class AuthController {
     }
 
     @PostMapping(path = "/register")
-    public ResponseEntity<MyCustomResponse> addNewUser(@RequestBody @Valid User user) {
-        if (!user.getPassword().equals(user.getConfirmPass()))
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Passwords don't match");
-
+    public ResponseEntity<MyCustomResponse> addNewUser(@RequestBody @Valid RegisterRequest request) {
         try {
+            User user = modelMapper.map(request, User.class);
+            if (!user.getPassword().equals(user.getConfirmPass())) {
+                throw new IllegalArgumentException("Passwords don't match");
+            }
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(new MyCustomResponse("Registered! Welcome"));
