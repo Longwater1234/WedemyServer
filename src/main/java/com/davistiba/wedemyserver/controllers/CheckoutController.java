@@ -7,6 +7,7 @@ import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.service.CheckoutService;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "/checkout", produces = MediaType.APPLICATION_JSON_VALUE)
 @Secured(value = "ROLE_STUDENT")
+@SecurityRequirement(name = "cookieAuth")
+@SecurityRequirement(name = "sessionKey")
 public class CheckoutController {
 
     private final BraintreeGateway gateway;

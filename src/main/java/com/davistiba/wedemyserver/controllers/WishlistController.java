@@ -5,6 +5,7 @@ import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.WishlistRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ import java.util.Map;
 @RestController
 @Secured("ROLE_STUDENT")
 @RequestMapping(path = "/wishlist", produces = MediaType.APPLICATION_JSON_VALUE)
+@SecurityRequirement(name = "cookieAuth")
+@SecurityRequirement(name = "sessionKey")
 public class WishlistController {
 
     @Autowired

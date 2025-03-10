@@ -7,6 +7,7 @@ import com.davistiba.wedemyserver.models.Review;
 import com.davistiba.wedemyserver.repository.ReviewRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import com.davistiba.wedemyserver.service.ReviewService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(path = "/reviews", produces = MediaType.APPLICATION_JSON_VALUE)
+@SecurityRequirement(name = "cookieAuth")
+@SecurityRequirement(name = "sessionKey")
 public class ReviewController {
 
     @Autowired

@@ -5,6 +5,7 @@ import com.davistiba.wedemyserver.dto.SalesDTO;
 import com.davistiba.wedemyserver.repository.OrderItemRepository;
 import com.davistiba.wedemyserver.repository.SalesRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/sales", produces = MediaType.APPLICATION_JSON_VALUE)
+@SecurityRequirement(name = "cookieAuth")
+@SecurityRequirement(name = "sessionKey")
 public class SalesController {
 
     @Autowired

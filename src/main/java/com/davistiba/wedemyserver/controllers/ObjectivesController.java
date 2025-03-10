@@ -6,6 +6,7 @@ import com.davistiba.wedemyserver.models.CourseObjective;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.ObjectiveRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,8 @@ public class ObjectivesController {
     @PostMapping(value = "/")
     @Secured(value = "ROLE_ADMIN")
     @Transactional
+    @SecurityRequirement(name = "cookieAuth")
+    @SecurityRequirement(name = "sessionKey")
     public ResponseEntity<MyCustomResponse> addNewObjectives(@RequestBody @Valid ObjectivesDTO objDTO) {
         List<String> objectives = objDTO.getObjectives();
         final Course course = courseRepository.findById(objDTO.getCourseId()).orElseThrow(() ->
