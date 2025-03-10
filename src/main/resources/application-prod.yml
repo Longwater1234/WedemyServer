@@ -1,0 +1,72 @@
+# All entries in ${CURLY_BRACES} should be set as ENV variables, for security reasons.
+# Learn more: https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html
+frontend:
+  root:
+    url: ${FRONTEND_ROOT_URL} #TODO Replace with your frontend root URL / empty string
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+server:
+  error:
+    include-stacktrace: never
+    include-message: always
+  port: ${PORT} # Autofilled by most Cloud Platforms. Refer official docs of your Host.
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        max-age: PT12H #12hours
+        name: WD_SESSION
+        same-site: lax
+        secure: true
+    encoding:
+      charset: UTF-8
+      force: true
+spring:
+  application:
+    name: wedemy-server
+  datasource:
+    password: ${MYSQL_PASSWORD}
+    url: ${MYSQL_HOST}
+    username: ${MYSQL_USERNAME}
+  jpa:
+    hibernate:
+      ddl-auto: update  # You may change to `NONE`, after very first launch
+    properties:
+      hibernate:
+        order_inserts: true
+        order_updates: true
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc:
+          batch-size: 20
+  cache:
+    type: redis
+    redis:
+      time-to-live: PT60M #60 minutes
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+  session:
+    redis:
+      cleanup-cron: 0 0 23 * * *
+      repository-type: indexed
+  jackson:
+    date-format: "yyyy-MM-dd HH:mm:ss"
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      password: ${REDIS_PASSWORD}
+      port: ${REDIS_PORT}
+      # url: ${REDIS_URL}  #// Optional. Full Uri. Will override [host, password, port] above
+
+## DISABLE SWAGGER-UI in PROD
+#springdoc:
+#  swagger-ui:
+#    enabled: false

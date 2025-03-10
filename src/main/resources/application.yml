@@ -1,0 +1,68 @@
+# All entries in ${CURLY_BRACES} should be set as ENV variables, for security reasons.
+# Learn more: https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html
+frontend:
+  root:
+    url: http://localhost:5173/  #TODO Replace with your frontend root URL / empty string
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+      springframework:
+        jdbc.core: debug
+server:
+  error:
+    include-stacktrace: never
+  port: 9000 # server port
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        max-age: 10800s #3hours
+        name: WD_SESSION
+        same-site: lax
+    encoding:
+      charset: UTF-8
+      force: true
+spring:
+  application:
+    name: wedemy-server
+  datasource:
+    password: ${MYSQL_PASSWORD}
+    url: jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC&rewriteBatchedStatements=true
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        order_inserts: true
+        order_updates: true
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc:
+          batch-size: 20
+  cache:
+    type: redis
+    redis:
+      time-to-live: PT30M #30minutes
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+  session:
+    redis:
+      cleanup-cron: 0 0 * * * *
+      repository-type: indexed
+  jackson:
+    date-format: "yyyy-MM-dd HH:mm:ss"
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ""
+      # url: ${REDIS_URL} # Optional. Full Uri. Will override [host, password, port] above
+#springdoc:
+#  show-login-endpoint: true
