@@ -64,5 +64,7 @@ spring:
       port: 6379
       password: ""
       # url: ${REDIS_URL} # Optional. Full Uri. Will override [host, password, port] above
-#springdoc:
-#  show-login-endpoint: true
+springdoc:
+  show-login-endpoint: true
+  swagger-ui:
+    enabled: true
