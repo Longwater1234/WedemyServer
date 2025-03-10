@@ -42,6 +42,7 @@ for all Datetime fields**). Handle timezone conversion on your Frontend! For you
 [mysqldump file](src/main/resources/data_wedemy.sql) which contains sample data for testing.
 
 - CREATE new schema called `wedemy` (any name is OK), with charset `utf8mb4`.
+- Do not use root MySQL account. Create a new MySQL account, and give it privileges on `wedemy` db only!
 - SpringBoot will create all tables and indexes automatically on the very First launch, if `hibernate.ddl-auto=update`
 - To maintain consistent time-zone (UTC) with your Java server, ensure your JDBC connection URL has
   parameter `connectionTimeZone=UTC`. See example below. For native @Query's, use `UTC_TIMESTAMP()` or `UTC_DATE()`.

@@ -48,9 +48,6 @@ BT_PRIVATE_KEY=
 # For production, set these:
 SPRING_PROFILES_ACTIVE=prod
 PORT=#{for Spring server}
-# below are from your HCaptcha dashboard
-HCAPTCHA_SECRET_KEY=
-HCAPTCHA_CLIENT_KEY=
 ```
 
 ## Important ⚠
@@ -65,8 +62,8 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 ## Database Setup
 
 Using any MySQL client, CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`. Then, follow
-carefully instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis. It's recommended NOT to use
-`root` account in production for the db. Create new MySQL user account with fewer privileges.
+carefully instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis. I have attached a mysqldump
+file with [sample data](src/main/resources/data_wedemy.sql) for testing.
 
 ## Quick Start 🚀
 

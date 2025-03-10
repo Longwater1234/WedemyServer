@@ -104,7 +104,6 @@ public class SecurityConfig {
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authManager = http.getSharedObject(AuthenticationManager.class);
             http.addFilterAt(new CustomLoginHandler(authManager, customAuthSuccessHandler), UsernamePasswordAuthenticationFilter.class);
-            http.addFilterBefore(new HCaptchaFilter(), CustomLoginHandler.class);
         }
     }
 }
