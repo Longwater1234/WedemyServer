@@ -8,7 +8,11 @@ import com.davistiba.wedemyserver.models.CustomOAuthUser;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
+import com.davistiba.wedemyserver.service.MyUserDetailsService;
+import com.sun.tools.javac.Main;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +30,22 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping(path = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@Slf4j
 public class AuthController {
 
     private final UserRepository userRepository;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
+    private final MyUserDetailsService userDetailsService;
+
     private final ModelMapper modelMapper;
 
     @Autowired
-    public AuthController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public AuthController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, MyUserDetailsService userDetailsService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userDetailsService = userDetailsService;
         this.modelMapper = new ModelMapper();
     }
 
@@ -61,17 +69,17 @@ public class AuthController {
 
 
     @GetMapping("/status")
-    public ResponseEntity<LoginStatus> getStatusLogin(Authentication auth) {
+    public ResponseEntity<LoginStatus> getStatusLogin(Authentication auth, HttpSession session) {
         if (auth == null) {
             return ResponseEntity.ok().body(new LoginStatus());
         }
-        Principal principal = (Principal) auth.getPrincipal();
-        if (principal instanceof CustomOAuthUser oAuthUser) {
+        if (auth.getPrincipal() instanceof CustomOAuthUser oAuthUser) {
+            oAuthUser.setId(MyUserDetailsService.getSessionUserId(session));
             return convertToDto(oAuthUser);
-        } else {
-            MainUserDetails userDetails = (MainUserDetails) auth.getPrincipal();
+        } else if (auth.getPrincipal() instanceof MainUserDetails userDetails) {
             return convertToDto(userDetails.getUser());
         }
+        return ResponseEntity.ok().body(new LoginStatus());
     }
 
     /**

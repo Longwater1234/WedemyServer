@@ -2,6 +2,7 @@ package com.davistiba.wedemyserver.config;
 
 import com.davistiba.wedemyserver.models.UserRole;
 import com.davistiba.wedemyserver.service.GoogleOAuthUserService;
+import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +10,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -51,12 +54,16 @@ public class SecurityConfig {
     @Autowired
     private CustomAuthSuccessHandler successHandler;
 
+    @Autowired
+    private MyUserDetailsService userDetailsService;
+
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.cors(Customizer.withDefaults()).httpBasic(Customizer.withDefaults())
+        return http.cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(Customizer.withDefaults())
                 .oauth2Login(x -> x.userInfoEndpoint(config -> config.oidcUserService(googleOauthService)).successHandler(successHandler))
-                .csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringRequestMatchers("/oauth2/**", "/auth/**"))
                 .sessionManagement(s -> s.sessionConcurrency(c -> c.maximumSessions(2)))
                 .authorizeHttpRequests((authz) ->
                         authz.requestMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
@@ -80,9 +87,20 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        builder.authenticationProvider(daoAuthenticationProvider()); //用户名+密码
+        return builder.build();
     }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthProvider = new DaoAuthenticationProvider();
+        daoAuthProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthProvider.setUserDetailsService(userDetailsService);
+        return daoAuthProvider;
+    }
+
 
     @Bean
     public HttpSessionEventPublisher httpSessionEventPublisher() {
@@ -103,7 +121,7 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authManager = http.getSharedObject(AuthenticationManager.class);
-            http.addFilterAt(new CustomLoginHandler(authManager, customAuthSuccessHandler), UsernamePasswordAuthenticationFilter.class);
+            http.addFilterBefore(new CustomLoginHandler(authManager, customAuthSuccessHandler), UsernamePasswordAuthenticationFilter.class);
         }
     }
 }

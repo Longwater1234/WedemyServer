@@ -3,6 +3,8 @@ package com.davistiba.wedemyserver.config;
 import com.davistiba.wedemyserver.dto.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,6 +17,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 /**
  * Custom handling of Login by JSON Post request
@@ -47,7 +51,6 @@ public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
             throw new AuthenticationServiceException(e.getLocalizedMessage());
         }
     }
-
 
 }
 
