@@ -4,6 +4,7 @@ import com.davistiba.wedemyserver.config.MainUserDetails;
 import com.davistiba.wedemyserver.dto.LoginStatus;
 import com.davistiba.wedemyserver.dto.RegisterRequest;
 import com.davistiba.wedemyserver.dto.UserDTO;
+import com.davistiba.wedemyserver.models.CustomOAuthUser;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
@@ -16,9 +17,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping(path = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,14 +59,18 @@ public class AuthController {
         }
     }
 
+
     @GetMapping("/status")
     public ResponseEntity<LoginStatus> getStatusLogin(Authentication auth) {
-        if (auth != null) {
-            MainUserDetails userDetails = (MainUserDetails) auth.getPrincipal();
-            User user = userDetails.getUser();
-            return convertToDto(user);
-        } else {
+        if (auth == null) {
             return ResponseEntity.ok().body(new LoginStatus());
+        }
+        Principal principal = (Principal) auth.getPrincipal();
+        if (principal instanceof CustomOAuthUser oAuthUser) {
+            return convertToDto(oAuthUser);
+        } else {
+            MainUserDetails userDetails = (MainUserDetails) auth.getPrincipal();
+            return convertToDto(userDetails.getUser());
         }
     }
 
