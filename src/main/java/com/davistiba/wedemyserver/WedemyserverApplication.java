@@ -24,6 +24,7 @@ import java.time.format.DateTimeFormatter;
 @SpringBootApplication
 @EnableCaching
 public class WedemyserverApplication {
+
     @Value(value = "${frontend.root.url}")
     private String FRONTEND_URL;
 
