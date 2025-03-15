@@ -29,8 +29,8 @@ public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
     public CustomLoginHandler(AuthenticationManager authManager, AuthenticationSuccessHandler successHandler) {
         super(authManager);
         this.setFilterProcessesUrl("/auth/login");
-        this.setAuthenticationSuccessHandler(successHandler);
         this.objectMapper = new JsonMapper();
+        this.setAuthenticationSuccessHandler(successHandler);
     }
 
     @Override

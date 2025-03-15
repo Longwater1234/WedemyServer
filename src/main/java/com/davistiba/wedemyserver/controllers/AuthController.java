@@ -66,14 +66,13 @@ public class AuthController {
 
     @GetMapping("/status")
     public ResponseEntity<LoginStatus> getStatusLogin(Authentication auth, HttpSession session) {
-        if (auth == null) {
-            return ResponseEntity.ok().body(new LoginStatus());
-        }
-        if (auth.getPrincipal() instanceof CustomOAuthUser oAuthUser) {
-            oAuthUser.setId(MyUserDetailsService.getSessionUserId(session));
-            return convertToDto(oAuthUser);
-        } else if (auth.getPrincipal() instanceof MainUserDetails userDetails) {
-            return convertToDto(userDetails.getUser());
+        if (auth != null) {
+            if (auth.getPrincipal() instanceof CustomOAuthUser oAuthUser) {
+                oAuthUser.setId(MyUserDetailsService.getSessionUserId(session));
+                return convertToDto(oAuthUser);
+            } else if (auth.getPrincipal() instanceof MainUserDetails userDetails) {
+                return convertToDto(userDetails.getUser());
+            }
         }
         return ResponseEntity.ok().body(new LoginStatus());
     }
