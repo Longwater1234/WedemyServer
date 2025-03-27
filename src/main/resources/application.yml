@@ -8,6 +8,8 @@ logging:
     org:
       hibernate:
         SQL: debug
+      springframework:
+        jdbc.core: debug
 server:
   error:
     include-stacktrace: never
@@ -24,7 +26,7 @@ server:
 spring:
   datasource:
     password: ${MYSQL_PASSWORD}
-    url: jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC&useSSL=false
+    url: jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC&rewriteBatchedStatements=true
     username: root
   jpa:
     hibernate:

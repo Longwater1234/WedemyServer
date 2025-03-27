@@ -7,11 +7,13 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,25 +37,33 @@ public class CheckoutService {
     @Autowired
     private SalesRepository salesRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+
     /**
      * Process all courses in Cart.
      * Save batch as single Sale.
      * Insert each item to OrderItems.
      * Then insert each distinct item to Enrollment table.
      * Finally, clear Cart of current user.
+     *
+     * @param transactionId from Braintree, after payment success
+     * @param request       from frontend.
+     * @param user          the current student
      */
     @Transactional
-    public MyCustomResponse processCheckoutDatabase(String transactionId,
+    public MyCustomResponse processCheckoutDatabase(final String transactionId,
                                                     @NotNull CheckoutRequest request,
-                                                    User user) {
-
-        List<OrderItem> orderItemList = new ArrayList<>();
-        List<Enrollment> enrollments = new ArrayList<>();
+                                                    final User user) {
         Page<Course> coursePage = courseRepository.getCartListByUser(user.getId(), Pageable.unpaged());
 
         //===== begin DB OPERATIONS ========
         Sales savedSale = salesRepository.save(
                 new Sales(transactionId, user, request.getTotalAmount(), request.getPaymentMethod()));
+
+        ArrayList<OrderItem> orderItemList = new ArrayList<>(coursePage.getTotalPages());
+        ArrayList<Enrollment> enrollments = new ArrayList<>(coursePage.getTotalPages());
 
         coursePage.get().forEach(course -> {
             OrderItem o = new OrderItem(savedSale, course);
@@ -63,13 +73,13 @@ public class CheckoutService {
             enrollments.add(e);
         });
 
-        List<Integer> courseIds = coursePage.get().map(Course::getId).collect(Collectors.toUnmodifiableList());
-
-        orderItemRepository.saveAll(orderItemList);
-        enrollmentRepository.saveAll(enrollments);
+        Set<Integer> courseIds = coursePage.get().map(Course::getId).collect(Collectors.toSet());
+        orderItemRepository.batchInsert(orderItemList, this.jdbcTemplate);
+        enrollmentRepository.batchInsert(enrollments, this.jdbcTemplate);
         cartRepository.deleteByUserIdAndCoursesIn(user.getId(), courseIds);
         wishlistRepository.deleteByUserIdAndCoursesIn(user.getId(), courseIds);
         //-----------------------------------------------
         return new MyCustomResponse("Successfully paid USD " + request.getTotalAmount());
     }
 }
+

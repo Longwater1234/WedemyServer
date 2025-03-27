@@ -70,7 +70,7 @@ public class EnrollmentController {
                                                             @RequestBody @Valid VideoRequest request) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
-            Optional<Enrollment> enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, request.getCourseId());
+            Optional<Enrollment> enrollment = enrollmentRepository.getOneByUserIdAndCourseId(userId, request.getCourseId());
             if (enrollment.isEmpty()) {
                 throw new Exception("You don't own this course");
             }
@@ -87,7 +87,7 @@ public class EnrollmentController {
     @GetMapping(path = "/resume/c/{courseId}")
     public Map<String, String> resumeMyCourse(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        var enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, courseId);
+        var enrollment = enrollmentRepository.getOneByUserIdAndCourseId(userId, courseId);
         if (enrollment.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't own this course");
         }
@@ -105,7 +105,7 @@ public class EnrollmentController {
         try {
             //first, check if user owns course
             Integer userId = MyUserDetailsService.getSessionUserId(session);
-            Optional<Enrollment> enrollment = enrollmentRepository.getByUserIdAndCourseId(userId, status.getCourseId());
+            Optional<Enrollment> enrollment = enrollmentRepository.getOneByUserIdAndCourseId(userId, status.getCourseId());
             if (enrollment.isEmpty()) throw new Exception("You don't own this course");
             //get next Lesson
             Map<String, String> response = new HashMap<>(2);
