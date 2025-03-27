@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.dto.LessonDTO;
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
@@ -24,15 +26,15 @@ public class LessonController {
     @GetMapping(path = "/course/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Slice<Lesson> getLessonsByCourseId(@PathVariable @NotNull Integer id,
-                                              @RequestParam(defaultValue = "0") Integer page) {
+                                              @RequestParam(defaultValue = "0") @Min(0) Integer page) {
         return lessonRepository.getLessonsByCourseId(id, PageRequest.of(page, 10));
     }
 
     @GetMapping(path = "/c/{courseId}/e/{enrollId}")
     @ResponseStatus(HttpStatus.OK)
     @Secured(value = "ROLE_STUDENT")
-    public List<Map<String, Object>> getAllMyLessonsInEnrollment(@PathVariable Integer courseId,
-                                                                 @PathVariable Long enrollId) {
+    public List<LessonDTO> getAllMyLessonsInEnrollment(@PathVariable Integer courseId,
+                                                       @PathVariable Long enrollId) {
         return lessonRepository.getWatchStatusListByEnrollment(enrollId, courseId);
     }
 
