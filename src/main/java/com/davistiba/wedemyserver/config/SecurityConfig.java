@@ -60,8 +60,9 @@ public class SecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults())
+        return http.cors(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults()) // to allow 401 error if not logged in
+                .csrf(AbstractHttpConfigurer::disable)
                 .oauth2Login(x -> x.userInfoEndpoint(config -> config.oidcUserService(googleOauthService)).successHandler(successHandler))
                 .userDetailsService(userDetailsService)
                 .sessionManagement(s -> s.sessionConcurrency(c -> c.maximumSessions(1)))
@@ -74,11 +75,7 @@ public class SecurityConfig {
                                 .requestMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.name())
                                 .anyRequest().authenticated())
                 .with(new MyCustomFilterSetup(successHandler), x -> {
-                });
-
-        return http.csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers("/auth/**", "/oauth2/**"))
-                .build();
+                }).build();
     }
 
     @Bean
