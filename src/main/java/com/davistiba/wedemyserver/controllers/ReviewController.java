@@ -74,7 +74,7 @@ public class ReviewController {
                                              @RequestParam(defaultValue = "createdAt") String sortBy,
                                              @PathVariable Integer courseId) {
         // validate 'sortBy' param
-        if (Set.of("createdAt", "rating").contains(sortBy)) {
+        if (Set.<String>of("createdAt", "rating").contains(sortBy)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid 'sort' param");
         }
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, sortBy);
