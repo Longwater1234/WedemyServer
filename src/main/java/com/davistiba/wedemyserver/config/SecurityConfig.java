@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -19,6 +20,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
@@ -64,7 +66,8 @@ public class SecurityConfig {
                         .ignoringRequestMatchers("/auth/**", "/oauth2/**"))
                 .oauth2Login(x -> x.userInfoEndpoint(config -> config.oidcUserService(googleOauthService)).successHandler(successHandler))
                 .userDetailsService(userDetailsService)
-                .sessionManagement(s -> s.sessionConcurrency(c -> c.maximumSessions(2)))
+                .sessionManagement(s -> s.sessionConcurrency(c -> c.maximumSessions(1)))
+                .logout(s -> s.logoutUrl("/auth/logout").logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
                 .authorizeHttpRequests((authz) ->
                         authz.requestMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
@@ -85,7 +88,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(c -> c.anyRequest().permitAll());
         return http.build();
     }
-
 
     @Bean
     public AuthenticationManager authManager(AuthenticationConfiguration authConfig) throws Exception {

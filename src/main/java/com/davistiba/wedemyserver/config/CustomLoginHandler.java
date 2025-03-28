@@ -3,6 +3,8 @@ package com.davistiba.wedemyserver.config;
 import com.davistiba.wedemyserver.dto.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,9 +14,18 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.DelegatingSecurityContextRepository;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 /**
  * Custom handling of Login by JSON Post request
@@ -24,6 +35,10 @@ import org.springframework.stereotype.Component;
 public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
 
     private final ObjectMapper objectMapper;
+    private final SecurityContextRepository contextRepository = new DelegatingSecurityContextRepository(
+            new HttpSessionSecurityContextRepository(),
+            new RequestAttributeSecurityContextRepository()
+    );
 
     @Autowired
     public CustomLoginHandler(AuthenticationManager authManager, AuthenticationSuccessHandler successHandler) {
@@ -48,5 +63,14 @@ public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
         }
     }
 
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        // new in Springboot 3, must explicitly save SecurityContext to Session storage
+        final SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
+        SecurityContext context = strategy.getContext();
+        strategy.getContext().setAuthentication(authResult);
+        contextRepository.saveContext(context, request, response);
+        super.successfulAuthentication(request, response, chain, authResult);
+    }
 }
 
