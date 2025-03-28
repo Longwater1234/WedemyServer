@@ -60,10 +60,8 @@ public class SecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.cors(Customizer.withDefaults())
+        http.cors(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
-                .csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers("/auth/**", "/oauth2/**"))
                 .oauth2Login(x -> x.userInfoEndpoint(config -> config.oidcUserService(googleOauthService)).successHandler(successHandler))
                 .userDetailsService(userDetailsService)
                 .sessionManagement(s -> s.sessionConcurrency(c -> c.maximumSessions(1)))
@@ -76,7 +74,11 @@ public class SecurityConfig {
                                 .requestMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.name())
                                 .anyRequest().authenticated())
                 .with(new MyCustomFilterSetup(successHandler), x -> {
-                }).build();
+                });
+
+        return http.csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .ignoringRequestMatchers("/auth/**", "/oauth2/**"))
+                .build();
     }
 
     @Bean
@@ -113,7 +115,7 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authManager = http.getSharedObject(AuthenticationManager.class);
-            http.addFilterAt(new CustomLoginHandler(authManager, customAuthSuccessHandler), UsernamePasswordAuthenticationFilter.class);
+            http.addFilterBefore(new CustomLoginHandler(authManager, customAuthSuccessHandler), UsernamePasswordAuthenticationFilter.class);
         }
     }
 }

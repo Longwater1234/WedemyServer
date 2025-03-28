@@ -28,13 +28,14 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- * Custom handling of Login by JSON Post request
+ * Custom handling of Login by JSON Post request to <code>/auth/login</code>
  */
 @Component
 @WebFilter(filterName = "CustomLoginHandler")
 public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
 
     private final ObjectMapper objectMapper;
+    private final SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
     private final SecurityContextRepository contextRepository = new DelegatingSecurityContextRepository(
             new HttpSessionSecurityContextRepository(),
             new RequestAttributeSecurityContextRepository()
@@ -65,8 +66,7 @@ public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        // new in Springboot 3, must explicitly save SecurityContext to Session storage
-        final SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
+        // new in Springboot 3, must explicitly save SecurityContext, not auto :-(
         SecurityContext context = strategy.getContext();
         strategy.getContext().setAuthentication(authResult);
         contextRepository.saveContext(context, request, response);
