@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
+
 import com.davistiba.wedemyserver.dto.ReviewDTO;
 import com.davistiba.wedemyserver.dto.ReviewRequest;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
@@ -21,7 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.stream.Stream;
+import javax.validation.constraints.Min;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/reviews", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,10 +69,11 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/course/{courseId}")
-    public Slice<ReviewDTO> getCourseReviews(@RequestParam(defaultValue = "0") Integer page,
+    public Slice<ReviewDTO> getCourseReviews(@RequestParam(defaultValue = "0") @Min(0) Integer page,
                                              @RequestParam(defaultValue = "createdAt") String sortBy,
                                              @PathVariable Integer courseId) {
-        if (Stream.of("createdAt", "rating").noneMatch(sortBy::equals)) {
+        // validate 'sortBy' param
+        if (Set.<String>of("createdAt", "rating").contains(sortBy)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid 'sort' param");
         }
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, sortBy);
