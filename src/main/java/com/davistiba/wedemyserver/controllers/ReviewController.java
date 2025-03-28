@@ -22,9 +22,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(path = "/reviews", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -74,7 +72,7 @@ public class ReviewController {
                                              @RequestParam(defaultValue = "createdAt") String sortBy,
                                              @PathVariable Integer courseId) {
         // validate 'sortBy' param
-        if (Set.<String>of("createdAt", "rating").contains(sortBy)) {
+        if (Set.of("createdAt", "rating").contains(sortBy)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid 'sort' param");
         }
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, sortBy);
