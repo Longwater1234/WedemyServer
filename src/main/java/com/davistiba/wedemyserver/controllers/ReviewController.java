@@ -9,6 +9,7 @@ import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import com.davistiba.wedemyserver.service.ReviewService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,8 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 @RestController
@@ -67,10 +70,11 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/course/{courseId}")
-    public Slice<ReviewDTO> getCourseReviews(@RequestParam(defaultValue = "0") Integer page,
+    public Slice<ReviewDTO> getCourseReviews(@RequestParam(defaultValue = "0") @Min(0) Integer page,
                                              @RequestParam(defaultValue = "createdAt") String sortBy,
                                              @PathVariable Integer courseId) {
-        if (Stream.of("createdAt", "rating").noneMatch(sortBy::equals)) {
+        // validate 'sortBy' param
+        if (Set.<String>of("createdAt", "rating").contains(sortBy)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid 'sort' param");
         }
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, sortBy);
