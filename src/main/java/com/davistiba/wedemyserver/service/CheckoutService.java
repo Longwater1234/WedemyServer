@@ -73,7 +73,7 @@ public class CheckoutService {
         });
 
         Set<Integer> courseIds = coursePage.get().map(Course::getId).collect(Collectors.toSet());
-        orderItemRepository.batchInsert(orderItemList, this.jdbcTemplate);
+        orderItemRepository.saveAll(orderItemList);
         enrollmentRepository.batchInsert(enrollments, this.jdbcTemplate);
         cartRepository.deleteByUserIdAndCoursesIn(user.getId(), courseIds);
         wishlistRepository.deleteByUserIdAndCoursesIn(user.getId(), courseIds);
