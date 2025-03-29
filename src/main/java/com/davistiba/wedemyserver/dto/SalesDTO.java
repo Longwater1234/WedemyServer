@@ -12,7 +12,6 @@ import java.time.Instant;
  * this is for customer's Purchase History
  */
 @Getter
-@ToString
 @RequiredArgsConstructor
 public class SalesDTO {
     private String transactionId;

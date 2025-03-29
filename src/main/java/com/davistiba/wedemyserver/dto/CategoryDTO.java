@@ -2,13 +2,14 @@ package com.davistiba.wedemyserver.dto;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
 
 
 @Getter
-@EqualsAndHashCode
+@NoArgsConstructor
 public class CategoryDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = -248986479752746539L;
@@ -19,9 +20,5 @@ public class CategoryDTO implements Serializable {
         this.id = id;
         this.category = category;
     }
-
-    public CategoryDTO() {
-    }
-
 
 }

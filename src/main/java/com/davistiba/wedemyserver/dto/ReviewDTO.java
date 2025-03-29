@@ -1,12 +1,13 @@
 package com.davistiba.wedemyserver.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.Instant;
 
 @Getter
-@ToString
+@NoArgsConstructor
 public class ReviewDTO {
     private Integer id;
     private String content;
@@ -22,6 +23,4 @@ public class ReviewDTO {
         this.fullname = fullname;
     }
 
-    public ReviewDTO() {
-    }
 }
