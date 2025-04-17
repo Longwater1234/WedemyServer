@@ -8,13 +8,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Duration;
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -52,22 +50,11 @@ public class Lesson {
     @JsonBackReference
     private Course course;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Lesson lesson = (Lesson) o;
-        return id != null && Objects.equals(id, lesson.id);
-    }
-
-    /* convert to mm:ss */
+    /**
+     * convert to mm:ss
+     */
     public String getLengthSeconds() {
-        return String.format("%02d:%02d", Duration.ofSeconds(this.lengthSeconds).toMinutesPart(),
-                Duration.ofSeconds(this.lengthSeconds).toSecondsPart());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
+        final Duration duration = Duration.ofSeconds(this.lengthSeconds);
+        return String.format("%02d:%02d", duration.toMinutesPart(), duration.toSecondsPart());
     }
 }

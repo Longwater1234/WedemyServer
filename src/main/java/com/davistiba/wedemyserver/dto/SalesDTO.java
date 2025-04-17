@@ -2,7 +2,6 @@ package com.davistiba.wedemyserver.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -12,7 +11,6 @@ import java.time.Instant;
  * this is for customer's Purchase History
  */
 @Getter
-@ToString
 @RequiredArgsConstructor
 public class SalesDTO {
     private String transactionId;

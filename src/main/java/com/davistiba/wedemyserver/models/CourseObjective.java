@@ -9,8 +9,6 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.Objects;
-
 @Entity
 @Table(name = "course_objectives")
 @Getter
@@ -34,22 +32,5 @@ public class CourseObjective {
         super();
         this.course = course;
         this.objective = objective;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CourseObjective that = (CourseObjective) o;
-
-        if (!Objects.equals(id, that.id)) return false;
-        if (!Objects.equals(course, that.course)) return false;
-        return Objects.equals(objective, that.objective);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(course, objective);
     }
 }
