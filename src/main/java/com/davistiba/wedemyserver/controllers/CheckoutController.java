@@ -3,7 +3,7 @@ package com.davistiba.wedemyserver.controllers;
 import com.braintreegateway.*;
 import com.davistiba.wedemyserver.config.BraintreeConfig;
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
-import com.davistiba.wedemyserver.models.MyCustomResponse;
+import com.davistiba.wedemyserver.dto.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import com.davistiba.wedemyserver.service.CheckoutService;

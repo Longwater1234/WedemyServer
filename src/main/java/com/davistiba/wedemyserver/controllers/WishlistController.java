@@ -1,7 +1,7 @@
 package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.models.Course;
-import com.davistiba.wedemyserver.models.MyCustomResponse;
+import com.davistiba.wedemyserver.dto.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.WishlistRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;

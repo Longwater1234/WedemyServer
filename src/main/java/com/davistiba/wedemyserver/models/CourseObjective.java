@@ -9,7 +9,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Objects;
 
 @Entity
 @Table(name = "course_objectives")
@@ -36,20 +35,4 @@ public class CourseObjective {
         this.objective = objective;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CourseObjective that = (CourseObjective) o;
-
-        if (!Objects.equals(id, that.id)) return false;
-        if (!Objects.equals(course, that.course)) return false;
-        return Objects.equals(objective, that.objective);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(course, objective);
-    }
 }

@@ -3,7 +3,7 @@ package com.davistiba.wedemyserver.controllers;
 import com.davistiba.wedemyserver.dto.LoginStatus;
 import com.davistiba.wedemyserver.dto.UserDTO;
 import com.davistiba.wedemyserver.models.CustomOAuthUser;
-import com.davistiba.wedemyserver.models.MyCustomResponse;
+import com.davistiba.wedemyserver.dto.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
 import org.jetbrains.annotations.NotNull;

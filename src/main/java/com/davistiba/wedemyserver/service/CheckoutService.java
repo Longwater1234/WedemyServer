@@ -1,6 +1,7 @@
 package com.davistiba.wedemyserver.service;
 
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
+import com.davistiba.wedemyserver.dto.MyCustomResponse;
 import com.davistiba.wedemyserver.models.*;
 import com.davistiba.wedemyserver.repository.*;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 

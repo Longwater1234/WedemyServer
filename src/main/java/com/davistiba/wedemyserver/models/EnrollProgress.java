@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 /**
  * THIS IS JOINT TABLE BETWEEN Enrollment and Lessons
@@ -40,18 +38,5 @@ public class EnrollProgress {
     public EnrollProgress(Enrollment enrollment, Lesson lesson) {
         this.enrollment = enrollment;
         this.lesson = lesson;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        EnrollProgress that = (EnrollProgress) o;
-        return id != null && Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 }

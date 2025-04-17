@@ -3,7 +3,7 @@ package com.davistiba.wedemyserver.controllers;
 
 import com.davistiba.wedemyserver.dto.ReviewDTO;
 import com.davistiba.wedemyserver.dto.ReviewRequest;
-import com.davistiba.wedemyserver.models.MyCustomResponse;
+import com.davistiba.wedemyserver.dto.MyCustomResponse;
 import com.davistiba.wedemyserver.models.Review;
 import com.davistiba.wedemyserver.repository.ReviewRepository;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;

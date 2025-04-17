@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -15,7 +14,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Objects;
 
 @Entity
 @Table(name = "sales")
@@ -52,18 +50,5 @@ public class Sales {
         this.user = user;
         this.totalPaid = totalPaid;
         this.paymentMethod = paymentMethod.toUpperCase();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Sales sales = (Sales) o;
-        return transactionId != null && Objects.equals(transactionId, sales.transactionId);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 }

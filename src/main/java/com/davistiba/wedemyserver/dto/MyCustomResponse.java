@@ -1,4 +1,4 @@
-package com.davistiba.wedemyserver.models;
+package com.davistiba.wedemyserver.dto;
 
 import lombok.Getter;
 

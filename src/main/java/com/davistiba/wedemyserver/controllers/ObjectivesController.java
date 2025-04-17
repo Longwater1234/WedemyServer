@@ -3,7 +3,7 @@ package com.davistiba.wedemyserver.controllers;
 import com.davistiba.wedemyserver.dto.ObjectivesDTO;
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.models.CourseObjective;
-import com.davistiba.wedemyserver.models.MyCustomResponse;
+import com.davistiba.wedemyserver.dto.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CourseRepository;
 import com.davistiba.wedemyserver.repository.ObjectiveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
