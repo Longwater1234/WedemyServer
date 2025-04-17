@@ -1,6 +1,5 @@
 package com.davistiba.wedemyserver.dto;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
