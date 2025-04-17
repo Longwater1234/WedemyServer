@@ -21,7 +21,7 @@ import java.time.Instant;
 @RequiredArgsConstructor
 public class Sales {
     @Id
-    @Column(name = "transaction_id", nullable = false, length = 30)
+    @Column(nullable = false, length = 30)
     private String transactionId;
     //^ from Braintree Payments
 
