@@ -82,7 +82,7 @@ public class EnrollmentController {
     }
 
     @GetMapping(path = "/resume/c/{courseId}")
-    public Map<String, String> resumeMyCourse(@PathVariable Integer courseId, HttpSession session) {
+    public ResponseEntity<ResumeCourseResp> resumeMyCourse(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         Optional<Enrollment> enrollment = enrollmentRepository.getOneByUserIdAndCourseId(userId, courseId);
         if (enrollment.isEmpty()) {
@@ -92,7 +92,7 @@ public class EnrollmentController {
         if (nextLesson.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not get lesson!");
         }
-        return Collections.singletonMap("lessonId", String.valueOf(nextLesson.get().getId()));
+        return ResponseEntity.ok().body(new ResumeCourseResp(String.valueOf(nextLesson.get().getId())));
     }
 
 
