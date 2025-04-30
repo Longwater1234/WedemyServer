@@ -1,6 +1,6 @@
 package com.davistiba.wedemyserver.service;
 
-import com.davistiba.wedemyserver.dto.WatchStatus;
+import com.davistiba.wedemyserver.dto.WatchStatusReq;
 import com.davistiba.wedemyserver.models.EnrollProgress;
 import com.davistiba.wedemyserver.models.Enrollment;
 import com.davistiba.wedemyserver.models.Lesson;
@@ -38,7 +38,7 @@ public class EnrollProgressService {
      * @return next Lesson
      */
     @Transactional
-    public Optional<Lesson> updateAndGetNextLesson(@NotNull WatchStatus status, Enrollment enrollment) {
+    public Optional<Lesson> updateAndGetNextLesson(@NotNull WatchStatusReq status, Enrollment enrollment) {
         UUID lessonId = UUID.fromString(status.getCurrentLessonId());
         Lesson currentLesson = lessonRepository.findById(lessonId).orElseThrow();
         Optional<EnrollProgress> enrollProgress = progressRepository.findByEnrollIdAndLessonId(status.getEnrollId(), lessonId);

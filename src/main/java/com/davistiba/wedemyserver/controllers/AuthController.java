@@ -33,15 +33,12 @@ public class AuthController {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    private final MyUserDetailsService userDetailsService;
-
     private final ModelMapper modelMapper;
 
     @Autowired
-    public AuthController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, MyUserDetailsService userDetailsService) {
+    public AuthController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userDetailsService = userDetailsService;
         this.modelMapper = new ModelMapper();
     }
 
