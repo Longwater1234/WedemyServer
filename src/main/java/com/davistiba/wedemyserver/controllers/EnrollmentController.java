@@ -76,7 +76,6 @@ public class EnrollmentController {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed! Reason: " + e.getMessage(), e);
         }
-
     }
 
     @GetMapping(path = "/resume/c/{courseId}")

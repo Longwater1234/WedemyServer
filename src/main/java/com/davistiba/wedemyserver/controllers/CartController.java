@@ -25,7 +25,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.Map;
 
 @RestController
 @Secured(value = "ROLE_STUDENT")
