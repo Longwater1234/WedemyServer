@@ -50,7 +50,7 @@ public class EnrollProgressService {
             int numWatched = progressRepository.countByEnrollmentId(enrollment.getId());
             int totalLessons = lessonRepository.countByCourseId(status.getCourseId());
             double percentVal = (double) numWatched / (double) totalLessons * 100.00;
-            final boolean isCompleted = (percentVal / 100.00) == 1;
+            final boolean isCompleted = percentVal >= 100.00;
 
             //update `Enrollments` table
             BigDecimal progressPercent = BigDecimal.valueOf(percentVal).setScale(2, RoundingMode.HALF_UP);
