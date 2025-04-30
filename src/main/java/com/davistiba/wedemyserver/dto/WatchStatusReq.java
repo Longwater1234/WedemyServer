@@ -7,7 +7,7 @@ import lombok.Getter;
  * This is for updating watchStatus on currentLessonId, and requesting next lesson
  */
 @Getter
-public class WatchStatus {
+public class WatchStatusReq {
     @NotNull
     private Long enrollId;
     @NotNull
@@ -15,6 +15,6 @@ public class WatchStatus {
     @NotNull
     private Integer courseId;
 
-    public WatchStatus() {
+    public WatchStatusReq() {
     }
 }

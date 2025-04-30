@@ -1,6 +1,6 @@
 package com.davistiba.wedemyserver.service;
 
-import com.davistiba.wedemyserver.dto.WatchStatus;
+import com.davistiba.wedemyserver.dto.WatchStatusReq;
 import com.davistiba.wedemyserver.models.EnrollProgress;
 import com.davistiba.wedemyserver.models.Enrollment;
 import com.davistiba.wedemyserver.models.Lesson;
@@ -38,7 +38,7 @@ public class EnrollProgressService {
      * @return next Lesson
      */
     @Transactional
-    public Optional<Lesson> updateAndGetNextLesson(@NotNull WatchStatus status, Enrollment enrollment) {
+    public Optional<Lesson> updateAndGetNextLesson(@NotNull WatchStatusReq status, Enrollment enrollment) {
         UUID lessonId = UUID.fromString(status.getCurrentLessonId());
         Lesson currentLesson = lessonRepository.findById(lessonId).orElseThrow();
         Optional<EnrollProgress> enrollProgress = progressRepository.findByEnrollIdAndLessonId(status.getEnrollId(), lessonId);
@@ -50,7 +50,7 @@ public class EnrollProgressService {
             int numWatched = progressRepository.countByEnrollmentId(enrollment.getId());
             int totalLessons = lessonRepository.countByCourseId(status.getCourseId());
             double percentVal = (double) numWatched / (double) totalLessons * 100.00;
-            final boolean isCompleted = (percentVal / 100.00) == 1;
+            final boolean isCompleted = percentVal >= 100.00;
 
             //update `Enrollments` table
             BigDecimal progressPercent = BigDecimal.valueOf(percentVal).setScale(2, RoundingMode.HALF_UP);
