@@ -1,5 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
+import com.davistiba.wedemyserver.dto.WishlistCheckResp;
 import com.davistiba.wedemyserver.models.Course;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.repository.CourseRepository;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
-import java.util.Map;
 
 @RestController
 @Secured("ROLE_STUDENT")
@@ -46,12 +46,12 @@ public class WishlistController {
 
     @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, Boolean> checkUserLikedCourse(@PathVariable @NotNull Integer courseId, HttpSession session) {
+    public ResponseEntity<WishlistCheckResp> checkIfUserWishlist(@PathVariable @NotNull Integer courseId,
+                                                                 HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         boolean inWishlist = wishlistRepository.checkIfExistWishlistNative(userId, courseId) > 0;
-        return Collections.singletonMap("inWishlist", inWishlist);
+        return ResponseEntity.ok(new WishlistCheckResp(inWishlist));
     }
-
 
     @GetMapping(path = "/mine")
     @ResponseStatus(HttpStatus.OK)

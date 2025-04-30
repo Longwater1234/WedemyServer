@@ -1,9 +1,6 @@
 package com.davistiba.wedemyserver.controllers;
 
-import com.davistiba.wedemyserver.dto.EnrollmentDTO;
-import com.davistiba.wedemyserver.dto.VideoRequest;
-import com.davistiba.wedemyserver.dto.VideoResponse;
-import com.davistiba.wedemyserver.dto.WatchStatus;
+import com.davistiba.wedemyserver.dto.*;
 import com.davistiba.wedemyserver.models.Enrollment;
 import com.davistiba.wedemyserver.models.Lesson;
 import com.davistiba.wedemyserver.repository.EnrollmentRepository;
@@ -45,12 +42,10 @@ public class EnrollmentController {
 
     @GetMapping(path = "/status/c/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, Boolean> checkEnrollStatus(@PathVariable @NotNull Integer courseId, HttpSession session) {
-        Map<String, Boolean> response = new HashMap<>(1);
+    public ResponseEntity<EnrollStatusDTO> checkEnrollStatus(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         boolean isOwned = enrollmentRepository.existsByUserIdAndCourseId(userId, courseId);
-        response.put("isOwned", isOwned);
-        return response;
+        return ResponseEntity.ok(new EnrollStatusDTO(isOwned));
     }
 
     @GetMapping(path = "/progress/summary")
@@ -84,7 +79,6 @@ public class EnrollmentController {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed! Reason: " + e.getMessage(), e);
         }
-
     }
 
     @GetMapping(path = "/resume/c/{courseId}")
@@ -104,22 +98,22 @@ public class EnrollmentController {
 
     @PostMapping(path = "/watched")
     @CacheEvict(value = "student-summary", key = "#session.id")
-    public Map<String, String> updateWatchStatus(@RequestBody @Valid WatchStatus status, HttpSession session) {
+    public ResponseEntity<WatchStatusResp> updateWatchStatus(@RequestBody @Valid WatchStatusReq status, HttpSession session) {
         try {
             //first, check if user owns course
             Integer userId = MyUserDetailsService.getSessionUserId(session);
             Optional<Enrollment> enrollment = enrollmentRepository.getOneByUserIdAndCourseId(userId, status.getCourseId());
             if (enrollment.isEmpty()) throw new IllegalStateException("You don't own this course");
             // get next Lesson
-            Map<String, String> response = new HashMap<>(2);
+            WatchStatusResp response = new WatchStatusResp();
             Optional<Lesson> nextLesson = progressService.updateAndGetNextLesson(status, enrollment.get());
             if (nextLesson.isPresent()) {
-                response.put("nextLessonId", String.valueOf(nextLesson.get().getId()));
+                response.setNextLessonId(String.valueOf(nextLesson.get().getId()));
             } else {
-                response.put("nextLessonId", null);
-                response.put("message", "Bravo! You have completed the course!");
+                response.setNextLessonId(null);
+                response.setMessage("Bravo! You have completed the course!");
             }
-            return response;
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update status: " + e.getMessage(), e);
         }
