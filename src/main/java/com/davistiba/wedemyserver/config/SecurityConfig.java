@@ -2,12 +2,14 @@ package com.davistiba.wedemyserver.config;
 
 import com.davistiba.wedemyserver.models.UserRole;
 import com.davistiba.wedemyserver.service.GoogleOAuthUserService;
+import com.davistiba.wedemyserver.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -18,7 +20,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @Configuration
@@ -51,13 +53,19 @@ public class SecurityConfig {
     @Autowired
     private CustomAuthSuccessHandler successHandler;
 
+    @Autowired
+    private MyUserDetailsService userDetailsService;
+
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.cors(Customizer.withDefaults()).formLogin(Customizer.withDefaults())
+        return http.cors(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults()) // to allow 401 error if not logged in
+                .csrf(AbstractHttpConfigurer::disable)
                 .oauth2Login(x -> x.userInfoEndpoint(config -> config.oidcUserService(googleOauthService)).successHandler(successHandler))
-                .csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringRequestMatchers("/oauth2/**", "/auth/**"))
-                .sessionManagement(s -> s.sessionConcurrency(c -> c.maximumSessions(2)))
+                .userDetailsService(userDetailsService)
+                .sessionManagement(s -> s.sessionConcurrency(c -> c.maximumSessions(1)))
+                .logout(s -> s.logoutUrl("/auth/logout").logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
                 .authorizeHttpRequests((authz) ->
                         authz.requestMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
@@ -103,7 +111,7 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authManager = http.getSharedObject(AuthenticationManager.class);
-            http.addFilterAt(new CustomLoginHandler(authManager, customAuthSuccessHandler), UsernamePasswordAuthenticationFilter.class);
+            http.addFilterBefore(new CustomLoginHandler(authManager, customAuthSuccessHandler), UsernamePasswordAuthenticationFilter.class);
         }
     }
 }

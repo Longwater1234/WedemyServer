@@ -59,6 +59,11 @@ public class CustomOAuthUser extends User implements OidcUser, Serializable {
     }
 
     @Override
+    public Integer getId() {
+        return super.getId();
+    }
+
+    @Override
     public String getName() {
         return oidcUser.getAttribute("name");
     }
