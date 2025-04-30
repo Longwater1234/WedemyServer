@@ -2,6 +2,7 @@ package com.davistiba.wedemyserver.controllers;
 
 import com.braintreegateway.*;
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
+import com.davistiba.wedemyserver.dto.PaymentTokenDTO;
 import com.davistiba.wedemyserver.models.MyCustomResponse;
 import com.davistiba.wedemyserver.models.User;
 import com.davistiba.wedemyserver.repository.UserRepository;
@@ -20,8 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * THIS MODIFIED CODE TAKEN FROM THE OFFICIAL Braintree Github
@@ -48,14 +47,10 @@ public class CheckoutController {
     }
 
     @GetMapping(path = "/token")
-    @ResponseStatus(value = HttpStatus.OK)
-    public Map<String, String> getClientToken() {
-        Map<String, String> response = new HashMap<>(1);
+    public ResponseEntity<PaymentTokenDTO> getClientToken() {
         String clientToken = gateway.clientToken().generate();
-        response.put("clientToken", clientToken);
-        return response;
+        return ResponseEntity.ok().body(new PaymentTokenDTO(clientToken));
     }
-
 
     @PostMapping(path = "/complete")
     @CacheEvict(value = "student-summary", key = "#session.id")

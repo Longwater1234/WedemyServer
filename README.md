@@ -1,6 +1,6 @@
 # WedemyServer
 
-[![Static Badge](https://img.shields.io/badge/API_docs-v2.0-red)](https://longwater1234.github.io/WedemyServer/)
+[![Static Badge](https://img.shields.io/badge/API_docs-v2.5-blue)](https://longwater1234.github.io/WedemyServer/)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Longwater1234/WedemyServer/graphs/commit-activity)
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyServer)](https://github.com/Longwater1234/WedemyServer/blob/master/LICENSE)
 [![Static Badge](https://img.shields.io/badge/reference-help.md-orange)](HELP.md)
@@ -102,18 +102,17 @@ Dokku, Railway, Render.com, Fly.io. Please note, you will also need a **separate
 
 All payments are securely handled by **Braintree Payments** (owned by PayPal), which supports cards, PayPal, Apple Pay,
 GooglePay, Venmo and many other methods. This project implements Credit-Card and PayPal Checkout only, in _Sandbox_
-(Dev) mode: **No actual money is deducted at Checkout**. Make sure you obtain a set of 3 API Keys from
+mode: **No actual money is deducted at Checkout**. Make sure you obtain a set of 3 API Keys from
 your own Braintree Dev Account and store them as ENV variables: `BT_MERCHANT_ID`, `BT_PUBLIC_KEY` and `BT_PRIVATE_KEY`.
 For Braintree tutorials and samples, please check their [official docs](https://developer.paypal.com/braintree/docs).
 
 ## License
 
-[MIT License](LICENSE)
+[MIT License](LICENSE) &copy; 2021 - present, Davis T
 
 ---
 
-[^1]:
-In production, for Browser clients, ensure both your Backend and Frontend share the same _ROOT_ domain (same-site
+[^1]: In production, for Browser clients, ensure both your Backend and Frontend share the same _ROOT_ domain (same-site
 policy), AND set property `session.cookie.Secure=true` (strictly https) for Session Cookies to work properly. Learn
 more at [WebDev](https://web.dev/samesite-cookies-explained/). Alternatively, you can replace Cookies **entirely** with
 special Header X-AUTH-TOKEN (by Spring; expires too). See file SecurityConfig.java.
