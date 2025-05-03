@@ -43,7 +43,7 @@ public class ReviewService {
 
         //calculate and update average rating for course.
         double avgRating = reviewRepository.getAverageByCourseId(course.getId());
-        course.setRating(BigDecimal.valueOf(avgRating).setScale(2, RoundingMode.DOWN));
+        course.setRating(BigDecimal.valueOf(avgRating).setScale(2, RoundingMode.FLOOR));
         courseRepository.save(course);
     }
 
@@ -60,7 +60,7 @@ public class ReviewService {
 
         //calculate and update average rating for course.
         double avgRating = reviewRepository.getAverageByCourseId(course.getId());
-        course.setRating(BigDecimal.valueOf(avgRating).setScale(2, RoundingMode.DOWN));
+        course.setRating(BigDecimal.valueOf(avgRating).setScale(2, RoundingMode.FLOOR));
         courseRepository.save(course);
     }
 }
