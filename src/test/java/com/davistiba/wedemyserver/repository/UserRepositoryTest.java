@@ -34,8 +34,9 @@ class UserRepositoryTest {
     }
 
     static ArrayList<User> getUserList() {
-        ArrayList<User> userList = new ArrayList<>(100);
-        for (int i = 0; i < 100; i++) {
+        final int initialSize = 100;
+        ArrayList<User> userList = new ArrayList<>(initialSize);
+        for (int i = 0; i < initialSize; i++) {
             User user = new User();
             user.setFullname("hello_" + ThreadLocalRandom.current().nextInt(999));
             user.setEmail("hello@pp" + ThreadLocalRandom.current().nextInt(99889) + "yahoo.com");
@@ -54,7 +55,7 @@ class UserRepositoryTest {
         ArrayList<User> userList = getUserList();
         log.info("starting");
         jdbcTemplate.batchUpdate("INSERT INTO users (fullname, email, enabled, auth_provider, user_role, created_at) " +
-                "VALUES (?, ? , ? , ?, ?, ?)", userList, 100, (ps, argument) -> {
+                "VALUES (?, ? , ? , ?, ?, ?)", userList, 50, (ps, argument) -> {
             int col = 1;
             ps.setString(col++, argument.getFullname());
             ps.setString(col++, argument.getEmail());
