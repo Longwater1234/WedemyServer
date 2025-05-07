@@ -15,15 +15,15 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO cart(created_at, course_id, user_id, price) VALUES (UTC_TIMESTAMP(), ?, ?, ?)", nativeQuery = true)
+    @Query(value = "INSERT INTO cart(created_at, course_id, user_id, price) VALUES (UTC_TIMESTAMP(), ?1, ?2, ?3)", nativeQuery = true)
     int addToCartCustom(Integer courseId, Integer userId, BigDecimal price);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM Cart c where c.user.id = ?1 and c.course.id in ?2")
+    @Query(value = "DELETE FROM Cart c WHERE c.user.id = ?1 AND c.course.id IN ?2")
     int deleteByUserIdAndCoursesIn(Integer userId, Collection<Integer> courseId);
 
-    @Query(value = "SELECT EXISTS(SELECT 1 from cart c where c.user_id = ?1 and c.course_id = ?2)", nativeQuery = true)
+    @Query(value = "SELECT EXISTS(SELECT 1 FROM cart c WHERE c.user_id = ?1 AND c.course_id = ?2)", nativeQuery = true)
     int checkIfCourseInCart(int userId, int courseId);
     //^FASTER THAN JPA EXISTS(), BUT RETURNS int (0/1) for MySQL, NOT BOOLEAN.
 
