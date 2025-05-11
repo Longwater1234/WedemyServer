@@ -17,7 +17,7 @@ import java.util.List;
 public interface OrderItemRepository extends CrudRepository<OrderItem, Long> {
 
     @Query("SELECT new com.davistiba.wedemyserver.dto.OrderItemDTO(o.id, c.title, c.price) from OrderItem o " +
-            "INNER JOIN Course c on o.course.id = c.id where o.sale.transactionId = ?1")
+           "INNER JOIN Course c on o.course.id = c.id WHERE o.sale.transactionId = ?1")
     Slice<OrderItemDTO> findByTransactionIdEquals(String transactionId, Pageable pageable);
 
     @Transactional

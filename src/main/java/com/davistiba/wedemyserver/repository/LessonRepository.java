@@ -26,13 +26,13 @@ public interface LessonRepository extends CrudRepository<Lesson, UUID> {
     int countByCourseId(int id);
 
     @Query(value = "SELECT BIN_TO_UUID(s.id) AS id, s.lesson_name AS lessonName, s.position AS `position`, TIME_FORMAT(SEC_TO_TIME(s.length_seconds), " +
-            "'%i:%s') AS videoTime, EXISTS(SELECT 1 FROM enroll_progress ep WHERE ep.lesson_id = s.id AND ep.enrollment_id = :enrollId) " +
-            "AS isWatched FROM lessons s WHERE s.course_id = :courseId ORDER BY s.position", nativeQuery = true)
+                   "'%i:%s') AS videoTime, EXISTS(SELECT 1 FROM enroll_progress ep WHERE ep.lesson_id = s.id AND ep.enrollment_id = :enrollId) " +
+                   "AS isWatched FROM lessons s WHERE s.course_id = :courseId ORDER BY s.position", nativeQuery = true)
     List<LessonDTO> getWatchStatusListByEnrollment(long enrollId, int courseId);
 
     @Query(value = "SELECT s FROM Lesson s LEFT JOIN EnrollProgress ep ON s.id = ep.lesson.id " +
-            "AND ep.enrollment.id = :enrollmentId WHERE ep.lesson.id IS NULL AND s.course.id = :courseId " +
-            "ORDER BY s.position")
+                   "AND ep.enrollment.id = :enrollmentId WHERE ep.lesson.id IS NULL AND s.course.id = :courseId " +
+                   "ORDER BY s.position")
     List<Lesson> getAllNotWatchedByEnrollmentId(long enrollmentId, int courseId, Pageable pageable);
 
     //just the first one
