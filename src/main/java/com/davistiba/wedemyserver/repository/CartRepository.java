@@ -23,9 +23,9 @@ public interface CartRepository extends CrudRepository<Cart, Integer> {
     @Query(value = "DELETE FROM Cart c WHERE c.user.id = ?1 AND c.course.id IN ?2")
     int deleteByUserIdAndCoursesIn(Integer userId, Collection<Integer> courseId);
 
-    @Query(value = "SELECT EXISTS(SELECT 1 FROM cart c WHERE c.user_id = ?1 AND c.course_id = ?2)", nativeQuery = true)
-    int checkIfCourseInCart(int userId, int courseId);
-    //^FASTER THAN JPA EXISTS(), BUT RETURNS int (0/1) for MySQL, NOT BOOLEAN.
+    @Query(value = "SELECT EXISTS(SELECT 1 FROM Cart c WHERE c.user.id = ?1 AND c.course.id = ?2)")
+    boolean checkIfCourseInCart(Integer userId, Integer courseId);
+    //^FASTER THAN JPA EXISTS(), which USES SELECT COUNT > 0
 
     @Query(value = "SELECT COUNT(c) FROM Cart c WHERE c.user.id = ?1")
     long countCartByUserIdEquals(Integer userId);

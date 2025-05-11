@@ -55,7 +55,7 @@ public class CartController {
     @GetMapping(path = "/status/c/{courseId}")
     public ResponseEntity<CartCheckResponse> checkUserCartItem(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        boolean inCart = cartRepository.checkIfCourseInCart(userId, courseId) > 0;
+        boolean inCart = cartRepository.checkIfCourseInCart(userId, courseId);
         return ResponseEntity.ok().body(new CartCheckResponse(inCart));
     }
 
