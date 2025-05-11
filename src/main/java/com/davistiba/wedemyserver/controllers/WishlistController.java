@@ -46,7 +46,7 @@ public class WishlistController {
     public ResponseEntity<WishlistCheckResp> checkIfUserWishlist(@PathVariable @NotNull Integer courseId,
                                                                  HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        boolean inWishlist = wishlistRepository.checkIfExistWishlistNative(userId, courseId);
+        boolean inWishlist = wishlistRepository.checkIfExistWishlist(userId, courseId);
         return ResponseEntity.ok(new WishlistCheckResp(inWishlist));
     }
 

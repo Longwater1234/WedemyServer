@@ -13,7 +13,7 @@ import java.util.Collection;
 public interface WishlistRepository extends CrudRepository<Wishlist, Integer> {
 
     @Query(value = "SELECT EXISTS(SELECT 1 FROM Wishlist w WHERE w.user.id = ?1 AND w.course.id = ?2)")
-    boolean checkIfExistWishlistNative(Integer userId, Integer courseId);
+    boolean checkIfExistWishlist(Integer userId, Integer courseId);
 
     @Modifying
     @Transactional
