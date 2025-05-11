@@ -16,7 +16,7 @@ public interface SalesRepository extends CrudRepository<Sales, String> {
     Slice<Sales> findByCreatedAtBetween(Instant createdAtStart, Instant createdAtEnd);
 
     @Query("SELECT new com.davistiba.wedemyserver.dto.SalesDTO(s.transactionId,s.createdAt, s.paymentMethod, s.totalPaid, count(o)) " +
-            "FROM Sales s JOIN OrderItem o ON s.transactionId = o.sale.transactionId WHERE s.user.id = ?1 GROUP BY s.transactionId")
+           "FROM Sales s JOIN OrderItem o ON s.transactionId = o.sale.transactionId WHERE s.user.id = ?1 GROUP BY s.transactionId")
     Slice<SalesDTO> findByUserIdOrderByCreatedAtDesc(Integer userId, Pageable pageable);
 
 

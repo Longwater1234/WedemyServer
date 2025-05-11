@@ -1,27 +1,25 @@
 package com.davistiba.wedemyserver.repository;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-@Disabled
+@TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 class WishlistRepositoryTest {
 
     @Autowired
     private WishlistRepository wishlistRepository;
 
     @Test
-    void checkIfExistWishlistNativeTest() {
-        int exists = wishlistRepository.checkIfExistWishlistNative(9, 10011);
-        Assertions.assertEquals(1, exists);
+    @Order(1)
+    public void contextLoads() {
+
     }
 
-    @Test
-    void checkIfCourseInWishlistTest() {
-        boolean exists = wishlistRepository.checkIfCourseInWishlist(9, 10011);
+    @RepeatedTest(3)
+    void checkIfExistWishlist_Test() {
+        boolean exists = wishlistRepository.checkIfExistWishlist(8, 10011);
         Assertions.assertTrue(exists);
     }
 
