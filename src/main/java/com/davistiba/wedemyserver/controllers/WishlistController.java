@@ -17,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 
@@ -34,38 +33,32 @@ public class WishlistController {
 
 
     @PostMapping(path = "/course/{courseId}")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<MyCustomResponse> addNewWishlist(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         int count = wishlistRepository.saveByCourseIdAndUserId(courseId, userId);
-        return ResponseEntity.ok(new MyCustomResponse(String.format("Added %d item to Wishlist", count)));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new MyCustomResponse(String.format("Added %d item to Wishlist", count)));
     }
 
     @GetMapping(path = "/status/c/{courseId}")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<WishlistCheckResp> checkIfUserWishlist(@PathVariable @NotNull Integer courseId,
                                                                  HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        boolean inWishlist = wishlistRepository.checkIfExistWishlistNative(userId, courseId);
+        boolean inWishlist = wishlistRepository.checkIfExistWishlist(userId, courseId);
         return ResponseEntity.ok(new WishlistCheckResp(inWishlist));
     }
 
     @GetMapping(path = "/mine")
-    @ResponseStatus(HttpStatus.OK)
     public Page<Course> getMyWishlistPaged(@RequestParam(defaultValue = "0") @Min(0) Integer page, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         return courseRepository.getWishlistByUser(userId, PageRequest.of(Math.abs(page), 5));
     }
 
     @DeleteMapping(path = "/course/{courseId}")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<MyCustomResponse> removeWishlistByCourseId(@PathVariable @NotNull Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         int deletedCount = wishlistRepository.deleteByUserIdAndCoursesIn(userId, Collections.singletonList(courseId));
-        if (deletedCount != 1) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not remove from wishlist");
-        }
-        return ResponseEntity.ok(new MyCustomResponse("Removed from Wishlist, course " + courseId));
+        String message = String.format("Removed %d item from wishlist, courseId %d", deletedCount, courseId);
+        return ResponseEntity.ok(new MyCustomResponse(message));
     }
 
 }

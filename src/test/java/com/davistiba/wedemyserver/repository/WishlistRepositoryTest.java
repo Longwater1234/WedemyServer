@@ -18,8 +18,8 @@ class WishlistRepositoryTest {
     }
 
     @RepeatedTest(3)
-    void checkIfExistWishlistNative_Test() {
-        boolean exists = wishlistRepository.checkIfExistWishlistNative(8, 10011);
+    void checkIfExistWishlist_Test() {
+        boolean exists = wishlistRepository.checkIfExistWishlist(8, 10011);
         Assertions.assertTrue(exists);
     }
 
