@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,6 +22,7 @@ public interface OrderItemRepository extends CrudRepository<OrderItem, Long> {
     Slice<OrderItemDTO> findByTransactionIdEquals(String transactionId, Pageable pageable);
 
     @Transactional
+    @Modifying
     default void batchInsert(@NotEmpty List<OrderItem> orderItemList, final JdbcTemplate jdbcTemplate) {
         jdbcTemplate.batchUpdate("INSERT INTO order_items (course_id, transaction_id) VALUES (?, ?)", orderItemList,
                 100, (ps, orderItem) -> {
