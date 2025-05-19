@@ -3,8 +3,6 @@ package com.davistiba.wedemyserver.service;
 import com.davistiba.wedemyserver.dto.CheckoutRequest;
 import com.davistiba.wedemyserver.models.*;
 import com.davistiba.wedemyserver.repository.*;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,8 +39,6 @@ public class CheckoutService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @PersistenceContext
-    private EntityManager entityManager;
 
     /**
      * Process all courses in Cart.
@@ -65,8 +61,6 @@ public class CheckoutService {
         Sales savedSale = salesRepository.save(
                 new Sales(transactionId, user, request.getTotalAmount(), request.getPaymentMethod()));
 
-        entityManager.flush(); // force hibernate to write sale into DB (for batch insert below to work)
-
         ArrayList<OrderItem> orderItemList = new ArrayList<>(coursePage.getTotalPages());
         ArrayList<Enrollment> enrollments = new ArrayList<>(coursePage.getTotalPages());
 
@@ -79,7 +73,7 @@ public class CheckoutService {
         });
 
         Set<Integer> courseIds = coursePage.get().map(Course::getId).collect(Collectors.toSet());
-        orderItemRepository.batchInsert(orderItemList, this.jdbcTemplate);
+        orderItemRepository.saveAll(orderItemList);
         enrollmentRepository.batchInsert(enrollments, this.jdbcTemplate);
         cartRepository.deleteByUserIdAndCoursesIn(user.getId(), courseIds);
         wishlistRepository.deleteByUserIdAndCoursesIn(user.getId(), courseIds);
