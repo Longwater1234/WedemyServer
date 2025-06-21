@@ -63,7 +63,7 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 Using any MySQL client, CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`. Then, follow
 carefully instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis. I have attached a mysqldump
-file with [sample data](src/main/resources/data_wedemy.sql) for testing.
+file with [sample data](src/main/resources/data_wedemy.sql) for testing. All datetimes are stored as UTC.
 
 ## Quick Start 🚀
 

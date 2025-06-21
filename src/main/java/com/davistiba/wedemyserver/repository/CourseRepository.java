@@ -21,6 +21,7 @@ public interface CourseRepository extends CrudRepository<Course, Integer> {
 
     List<Course> getTop6CoursesByIsFeatured(boolean isFeatured);
 
+    @Query("SELECT c FROM Course c WHERE c.title LIKE CONCAT('%', :title, '%')")
     Slice<Course> getCoursesByTitleContaining(@Param("title") String title, Pageable pageable);
 
     @Query(value = "SELECT new com.davistiba.wedemyserver.dto.CategoryDTO(MAX(c.id), c.category) FROM Course c GROUP BY c.category")
