@@ -31,7 +31,7 @@ import java.time.format.DateTimeFormatter;
 @EnableCaching
 @SecurityScheme(name = "cookieAuth", paramName = "WD_SESSION", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.COOKIE)
 @SecurityScheme(name = "sessionKey", paramName = "X-AUTH-TOKEN", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER)
-@OpenAPIDefinition(info = @Info(title = "Wedemy Server", version = "2.5.1"))
+@OpenAPIDefinition(info = @Info(title = "Wedemy Server", version = "2.6.0"))
 @EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 public class WedemyserverApplication {
 

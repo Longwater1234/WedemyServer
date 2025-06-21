@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.davistiba</groupId>
     <artifactId>wedemyserver</artifactId>
-    <version>2.0.0</version>
+    <version>2.6.0</version>
     <name>wedemyserver</name>
     <description>Wedemy clone server, built with Spring Boot</description>
     <url>https://github.com/longwater1234/WedemyServer</url>
