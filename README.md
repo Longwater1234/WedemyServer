@@ -62,14 +62,14 @@ in [BraintreeConfig](src/main/java/com/davistiba/wedemyserver/config/BraintreeCo
 
 Using any MySQL client, CREATE new database called `wedemy` (any name is OK), with charset `utf8mb4`. Then, follow
 carefully instructions in [HELP.md](HELP.md#database-setup-info), for both MySQL and Redis. I have attached a mysqldump
-file with [sample data](src/main/resources/data_wedemy.sql) for testing. All datetimes are stored as UTC.
+file with [sample data](src/main/resources/data_wedemy.sql) for testing. All datetimes are stored with timezone UTC.
 
 ## Quick Start 🚀
 
 ### With Maven (directly)
 
 Assuming you have requirements listed above, and both your Dbs are running. Using your Terminal, execute the commands
-below. That's it! Server will be available at http://localhost:9000
+below. That's all! Server will be available at http://localhost:9000
 
 ```bash
 ./mvnw clean package
@@ -79,7 +79,7 @@ java -jar target/wedemyserver.jar
 ### With Docker
 
 I have attached [Dockerfile](Dockerfile) for the Springboot server only. You will need to set up MySQL &
-Redis separately. Refer to official Docker docs on how to pass ENV variables listed above.
+Redis containers yourself. Refer to official Docker docs on how to pass ENV variables listed above.
 
 ```bash
   docker build -t wedemyserver ./
