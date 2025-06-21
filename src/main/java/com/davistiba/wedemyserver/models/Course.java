@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "courses",
-        indexes = {@Index(name = "IDX_CATEGORY", columnList = "category")})
+        indexes = {@Index(columnList = "category")})
 @Getter
 @Setter
 @RequiredArgsConstructor
