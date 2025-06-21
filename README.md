@@ -1,16 +1,15 @@
 # WedemyServer
 
-[![Static Badge](https://img.shields.io/badge/API_docs-v2.5-blue)](https://longwater1234.github.io/WedemyServer/)
+[![Static Badge](https://img.shields.io/badge/API_docs-v2.6-blue)](https://longwater1234.github.io/WedemyServer/)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Longwater1234/WedemyServer/graphs/commit-activity)
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyServer)](https://github.com/Longwater1234/WedemyServer/blob/master/LICENSE)
 [![Static Badge](https://img.shields.io/badge/reference-help.md-orange)](HELP.md)
 
 (Backend repo). Clone of Udemy, an e-learning platform, built using SpringBoot 3 + Vue 3 + Typescript. With CreditCard
-and
-PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via cookies[^1]
-or sessionID Headers) for auth, instead of stateless JWT Tokens. CSRF protection is enabled. You can easily customize
-these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By default, the
-app runs on port 9000.
+and PayPal checkout (both powered by **Braintree Payments**). Uses Spring Security & Spring Session Redis (via
+cookies[^1] or sessionID Headers) for auth, instead of stateless JWT Tokens. CSRF protection is enabled. You can easily
+customize these settings in [SecurityConfig](src/main/java/com/davistiba/wedemyserver/config/SecurityConfig.java). By
+default, the app runs on port 9000.
 
 ## Frontend & Live Demo
 
