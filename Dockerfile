@@ -9,8 +9,8 @@ RUN mvn clean -DskipTests package
 
 FROM eclipse-temurin:21-jre-alpine AS runner
 WORKDIR /app
-COPY --from=build /app/target/wedemyserver.jar /app
+COPY --from=build /app/target/*.jar /app/wedemyserver.jar
 EXPOSE 9000
 ENV SPRING_PROFILES_ACTIVE=prod
 # Pass other ENV through 'docker run' args, see https://docs.docker.com/engine/reference/commandline/run/#env
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "wedemyserver.jar"]
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=60.0", "-jar", "wedemyserver.jar"]
