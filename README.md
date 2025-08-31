@@ -32,8 +32,8 @@ the [OpenAPI Docs](https://longwater1234.github.io/WedemyServer/) for this proje
 You MUST set these variables on your Local or Cloud ENV before you launch this SpringBoot app. **💡TIP**: During
 dev/test, you can pass them via `args`, OR store inside your IDE: e.g. In either Eclipse or IntelliJ IDE, in the top
 toolbar, find the **"Run"** menu > **Edit/Run Configuration** > **Environment** > **Environmental Variables**. Add (+)
-each key and its value, then click **Apply**. If using Docker CLI, please follow this quick
-[official guide.](https://docs.docker.com/engine/reference/commandline/run/#env)
+each key and its value, then click **Apply**. You may also create .env file at project root directory. If using Docker,
+please follow this quick [official guide.](https://docs.docker.com/engine/reference/commandline/run/#env)
 
 ```properties
 MYSQL_PASSWORD=
