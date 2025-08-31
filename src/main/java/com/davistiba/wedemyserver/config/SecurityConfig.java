@@ -21,6 +21,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @Configuration
@@ -60,10 +62,10 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.cors(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults()) // to allow 401 error if not logged in
-                .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(Customizer.withDefaults()) // to force return 401 error if unauthenticated
                 .oauth2Login(x -> x.userInfoEndpoint(config -> config.oidcUserService(googleOauthService)).successHandler(successHandler))
                 .userDetailsService(userDetailsService)
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionConcurrency(c -> c.maximumSessions(1)))
                 .logout(s -> s.logoutUrl("/auth/logout").logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
                 .authorizeHttpRequests((authz) ->
