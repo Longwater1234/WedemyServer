@@ -43,7 +43,7 @@
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
-            <version>3.2.4</version>
+            <version>3.2.5</version>
         </dependency>
 
         <dependency>
@@ -120,7 +120,7 @@
         <dependency>
             <groupId>com.braintreepayments.gateway</groupId>
             <artifactId>braintree-java</artifactId>
-            <version>3.44.0</version>
+            <version>3.46.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -144,7 +144,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>26.0.2</version>
+            <version>26.0.2-1</version>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
