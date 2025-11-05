@@ -120,7 +120,7 @@
         <dependency>
             <groupId>com.braintreepayments.gateway</groupId>
             <artifactId>braintree-java</artifactId>
-            <version>3.44.0</version>
+            <version>3.46.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
