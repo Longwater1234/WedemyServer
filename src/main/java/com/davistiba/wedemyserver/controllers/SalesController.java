@@ -28,7 +28,9 @@ public class SalesController {
     @GetMapping(path = "/mine")
     public Slice<SalesDTO> getAllMyOwnedItems(@NotNull HttpSession session, @RequestParam(defaultValue = "0") Integer page) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
-        Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "createdAt");
+        Sort.TypedSort<SalesDTO> typedSort = Sort.sort(SalesDTO.class);
+        typedSort.by(SalesDTO::getCreatedAt).descending();
+        Pageable pageable = PageRequest.of(page, 10, typedSort);
         return salesRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
     }
 
