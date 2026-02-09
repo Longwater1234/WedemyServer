@@ -53,8 +53,16 @@ for all Datetime fields**). Handle timezone conversion on your Frontend! For you
   spring.jpa.properties.hibernate.jdbc.time_zone=UTC
   ```
 
-- To enable batch SQL inserts, you need to append `rewriteBatchedStatements=true` in JDBC datasource url, or
-  use `jdbcTemplate::batchUpdate` method.
+- To enable bulk multi-row SQL inserts, you need to append `rewriteBatchedStatements=true` in JDBC datasource url, or
+  use `jdbcTemplate::batchUpdate` method. Alternatively, add this property in properties/yml:
+
+  ```yml
+  spring:
+  datasource:
+    hikari:
+      data-source-properties:
+        rewriteBatchedStatements: true  # <-- can be appended to JDBC url as well
+  ```
 
 Here is the ERD Diagram for MySQL Db used in the project:
 
