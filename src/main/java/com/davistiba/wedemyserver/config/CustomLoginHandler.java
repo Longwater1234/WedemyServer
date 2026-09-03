@@ -1,8 +1,6 @@
 package com.davistiba.wedemyserver.config;
 
 import com.davistiba.wedemyserver.dto.LoginRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
@@ -24,6 +22,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 
@@ -34,7 +33,7 @@ import java.io.IOException;
 @WebFilter(filterName = "CustomLoginHandler")
 public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper objectMapper;
     private final SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
     private final SecurityContextRepository contextRepository = new DelegatingSecurityContextRepository(
             new HttpSessionSecurityContextRepository(),

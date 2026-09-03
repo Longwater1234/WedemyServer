@@ -2,8 +2,6 @@ package com.davistiba.wedemyserver.config;
 
 import com.davistiba.wedemyserver.dto.UserDTO;
 import com.davistiba.wedemyserver.service.MyUserDetailsService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -35,7 +34,7 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
     @Autowired
     public CustomAuthSuccessHandler(MyUserDetailsService userDetailsService) {
         this.myUserDetailsService = userDetailsService;
-        this.jsonMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        this.jsonMapper = new ObjectMapper();
         this.modelMapper = new ModelMapper();
     }
 
