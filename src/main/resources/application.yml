@@ -11,8 +11,6 @@ logging:
       springframework:
         jdbc.core: debug
 server:
-  error:
-    include-stacktrace: never
   port: 9000 # server port
   servlet:
     session:
@@ -65,5 +63,8 @@ spring:
       port: 6379
       password: ""
       # url: ${REDIS_URL} # Optional. Full Uri. Will override [host, password, port] above
+  web:
+    error:
+      include-stacktrace: never
 #springdoc:
 #  show-login-endpoint: true

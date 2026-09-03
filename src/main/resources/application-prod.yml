@@ -9,10 +9,7 @@ logging:
       hibernate:
         SQL: debug
 server:
-  error:
-    include-stacktrace: never
-    include-message: always
-  port: ${PORT} # Autofilled by most Cloud Platforms. Refer official docs of your Host.
+  port: ${PORT:9000} # Autofilled by most Cloud Platforms. Refer official docs of your Host.
   servlet:
     session:
       cookie:
@@ -65,6 +62,10 @@ spring:
       password: ${REDIS_PASSWORD}
       port: ${REDIS_PORT}
       # url: ${REDIS_URL}  #// Optional. Full Uri. Will override [host, password, port] above
+  web:
+    error:
+      include-stacktrace: never
+      include-message: always
 
 ## DISABLE SWAGGER-UI in PROD
 #springdoc:
