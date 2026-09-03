@@ -19,7 +19,7 @@ the [OpenAPI Docs](https://longwater1234.github.io/WedemyServer/) for this proje
 
 ## Requirements
 
-- Java 17 or newer
+- Java 21 or newer
 - MySQL 8.0.x or newer
 - Redis Server (latest stable)
 - [Google OAuth Credentials](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) (for Google
