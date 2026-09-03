@@ -48,10 +48,11 @@ spring:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
   session:
-    redis:
-      cleanup-cron: 0 0 23 * * *
-      repository-type: indexed
-      namespace: "spring:session:wedemy"
+    data:
+      redis:
+        cleanup-cron: 0 0 23 * * *
+        repository-type: indexed
+        namespace: "spring:session:wedemy"
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
   data:
