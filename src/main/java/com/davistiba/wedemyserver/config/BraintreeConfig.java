@@ -2,11 +2,9 @@ package com.davistiba.wedemyserver.config;
 
 import com.braintreegateway.BraintreeGateway;
 import com.braintreegateway.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.StandardEnvironment;
-
-import java.util.Objects;
 
 /*
  * READ OFFICIAL DOCS
@@ -14,17 +12,23 @@ import java.util.Objects;
  */
 @Configuration
 public class BraintreeConfig {
-    //Get ENV variables
-    private static final org.springframework.core.env.Environment ENV = new StandardEnvironment();
+
+    @Value("${BT_MERCHANT_ID:sandbox_merchant}")
+    private String merchantId;
+
+    @Value("${BT_PUBLIC_KEY:sandbox_public_key}")
+    private String publicKey;
+
+    @Value("${BT_PRIVATE_KEY:sandbox_private_key}")
+    private String privateKey;
 
     @Bean
     public BraintreeGateway getGateway() {
         return new BraintreeGateway(
                 Environment.SANDBOX, //<--(dev mode)
-                //ensure not NULL!
-                Objects.requireNonNull(ENV.getProperty("BT_MERCHANT_ID"), "BT_MERCHANT_ID is null"),
-                Objects.requireNonNull(ENV.getProperty("BT_PUBLIC_KEY"), "BT_PUBLIC_KEY is null"),
-                Objects.requireNonNull(ENV.getProperty("BT_PRIVATE_KEY"), "BT_PRIVATE_KEY is null")
+                merchantId,
+                publicKey,
+                privateKey
         );
     }
 }

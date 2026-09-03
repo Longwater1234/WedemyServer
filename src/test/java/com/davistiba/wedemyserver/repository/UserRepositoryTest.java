@@ -10,14 +10,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @Slf4j
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 class UserRepositoryTest {
@@ -39,7 +42,7 @@ class UserRepositoryTest {
         for (int i = 0; i < initialSize; i++) {
             User user = new User();
             user.setFullname("hello_" + ThreadLocalRandom.current().nextInt(999));
-            user.setEmail("hello@pp" + ThreadLocalRandom.current().nextInt(99889) + "yahoo.com");
+            user.setEmail("hello_" + i + "_" + UUID.randomUUID() + "@example.com");
             user.setConfirmPass("WHATEVER!"); //<-- anything, but not NULL
             user.setEnabled(true);
             user.setAuthProvider(AuthProvider.GOOGLE);

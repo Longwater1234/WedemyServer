@@ -1,6 +1,6 @@
 # WedemyServer
 
-[![Static Badge](https://img.shields.io/badge/API_docs-v2.6-blue)](https://longwater1234.github.io/WedemyServer/)
+[![Static Badge](https://img.shields.io/badge/API_docs-v3.0-blue)](https://longwater1234.github.io/WedemyServer/)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Longwater1234/WedemyServer/graphs/commit-activity)
 [![License: MIT](https://img.shields.io/github/license/Longwater1234/WedemyServer)](https://github.com/Longwater1234/WedemyServer/blob/master/LICENSE)
 [![Static Badge](https://img.shields.io/badge/reference-help.md-orange)](HELP.md)
@@ -19,8 +19,8 @@ the [OpenAPI Docs](https://longwater1234.github.io/WedemyServer/) for this proje
 
 ## Requirements
 
-- Java 17 or newer
-- MySQL 8.0.x or newer
+- Java 21 or newer
+- MySQL 8.x or newer
 - Redis Server (latest stable)
 - [Google OAuth Credentials](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) (for Google
   Login)

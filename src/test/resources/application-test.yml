@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: wedemy-server-test
+  datasource:
+    url: jdbc:h2:mem:wedemy;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch-size: 20
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data-test.sql
+  cache:
+    type: simple
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: test-google-client-id
+            client-secret: test-google-client-secret

@@ -11,8 +11,6 @@ logging:
       springframework:
         jdbc.core: debug
 server:
-  error:
-    include-stacktrace: never
   port: 9000 # server port
   servlet:
     session:
@@ -21,9 +19,6 @@ server:
         max-age: 10800s #3hours
         name: WD_SESSION
         same-site: lax
-    encoding:
-      charset: UTF-8
-      force: true
 spring:
   application:
     name: wedemy-server
@@ -53,10 +48,11 @@ spring:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
   session:
-    redis:
-      cleanup-cron: 0 0 23 * * *
-      repository-type: indexed
-      namespace: "spring:session:wedemy"
+    data:
+      redis:
+        cleanup-cron: 0 0 23 * * *
+        repository-type: indexed
+        namespace: "spring:session:wedemy"
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
   data:
@@ -65,5 +61,12 @@ spring:
       port: 6379
       password: ""
       # url: ${REDIS_URL} # Optional. Full Uri. Will override [host, password, port] above
+  web:
+    error:
+      include-stacktrace: never
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
 #springdoc:
 #  show-login-endpoint: true

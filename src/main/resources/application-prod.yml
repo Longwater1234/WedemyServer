@@ -9,10 +9,7 @@ logging:
       hibernate:
         SQL: debug
 server:
-  error:
-    include-stacktrace: never
-    include-message: always
-  port: ${PORT} # Autofilled by most Cloud Platforms. Refer official docs of your Host.
+  port: ${PORT:9000} # Autofilled by most Cloud Platforms. Refer official docs of your Host.
   servlet:
     session:
       cookie:
@@ -21,9 +18,6 @@ server:
         name: WD_SESSION
         same-site: lax
         secure: true
-    encoding:
-      charset: UTF-8
-      force: true
 spring:
   application:
     name: wedemy-server
@@ -54,9 +48,10 @@ spring:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
   session:
-    redis:
-      cleanup-cron: 0 0 23 * * *
-      repository-type: indexed
+    data:
+      redis:
+        cleanup-cron: 0 0 23 * * *
+        repository-type: indexed
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
   data:
@@ -65,6 +60,14 @@ spring:
       password: ${REDIS_PASSWORD}
       port: ${REDIS_PORT}
       # url: ${REDIS_URL}  #// Optional. Full Uri. Will override [host, password, port] above
+  web:
+    error:
+      include-stacktrace: never
+      include-message: always
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
 
 ## DISABLE SWAGGER-UI in PROD
 #springdoc:

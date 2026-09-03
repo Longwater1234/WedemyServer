@@ -1,13 +1,12 @@
 package com.davistiba.wedemyserver.config;
 
 import com.davistiba.wedemyserver.dto.LoginRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -24,6 +23,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 
@@ -34,7 +34,7 @@ import java.io.IOException;
 @WebFilter(filterName = "CustomLoginHandler")
 public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper objectMapper;
     private final SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
     private final SecurityContextRepository contextRepository = new DelegatingSecurityContextRepository(
             new HttpSessionSecurityContextRepository(),
@@ -59,13 +59,14 @@ public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(email, password);
             return this.getAuthenticationManager().authenticate(auth);
         } catch (Exception e) {
-            logger.error("Login error:" + e.getMessage());
+            logger.error("Login error: " + e.getMessage());
             throw new AuthenticationServiceException(e.getLocalizedMessage());
         }
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+                                            Authentication authResult) throws IOException, ServletException {
         // new in Springboot 3, must explicitly save SecurityContext, not auto :-(
         SecurityContext context = strategy.getContext();
         strategy.getContext().setAuthentication(authResult);
