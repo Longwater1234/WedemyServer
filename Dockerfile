@@ -13,4 +13,4 @@ COPY --from=build /app/target/*.jar /app/wedemyserver.jar
 EXPOSE 9000
 ENV SPRING_PROFILES_ACTIVE=prod
 # Pass other ENV through 'docker run' args, see https://docs.docker.com/engine/reference/commandline/run/#env
-ENTRYPOINT ["java", "-XX:MaxRAMPercentage=60.0", "-jar", "wedemyserver.jar"]
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=60.0", "-jar", "/app/wedemyserver.jar"]
