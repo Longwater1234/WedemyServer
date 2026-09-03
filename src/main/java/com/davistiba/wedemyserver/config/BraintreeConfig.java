@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class BraintreeConfig {
+
     @Value("${BT_MERCHANT_ID:sandbox_merchant}")
     private String merchantId;
 
