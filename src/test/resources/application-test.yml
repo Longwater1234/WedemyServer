@@ -18,6 +18,10 @@ spring:
         order_updates: true
         jdbc:
           batch-size: 20
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data-test.sql
   cache:
     type: simple
   security:
