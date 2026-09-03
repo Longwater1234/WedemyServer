@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -58,13 +59,14 @@ public class CustomLoginHandler extends UsernamePasswordAuthenticationFilter {
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(email, password);
             return this.getAuthenticationManager().authenticate(auth);
         } catch (Exception e) {
-            logger.error("Login error:" + e.getMessage());
+            logger.error("Login error: " + e.getMessage());
             throw new AuthenticationServiceException(e.getLocalizedMessage());
         }
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+                                            Authentication authResult) throws IOException, ServletException {
         // new in Springboot 3, must explicitly save SecurityContext, not auto :-(
         SecurityContext context = strategy.getContext();
         strategy.getContext().setAuthentication(authResult);
