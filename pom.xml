@@ -161,7 +161,7 @@
         <dependency>
             <groupId>com.braintreepayments.gateway</groupId>
             <artifactId>braintree-java</artifactId>
-            <version>3.53.0</version>
+            <version>3.54.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
